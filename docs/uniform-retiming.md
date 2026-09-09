@@ -185,3 +185,23 @@ one shared LeRobot v3 data file and one shared video file per camera.
 
 To repeat validation, pass `--source`, `--output`, and `--validate-only`.
 No upload occurs automatically.
+
+## Balanced three-order mixture
+
+Select the first 36 original and first 36 reversed episodes from bi-sequential,
+then the first 36 concurrent episodes from retimed. `mixed` keeps their recorded
+trajectories and frame order; only dataset IDs are rebuilt. Source revisions and
+source episode IDs are recorded in the dataset card, manifest and episode rows.
+
+```bash
+python -m real_robot_data_retime.mixed \
+  --bisequential /path/to/bi-sequential --concurrent /path/to/retimed \
+  --bi-revision BI_HF_COMMIT --concurrent-revision CONCURRENT_HF_COMMIT \
+  --output /path/to/mixed --repo-id owner/mixed
+```
+
+Inputs must match the specified HF revisions. Generation trims videos to the
+selected groups, checks every decoded frame count and sampled pixel mappings,
+verifies numeric readback, and recomputes statistics. `--count 1` runs a three-episode
+smoke build. The default `--count 36` produces 108 episodes in left-first,
+right-first, then concurrent order. Upload is a separate operation.
