@@ -17,6 +17,9 @@ dependencies = [
 
 [project.optional-dependencies]
 test = ["pytest>=8"]
+interaction = ["scipy>=1.11", "matplotlib>=3.8"]
+collision = ["pin==2.7.0", "numpy>=1.26,<2"]
+segmentation = ["torch>=2.8", "torchvision>=0.23", "transformers>=5.0", "accelerate>=1.0"]
 
 [project.scripts]
 real-robot-trim = "real_robot_data_retime.trim:main"

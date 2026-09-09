@@ -158,3 +158,27 @@ The earlier one-off script defaulted to both action and measured state.
 This tool explicitly uses action, with separate gripper units, and is not
 intended to reproduce the old 1119-frame removal total. Trimming runs
 independently of retiming; retiming's existing no-both-idle policy is unchanged.
+
+## Automatic interaction development
+
+The automatic video-only interaction pipeline is currently **experimental**.
+The existing numeric retiming CLI above is separate. The new pipeline does not
+accept clicks, boxes, object IDs, or event-frame annotations:
+
+```bash
+python -m pip install -e '.[interaction,segmentation]'
+python main.py --input input.mp4 --debug-dir debug/input
+python batch.py --input-dir videos --output-dir debug
+```
+
+It emits gripper tracks, apparent aperture, candidate videos, an interaction
+timeline, and a report. Current reports deliberately remain `success: false`
+until real-video tracking and event verification pass; producing diagnostic
+files is not proof that a video is ready for retiming. See
+[development evidence and constraints](docs/automatic-interaction.md).
+
+`timeline.scheduler.schedule_sources` supports left-priority waits and task
+precedence gates. `collision.piperx.PiperXClearance` reuses RoboVisualize's FK
+and meshes, using the recorded 0.49 m base spacing and this repository's URDF
+snapshot. The collision integration test needs the RoboVisualize package on
+`PYTHONPATH` and its assets directory in `ROBOVISUALIZE_ASSETS`.
