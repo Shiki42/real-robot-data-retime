@@ -137,6 +137,7 @@ def process_episode(source, raw_source, output, work_dir, urdf, mesh_root, index
         depth.close()
     if not render["automatic_origin_audit"]["passed"]:
         raise ValueError(f"episode {ep}: rendered object-origin verification failed")
+    render["output"] = main.relative_to(output).as_posix()
     del native, masks
     mapped = remap_table(table, left, right, ep)
     pos = mapped.schema.get_field_index("timestamp")

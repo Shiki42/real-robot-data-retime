@@ -63,10 +63,12 @@ def composite(
     objects = np.unpackbits(segmentation["objects"], axis=-1, count=w).astype(bool)
     if robots.shape != (n, 2, h, w) or objects.shape[1:] != (n, h, w):
         raise ValueError("segmentation must match registered video dimensions")
+    selected_ids = sorted({event["object_id"] for event in timeline["episodes"]})
+    moving_objects = objects[selected_ids].any(axis=0)
     excluded = np.array(
         [
             dilate(a, 5) | dilate(b, 12)
-            for a, b in zip(robots.any(axis=1), objects.any(axis=0))
+            for a, b in zip(robots.any(axis=1), moving_objects)
         ]
     )
     dynamic_scene = (
@@ -123,6 +125,7 @@ def composite(
         origins.append((event, region))
     patch_cache = {}
     overlap_pixels = 0
+    metric_overlap_pixels = 0
     uncovered_patch_pixels = 0
 
     def patch(source, region, key, allowed=None):
@@ -139,7 +142,7 @@ def composite(
     audit = OriginAudit(frames, objects, timeline["episodes"])
 
     def render():
-        nonlocal overlap_pixels
+        nonlocal overlap_pixels, metric_overlap_pixels
         for l, r in zip(left, right):
             times = [int(l), int(r)]
             out = plate.copy()
@@ -198,6 +201,7 @@ def composite(
                 if any(a.shape != (h, w) for a in z):
                     raise ValueError("registered depth must match RGB shape")
                 valid = [(a > 0) & np.isfinite(a) for a in z]
+                metric_overlap_pixels += int((overlap & valid[0] & valid[1]).sum())
                 right_front = ~(valid[0] & valid[1] & (z[0] < z[1]))
                 lm = layers[0] & (~layers[1] | ~right_front)
                 rm = layers[1] & (~layers[0] | right_front)
@@ -213,8 +217,11 @@ def composite(
         clean_plate_method="masked_temporal_real_frames",
         real_plate_coverage_fraction=float((coverage > 0).mean()),
         inpainted_background_pixels=int((coverage == 0).sum()),
+        inpainting_used=bool((coverage == 0).any()),
         unresolved_scene_patch_pixels=uncovered_patch_pixels,
         arm_overlap_pixel_frames=overlap_pixels,
+        valid_metric_overlap_pixel_frames=metric_overlap_pixels,
+        unknown_depth_order="stable_right_foreground",
         occlusion_method="aligned_metric_depth"
         if depth is not None
         else "stable_right_foreground",
