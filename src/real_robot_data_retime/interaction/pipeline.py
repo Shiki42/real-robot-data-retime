@@ -54,7 +54,7 @@ def discover_task(frames):
     return "workpiece" if len(bins) >= 2 else "letters"
 
 
-def run(
+def _run_once(
     input_path,
     output_dir,
     task=None,
@@ -63,6 +63,7 @@ def run(
     analysis_width=640,
     reuse_measurements=None,
     retry_objects=False,
+    retry_robot_sides=(),
 ):
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -138,31 +139,33 @@ def run(
                 reuse_measurements, measurement_inputs, proposals
             )
             from .robot_discovery import robot_mask_audit
-            from .neural_tracks import segment_robots, grippers_from_robots
+            from .robot_recovery import reference_geometry, recover_robot_masks
 
-            mask_audit = robot_mask_audit(grippers["robot_masks"], evidence, fps)
-            failed_sides = [
-                i for i, arm in enumerate(mask_audit["arms"]) if not arm["passed"]
-            ]
-            if failed_sides:
+            reference = reference_geometry(frames, evidence, grippers["robot_masks"])
+            mask_audit = robot_mask_audit(grippers["robot_masks"], reference, fps)
+            if retry_robot_sides:
                 progress("repair_incomplete_robot_masks")
                 sam = SamVideo("facebook/sam2.1-hiera-large")
-                repaired, seeds = segment_robots(
-                    frames, evidence, sam, sides=failed_sides
+                grippers, trials = recover_robot_masks(
+                    frames,
+                    evidence,
+                    grippers["robot_masks"],
+                    sam,
+                    retry_robot_sides,
+                    fps,
+                    task,
+                    cached_points,
                 )
-                robots = grippers["robot_masks"].copy()
-                robots[:, failed_sides] = repaired[:, failed_sides]
-                grippers = grippers_from_robots(robots, frames.shape[1:3])
                 measurement_producer = dict(
                     parent=measurement_producer,
                     robot_repair=producer_fingerprint(),
-                    repaired_sides=failed_sides,
+                    repaired_sides=list(retry_robot_sides),
                 )
                 retries.append(
                     dict(
                         kind="whole_arm_mask_repair",
                         prior_audit=mask_audit,
-                        seeds=seeds,
+                        trials=trials,
                     )
                 )
             evidence["centers"] = grippers["centers"]
@@ -205,7 +208,13 @@ def run(
                 tracks = segment_candidates(frames, proposals, evidence, sam)
             progress("object_identity_recovery")
             tracks, retries = recover_candidates(
-                frames, proposals, tracks, evidence, sam
+                frames,
+                proposals,
+                tracks,
+                evidence,
+                sam,
+                task=task,
+                robots=grippers["robot_masks"],
             )
             if task == "letters":
                 tracks, terminal_retries = terminal_letter_recovery(
@@ -217,7 +226,13 @@ def run(
             if sam is None:
                 sam = SamVideo("facebook/sam2.1-hiera-large")
             tracks, object_retries = recover_candidates(
-                frames, proposals, tracks, evidence, sam
+                frames,
+                proposals,
+                tracks,
+                evidence,
+                sam,
+                task=task,
+                robots=grippers["robot_masks"],
             )
             retries.extend(object_retries)
             measurement_producer = dict(
@@ -225,7 +240,16 @@ def run(
             )
         from .robot_discovery import robot_mask_audit
 
-        mask_audit = robot_mask_audit(grippers["robot_masks"], evidence, fps)
+        from .robot_recovery import reference_geometry
+
+        reference = reference_geometry(frames, evidence, grippers["robot_masks"])
+        mask_audit = robot_mask_audit(grippers["robot_masks"], reference, fps)
+        mask_audit["reference_method"] = reference["reference_method"]
+        from .verification import validate_track_colors
+
+        identity_issues, color_observed = validate_track_colors(
+            frames, proposals, tracks, grippers["robot_masks"]
+        )
         contact_distances = object_gripper_distances(grippers["masks"], tracks)
         # A completion marker must never certify a partly replaced checkpoint.
         (output_dir / "measurements.json").unlink(missing_ok=True)
@@ -333,6 +357,13 @@ def run(
             .astype(bool)
             .any(axis=1)
         )
+    confirmations = None
+    if task == "drawer" and backend == "sam2":
+        from ..tasks.drawer import release_confirmations
+
+        confirmations = release_confirmations(
+            frames, tracks, proposals, contact_distances, fps
+        )
     candidates = []
     for side in range(2):
         aperture = evidence["apertures"][:, side]
@@ -372,6 +403,9 @@ def run(
                     contact_distance=None
                     if contact_distances is None
                     else contact_distances[k, :, side],
+                    release_confirmation=None
+                    if confirmations is None
+                    else confirmations[k, :, side],
                 )
                 result["evidence_window_frames"] = config.evidence_frames
                 if (
@@ -392,6 +426,9 @@ def run(
                         contact_distance=None
                         if contact_distances is None
                         else contact_distances[k, :, side],
+                        release_confirmation=None
+                        if confirmations is None
+                        else confirmations[k, :, side],
                     )
                     alternative["evidence_window_frames"] = expanded.evidence_frames
                     if (
@@ -456,6 +493,21 @@ def run(
                         result["accepted"] = False
                         result["rejection_reasons"].append(
                             "destination_deposition_not_verified"
+                        )
+                if (
+                    backend == "sam2"
+                    and result["pickup_frame"] is not None
+                    and result["release_frame"] is not None
+                ):
+                    start, stop = result["pickup_frame"], result["release_frame"]
+                    switches = stable_runs(identity_issues[k, start:stop], 3)
+                    result["color_observed_fraction"] = float(
+                        color_observed[k, start:stop].mean()
+                    )
+                    if switches:
+                        result["accepted"] = False
+                        result["rejection_reasons"].append(
+                            "object_identity_changed_during_transport"
                         )
                 history = track["centers"][
                     max(0, frame - config.evidence_frames) : frame
@@ -720,3 +772,60 @@ def run(
         write_video(output_dir / filename, annotated(mode), fps)
     progress("complete")
     return report
+
+
+def run(
+    input_path,
+    output_dir,
+    task=None,
+    config=InteractionConfig(),
+    backend="sam2",
+    analysis_width=640,
+    reuse_measurements=None,
+):
+    """Verify once, then repair only the evidence implicated by failed gates."""
+    report = _run_once(
+        input_path,
+        output_dir,
+        task,
+        config,
+        backend,
+        analysis_width,
+        reuse_measurements,
+    )
+    if report["success"] or backend != "sam2":
+        return report
+    debug = Path(output_dir)
+    failed = {key for key, passed in report["validation_gates"].items() if not passed}
+    quality = json.loads((debug / "robot_mask_audit.json").read_text())
+    sides = {i for i, arm in enumerate(quality["arms"]) if not arm["passed"]}
+    if report["task"] == "drawer" and "drawer_open_close" in failed:
+        sides.add(1)
+    object_failure = bool(
+        failed
+        & {
+            "all_objects_identified",
+            "persistent_tracks",
+            "origin_departure",
+            "correct_roles",
+            "balanced_arm_assignments",
+            "drawer_deposition",
+        }
+    )
+    if not sides and not object_failure:
+        return report
+    (debug / "first_attempt_report.json").write_text(json.dumps(report, indent=2))
+    result = _run_once(
+        input_path,
+        output_dir,
+        report["task"],
+        config,
+        backend,
+        analysis_width,
+        debug,
+        retry_objects=object_failure,
+        retry_robot_sides=tuple(sorted(sides)),
+    )
+    result["first_attempt_failed_gates"] = sorted(failed)
+    (debug / "report.json").write_text(json.dumps(result, indent=2))
+    return result

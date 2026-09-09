@@ -3,6 +3,7 @@ import numpy as np
 import pytest
 from real_robot_data_retime.interaction import pipeline, measurements, robot_discovery
 from real_robot_data_retime.tracking import points
+from real_robot_data_retime.interaction import robot_recovery
 
 
 def test_point_tracking_failure_keeps_complete_measurements_for_retry(
@@ -45,7 +46,15 @@ def test_point_tracking_failure_keeps_complete_measurements_for_retry(
     monkeypatch.setattr(
         pipeline,
         "task_object_proposals",
-        lambda *a: [dict(bbox=[1, 1, 4, 4], origin=[3, 3], area=16)],
+        lambda *a: [
+            dict(
+                bbox=[1, 1, 4, 4],
+                origin=[3, 3],
+                area=16,
+                color=np.array([90, 100, 200]),
+                appearance_model="hue",
+            )
+        ],
     )
     monkeypatch.setattr(measurements, "inputs_fingerprint", lambda *a: inputs)
     monkeypatch.setattr(
@@ -62,6 +71,11 @@ def test_point_tracking_failure_keeps_complete_measurements_for_retry(
     def interrupted(*args):
         raise RuntimeError("point tracking interrupted")
 
+    monkeypatch.setattr(
+        robot_recovery,
+        "reference_geometry",
+        lambda frames, geometry, robots: {**geometry, "reference_method": "test"},
+    )
     monkeypatch.setattr(points, "track_points", interrupted)
     with pytest.raises(RuntimeError, match="point tracking interrupted"):
         pipeline.run(tmp_path / "input.mp4", tmp_path, "drawer")

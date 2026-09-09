@@ -189,6 +189,22 @@ def validate_episode(source, output, si, oi, original_row, row, *, global_start=
                         "retiming skipped a meaningful pose or command change"
                     )
     interaction = receipt["interaction"]
+    if dependencies and interaction["timeline"]["task"] == "drawer":
+        event = interaction["timeline"]["episodes"][0]
+        confirmation = event.get("release_confirmation_frame", event["release_frame"])
+        if np.any((right >= dependencies["close_start"]) & (left <= confirmation)):
+            raise ValueError("drawer closing precedes visual release confirmation")
+        if (
+            dependencies["wait_method"] == "held_pose_clear_of_future_drawer_sweep"
+            and "held_wait_maximum_aperture_mm" in dependencies
+        ):
+            wait = dependencies["safe_wait_frame"]
+            aperture = max(
+                numeric_sources["action"][wait, 6],
+                numeric_sources["observation.state"][wait, 6],
+            )
+            if aperture > dependencies["held_wait_maximum_aperture_mm"] + 1e-9:
+                raise ValueError("held waiting pose commands an opening gripper")
     if not (
         interaction["report"]["success"]
         and all(interaction["report"]["validation_gates"].values())

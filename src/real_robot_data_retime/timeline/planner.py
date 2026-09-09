@@ -51,6 +51,9 @@ def plan_joints(
                 "drawer requires verified left cube and right drawer events"
             )
         opening, closing = motion["open_frame"], motion["close_start"]
+        confirmed_release = event.get(
+            "release_confirmation_frame", event["release_frame"]
+        )
         guard = round(timeline["fps"] * 0.5)
         left = compress_static_spans(
             state[:, :7],
@@ -109,19 +112,52 @@ def plan_joints(
             ]
         )
         clear = arm_clear & np.array([outside_box(point, volume) for point in tcp[0]])
-        waits = sources[0][
-            clear[sources[0]]
-            & (sources[0] >= event["pickup_frame"])
-            & (sources[0] < event["release_frame"])
-        ]
+        # A held wait must retain the visually verified grasp configuration;
+        # a later open-jaw withdrawal is not a valid cube-holding pose.
+        grasp = event.get("grasp_frame", event["pickup_frame"])
+        holding_aperture = max(state[grasp, 6], action[grasp, 6]) + 0.5
+        holding = np.maximum(state[:, 6], action[:, 6]) <= holding_aperture
+        last_attached = event.get("last_attached_frame", event["release_frame"] - 1)
+        opens_by_confirmation = (
+            max(state[confirmed_release, 6], action[confirmed_release, 6])
+            > holding_aperture
+        )
+        holding_limit = (
+            event["release_frame"] - 1
+            if opens_by_confirmation
+            else (event["pickup_frame"] - 1 if last_attached is None else last_attached)
+        )
+        eligible = (
+            clear
+            & holding
+            & (np.arange(len(state)) >= event["pickup_frame"])
+            & (np.arange(len(state)) < event["release_frame"])
+            & (np.arange(len(state)) <= holding_limit)
+        )
+        waits = sources[0][eligible[sources[0]]]
+        if len(waits):
+            # Stop at the first safe held interval, before insertion/retraction.
+            first = int(waits[0])
+            blocked_after = np.flatnonzero(~eligible[first:])
+            stop = first + int(blocked_after[0]) if len(blocked_after) else len(state)
+            wait = int(waits[waits < stop][-1])
+            wait_method = "held_pose_clear_of_future_drawer_sweep"
+        else:
+            empty = sources[0][
+                arm_clear[sources[0]] & (sources[0] < event["pickup_frame"])
+            ]
+            if not len(empty):
+                raise ValueError("no recorded waiting pose clears drawer sweep")
+            wait = int(empty[-1])
+            wait_method = "empty_pre_pickup_pose_clear_of_future_drawer_sweep"
         withdrawals = sources[0][
-            arm_clear[sources[0]] & (sources[0] > event["release_frame"])
+            arm_clear[sources[0]] & (sources[0] > confirmed_release)
         ]
-        if not len(waits) or not len(withdrawals):
+        if not len(withdrawals):
             raise ValueError(
-                "no recorded held waiting pose or withdrawal clears drawer sweep"
+                "no recorded withdrawal clears drawer sweep after confirmed release"
             )
-        wait, withdrawal = int(waits[-1]), int(withdrawals[0])
+        withdrawal = int(withdrawals[0])
 
         @lru_cache(None)
         def dependency(i, j):
@@ -146,7 +182,12 @@ def plan_joints(
             open_frame=opening,
             close_start=closing,
             safe_wait_frame=wait,
-            wait_method="held_pose_clear_of_future_drawer_sweep",
+            wait_method=wait_method,
+            release_confirmation_frame=confirmed_release,
+            held_wait_maximum_aperture_mm=float(holding_aperture),
+            holding_bound="closed_grasp_configuration"
+            if opens_by_confirmation
+            else "last_observed_attachment",
             moving_clearance="instantaneous_drawer_body_with_motion_bounds",
             withdrawal_frame=withdrawal,
             withdrawal_geometry="empty_gripper_and_arm_meshes",
@@ -219,7 +260,9 @@ def plan_joints(
             )
 
         receipt["alignment"] = (
-            "pickup during drawer pull, subordinate to minimum duration"
+            "pre-pickup wait until drawer opening"
+            if wait_method == "empty_pre_pickup_pose_clear_of_future_drawer_sweep"
+            else "pickup during drawer pull, subordinate to minimum duration"
         )
 
     def search():

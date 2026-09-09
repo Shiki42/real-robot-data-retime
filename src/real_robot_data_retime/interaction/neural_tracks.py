@@ -79,7 +79,7 @@ def grippers_from_robots(robots, frame_shape):
     )
 
 
-def recover_candidates(frames, proposals, tracks, geometry, sam):
+def recover_candidates(frames, proposals, tracks, geometry, sam, *, task, robots):
     """Reinitialize from automatic reappearance hypotheses and propagate back.
 
     Preserve a measured origin track; do not interpolate invisible object points.
@@ -90,8 +90,16 @@ def recover_candidates(frames, proposals, tracks, geometry, sam):
     from .discovery import track_candidates
     from .verification import origin_presence
 
+    from .verification import validate_track_colors, color_support
+
+    validate_track_colors(frames, proposals, tracks, robots)
     appearances = track_candidates(frames, proposals)
     n, h, w = frames.shape[:3]
+    bounds = None
+    if task == "drawer":
+        from ..tasks.drawer import destination_bounds
+
+        bounds = destination_bounds(frames)
     retries = []
     for k, (proposal, track, appearance) in enumerate(
         zip(proposals, tracks, appearances)
@@ -131,6 +139,13 @@ def recover_candidates(frames, proposals, tracks, geometry, sam):
         centers = appearance["centers"]
         dist = np.linalg.norm(centers - proposal["origin"], axis=1)
         valid = (appearance["confidence"] > 0.55) & (dist > w * 0.06)
+        if bounds is not None:
+            valid &= (
+                (centers[:, 0] >= bounds[:, 0])
+                & (centers[:, 0] < bounds[:, 2])
+                & (centers[:, 1] >= bounds[:, 1])
+                & (centers[:, 1] < bounds[:, 3])
+            )
         candidates = np.flatnonzero(valid)
         if len(candidates) < 5:
             continue
@@ -149,6 +164,12 @@ def recover_candidates(frames, proposals, tracks, geometry, sam):
                 if t == seed:
                     seed_mask = masks[0].copy()
                 c, area = mask_measurements(masks[0])
+                if proposal["appearance_model"] == "hue":
+                    count, fraction = color_support(
+                        cv2.cvtColor(frames[t], cv2.COLOR_BGR2HSV), masks[0], proposal
+                    )
+                    if count < 8 or fraction < 0.05:
+                        continue
                 if area <= proposal["area"] * 4:
                     recovered[t] = c
                     areas[t] = area
@@ -205,6 +226,8 @@ def recover_candidates(frames, proposals, tracks, geometry, sam):
         ok = (int(consistent.sum()) >= 3 or singleton_bridge) and int(
             contact.sum()
         ) >= 5
+        if proposal["appearance_model"] == "hue":
+            ok = ok and appearance_distance < 0.45
         retries.append(
             dict(
                 object_id=k,
@@ -218,7 +241,12 @@ def recover_candidates(frames, proposals, tracks, geometry, sam):
         )
         if ok:
             missing = ~np.isfinite(track["centers"]).all(axis=1)
-            replace = observed & (missing | consistent)
+            preserve_origin = np.isfinite(track["centers"]).all(axis=1) & (
+                np.linalg.norm(track["centers"] - proposal["origin"], axis=1)
+                < max(proposal["bbox"][2:]) * 0.5
+            )
+            trusted_movement = moved & singleton_bridge & ~preserve_origin
+            replace = observed & (missing | consistent | trusted_movement)
             track["centers"][replace] = recovered[replace]
             track["areas"][replace] = areas[replace]
             if "packed_masks" in track:
@@ -242,9 +270,11 @@ def object_gripper_distances(gripper_masks, object_tracks):
                 c = track["centers"][t]
                 if not np.isfinite(c).all():
                     continue
-                x, y = np.rint(c).astype(int)
-                if 0 <= x < w and 0 <= y < h:
-                    result[k, t, side] = distance[y, x]
+                object_mask = np.unpackbits(
+                    track["packed_masks"][t], axis=-1, count=w
+                ).astype(bool)
+                if object_mask.any():
+                    result[k, t, side] = float(distance[object_mask].min())
     return result
 
 
@@ -360,12 +390,49 @@ def terminal_letter_recovery(frames, proposals, tracks, sam):
     return tracks, retries
 
 
+def propagate_robot(frames, proposal, sam, side, seed, *, start=0, stop=None):
+    """Propagate one identity with the same entry support at every source frame."""
+    import cv2
+    from .video import components, pixel_kernel
+
+    n, h, w = frames.shape[:3]
+    stop = n if stop is None else stop
+    packed = np.zeros((n, h, (w + 7) // 8), np.uint8)
+    for reverse in [False, True]:
+        for t, masks in sam.propagate(
+            frames,
+            [proposal],
+            seed_frame=seed,
+            reverse=reverse,
+            stop_frame=start - 1 if reverse else stop,
+        ):
+            keep = np.zeros((h, w), bool)
+            linked = cv2.dilate(
+                masks[0].astype(np.uint8),
+                cv2.getStructuringElement(
+                    cv2.MORPH_ELLIPSE, (pixel_kernel(15, w),) * 2
+                ),
+            )
+            for region, stat, center in components(linked, 20):
+                anchored = (
+                    stat[0] < w * 0.08 if side == 0 else stat[0] + stat[2] > w * 0.92
+                )
+                opposite = (
+                    stat[0] + stat[2] > w * 0.92 if side == 0 else stat[0] < w * 0.08
+                )
+                exits_top = stat[1] < h * 0.02 and stat[4] > max(
+                    100, proposal["mask"].sum() * 0.03
+                )
+                if anchored or (not opposite and exits_top):
+                    keep |= region & masks[0]
+            packed[t] = np.packbits(keep, axis=-1)
+    return packed
+
+
 def segment_robots(frames, geometry, sam, sides=(0, 1)):
     """Track whole articulated arms using automatically generated support points."""
-    import cv2
     from .robot_discovery import robot_prompt, prompt_from_robot_region
     from .evidence import stable_runs
-    from .video import components, pixel_kernel
 
     n, h, w = frames.shape[:3]
     packed = np.zeros((n, 2, h, (w + 7) // 8), np.uint8)
@@ -373,34 +440,7 @@ def segment_robots(frames, geometry, sam, sides=(0, 1)):
     for side in sides:
         seed, proposal = robot_prompt(frames, geometry, side)
         seeds.append(dict(frame=seed, bbox=proposal["bbox"]))
-        for reverse in [False, True]:
-            for t, masks in sam.propagate(
-                frames, [proposal], seed_frame=seed, reverse=reverse
-            ):
-                connected = np.zeros((h, w), bool)
-                linked = cv2.dilate(
-                    masks[0].astype(np.uint8),
-                    cv2.getStructuringElement(
-                        cv2.MORPH_ELLIPSE, (pixel_kernel(15, w),) * 2
-                    ),
-                )
-                for region, stat, center in components(linked, 20):
-                    anchored = (
-                        stat[0] < w * 0.08
-                        if side == 0
-                        else stat[0] + stat[2] > w * 0.92
-                    )
-                    opposite = (
-                        stat[0] + stat[2] > w * 0.92
-                        if side == 0
-                        else stat[0] < w * 0.08
-                    )
-                    exits_top = stat[1] < h * 0.02 and stat[4] > max(
-                        100, proposal["mask"].sum() * 0.03
-                    )
-                    if anchored or (not opposite and exits_top):
-                        connected |= region & masks[0]
-                packed[t, side] = np.packbits(connected, axis=-1)
+        packed[:, side] = propagate_robot(frames, proposal, sam, side, seed)
         reference_area = np.sum(geometry["masks"] == side + 1, axis=(1, 2))
         visible = np.unpackbits(packed[:, side], axis=-1, count=w).sum(axis=(1, 2))
         missing = (visible < 40) & (reference_area > 150)
@@ -415,30 +455,8 @@ def segment_robots(frames, geometry, sam, sides=(0, 1)):
                     kind="visibility_reentry",
                 )
             )
-            for reverse in [False, True]:
-                for t, masks in sam.propagate(
-                    frames,
-                    [prompt],
-                    seed_frame=reset,
-                    reverse=reverse,
-                    stop_frame=a - 1 if reverse else b,
-                ):
-                    if not a <= t < b:
-                        continue
-                    keep = np.zeros((h, w), bool)
-                    linked = cv2.dilate(
-                        masks[0].astype(np.uint8),
-                        cv2.getStructuringElement(
-                            cv2.MORPH_ELLIPSE, (pixel_kernel(15, w),) * 2
-                        ),
-                    )
-                    for region, stat, center in components(linked, 20):
-                        anchored = (
-                            stat[0] < w * 0.08
-                            if side == 0
-                            else stat[0] + stat[2] > w * 0.92
-                        )
-                        if anchored:
-                            keep |= region & masks[0]
-                    packed[t, side] = np.packbits(keep, axis=-1)
+            restored = propagate_robot(
+                frames, prompt, sam, side, reset, start=a, stop=b
+            )
+            packed[a:b, side] = restored[a:b]
     return packed, seeds

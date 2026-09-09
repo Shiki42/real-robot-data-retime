@@ -45,7 +45,7 @@ def stage_key(frames, functions, parameters):
 def gripper_cache(frames, geometry, sam, cache_dir):
     from .discovery import motion_and_grippers
     from .gripper_geometry import end_effector
-    from .neural_tracks import segment_grippers, segment_robots
+    from .neural_tracks import segment_grippers, segment_robots, propagate_robot
     from .robot_discovery import (
         robot_prompt,
         prompt_from_robot_region,
@@ -64,6 +64,7 @@ def gripper_cache(frames, geometry, sam, cache_dir):
             segment_grippers,
             end_effector,
             segment_robots,
+            propagate_robot,
             robot_prompt,
             robot_entry_side,
             prompt_from_robot_region,
