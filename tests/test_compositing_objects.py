@@ -32,10 +32,17 @@ def test_unselected_static_object_is_preserved_in_render(tmp_path):
     )
     output = tmp_path / "parallel.mp4"
     report = composite(
-        frames, timeline, segmentation, np.arange(15), np.arange(15), output, tmp_path
+        frames,
+        timeline,
+        segmentation,
+        np.arange(15),
+        np.zeros(15, dtype=int),
+        output,
+        tmp_path,
     )
     assert report["automatic_origin_audit"]["passed"]
     cap = cv2.VideoCapture(str(output))
+    cap.set(cv2.CAP_PROP_POS_FRAMES, 14)
     ok, first = cap.read()
     cap.release()
     assert ok and first[41:47, 71:77, 1].mean() > 190
@@ -119,8 +126,40 @@ def test_initial_arm_leaves_no_feathered_ghost_when_it_moves(monkeypatch, tmp_pa
         dict(task="letters", fps=30, episodes=[]),
         segmentation,
         [0, 8],
-        [0, 8],
+        [0, 7],
         tmp_path / "out.mp4",
         tmp_path,
     )
     assert np.min(captured[-1][20:40, 10:30]) == 120
+
+
+def test_arm_boundary_fragment_uses_its_current_source_clock(monkeypatch, tmp_path):
+    import real_robot_data_retime.compositing.layers as layers
+
+    n, h, w = 12, 64, 96
+    frames = np.full((n, h, w, 3), 120, np.uint8)
+    robots = np.zeros((n, 2, h, w), bool)
+    frames[:4, 40:55, :5] = 0
+    robots[:4, 0, 40:55, :5] = True
+    frames[10:, 50:54, :3] = 0  # The mostly off-screen arm returns, but SAM missed it.
+    captured = []
+    monkeypatch.setattr(
+        layers, "write_video", lambda output, images, fps: captured.extend(images)
+    )
+    segmentation = dict(
+        robots=np.packbits(robots, axis=-1),
+        objects=np.zeros((0, n, h, (w + 7) // 8), np.uint8),
+    )
+    report = composite(
+        frames,
+        dict(task="letters", fps=30, episodes=[]),
+        segmentation,
+        [0, 8, 10],
+        [0, 7, 8],
+        tmp_path / "out.mp4",
+        tmp_path,
+    )
+    assert report["paired_source_frames"] == 1
+    assert np.array_equal(captured[0], frames[0])
+    assert np.min(captured[1][40:55, :5]) == 120
+    assert np.max(captured[2][50:54, :3]) == 0

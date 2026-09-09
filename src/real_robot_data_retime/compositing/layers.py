@@ -70,6 +70,11 @@ def composite(
             # Enforce scene ownership before both patch exclusion and layering;
             # a stale SAM arm mask must not erase a placed cube from scene donors.
             robots[release:, side] &= ~objects[event["object_id"], release:]
+    entry = np.zeros((2, h, w), bool)
+    entry[0, int(h * 0.4) :, : max(1, round(w * 0.08))] = True
+    entry[1, int(h * 0.4) :, round(w * 0.92) :] = True
+    # Keep observed boundary fragments when an arm is mostly outside the view.
+    anchors = (robots[0] | robots[-1]) & entry
     selected_ids = sorted({event["object_id"] for event in timeline["episodes"]})
     moving_objects = objects[selected_ids].any(axis=0)
     excluded = np.array(
@@ -135,6 +140,7 @@ def composite(
     patch_cache = {}
     overlap_pixels = 0
     metric_overlap_pixels = 0
+    paired_source_frames = 0
     uncovered_patch_pixels = 0
 
     def patch(source, region, key, allowed=None):
@@ -151,9 +157,16 @@ def composite(
     audit = OriginAudit(frames, objects, timeline["episodes"])
 
     def render():
-        nonlocal overlap_pixels, metric_overlap_pixels
+        nonlocal overlap_pixels, metric_overlap_pixels, paired_source_frames
         for l, r in zip(left, right):
             times = [int(l), int(r)]
+            if l == r:
+                # An unchanged clock pair needs no spatial reconstruction.
+                out = frames[int(l)].copy()
+                audit.observe(out, frames, times, robots[int(l)].any(axis=0))
+                paired_source_frames += 1
+                yield out
+                continue
             out = plate.copy()
             for side, region in scene_regions:
                 im = patch(times[side], region, side)
@@ -188,7 +201,7 @@ def composite(
                 out = blend_scene_patch(out, im, region, feather=7, color_match=True)
             layers = []
             for side, t in enumerate(times):
-                mask = robots[t, side].copy()
+                mask = robots[t, side] | anchors[side]
                 for event in timeline["episodes"]:
                     if event["robot_id"] != ["left", "right"][side]:
                         continue
@@ -227,6 +240,7 @@ def composite(
     report = dict(
         output=str(output),
         output_frames=len(left),
+        paired_source_frames=paired_source_frames,
         clean_plate_method="masked_temporal_real_frames",
         real_plate_coverage_fraction=float((coverage > 0).mean()),
         inpainted_background_pixels=int((coverage == 0).sum()),
