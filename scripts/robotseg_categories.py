@@ -42,7 +42,7 @@ def main():
         started = time.monotonic()
         category_masks = np.zeros(frames.shape[:3], bool)
         seen = set()
-        for t, mask in model.propagate(frames, category=category):
+        for t, mask in model.segment_semantic(frames, category=category):
             if t in seen or not 0 <= t < len(frames):
                 raise ValueError("invalid semantic source frame")
             seen.add(t)

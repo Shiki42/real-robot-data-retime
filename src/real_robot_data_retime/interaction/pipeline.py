@@ -62,6 +62,7 @@ def run(
     backend="sam2",
     analysis_width=640,
     reuse_measurements=None,
+    retry_objects=False,
 ):
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -205,10 +206,23 @@ def run(
                     frames, proposals, tracks, sam
                 )
                 retries.extend(terminal_retries)
+        if retry_objects and reuse_measurements is not None:
+            progress("retry_object_identity_from_cached_tracks")
+            if sam is None:
+                sam = SamVideo("facebook/sam2.1-hiera-large")
+            tracks, object_retries = recover_candidates(
+                frames, proposals, tracks, evidence, sam
+            )
+            retries.extend(object_retries)
+            measurement_producer = dict(
+                parent=measurement_producer, object_repair=producer_fingerprint()
+            )
         from .robot_discovery import robot_mask_audit
 
         mask_audit = robot_mask_audit(grippers["robot_masks"], evidence, fps)
         contact_distances = object_gripper_distances(grippers["masks"], tracks)
+        # A completion marker must never certify a partly replaced checkpoint.
+        (output_dir / "measurements.json").unlink(missing_ok=True)
         np.savez_compressed(
             output_dir / "segmentation.npz",
             frame_shape=frames.shape[1:3],
@@ -220,6 +234,40 @@ def run(
         tracks = track_candidates(frames, proposals, evidence["centers"])
     else:
         raise ValueError(f"unknown tracking backend: {backend}")
+    from .gripper_state import aperture_states
+
+    gripper_states = np.stack(
+        [aperture_states(evidence["apertures"][:, side], fps) for side in [0, 1]],
+        axis=1,
+    )
+    gripper_velocity = np.concatenate(
+        [np.full((1, 2, 2), np.nan), np.diff(evidence["centers"], axis=0) * fps]
+    )
+    np.savez_compressed(
+        output_dir / "tracks.npz",
+        grippers=evidence["centers"],
+        gripper_states=gripper_states,
+        gripper_velocity_px_s=gripper_velocity,
+        apertures=evidence["apertures"],
+        objects=np.array([x["centers"] for x in tracks]),
+        registration=transforms,
+        registration_confidence=registration_confidence,
+    )
+    if backend == "sam2":
+        points_path = output_dir / "drawer_point_tracks.npz"
+        if cached_points is not None:
+            np.savez_compressed(points_path, **cached_points)
+        else:
+            points_path.unlink(missing_ok=True)
+        marker = output_dir / "measurements.json"
+        temporary = marker.with_suffix(".tmp.json")
+        temporary.write_text(
+            json.dumps(
+                dict(inputs=measurement_inputs, producer=measurement_producer), indent=2
+            )
+        )
+        temporary.replace(marker)
+        progress("automatic_measurements_checkpoint")
     if sam is not None:
         import gc
         import torch
@@ -242,12 +290,11 @@ def run(
             )
         else:
             xy, visible, sampled_indices = track_points(frames, handle_proposals)
+        temporary_points = output_dir / "drawer_point_tracks.tmp.npz"
         np.savez_compressed(
-            output_dir / "drawer_point_tracks.npz",
-            xy=xy,
-            visible=visible,
-            source_indices=sampled_indices,
+            temporary_points, xy=xy, visible=visible, source_indices=sampled_indices
         )
+        temporary_points.replace(output_dir / "drawer_point_tracks.npz")
         motion = discover_drawer_motion(
             xy.transpose(1, 0, 2),
             evidence["centers"][sampled_indices, 1],
@@ -617,25 +664,6 @@ def run(
     (output_dir / "grasp_candidates.json").write_text(
         json.dumps(candidates, indent=2, allow_nan=False)
     )
-    from .gripper_state import aperture_states
-
-    gripper_states = np.stack(
-        [aperture_states(evidence["apertures"][:, side], fps) for side in [0, 1]],
-        axis=1,
-    )
-    gripper_velocity = np.concatenate(
-        [np.full((1, 2, 2), np.nan), np.diff(evidence["centers"], axis=0) * fps]
-    )
-    np.savez_compressed(
-        output_dir / "tracks.npz",
-        grippers=evidence["centers"],
-        gripper_states=gripper_states,
-        gripper_velocity_px_s=gripper_velocity,
-        apertures=evidence["apertures"],
-        objects=np.array([x["centers"] for x in tracks]),
-        registration=transforms,
-        registration_confidence=registration_confidence,
-    )
     fig, axs = plt.subplots(2, 1, figsize=(12, 5), sharex=True)
     for side, ax in enumerate(axs):
         ax.plot(np.arange(len(frames)) / fps, evidence["apertures"][:, side])
@@ -684,11 +712,5 @@ def run(
         ("selected_object_candidates.mp4", "selected"),
     ]:
         write_video(output_dir / filename, annotated(mode), fps)
-    if backend == "sam2":
-        (output_dir / "measurements.json").write_text(
-            json.dumps(
-                dict(inputs=measurement_inputs, producer=measurement_producer), indent=2
-            )
-        )
     progress("complete")
     return report

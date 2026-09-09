@@ -46,7 +46,11 @@ def gripper_cache(frames, geometry, sam, cache_dir):
     from .discovery import motion_and_grippers
     from .gripper_geometry import end_effector
     from .neural_tracks import segment_grippers, segment_robots
-    from .robot_discovery import robot_prompt, prompt_from_robot_region
+    from .robot_discovery import (
+        robot_prompt,
+        prompt_from_robot_region,
+        robot_entry_side,
+    )
     from ..segmentation.sam_backend import SamVideo
 
     digest = hashlib.sha256()
@@ -61,6 +65,7 @@ def gripper_cache(frames, geometry, sam, cache_dir):
             end_effector,
             segment_robots,
             robot_prompt,
+            robot_entry_side,
             prompt_from_robot_region,
             SamVideo.propagate,
         ],

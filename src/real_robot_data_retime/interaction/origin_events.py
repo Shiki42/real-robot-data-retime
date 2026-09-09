@@ -3,6 +3,7 @@
 import cv2
 import numpy as np
 from scipy.ndimage import median_filter
+
 from .evidence import stable_runs
 
 
@@ -48,3 +49,13 @@ def origin_departure_interval(frames, proposal, robot_masks, fps):
         contact_start=None if contact is None else contact[0],
         contact_end=None if contact is None else contact[1],
     ), signal
+
+
+def tracking_seed_frame(event, fps):
+    """Seed before image-space contact/occlusion evidence, reusing the mask policy."""
+    if event is None:
+        return 0
+    anchor = event["contact_start"]
+    if anchor is None:
+        anchor = event["last_observed_at_origin"]
+    return max(0, int(anchor) - round(fps * 0.1))

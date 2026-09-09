@@ -81,7 +81,7 @@ class RobotSegVideo:
                 self.timings["state_count"] += 1
                 yield state
 
-    def propagate(self, frames, category="robot"):
+    def segment_semantic(self, frames, category="robot"):
         if category not in {"robot", "arm", "gripper"}:
             raise ValueError("unknown RobotSeg category")
         with self._state(frames) as state:
@@ -100,8 +100,16 @@ class RobotSegPromptedVideo(RobotSegVideo):
     """
 
     def propagate(
-        self, frames, proposals, seed_frame=0, reverse=False, stop_frame=None
+        self,
+        frames,
+        proposals,
+        seed_frame=0,
+        reverse=False,
+        stop_frame=None,
+        category="robot",
     ):
+        if category not in {"robot", "arm", "gripper"}:
+            raise ValueError("unknown RobotSeg category")
         if not proposals or not 0 <= seed_frame < len(frames):
             raise ValueError("missing proposals or invalid seed frame")
         endpoint = (
@@ -121,14 +129,14 @@ class RobotSegPromptedVideo(RobotSegVideo):
                     state,
                     frame_idx=0,
                     obj_id=k,
-                    robots="robot",
+                    robots=category,
                     points=np.asarray([*positives, *negatives], dtype=np.float32),
                     labels=np.asarray(
                         [1] * len(positives) + [0] * len(negatives), dtype=np.int32
                     ),
                     box=np.asarray([x, y, x + w, y + h], dtype=np.float32),
                 )
-            for t, ids, logits in self.model.propagate_in_video(state, robot="robot"):
+            for t, ids, logits in self.model.propagate_in_video(state, robot=category):
                 if list(ids) != list(range(len(proposals))):
                     raise ValueError("RobotSeg changed prompted object identity order")
                 yield int(indices[t]), (logits[:, 0] > 0).cpu().numpy()

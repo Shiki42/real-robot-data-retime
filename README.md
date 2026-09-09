@@ -184,3 +184,6 @@ snapshot. The collision integration test needs the RoboVisualize package on
 
 Experimental RobotSeg and BootsTAPIR backends, measured pilot results and
 reproduction commands are documented in [model experiments](docs/model-experiments.md).
+
+Accuracy-first full-frame-rate probes and remaining failures are recorded in
+[accuracy experiments](docs/accuracy-experiments.md).

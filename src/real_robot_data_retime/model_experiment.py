@@ -143,7 +143,7 @@ def main():
 
             model = RobotSegVideo(args.checkpoint)
             seen = set()
-            for t, mask in model.propagate(frames):
+            for t, mask in model.segment_semantic(frames):
                 if t in seen or not 0 <= t < n or mask.shape != (h, w):
                     raise ValueError("RobotSeg frame contract violated")
                 seen.add(t)

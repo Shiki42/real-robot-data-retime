@@ -40,3 +40,16 @@ def test_robot_mask_audit_rejects_partial_and_missing_arms():
     assert not result["passed"]
     assert not result["arms"][0]["passed"]
     assert result["arms"][1]["passed"]
+
+
+def test_background_person_is_not_required_in_robot_mask():
+    from real_robot_data_retime.interaction.robot_discovery import robot_mask_audit
+
+    masks = np.zeros((30, 100, 200), np.uint8)
+    masks[:, 60:80, :80] = 1
+    masks[:, 70:90, 150:] = 2
+    robots = np.stack([masks == 1, masks == 2], axis=1)
+    masks[:, 10:35, :90] = 1  # Unrelated motion behind the tabletop.
+    assert robot_mask_audit(np.packbits(robots, axis=-1), dict(masks=masks), 30)[
+        "passed"
+    ]

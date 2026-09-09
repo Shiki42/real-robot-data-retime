@@ -59,8 +59,10 @@ def test_released_cube_uses_closing_drawer_pixels(monkeypatch, tmp_path):
     monkeypatch.setattr(
         layers, "write_video", lambda output, images, fps: captured.extend(images)
     )
+    robots = np.zeros((20, 2, 64, 96), bool)
+    robots[8:, 0, 20:26, 55:61] = True  # SAM can retain cube pixels in the arm mask.
     segmentation = dict(
-        robots=np.packbits(np.zeros((20, 2, 64, 96), bool), axis=-1),
+        robots=np.packbits(robots, axis=-1),
         objects=np.packbits(objects, axis=-1),
     )
     timeline = dict(
