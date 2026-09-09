@@ -360,7 +360,7 @@ def terminal_letter_recovery(frames, proposals, tracks, sam):
     return tracks, retries
 
 
-def segment_robots(frames, geometry, sam):
+def segment_robots(frames, geometry, sam, sides=(0, 1)):
     """Track whole articulated arms using automatically generated support points."""
     import cv2
     from .robot_discovery import robot_prompt, prompt_from_robot_region
@@ -370,7 +370,7 @@ def segment_robots(frames, geometry, sam):
     n, h, w = frames.shape[:3]
     packed = np.zeros((n, 2, h, (w + 7) // 8), np.uint8)
     seeds = []
-    for side in [0, 1]:
+    for side in sides:
         seed, proposal = robot_prompt(frames, geometry, side)
         seeds.append(dict(frame=seed, bbox=proposal["bbox"]))
         for reverse in [False, True]:

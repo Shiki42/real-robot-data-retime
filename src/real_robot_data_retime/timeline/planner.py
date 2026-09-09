@@ -284,7 +284,7 @@ def plan_joints(
             t
             for t in range(
                 max(opening, event["pickup_frame"]),
-                min(closing, withdrawal, len(state) - 1),
+                min(closing, len(state) - 1),
             )
             if not checker(t, t, t + 1, t + 1)
         }

@@ -5,14 +5,27 @@ import numpy as np
 
 def robot_prompt(frames, geometry, side):
     n, h, w = frames.shape[:3]
-    areas = np.sum(geometry["masks"] == side + 1, axis=(1, 2))
-    center = geometry["centers"][:, side]
-    interior = np.exp(-abs(center[:, 0] / w - (0.4 if side == 0 else 0.65)) * 6)
-    scores = areas * interior
-    if not np.isfinite(scores).any() or np.nanmax(scores) <= 0:
-        raise ValueError("no articulated foreground supports robot discovery")
-    t = int(np.nanargmax(scores))
-    mask = geometry["masks"][t] == side + 1
+    from .video import components
+
+    best = None
+    # Per-side motion labels may overlap and overwrite one another. Recover the
+    # whole connected silhouette, assigning identity by its actual entry edge.
+    for t, labels in enumerate(geometry["masks"]):
+        for mask, stat, center in components(labels > 0, 150):
+            x, y, bw, bh, area = stat
+            anchored = x < w * 0.08 if side == 0 else x + bw > w * 0.92
+            opposite = x + bw > w * 0.92 if side == 0 else x < w * 0.08
+            if not anchored or opposite:
+                continue
+            interior = np.exp(-abs(center[0] / w - (0.4 if side == 0 else 0.65)) * 6)
+            score = area * interior
+            if best is None or score > best[0]:
+                best = score, t, mask
+    if best is None:
+        raise ValueError(
+            "no entry-anchored articulated foreground supports robot discovery"
+        )
+    _, t, mask = best
     proposal = prompt_from_robot_region(mask)
     other = (geometry["masks"][t] == 2 - side) & ~mask
     yy, xx = np.where(other)
@@ -42,3 +55,46 @@ def prompt_from_robot_region(mask):
             a, b = max(runs, key=lambda z: z[1] - z[0])
             positives.append([float(col), float((a + b - 1) / 2)])
     return dict(bbox=[x0, y0, x1 - x0, y1 - y0], mask=mask, positive_points=positives)
+
+
+def robot_mask_audit(robots, geometry, fps):
+    """Check whole-arm support against independently observed motion silhouettes."""
+    from .video import components
+    from .evidence import stable_runs
+
+    n, h, w = geometry["masks"].shape
+    coverage = np.full((n, 2), np.nan)
+    for t, labels in enumerate(geometry["masks"]):
+        for region, stat, center in components(labels > 0, int(h * w * 0.015)):
+            left = stat[0] < w * 0.08
+            right = stat[0] + stat[2] > w * 0.92
+            if left == right:
+                continue
+            side = 0 if left else 1
+            observed = np.unpackbits(robots[t, side], axis=-1, count=w).astype(bool)
+            value = float((observed & region).sum() / region.sum())
+            if not np.isfinite(coverage[t, side]) or value < coverage[t, side]:
+                coverage[t, side] = value
+    results = []
+    for side in [0, 1]:
+        valid = np.isfinite(coverage[:, side])
+        missing = valid & (coverage[:, side] < 0.6)
+        fraction = float(missing.sum() / max(1, valid.sum()))
+        longest = max((b - a for a, b in stable_runs(missing, 1)), default=0)
+        results.append(
+            dict(
+                robot_id=["left", "right"][side],
+                supported_frames=int(valid.sum()),
+                insufficient_coverage_fraction=fraction,
+                longest_insufficient_run=longest,
+                passed=bool(
+                    valid.sum() >= 5 and fraction <= 0.1 and longest <= fps * 0.5
+                ),
+            )
+        )
+    return dict(
+        passed=all(r["passed"] for r in results),
+        arms=results,
+        method="entry_anchored_motion_coverage",
+        minimum_coverage=0.6,
+    )

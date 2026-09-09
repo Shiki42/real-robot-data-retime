@@ -26,10 +26,10 @@ def test_planner_replays_only_original_paired_edges_when_strict_path_is_impossib
             ]
 
         def __call__(self, i, j, ni, nj):
-            return i != 12 and ni != 12
+            return i not in (12, 13) and ni not in (12, 13)
 
         def configuration_safe(self, i, j):
-            return i != 12
+            return i not in (12, 13)
 
         def arm_clears_volume(self, *args, **kwargs):
             return True

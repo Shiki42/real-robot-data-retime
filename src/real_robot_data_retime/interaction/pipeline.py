@@ -130,6 +130,34 @@ def run(
             grippers, tracks, cached_points, measurement_producer = load_hypotheses(
                 reuse_measurements, measurement_inputs, proposals
             )
+            from .robot_discovery import robot_mask_audit
+            from .neural_tracks import segment_robots, grippers_from_robots
+
+            mask_audit = robot_mask_audit(grippers["robot_masks"], evidence, fps)
+            failed_sides = [
+                i for i, arm in enumerate(mask_audit["arms"]) if not arm["passed"]
+            ]
+            if failed_sides:
+                progress("repair_incomplete_robot_masks")
+                sam = SamVideo("facebook/sam2.1-hiera-large")
+                repaired, seeds = segment_robots(
+                    frames, evidence, sam, sides=failed_sides
+                )
+                robots = grippers["robot_masks"].copy()
+                robots[:, failed_sides] = repaired[:, failed_sides]
+                grippers = grippers_from_robots(robots, frames.shape[1:3])
+                measurement_producer = dict(
+                    parent=measurement_producer,
+                    robot_repair=producer_fingerprint(),
+                    repaired_sides=failed_sides,
+                )
+                retries.append(
+                    dict(
+                        kind="whole_arm_mask_repair",
+                        prior_audit=mask_audit,
+                        seeds=seeds,
+                    )
+                )
             evidence["centers"] = grippers["centers"]
             evidence["apertures"] = grippers["apertures"]
             retries.append(
@@ -177,6 +205,9 @@ def run(
                     frames, proposals, tracks, sam
                 )
                 retries.extend(terminal_retries)
+        from .robot_discovery import robot_mask_audit
+
+        mask_audit = robot_mask_audit(grippers["robot_masks"], evidence, fps)
         contact_distances = object_gripper_distances(grippers["masks"], tracks)
         np.savez_compressed(
             output_dir / "segmentation.npz",
@@ -523,6 +554,11 @@ def run(
         origin_departure=bool(selected)
         and all(x["origin_verification"]["verified"] for x in selected),
     )
+    if backend == "sam2":
+        gates["whole_robot_masks"] = mask_audit["passed"]
+        (output_dir / "robot_mask_audit.json").write_text(
+            json.dumps(mask_audit, indent=2)
+        )
     if task == "drawer":
         gates["drawer_open_close"] = (
             drawer_motion is not None and drawer_motion["confidence"] >= 0.5

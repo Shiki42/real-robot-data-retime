@@ -145,6 +145,13 @@ def validate(source, output):
                         raise ValueError(
                             "retiming skipped a meaningful pose or command change"
                         )
+        interaction = receipt["interaction"]
+        if not (
+            interaction["report"]["success"]
+            and all(interaction["report"]["validation_gates"].values())
+            and interaction["robot_mask_audit"]["passed"]
+        ):
+            raise ValueError("missing verified interaction and whole-arm masks")
         if not receipt["plan"]["new_edges_collision_free"]:
             raise ValueError("missing new-edge collision audit")
         replay = receipt["plan"]["preserved_original_pair_edges"]

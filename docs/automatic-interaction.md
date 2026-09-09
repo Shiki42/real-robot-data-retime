@@ -201,3 +201,30 @@ uses a shorter stationary guard, while preserving the same action/state pose-ran
 In the current first-episode plan, pickup is at output frame 167, the drawer finishes opening
 at 217, insertion starts at 225, withdrawal completes at 288 and closing starts at 291.
 Thus lifting overlaps pulling and both placement/closing dependencies remain satisfied.
+
+### Whole-arm recovery and shared drawer pixels
+
+Motion labels can overlap in the center of the image. Robot prompts therefore
+recover the complete connected motion component attached to the corresponding
+entry edge, rejecting components spanning both opposite edges. The pipeline
+checks tracked masks against these independently observed motion components.
+When a cached arm is incomplete, it regenerates only that arm's SAM track and
+keeps the existing object and drawer-point measurements with their producer
+provenance. Insufficient whole-arm coverage remains a validation failure.
+
+A decrease in visible drawer interior can be caused by left-arm occlusion.
+Area-based closing detection also requires sustained inward right-gripper motion
+and reduced exposed interior. It reports closing onset, not a guarantee that the
+recorded drawer eventually shuts completely. After release, drawer-scene pixels
+own the cube and its occlusion. Main-only rerenders stage and measure their video
+before replacing the published artifact; a publish interrupted between video and
+receipt replacement leaves no completion receipt.
+
+Strict mesh clearance can be infeasible even for the original paired recording.
+The planner first attempts strict scheduling. During the open-drawer cooperative
+phase, it may preserve exactly recorded adjacent paired edges, including the
+recorded exit from contact after withdrawing from the drawer volume. This never
+permits mismatched clocks, skipped paired frames, or prolonged contact holds.
+Receipts list each preserved edge and set `swept_edges_verified` to false whenever
+one is used. `new_edges_collision_free` applies to newly combined poses only;
+these outputs must not be described as absolutely collision-free.

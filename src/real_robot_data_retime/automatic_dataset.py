@@ -179,6 +179,11 @@ def process_episode(source, raw_source, output, work_dir, urdf, mesh_root, index
         compositing=render,
         statistics=stats,
         analysis_identity=identity,
+        interaction=dict(
+            timeline=timeline,
+            report=report,
+            robot_mask_audit=json.loads((debug / "robot_mask_audit.json").read_text()),
+        ),
         trim=trim,
     )
     receipts = output / "meta/retime_receipts"

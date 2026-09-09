@@ -1,0 +1,42 @@
+import numpy as np
+import pytest
+from real_robot_data_retime.interaction.robot_discovery import robot_prompt
+
+
+def test_robot_prompt_recovers_silhouette_across_overwritten_side_labels():
+    frames = np.zeros((2, 100, 200, 3), np.uint8)
+    masks = np.zeros((2, 100, 200), np.uint8)
+    masks[:, 35:55, :110] = 1
+    masks[:, 35:55, 60:110] = 2
+    masks[:, 70:90, 150:] = 2
+    geometry = dict(masks=masks, centers=np.zeros((2, 2, 2)))
+    _, left = robot_prompt(frames, geometry, 0)
+    _, right = robot_prompt(frames, geometry, 1)
+    assert left["mask"][40, 100]
+    assert not left["mask"][80, 170]
+    assert right["mask"][80, 170]
+    assert not right["mask"][40, 100]
+
+
+def test_robot_prompt_does_not_merge_touching_opposite_arms():
+    frames = np.zeros((2, 100, 200, 3), np.uint8)
+    masks = np.zeros((2, 100, 200), np.uint8)
+    masks[:, 35:55, :] = 1
+    with pytest.raises(ValueError, match="entry-anchored"):
+        robot_prompt(frames, dict(masks=masks), 0)
+
+
+def test_robot_mask_audit_rejects_partial_and_missing_arms():
+    from real_robot_data_retime.interaction.robot_discovery import robot_mask_audit
+
+    masks = np.zeros((30, 100, 200), np.uint8)
+    masks[:, 35:55, :110] = 1
+    masks[:, 70:90, 150:] = 2
+    robots = np.stack([masks == 1, masks == 2], axis=1)
+    geometry = dict(masks=masks)
+    assert robot_mask_audit(np.packbits(robots, axis=-1), geometry, 30)["passed"]
+    robots[:, 0, :, 30:] = False
+    result = robot_mask_audit(np.packbits(robots, axis=-1), geometry, 30)
+    assert not result["passed"]
+    assert not result["arms"][0]["passed"]
+    assert result["arms"][1]["passed"]
