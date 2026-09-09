@@ -229,14 +229,16 @@ def composite(
                     source = int(r)
                     im = frames[source]
                     other = drawer & dilate(robots[source, 0], 3)
-                    out[drawer] = im[drawer]
+                    im = im.copy()
                     if other.any():
                         restored = patch(source, drawer, "moving_drawer")
-                        out[other] = restored[other]
+                        im[other] = restored[other]
                 else:
                     source = int(np.clip(l, a, b - 1))
                     im = patch(source, drawer, "open_drawer", np.arange(a, b))
-                    out[drawer] = im[drawer]
+                out = blend_scene_patch(
+                    out, im, drawer, feather=12, color_match=True
+                )
             for event, region in origins:
                 side = ["left", "right"].index(event["robot_id"])
                 source = times[side]
