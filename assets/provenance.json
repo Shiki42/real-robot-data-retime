@@ -1,0 +1,7 @@
+{
+  "urdf_sha256": "04d18f3b1734badf35df87435e1a163032d3c661f7042d8f67b7f0e5772a255e",
+  "source_repository": "https://github.com/Shiki42/robo-visualize",
+  "snapshot_source": "user local working tree, includes gripper mounting correction",
+  "remote_mesh_revision": "b57e36f77c2a75a7c6118fd68b61241737709e7f",
+  "base_spacing_m": 0.49
+}
