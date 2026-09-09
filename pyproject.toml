@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "real-robot-data-retime"
+version = "0.1.0"
+description = "Counterfactual retiming for sequential dual-arm real-robot datasets"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "datasets>=3.0",
+  "numpy>=1.26",
+  "opencv-python-headless>=4.8",
+  "pyarrow>=15",
+]
+
+[project.optional-dependencies]
+test = ["pytest>=8"]
+
+[project.scripts]
+real-robot-retime = "real_robot_data_retime.dataset:main"
+real-robot-retime-validate = "real_robot_data_retime.validate:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
