@@ -117,3 +117,21 @@ def test_release_confirmation_after_occluded_withdrawal():
     assert result["accepted"], result
     assert result["release_frame"] == 75
     assert result["release_confirmation_frame"] == 75
+
+
+def test_first_confirmed_release_precedes_later_gripper_motion():
+    obj = np.zeros((120, 2))
+    obj[30:65, 0] = np.arange(35)
+    obj[65:, 0] = 34
+    grip = obj.copy()
+    grip[65:70, 0] += np.arange(5) * 5
+    grip[70:, 0] += 20
+    grip[90:, 0] += np.arange(30) * 2
+    obj[65:75] = np.nan
+    confirmed = np.full(120, -1)
+    confirmed[75:] = np.arange(75, 120)
+    result = score_hypothesis(
+        obj, grip, np.full(120, 10), 30, 100, release_confirmation=confirmed
+    )
+    assert result["accepted"], result
+    assert result["release_frame"] == 75

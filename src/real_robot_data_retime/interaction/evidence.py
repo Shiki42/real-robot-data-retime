@@ -114,12 +114,14 @@ def score_hypothesis(
                     opening[max(pickup, a - window) : min(n, b + 8)].any()
                 )
                 break
-    if pickup is not None and release is None and release_confirmation is not None:
+    if pickup is not None and release_confirmation is not None:
         # Withdrawal may finish while the cube is occluded. A later visible,
         # stationary and separated cube still verifies release; simultaneous
         # gripper velocity is not necessary at its first unobscured observation.
         separated = valid & (proximity_distance > scale * 0.01)
         for t in np.flatnonzero(separated & (np.asarray(release_confirmation) >= 0)):
+            if release is not None and t >= release:
+                break
             if t <= pickup + 3:
                 continue
             contacts = np.flatnonzero(
