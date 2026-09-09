@@ -236,6 +236,22 @@ def run(
             measurement_producer = dict(
                 parent=measurement_producer, object_repair=producer_fingerprint()
             )
+        if task == "letters":
+            from .neural_tracks import grippers_from_robots, object_free_robot_masks
+
+            # Whole-arm SAM can include a released letter and pull the inferred
+            # fingertip back onto it. Independent letter tracks disambiguate the
+            # two semantic classes; carried letters are restored by the compositor.
+            robots = object_free_robot_masks(grippers["robot_masks"], tracks)
+            if not np.array_equal(robots, grippers["robot_masks"]):
+                measurement_producer = dict(
+                    parent=measurement_producer,
+                    object_exclusion=producer_fingerprint(),
+                )
+                grippers = grippers_from_robots(robots, frames.shape[1:3])
+                evidence["centers"] = grippers["centers"]
+                evidence["apertures"] = grippers["apertures"]
+                retries.append(dict(kind="letter_pixels_excluded_from_robot_masks"))
         from .robot_discovery import robot_mask_audit
 
         mask_audit = robot_mask_audit(

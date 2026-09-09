@@ -1,0 +1,313 @@
+{
+  "purpose": "accuracy-first visual episode refinement",
+  "manual_ground_truth_available": false,
+  "tests": {
+    "passed": 118,
+    "skipped": 5
+  },
+  "drawer_regression": {
+    "frames": 462,
+    "changed_frames": 0,
+    "details": []
+  },
+  "episodes": [
+    {
+      "name": "workpiece_1",
+      "analysis_directory": "/home/coder/share/retime-accuracy-20260910/object-iterations/workpiece_1-analysis",
+      "analysis_report": {
+        "success": true,
+        "phase": "interaction_understanding",
+        "motion_reference": "photometric_opaque_support",
+        "backend": "sam2",
+        "task": "workpiece",
+        "num_robot_arms": 2,
+        "num_object_proposals": 4,
+        "expected_objects": 4,
+        "num_manipulation_episodes": 4,
+        "validation_gates": {
+          "two_arms": true,
+          "all_objects_identified": true,
+          "persistent_tracks": true,
+          "origin_departure": true,
+          "whole_robot_masks": true,
+          "balanced_arm_assignments": true
+        },
+        "retries": [
+          {
+            "object_id": 0,
+            "seed_frame": 312,
+            "accepted": false,
+            "appearance_distance": 1.0,
+            "occlusion_bridge": false,
+            "consistent_overlap_frames": 0,
+            "contact_frames": 140
+          },
+          {
+            "object_id": 1,
+            "seed_frame": 404,
+            "accepted": false,
+            "appearance_distance": 1.0,
+            "occlusion_bridge": false,
+            "consistent_overlap_frames": 0,
+            "contact_frames": 90
+          },
+          {
+            "object_id": 2,
+            "seed_frame": 402,
+            "accepted": false,
+            "appearance_distance": 0.12178377933535839,
+            "occlusion_bridge": false,
+            "consistent_overlap_frames": 0,
+            "contact_frames": 357
+          },
+          {
+            "object_id": 3,
+            "seed_frame": 552,
+            "accepted": true,
+            "appearance_distance": 1.0,
+            "occlusion_bridge": false,
+            "consistent_overlap_frames": 350,
+            "contact_frames": 251
+          }
+        ],
+        "config": {
+          "minimum_object_area": 182,
+          "maximum_object_area": 4101,
+          "evidence_frames": 60,
+          "weights": [
+            0.15,
+            0.1,
+            0.15,
+            0.2,
+            0.25,
+            0.1,
+            0.05
+          ],
+          "minimum_confidence": 0.65
+        },
+        "mean_interaction_confidence": 0.8497477513671843,
+        "status": "verified_interaction_evidence",
+        "weak_aperture_events": 4,
+        "limitations": [
+          "confidence scores are heuristic, not calibrated probabilities",
+          "pickup uncertainty is explicitly reported for occluded transitions"
+        ]
+      },
+      "render_directory": "/home/coder/share/retime-accuracy-20260910/object-iterations/workpiece_1-final",
+      "delivery": {
+        "episode": "workpiece_1",
+        "sha256": "442fee27288f9f0cbc9816a423a52f64983f1e3ad247b500421f0d87d39b5e82",
+        "file": "workpiece_1-v2.mp4",
+        "render_report": {
+          "source_sha256": "933a61f65d8a3fe0308c55b9587dff329f9c4c47e6d0b84f0d09a328c493d56f",
+          "analysis_report_sha256": "d4d135861bb626d6ac6d2dd0b4be6a57a82e23a1acb0660fdea7c99c2ac11e79",
+          "measurement_producer": "54b0237ebf53fffd2932d88aa503642944ffce7b233704c5d47037bf6cc76815",
+          "render_code_producer": "a668e772136dd97c09bf13556b4d9be4ccfe46fde87e9ebce402551064ad7c66",
+          "plan": {
+            "collision_scope": "projected silhouettes only; no joint-space verification",
+            "left_wait_frames": 299,
+            "right_wait_frames": 315,
+            "output_frames": 759
+          },
+          "compositing": {
+            "output": "/home/coder/share/retime-accuracy-20260910/object-iterations/workpiece_1-final/parallel.mp4",
+            "output_frames": 759,
+            "paired_source_frames": 0,
+            "clean_plate_method": "masked_temporal_real_frames",
+            "clean_plate_reference_frame": 0,
+            "initial_plate_color_adjusted": true,
+            "skipped_origin_color_matches": 0,
+            "real_plate_coverage_fraction": 1.0,
+            "inpainted_background_pixels": 0,
+            "inpainting_used": false,
+            "unresolved_scene_patch_pixels": 0,
+            "arm_overlap_pixel_frames": 0,
+            "valid_metric_overlap_pixel_frames": 0,
+            "unknown_depth_order": "stable_right_foreground",
+            "occlusion_method": "stable_right_foreground",
+            "visual_validation": "pending",
+            "automatic_origin_audit": {
+              "passed": true,
+              "objects": [
+                {
+                  "object_id": 2,
+                  "appearance_method": "template_correlation",
+                  "robot_id": "left",
+                  "clear_origin_observations": 582,
+                  "duplicate_observations": 0,
+                  "passed": true
+                },
+                {
+                  "object_id": 1,
+                  "appearance_method": "chromatic_occupancy",
+                  "robot_id": "left",
+                  "clear_origin_observations": 362,
+                  "duplicate_observations": 0,
+                  "passed": true
+                },
+                {
+                  "object_id": 3,
+                  "appearance_method": "template_correlation",
+                  "robot_id": "right",
+                  "clear_origin_observations": 358,
+                  "duplicate_observations": 0,
+                  "passed": true
+                },
+                {
+                  "object_id": 0,
+                  "appearance_method": "template_correlation",
+                  "robot_id": "right",
+                  "clear_origin_observations": 176,
+                  "duplicate_observations": 0,
+                  "passed": true
+                }
+              ],
+              "method": "rendered_origin_appearance_against_observed_source_absence"
+            }
+          },
+          "source_fps": 30.0,
+          "automatic_checks_passed": true,
+          "validated_for_compositing": false,
+          "status": "rendered_pending_visual_review"
+        }
+      },
+      "visual_review": "distributed frames and targeted source comparison; awaiting user review"
+    },
+    {
+      "name": "letters_0",
+      "analysis_directory": "/home/coder/share/retime-accuracy-20260910/object-iterations/letters_0-object-free-analysis",
+      "analysis_report": {
+        "success": true,
+        "phase": "interaction_understanding",
+        "motion_reference": "photometric_opaque_support",
+        "backend": "sam2",
+        "task": "letters",
+        "num_robot_arms": 2,
+        "num_object_proposals": 4,
+        "expected_objects": 4,
+        "num_manipulation_episodes": 4,
+        "validation_gates": {
+          "two_arms": true,
+          "all_objects_identified": true,
+          "persistent_tracks": true,
+          "origin_departure": true,
+          "whole_robot_masks": true,
+          "balanced_arm_assignments": true
+        },
+        "retries": [
+          {
+            "kind": "reverified_automatic_measurement_hypotheses",
+            "producer": "a668e772136dd97c09bf13556b4d9be4ccfe46fde87e9ebce402551064ad7c66"
+          },
+          {
+            "kind": "letter_pixels_excluded_from_robot_masks"
+          }
+        ],
+        "config": {
+          "minimum_object_area": 182,
+          "maximum_object_area": 4101,
+          "evidence_frames": 60,
+          "weights": [
+            0.15,
+            0.1,
+            0.15,
+            0.2,
+            0.25,
+            0.1,
+            0.05
+          ],
+          "minimum_confidence": 0.65
+        },
+        "mean_interaction_confidence": 0.8846929368323289,
+        "status": "verified_interaction_evidence",
+        "weak_aperture_events": 4,
+        "limitations": [
+          "confidence scores are heuristic, not calibrated probabilities",
+          "pickup uncertainty is explicitly reported for occluded transitions"
+        ]
+      },
+      "render_directory": "/home/coder/share/retime-accuracy-20260910/object-iterations/letters_0-final",
+      "delivery": {
+        "episode": "letters_0",
+        "sha256": "0919bb088a0db8b9f60f96ccb57c351786b28b44d09ccd69462de7e0b1318b5a",
+        "file": "letters_0-v2.mp4",
+        "render_report": {
+          "source_sha256": "f0739d696c15d8680c1777ccaf0b3fc65a5a6d2390cbcbeebed374622013b173",
+          "analysis_report_sha256": "84a0748a07bf22d327f1e900def05bda395f26b7bda7a61184abd469d2169dc6",
+          "measurement_producer": {
+            "parent": "a668e772136dd97c09bf13556b4d9be4ccfe46fde87e9ebce402551064ad7c66",
+            "object_exclusion": "e0be226ec5f652375326bd214124c0d500a3c40a08a3de217b41d308aff06ceb"
+          },
+          "render_code_producer": "e0be226ec5f652375326bd214124c0d500a3c40a08a3de217b41d308aff06ceb",
+          "plan": {
+            "collision_scope": "projected silhouettes only; no joint-space verification",
+            "left_wait_frames": 327,
+            "right_wait_frames": 307,
+            "output_frames": 849
+          },
+          "compositing": {
+            "output": "/home/coder/share/retime-accuracy-20260910/object-iterations/letters_0-final/parallel.mp4",
+            "output_frames": 849,
+            "paired_source_frames": 0,
+            "clean_plate_method": "masked_temporal_real_frames",
+            "clean_plate_reference_frame": 0,
+            "initial_plate_color_adjusted": true,
+            "skipped_origin_color_matches": 0,
+            "real_plate_coverage_fraction": 0.999792817679558,
+            "inpainted_background_pixels": 48,
+            "inpainting_used": true,
+            "unresolved_scene_patch_pixels": 0,
+            "arm_overlap_pixel_frames": 0,
+            "valid_metric_overlap_pixel_frames": 0,
+            "unknown_depth_order": "stable_right_foreground",
+            "occlusion_method": "stable_right_foreground",
+            "visual_validation": "pending",
+            "automatic_origin_audit": {
+              "passed": true,
+              "objects": [
+                {
+                  "object_id": 1,
+                  "appearance_method": "chromatic_occupancy",
+                  "robot_id": "left",
+                  "clear_origin_observations": 706,
+                  "duplicate_observations": 0,
+                  "passed": true
+                },
+                {
+                  "object_id": 0,
+                  "appearance_method": "chromatic_occupancy",
+                  "robot_id": "left",
+                  "clear_origin_observations": 533,
+                  "duplicate_observations": 0,
+                  "passed": true
+                },
+                {
+                  "object_id": 3,
+                  "appearance_method": "chromatic_occupancy",
+                  "robot_id": "right",
+                  "clear_origin_observations": 657,
+                  "duplicate_observations": 0,
+                  "passed": true
+                },
+                {
+                  "object_id": 2,
+                  "appearance_method": "chromatic_occupancy",
+                  "robot_id": "right",
+                  "clear_origin_observations": 213,
+                  "duplicate_observations": 0,
+                  "passed": true
+                }
+              ],
+              "method": "rendered_origin_appearance_against_observed_source_absence"
+            }
+          },
+          "source_fps": 30.0,
+          "automatic_checks_passed": true,
+          "validated_for_compositing": false,
+          "status": "rendered_pending_visual_review"
+        }
+      },
+      "visual_review": "distributed frames and targeted source comparison; awaiting user review"
+    }
+  ]
+}

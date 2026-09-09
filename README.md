@@ -103,3 +103,6 @@ Accuracy-first full-frame-rate probes and remaining failures are recorded in
 
 Photometric-reference corrections and the source-verified parallel preview are
 documented in [photometric verification](docs/photometric-verification.md).
+
+Workpiece and letter scene-ownership refinements are documented in
+[episode refinement](docs/object-episode-iterations.md).

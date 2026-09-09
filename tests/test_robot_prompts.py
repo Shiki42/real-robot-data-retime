@@ -71,3 +71,26 @@ def test_robot_prompt_does_not_place_positive_points_on_ambiguous_shadow():
         assert support[round(y), round(x)]
     with pytest.raises(ValueError, match="insufficient reliable"):
         supported_robot_prompt(region, np.zeros_like(region))
+
+
+def test_released_object_does_not_pull_fingertip_away_from_robot():
+    from real_robot_data_retime.interaction.gripper_geometry import end_effector
+    from real_robot_data_retime.interaction.neural_tracks import object_free_robot_masks
+
+    robot = np.zeros((100, 160), bool)
+    robot[25:45, :95] = True
+    robot[25:65, 80:105] = True
+    letter = np.zeros_like(robot)
+    letter[60:80, 100:125] = True
+    contaminated = robot | letter
+    packed = np.packbits(contaminated[None, None], axis=-1)
+    tracks = [{"packed_masks": np.packbits(letter[None], axis=-1)}]
+    clean = np.unpackbits(
+        object_free_robot_masks(packed, tracks)[0, 0], axis=-1, count=160
+    ).astype(bool)
+    measured, _, local = end_effector(clean, 0)
+    wrong, _, _ = end_effector(contaminated, 0)
+    assert np.linalg.norm(measured - wrong) > 10
+    assert measured[0] < 106 and measured[1] < 66
+    assert not (local & letter).any()
+    assert np.array_equal(packed, np.packbits(contaminated[None, None], axis=-1))

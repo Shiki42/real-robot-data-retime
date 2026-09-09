@@ -80,6 +80,14 @@ def grippers_from_robots(robots, frame_shape):
     )
 
 
+def object_free_robot_masks(robots, tracks):
+    """Remove independently tracked object pixels before locating fingertips."""
+    objects = np.zeros_like(robots[:, 0])
+    for track in tracks:
+        objects |= track["packed_masks"]
+    return robots & ~objects[:, None]
+
+
 def recover_candidates(frames, proposals, tracks, geometry, sam):
     """Reinitialize from automatic reappearance hypotheses and propagate back.
 
