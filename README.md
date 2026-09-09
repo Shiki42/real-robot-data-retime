@@ -106,3 +106,55 @@ pixels exceed the configured re-encoding tolerance.
 The split main view is a video-edit counterfactual, not a physically captured
 simultaneous world observation. Retiming does not establish task success,
 collision safety, or real simultaneous dual-arm behavior.
+
+## Trim static episode boundaries (PiperX)
+
+This migrates the static-edge analysis and RGB trimming pipeline into this package.
+Supports LeRobot v3 per-episode or shared data/video files, with arbitrary tasks,
+episode counts, and dataset FPS.
+
+The fixed 14-D action layout is left six joints (degrees), left gripper (mm),
+right six joints (degrees), right gripper (mm). Default strict thresholds are
+0.1 degrees/second for joints and 0.1 mm/second for grippers. Speeds use adjacent
+action differences times FPS. Static frames must pass both adjacent edges
+(one edge at episode boundaries). No smoothing or internal static deletion.
+
+- Head: remove all consecutive frames where both arms are static.
+- Tail: retain 2 seconds after the later-stopping arm, keeping both arms and
+  all cameras synchronized. Earlier-stopping arms may retain longer holds.
+- Short tails: keep the original end without inventing/repeating frames; report shortfalls.
+- Entirely static episodes: retain the final two seconds, or all available frames.
+  With zero tail duration retain one frame to avoid empty episodes.
+- Preserve action, state, other numeric fields, task IDs and task text.
+  All RGB cameras use the same contiguous interval; omit depth features/storage.
+
+Analyze only:
+
+```bash
+real-robot-trim --dataset /path/to/source --report /path/to/edges.json
+```
+
+Analyze and write a new RGB dataset:
+
+```bash
+real-robot-trim \
+  --dataset /path/to/source \
+  --output /path/to/new-rgb-dataset \
+  --repo-id owner/new-rgb-dataset \
+  --tail-seconds 2 \
+  --joint-threshold 0.1 \
+  --gripper-threshold 0.1
+```
+
+Output must not exist and must be outside the source. Nothing is uploaded.
+Interrupted outputs are left for inspection; retry with a new path.
+Outputs contain per-episode Parquet/videos with reset timestamps, updated
+metadata, recomputed statistics, and trim_manifest.json documenting per-arm
+static counts, source intervals [start, stop), removals, and hold shortfalls.
+RGB statistics sample up to 100 uniform frames per episode resized to 64x64;
+every generated video is decoded to verify its frame count.
+
+The earlier one-off script defaulted to both action and measured state.
+This tool explicitly uses action, with separate gripper units, and is not
+intended to reproduce the old 1119-frame removal total. Trimming runs
+independently of retiming; retiming's existing no-both-idle policy is unchanged.
