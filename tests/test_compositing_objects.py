@@ -163,3 +163,41 @@ def test_arm_boundary_fragment_uses_its_current_source_clock(monkeypatch, tmp_pa
     assert np.array_equal(captured[0], frames[0])
     assert np.min(captured[1][40:55, :5]) == 120
     assert np.max(captured[2][50:54, :3]) == 0
+
+
+def test_stationary_right_object_cannot_paint_over_left_arm(monkeypatch, tmp_path):
+    import real_robot_data_retime.compositing.layers as layers
+
+    frames = np.full((15, 64, 96, 3), 120, np.uint8)
+    robots = np.zeros((15, 2, 64, 96), bool)
+    objects = np.zeros((1, 15, 64, 96), bool)
+    objects[:, :, 24:30, 40:46] = True
+    frames[:, 24:30, 40:46] = [20, 30, 230]
+    robots[4, 0, 20:35, 35:55] = True
+    frames[4, 20:35, 35:55] = 10
+    captured = []
+    monkeypatch.setattr(
+        layers, "write_video", lambda output, images, fps: captured.extend(images)
+    )
+    event = dict(
+        object_id=0,
+        robot_id="right",
+        pickup_frame=6,
+        release_frame=9,
+        approach_start=0,
+        grasp_frame=6,
+    )
+    composite(
+        frames,
+        dict(task="letters", fps=30, episodes=[event]),
+        dict(
+            robots=np.packbits(robots, axis=-1), objects=np.packbits(objects, axis=-1)
+        ),
+        [4, 4, 4],
+        [2, 7, 11],
+        tmp_path / "out.mp4",
+        tmp_path,
+    )
+    assert np.max(captured[0][26, 42]) < 30  # Untouched object behind left arm.
+    assert captured[1][26, 42, 2] > 180  # Carried right object retains its layer.
+    assert np.max(captured[2][26, 42]) < 30  # Deposited object is scene again.

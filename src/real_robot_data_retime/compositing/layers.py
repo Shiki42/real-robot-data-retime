@@ -16,6 +16,7 @@ from ..background.clean_plate import (
 from ..interaction.video import components, write_video
 from ..tasks.workpiece import discover_bins
 from .verification import OriginAudit
+from .ownership import arm_foreground, is_carried
 
 
 def drawer_region(frames, open_frame):
@@ -239,21 +240,22 @@ def composite(
                     color_match=bool(local_match),
                     color_reference_mask=match_valid,
                 )
-            layers = []
-            for side, t in enumerate(times):
-                mask = robots[t, side] | anchors[side]
-                for event in timeline["episodes"]:
-                    if event["robot_id"] != ["left", "right"][side]:
-                        continue
-                    # Once released into the drawer, the shared scene owns the
-                    # cube pixels and their occlusion by the closing drawer.
-                    if drawer is not None and t >= event["release_frame"]:
-                        continue
-                    object_mask = objects[event["object_id"], t]
-                    # Actual source pixels retain grasp-transition and release
-                    # occlusions; no artificial object-coordinate interpolation.
-                    mask |= object_mask
-                layers.append(mask)
+            # Stationary objects are scene content, never a right/left foreground
+            # override. Either arm can occlude them at its independently mapped time.
+            for event in timeline["episodes"]:
+                side = ("left", "right").index(event["robot_id"])
+                t = times[side]
+                if is_carried(event, t):
+                    continue
+                if drawer is not None and t >= event["release_frame"]:
+                    continue
+                visible = objects[event["object_id"], t] & ~robots[t].any(axis=0)
+                out[visible] = frames[t][visible]
+            layers = [
+                arm_foreground(robots, objects, timeline["episodes"], side, t)
+                | anchors[side]
+                for side, t in enumerate(times)
+            ]
             overlap = layers[0] & layers[1]
             overlap_pixels += int(overlap.sum())
             if depth is None:

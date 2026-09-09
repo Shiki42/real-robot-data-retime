@@ -4,12 +4,14 @@ import numpy as np
 from functools import lru_cache
 from .scheduler import schedule_sources
 from ..background.clean_plate import dilate
+from ..compositing.ownership import arm_foreground
 from ..tasks.drawer_constraints import discover_insertion_gate, precedence_gate
 
 
 def plan_visual(timeline, frames, tracks, segmentation):
     n, h, w = frames.shape[:3]
     robots = np.unpackbits(segmentation["robots"], axis=-1, count=w).astype(bool)
+    objects = np.unpackbits(segmentation["objects"], axis=-1, count=w).astype(bool)
     events = timeline["episodes"]
     sources = []
     for side in ["left", "right"]:
@@ -60,7 +62,10 @@ def plan_visual(timeline, frames, tracks, segmentation):
 
     @lru_cache(maxsize=4096)
     def mask(side, index):
-        return np.packbits(dilate(robots[int(sources[side][index]), side], 2))
+        foreground = arm_foreground(
+            robots, objects, events, side, int(sources[side][index])
+        )
+        return np.packbits(dilate(foreground, 2))
 
     @lru_cache(None)
     def clear(i, j):
