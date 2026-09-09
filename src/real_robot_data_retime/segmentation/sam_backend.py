@@ -6,8 +6,13 @@ class SamVideo:
         self.model_id = model_id
         self.torch = torch
         self.device = device
-        self.processor = Sam2VideoProcessor.from_pretrained(model_id)
-        self.model = Sam2VideoModel.from_pretrained(model_id).to(device)
+        from .model_versions import MODEL_REVISIONS
+
+        revision = MODEL_REVISIONS[model_id]
+        self.processor = Sam2VideoProcessor.from_pretrained(model_id, revision=revision)
+        self.model = Sam2VideoModel.from_pretrained(model_id, revision=revision).to(
+            device
+        )
 
     def propagate(
         self, frames, proposals, seed_frame=0, reverse=False, stop_frame=None
@@ -48,8 +53,11 @@ class SamVideo:
             for k, c in enumerate(centers):
                 others = [z for j, z in enumerate(centers) if j != k]
                 positives = proposals[k].get("positive_points", [c])
-                points.append([*positives, *others])
-                labels.append([*([1] * len(positives)), *([0] * len(others))])
+                negatives = proposals[k].get("negative_points", [])
+                points.append([*positives, *negatives, *others])
+                labels.append(
+                    [*([1] * len(positives)), *([0] * (len(negatives) + len(others)))]
+                )
             prompts = dict(input_points=[points], input_labels=[labels])
         self.processor.add_inputs_to_inference_session(
             session,

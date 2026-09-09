@@ -1,5 +1,6 @@
-from functools import lru_cache
 from pathlib import Path
+from collections import OrderedDict
+from math import gcd
 from tempfile import TemporaryDirectory
 import numpy as np
 
@@ -7,9 +8,10 @@ import numpy as np
 class PiperXClearance:
     """Cross-arm mesh clearance using RoboVisualize FK and its exact meshes.
 
-    Margin is in metres. Swept transitions are sampled at at most 0.25 degrees
-    or 0.25 mm per joint. This is a discretized geometric audit, not a physical
-    safety certificate. Scene and held-object constraints are supplied separately.
+    Margin is in metres. A conservative reach/angle motion bound spaces samples
+    so between-sample relative travel is at most half the margin. This audits
+    the supplied geometric model, not physical calibration accuracy. Scene and
+    held-object constraints are supplied separately.
     """
 
     def __init__(
@@ -55,6 +57,16 @@ class PiperXClearance:
         self.half_extents = np.array(
             [(g.aabb_local.max_ - g.aabb_local.min_) / 2 for g in self.geometry]
         )
+        self.max_reach_m = sum(
+            np.linalg.norm(j.translation) for j in self.model.model.jointPlacements
+        ) + max(
+            np.linalg.norm(g.placement.translation)
+            + np.linalg.norm(g.geometry.aabb_center)
+            + g.geometry.aabb_radius
+            for g in self.model.visual_model.geometryObjects
+        )
+        self._configuration_cache = {}
+        self._interpolation_cache = OrderedDict()
         self.poses = [
             [self._pose(row, side) for row in values]
             for side, values in enumerate(self.values)
@@ -109,13 +121,19 @@ class PiperXClearance:
                 self.fcl.DistanceRequest(),
                 result,
             )
+            if not np.isfinite(distance):
+                raise ValueError("non-finite mesh distance")
             if distance < margin:
                 return False
         return True
 
-    @lru_cache(maxsize=262144)
     def configuration_safe(self, i, j):
-        return self._clear(self.poses[0][i], self.poses[1][j])
+        key = (i, j)
+        if key not in self._configuration_cache:
+            self._configuration_cache[key] = self._clear(
+                self.poses[0][i], self.poses[1][j]
+            )
+        return self._configuration_cache[key]
 
     def __call__(self, i, j, ni, nj):
         if not self.configuration_safe(i, j) or not self.configuration_safe(ni, nj):
@@ -124,15 +142,53 @@ class PiperXClearance:
             self.values[s][b] - self.values[s][a]
             for s, a, b in ((0, i, ni), (1, j, nj))
         ]
-        steps = max(1, int(np.ceil(max(np.max(np.abs(d)) for d in differences) / 0.25)))
-        for fraction in np.arange(1, steps) / steps:
+        bounds = [
+            np.abs(d[:6]).sum() * np.pi / 180 * self.max_reach_m + abs(d[6]) / 2000
+            for d in differences
+        ]
+        motion_bound = sum(bounds)
+        left_pose, right_pose = self.poses[0][i], self.poses[1][j]
+        lc, le = left_pose[1:3]
+        rc, re = right_pose[1:3]
+        separation = np.maximum(
+            np.abs(lc[:, None] - rc[None, :])
+            - le[:, None]
+            - re[None, :]
+            - motion_bound,
+            0.0,
+        )
+        if np.all(
+            np.linalg.norm(separation, axis=-1)
+            >= self.margin + left_pose[3] + right_pose[3]
+        ):
+            return True
+        steps = max(1, int(np.ceil(motion_bound / (self.margin * 0.5))))
+        for k in range(1, steps):
             poses = [
-                self._pose(self.values[s][a] + fraction * differences[s], s)
-                for s, a in ((0, i), (1, j))
+                self._interpolated_pose(side, a, b, k, steps)
+                for side, a, b in [(0, i, ni), (1, j, nj)]
             ]
             if not self._clear(*poses):
                 return False
         return True
+
+    def _interpolated_pose(self, side, start, stop, numerator, denominator):
+        if start == stop:
+            return self.poses[side][start]
+        divisor = gcd(numerator, denominator)
+        key = (side, start, stop, numerator // divisor, denominator // divisor)
+        if key in self._interpolation_cache:
+            self._interpolation_cache.move_to_end(key)
+            return self._interpolation_cache[key]
+        fraction = numerator / denominator
+        row = self.values[side][start] + fraction * (
+            self.values[side][stop] - self.values[side][start]
+        )
+        pose = self._pose(row, side)
+        self._interpolation_cache[key] = pose
+        if len(self._interpolation_cache) > 65536:
+            self._interpolation_cache.popitem(last=False)
+        return pose
 
     def arm_clears_volume(self, side, source_index, volume, margin=0.02):
         """Exact arm meshes against a conservative oriented scene volume."""
@@ -151,6 +207,8 @@ class PiperXClearance:
                 self.fcl.DistanceRequest(),
                 self.fcl.DistanceResult(),
             )
+            if not np.isfinite(distance):
+                raise ValueError("non-finite mesh distance")
             if distance < margin:
                 return False
         return True

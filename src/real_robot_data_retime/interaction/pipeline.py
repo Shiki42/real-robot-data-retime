@@ -1,4 +1,5 @@
 import json
+import time
 from dataclasses import asdict, replace
 from pathlib import Path
 import cv2
@@ -53,13 +54,42 @@ def discover_task(frames):
     return "workpiece" if len(bins) >= 2 else "letters"
 
 
-def run(input_path, output_dir, task=None, config=InteractionConfig(), backend="sam2"):
+def run(
+    input_path,
+    output_dir,
+    task=None,
+    config=InteractionConfig(),
+    backend="sam2",
+    analysis_width=640,
+):
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
-    frames, fps = read_video(input_path, width=424)
+    started = time.monotonic()
+
+    def progress(stage):
+        state = dict(
+            stage=stage,
+            elapsed_seconds=time.monotonic() - started,
+            input=str(input_path),
+        )
+        temporary = output_dir / "progress.tmp.json"
+        temporary.write_text(json.dumps(state, indent=2))
+        temporary.replace(output_dir / "progress.json")
+        print(json.dumps(state), flush=True)
+
+    progress("decode")
+    frames, fps = read_video(input_path, width=analysis_width)
+    scale = (analysis_width / 424) ** 2
+    config = replace(
+        config,
+        minimum_object_area=round(config.minimum_object_area * scale),
+        maximum_object_area=round(config.maximum_object_area * scale),
+    )
+    progress("background_registration")
     frames, transforms, registration_confidence = stabilize(frames)
     task = task or discover_task(frames)
     profile = PROFILES[task]
+    progress("robot_discovery")
     evidence = motion_and_grippers(frames)
     proposals = task_object_proposals(frames, task, config)
     retries = []
@@ -80,12 +110,30 @@ def run(input_path, output_dir, task=None, config=InteractionConfig(), backend="
 
         from .cache import gripper_cache
 
+        progress("robot_and_gripper_tracking")
         grippers = gripper_cache(
             frames, evidence, sam, Path.home() / ".cache" / "real-robot-data-retime"
         )
         evidence["centers"] = grippers["centers"]
         evidence["apertures"] = grippers["apertures"]
-        tracks = segment_candidates(frames, proposals, evidence, sam)
+        progress("object_segmentation")
+        if task == "workpiece":
+            from .event_seeded_tracking import event_seeded_tracks
+
+            robot_union = (
+                np.unpackbits(grippers["robot_masks"], axis=-1, count=frames.shape[2])
+                .astype(bool)
+                .any(axis=1)
+            )
+            tracks, origin_seeds = event_seeded_tracks(
+                frames, proposals, robot_union, sam, fps
+            )
+            (output_dir / "origin_events.json").write_text(
+                json.dumps(origin_seeds, indent=2)
+            )
+        else:
+            tracks = segment_candidates(frames, proposals, evidence, sam)
+        progress("object_identity_recovery")
         tracks, retries = recover_candidates(frames, proposals, tracks, evidence, sam)
         if task == "letters":
             tracks, terminal_retries = terminal_letter_recovery(
@@ -140,6 +188,18 @@ def run(input_path, output_dir, task=None, config=InteractionConfig(), backend="
                 handle_candidate=motion.handle_candidate,
                 reference_candidate=motion.reference_candidate,
             )
+    progress("interaction_hypotheses")
+    bins = []
+    deposit_cache = {}
+    if task == "workpiece" and backend == "sam2":
+        from ..tasks.workpiece import discover_bins, bin_visit, verify_deposit
+
+        bins = discover_bins(frames[0])
+        all_robots = (
+            np.unpackbits(grippers["robot_masks"], axis=-1, count=frames.shape[2])
+            .astype(bool)
+            .any(axis=1)
+        )
     candidates = []
     for side in range(2):
         aperture = evidence["apertures"][:, side]
@@ -206,6 +266,70 @@ def run(input_path, output_dir, task=None, config=InteractionConfig(), backend="
                         or alternative["score"] > result["score"]
                     ):
                         result = alternative
+                if (
+                    task == "workpiece"
+                    and len(bins) == 2
+                    and result["pickup_frame"] is not None
+                    and result["release_frame"] is None
+                ):
+                    pickup = result["pickup_frame"]
+                    visit = bin_visit(
+                        evidence["centers"][:, side],
+                        pickup,
+                        min(len(frames), pickup + round(fps * 8)),
+                        bins[side]["bbox"],
+                        fps,
+                    )
+                    if visit is not None:
+                        key = (side, visit["entry_frame"], visit["clearance_frame"])
+                        if key not in deposit_cache:
+                            deposit_cache[key] = verify_deposit(
+                                frames,
+                                all_robots,
+                                pickup,
+                                visit,
+                                bins[side]["bbox"],
+                                fps,
+                            )
+                        deposit = {
+                            **deposit_cache[key],
+                            **visit,
+                            "method": "occluded_bin_deposition",
+                        }
+                        updated = score_hypothesis(
+                            track["centers"],
+                            evidence["centers"][:, side],
+                            aperture,
+                            frame,
+                            frames.shape[2],
+                            replace(
+                                config, evidence_frames=result["evidence_window_frames"]
+                            ),
+                            contact_distance=contact_distances[k, :, side],
+                            release_evidence=deposit,
+                        )
+                        updated["evidence_window_frames"] = result[
+                            "evidence_window_frames"
+                        ]
+                        if updated["accepted"]:
+                            result = updated
+                history = track["centers"][
+                    max(0, frame - config.evidence_frames) : frame
+                ]
+                observed = history[np.isfinite(history).all(axis=1)]
+                origin_before = bool(
+                    len(observed) >= 3
+                    and np.linalg.norm(
+                        np.median(observed, axis=0) - proposals[k]["origin"]
+                    )
+                    <= max(proposals[k]["bbox"][2:]) * 1.25
+                )
+                result["origin_observed_before_grasp"] = origin_before
+                if not origin_before:
+                    result["accepted"] = False
+                    result["rejection_reasons"].append(
+                        "candidate_not_at_origin_before_grasp"
+                    )
                 candidates.append(
                     dict(
                         robot_id=["left", "right"][side],
@@ -215,6 +339,7 @@ def run(input_path, output_dir, task=None, config=InteractionConfig(), backend="
                     )
                 )
     selected = []
+    visibility_masks = {}
     for c in sorted(candidates, key=lambda x: x["score"], reverse=True):
         if not c["accepted"]:
             continue
@@ -261,9 +386,11 @@ def run(input_path, output_dir, task=None, config=InteractionConfig(), backend="
         )
         c["track_visibility_fraction"] = c["track_confidence"]
         if backend == "sam2":
-            robot_visibility = np.unpackbits(
-                grippers["robot_masks"][:, side], axis=-1, count=frames.shape[2]
-            ).astype(bool)
+            if side not in visibility_masks:
+                visibility_masks[side] = np.unpackbits(
+                    grippers["robot_masks"][:, side], axis=-1, count=frames.shape[2]
+                ).astype(bool)
+            robot_visibility = visibility_masks[side]
             visibility = attachment_visibility(
                 object_path,
                 evidence["centers"][:, side],
@@ -346,9 +473,20 @@ def run(input_path, output_dir, task=None, config=InteractionConfig(), backend="
     (output_dir / "grasp_candidates.json").write_text(
         json.dumps(candidates, indent=2, allow_nan=False)
     )
+    from .gripper_state import aperture_states
+
+    gripper_states = np.stack(
+        [aperture_states(evidence["apertures"][:, side], fps) for side in [0, 1]],
+        axis=1,
+    )
+    gripper_velocity = np.concatenate(
+        [np.full((1, 2, 2), np.nan), np.diff(evidence["centers"], axis=0) * fps]
+    )
     np.savez_compressed(
         output_dir / "tracks.npz",
         grippers=evidence["centers"],
+        gripper_states=gripper_states,
+        gripper_velocity_px_s=gripper_velocity,
         apertures=evidence["apertures"],
         objects=np.array([x["centers"] for x in tracks]),
         registration=transforms,
@@ -395,10 +533,12 @@ def run(input_path, output_dir, task=None, config=InteractionConfig(), backend="
             )
             yield f
 
+    progress("debug_rendering")
     for filename, mode in [
         ("gripper_tracks.mp4", "grippers"),
         ("interaction_candidates.mp4", "all"),
         ("selected_object_candidates.mp4", "selected"),
     ]:
         write_video(output_dir / filename, annotated(mode), fps)
+    progress("complete")
     return report

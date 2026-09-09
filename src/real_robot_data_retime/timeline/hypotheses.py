@@ -52,7 +52,8 @@ def choose_episodes(candidates, object_count, task, fps):
             rows.append(row)
             limits.append(1)
     # A unit increase in coverage dominates every possible score improvement.
-    objective = -np.array([object_count + 1 + c["score"] for c in options])
+    coverage_bonus = 1 + sum(abs(c["score"]) for c in options)
+    objective = -np.array([coverage_bonus + c["score"] for c in options])
     result = milp(
         objective,
         integrality=np.ones(count),

@@ -354,9 +354,10 @@ def terminal_letter_recovery(frames, proposals, tracks, sam):
 
 def segment_robots(frames, geometry, sam):
     """Track whole articulated arms using automatically generated support points."""
+    import cv2
     from .robot_discovery import robot_prompt, prompt_from_robot_region
     from .evidence import stable_runs
-    from .video import components
+    from .video import components, pixel_kernel
 
     n, h, w = frames.shape[:3]
     packed = np.zeros((n, 2, h, (w + 7) // 8), np.uint8)
@@ -369,7 +370,13 @@ def segment_robots(frames, geometry, sam):
                 frames, [proposal], seed_frame=seed, reverse=reverse
             ):
                 connected = np.zeros((h, w), bool)
-                for region, stat, center in components(masks[0], 20):
+                linked = cv2.dilate(
+                    masks[0].astype(np.uint8),
+                    cv2.getStructuringElement(
+                        cv2.MORPH_ELLIPSE, (pixel_kernel(15, w),) * 2
+                    ),
+                )
+                for region, stat, center in components(linked, 20):
                     anchored = (
                         stat[0] < w * 0.08
                         if side == 0
@@ -384,7 +391,7 @@ def segment_robots(frames, geometry, sam):
                         100, proposal["mask"].sum() * 0.03
                     )
                     if anchored or (not opposite and exits_top):
-                        connected |= region
+                        connected |= region & masks[0]
                 packed[t, side] = np.packbits(connected, axis=-1)
         reference_area = np.sum(geometry["masks"] == side + 1, axis=(1, 2))
         visible = np.unpackbits(packed[:, side], axis=-1, count=w).sum(axis=(1, 2))
@@ -411,13 +418,19 @@ def segment_robots(frames, geometry, sam):
                     if not a <= t < b:
                         continue
                     keep = np.zeros((h, w), bool)
-                    for region, stat, center in components(masks[0], 20):
+                    linked = cv2.dilate(
+                        masks[0].astype(np.uint8),
+                        cv2.getStructuringElement(
+                            cv2.MORPH_ELLIPSE, (pixel_kernel(15, w),) * 2
+                        ),
+                    )
+                    for region, stat, center in components(linked, 20):
                         anchored = (
                             stat[0] < w * 0.08
                             if side == 0
                             else stat[0] + stat[2] > w * 0.92
                         )
                         if anchored:
-                            keep |= region
+                            keep |= region & masks[0]
                     packed[t, side] = np.packbits(keep, axis=-1)
     return packed, seeds

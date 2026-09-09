@@ -124,3 +124,12 @@ passed this stricter audit. A read-only trim analysis of the complete drawer
 source found 667 removable initial frames and no excess terminal hold; all 87
 strictly measured tails are shorter than two seconds. Any added retime terminal
 hold must be explicitly labeled as repeated source boundary poses/frames.
+
+For small workpieces, origin-disappearance intervals can initialize SAM close to
+the contact event; static prefixes use measured local template alignment, not
+fabricated motion. Occluded release hypotheses require a bin visit followed by
+an observed exit and persistent new bin appearance. Empty visits fail this check.
+Model revisions and the tested Torch/Transformers versions are pinned. Progress
+JSON records stage and elapsed time; stage caches include behavior, model and
+runtime keys. Rejected aperture-regression experiments were removed from runtime
+code; their results remain in the development artifact directory and git history.

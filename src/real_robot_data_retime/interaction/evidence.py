@@ -17,6 +17,7 @@ def score_hypothesis(
     scale,
     config=InteractionConfig(),
     contact_distance=None,
+    release_evidence=None,
 ):
     """Require future object motion and attachment, not closing alone.
 
@@ -107,6 +108,14 @@ def score_hypothesis(
                     opening[max(pickup, a - window) : min(n, b + 8)].any()
                 )
                 break
+    if (
+        release is None
+        and release_evidence is not None
+        and release_evidence["verified"]
+    ):
+        candidate_release = release_evidence["release_frame"]
+        if pickup is not None and pickup < candidate_release < n:
+            release = int(candidate_release)
     if release is None:
         reasons.append("release_not_verified")
     transport_start = pickup if pickup is not None else frame
@@ -152,6 +161,7 @@ def score_hypothesis(
         closure_score=closure,
         closure_observed=closure_observed,
         release_opening_observed=release_opening_observed,
+        release_evidence=release_evidence,
         pickup_frame=pickup,
         release_frame=release,
         accepted=not reasons,

@@ -7,7 +7,13 @@ def track_points(frames, proposals, stride=3):
     from huggingface_hub import hf_hub_download
     from cotracker.predictor import CoTrackerPredictor
 
-    checkpoint = hf_hub_download("facebook/cotracker3", "scaled_offline.pth")
+    from ..segmentation.model_versions import MODEL_REVISIONS
+
+    checkpoint = hf_hub_download(
+        "facebook/cotracker3",
+        "scaled_offline.pth",
+        revision=MODEL_REVISIONS["facebook/cotracker3"],
+    )
     model = (
         CoTrackerPredictor(checkpoint=checkpoint, window_len=60, v2=False).cuda().eval()
     )

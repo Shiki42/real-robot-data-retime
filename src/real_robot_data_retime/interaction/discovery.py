@@ -2,7 +2,7 @@ from dataclasses import dataclass
 import cv2
 import numpy as np
 from scipy.ndimage import median_filter
-from .video import components
+from .video import components, pixel_kernel
 
 
 @dataclass(frozen=True)
@@ -35,7 +35,9 @@ def motion_and_grippers(frames):
         hsv = cv2.cvtColor(f, cv2.COLOR_BGR2HSV)
         robot = ((hsv[:, :, 2] < 115) & (delta > 25)).astype(np.uint8)
         robot[: int(h * 0.23)] = 0
-        robot = cv2.morphologyEx(robot, cv2.MORPH_CLOSE, np.ones((7, 7), np.uint8))
+        robot = cv2.morphologyEx(
+            robot, cv2.MORPH_CLOSE, np.ones((pixel_kernel(7, w),) * 2, np.uint8)
+        )
         for side in range(2):
             region = robot.copy()
             # Side follows spatial anchoring, never episode order.

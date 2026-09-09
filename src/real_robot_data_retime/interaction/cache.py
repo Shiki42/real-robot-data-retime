@@ -1,11 +1,28 @@
 """Content-addressed expensive-stage cache with explicit implementation hashes."""
 
 import hashlib
-import marshal
+from importlib.metadata import version
+from types import CodeType
 import json
 import uuid
 from pathlib import Path
 import numpy as np
+
+
+def implementation_key(code):
+    constants = tuple(
+        implementation_key(x) if isinstance(x, CodeType) else x for x in code.co_consts
+    )
+    return (
+        code.co_code,
+        constants,
+        code.co_names,
+        code.co_varnames,
+        code.co_freevars,
+        code.co_argcount,
+        code.co_kwonlyargcount,
+        code.co_flags,
+    )
 
 
 def stage_key(frames, functions, parameters):
@@ -13,7 +30,15 @@ def stage_key(frames, functions, parameters):
     digest.update(str((frames.shape, str(frames.dtype), parameters)).encode())
     digest.update(memoryview(np.ascontiguousarray(frames)))
     for function in functions:
-        digest.update(marshal.dumps(function.__code__))
+        digest.update(
+            repr(
+                (
+                    implementation_key(function.__code__),
+                    function.__defaults__,
+                    function.__kwdefaults__,
+                )
+            ).encode()
+        )
     return digest.hexdigest()
 
 
@@ -39,7 +64,13 @@ def gripper_cache(frames, geometry, sam, cache_dir):
             prompt_from_robot_region,
             SamVideo.propagate,
         ],
-        (sam.model_id, sam.model.config._commit_hash, geometry_hash),
+        (
+            sam.model_id,
+            sam.model.config._commit_hash,
+            geometry_hash,
+            version("torch"),
+            version("transformers"),
+        ),
     )
     path = Path(cache_dir) / f"grippers-{key}.npz"
     if path.exists():

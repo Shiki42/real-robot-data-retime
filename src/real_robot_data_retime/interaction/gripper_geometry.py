@@ -3,12 +3,12 @@
 import cv2
 import numpy as np
 from skimage.graph import MCP_Geometric
-from .video import components
+from .video import components, pixel_kernel
 
 
 def end_effector(robot_mask, side):
     h, w = robot_mask.shape
-    kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (5, 5))
+    kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (pixel_kernel(5, w),) * 2)
     thick = cv2.morphologyEx(robot_mask.astype(np.uint8), cv2.MORPH_OPEN, kernel)
     regions = components(thick, 20)
     if not regions:

@@ -13,7 +13,17 @@ def robot_prompt(frames, geometry, side):
         raise ValueError("no articulated foreground supports robot discovery")
     t = int(np.nanargmax(scores))
     mask = geometry["masks"][t] == side + 1
-    return t, prompt_from_robot_region(mask)
+    proposal = prompt_from_robot_region(mask)
+    other = (geometry["masks"][t] == 2 - side) & ~mask
+    yy, xx = np.where(other)
+    negatives = []
+    if len(xx) > 20:
+        for quantile in [0.25, 0.5, 0.75]:
+            col = np.quantile(xx, quantile)
+            near = abs(xx - col) < 4
+            negatives.append([float(np.median(xx[near])), float(np.median(yy[near]))])
+    proposal["negative_points"] = negatives
+    return t, proposal
 
 
 def prompt_from_robot_region(mask):
