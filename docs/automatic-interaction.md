@@ -110,3 +110,17 @@ visibility, original-location departure, task roles and drawer state). Passing
 these per-video checks is distinct from the subsequent visual-compositing and
 full-dataset release gates. Models trained for aperture experiments remain
 auxiliary research artifacts; the video workflow does not read sensor labels.
+
+Whole-arm segmentation now anchors end-effector identity. The end-effector is
+located by geodesic distance inside a cable-filtered arm silhouette; direct
+single-gripper tracking had latched onto deposited objects or the other arm.
+Missing object coordinates can be explained as robot occlusion, but predicted
+attachment points are never used as measured motion evidence. Candidate episodes
+are selected jointly with unique-object and same-arm non-overlap constraints.
+
+Recorded gripper excursions beyond the URDF stroke now enlarge the collision
+margin rather than disappearing in clipping. All five existing sample schedules
+passed this stricter audit. A read-only trim analysis of the complete drawer
+source found 667 removable initial frames and no excess terminal hold; all 87
+strictly measured tails are shorter than two seconds. Any added retime terminal
+hold must be explicitly labeled as repeated source boundary poses/frames.

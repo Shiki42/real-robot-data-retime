@@ -43,56 +43,32 @@ def segment_candidates(frames, proposals, geometry, sam=None):
 
 
 def segment_grippers(frames, geometry, sam=None):
-    sam = sam or SamVideo()
+    """Derive end effectors from identity-anchored whole-arm video masks."""
+    sam = sam or SamVideo("facebook/sam2.1-hiera-large")
     n, h, w = frames.shape[:3]
+    robots, seeds = segment_robots(frames, geometry, sam)
     centers = np.full((n, 2, 2), np.nan)
     apertures = np.full((n, 2), np.nan)
-    masks_by_side = np.zeros((n, 2, h, w), dtype=bool)
-    seeds = []
-    for side in [0, 1]:
-        xy = geometry["centers"][:, side]
-        area = np.sum(geometry["masks"] == side + 1, axis=(1, 2))
-        central = np.abs(xy[:, 0] / w - (0.4 if side == 0 else 0.65))
-        score = np.sqrt(area) * np.exp(-central * 8)
-        if not np.isfinite(score).any() or np.nanmax(score) <= 0:
-            seeds.append(None)
-            continue
-        t = int(np.nanargmax(score))
-        x, y = xy[t]
-        radius = w * 0.095
-        x0, y0 = max(0, x - radius), max(0, y - radius)
-        box = [x0, y0, min(w, x + radius) - x0, min(h, y + radius) - y0]
-        seeds.append(dict(frame=t, bbox=box))
-        for reverse in [False, True]:
-            last_tip = None
-            for idx, masks in sam.propagate(
-                frames, [{"bbox": box}], seed_frame=t, reverse=reverse
-            ):
-                yy, xx = np.where(masks[0])
-                if len(xx) < 10:
-                    continue
-                quantile = np.percentile(xx, 90 if side == 0 else 10)
-                distal = xx >= quantile if side == 0 else xx <= quantile
-                tip = np.array([np.median(xx[distal]), np.median(yy[distal])])
-                reference = geometry["centers"][idx, side]
-                if (
-                    np.isfinite(reference).all()
-                    and np.linalg.norm(tip - reference) > w * 0.28
-                ):
-                    continue
-                if last_tip is not None and np.linalg.norm(tip - last_tip) > w * 0.18:
-                    if (
-                        not np.isfinite(reference).all()
-                        or np.linalg.norm(tip - reference) > w * 0.1
-                    ):
-                        continue
-                last_tip = tip
-                masks_by_side[idx, side] = masks[0]
-                centers[idx, side] = tip
-                apertures[idx, side] = np.percentile(yy[distal], 90) - np.percentile(
-                    yy[distal], 10
-                )
-    return dict(centers=centers, apertures=apertures, seeds=seeds, masks=masks_by_side)
+    masks_by_side = np.zeros((n, 2, h, w), bool)
+    for t in range(n):
+        for side in [0, 1]:
+            robot = np.unpackbits(robots[t, side], axis=-1, count=w).astype(bool)
+            from .gripper_geometry import end_effector
+
+            estimate = end_effector(robot, side)
+            if estimate is None:
+                continue
+            center, spread, local = estimate
+            masks_by_side[t, side] = local
+            centers[t, side] = center
+            apertures[t, side] = spread
+    return dict(
+        centers=centers,
+        apertures=apertures,
+        masks=masks_by_side,
+        seeds=seeds,
+        robot_masks=robots,
+    )
 
 
 def recover_candidates(frames, proposals, tracks, geometry, sam):
@@ -378,7 +354,9 @@ def terminal_letter_recovery(frames, proposals, tracks, sam):
 
 def segment_robots(frames, geometry, sam):
     """Track whole articulated arms using automatically generated support points."""
-    from .robot_discovery import robot_prompt
+    from .robot_discovery import robot_prompt, prompt_from_robot_region
+    from .evidence import stable_runs
+    from .video import components
 
     n, h, w = frames.shape[:3]
     packed = np.zeros((n, 2, h, (w + 7) // 8), np.uint8)
@@ -390,5 +368,56 @@ def segment_robots(frames, geometry, sam):
             for t, masks in sam.propagate(
                 frames, [proposal], seed_frame=seed, reverse=reverse
             ):
-                packed[t, side] = np.packbits(masks[0], axis=-1)
+                connected = np.zeros((h, w), bool)
+                for region, stat, center in components(masks[0], 20):
+                    anchored = (
+                        stat[0] < w * 0.08
+                        if side == 0
+                        else stat[0] + stat[2] > w * 0.92
+                    )
+                    opposite = (
+                        stat[0] + stat[2] > w * 0.92
+                        if side == 0
+                        else stat[0] < w * 0.08
+                    )
+                    exits_top = stat[1] < h * 0.02 and stat[4] > max(
+                        100, proposal["mask"].sum() * 0.03
+                    )
+                    if anchored or (not opposite and exits_top):
+                        connected |= region
+                packed[t, side] = np.packbits(connected, axis=-1)
+        reference_area = np.sum(geometry["masks"] == side + 1, axis=(1, 2))
+        visible = np.unpackbits(packed[:, side], axis=-1, count=w).sum(axis=(1, 2))
+        missing = (visible < 40) & (reference_area > 150)
+        for a, b in stable_runs(missing, 15)[:2]:
+            reset = int(a + np.argmax(reference_area[a : min(b, a + 30)]))
+            prompt = prompt_from_robot_region(geometry["masks"][reset] == side + 1)
+            seeds.append(
+                dict(
+                    frame=reset,
+                    bbox=prompt["bbox"],
+                    side=side,
+                    kind="visibility_reentry",
+                )
+            )
+            for reverse in [False, True]:
+                for t, masks in sam.propagate(
+                    frames,
+                    [prompt],
+                    seed_frame=reset,
+                    reverse=reverse,
+                    stop_frame=a - 1 if reverse else b,
+                ):
+                    if not a <= t < b:
+                        continue
+                    keep = np.zeros((h, w), bool)
+                    for region, stat, center in components(masks[0], 20):
+                        anchored = (
+                            stat[0] < w * 0.08
+                            if side == 0
+                            else stat[0] + stat[2] > w * 0.92
+                        )
+                        if anchored:
+                            keep |= region
+                    packed[t, side] = np.packbits(keep, axis=-1)
     return packed, seeds

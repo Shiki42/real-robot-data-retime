@@ -43,3 +43,16 @@ def assign_boundaries(events, grippers, fps, image_width):
                 )
             result.append(event)
     return sorted(result, key=lambda e: e["pickup_frame"])
+
+
+def object_state(frame, episode):
+    """State transitions use inferred source times; pickup removes the origin."""
+    if frame < episode["grasp_start"]:
+        return "AT_ORIGIN"
+    if frame < episode["pickup_frame"]:
+        return "GRASPING"
+    if frame < episode["release_frame"]:
+        return "HELD"
+    if frame == episode["release_frame"]:
+        return "RELEASING"
+    return "PLACED"

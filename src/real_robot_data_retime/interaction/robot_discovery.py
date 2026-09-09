@@ -13,6 +13,11 @@ def robot_prompt(frames, geometry, side):
         raise ValueError("no articulated foreground supports robot discovery")
     t = int(np.nanargmax(scores))
     mask = geometry["masks"][t] == side + 1
+    return t, prompt_from_robot_region(mask)
+
+
+def prompt_from_robot_region(mask):
+    h, w = mask.shape
     yy, xx = np.where(mask)
     x0, y0 = max(0, int(xx.min()) - 12), max(0, int(yy.min()) - 15)
     x1, y1 = min(w, int(xx.max()) + 12), min(h, int(yy.max()) + 15)
@@ -26,6 +31,4 @@ def robot_prompt(frames, geometry, side):
         if len(runs):
             a, b = max(runs, key=lambda z: z[1] - z[0])
             positives.append([float(col), float((a + b - 1) / 2)])
-    return t, dict(
-        bbox=[x0, y0, x1 - x0, y1 - y0], mask=mask, positive_points=positives
-    )
+    return dict(bbox=[x0, y0, x1 - x0, y1 - y0], mask=mask, positive_points=positives)

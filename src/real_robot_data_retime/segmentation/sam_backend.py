@@ -9,7 +9,9 @@ class SamVideo:
         self.processor = Sam2VideoProcessor.from_pretrained(model_id)
         self.model = Sam2VideoModel.from_pretrained(model_id).to(device)
 
-    def propagate(self, frames, proposals, seed_frame=0, reverse=False):
+    def propagate(
+        self, frames, proposals, seed_frame=0, reverse=False, stop_frame=None
+    ):
         """Stream automatically prompted masks with bounded frame/memory cache.
 
         Reverse uses a separate session seeded at the same automatically chosen
@@ -57,9 +59,10 @@ class SamVideo:
             original_size=frames.shape[1:3],
             **prompts,
         )
-        indices = (
-            range(seed_frame, -1, -1) if reverse else range(seed_frame, len(frames))
+        endpoint = (
+            (-1 if reverse else len(frames)) if stop_frame is None else stop_frame
         )
+        indices = range(seed_frame, endpoint, -1 if reverse else 1)
         with self.torch.inference_mode():
             for local, t in enumerate(indices):
                 image = Image.fromarray(cv2.cvtColor(frames[t], cv2.COLOR_BGR2RGB))

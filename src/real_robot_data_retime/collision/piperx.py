@@ -21,7 +21,7 @@ class PiperXClearance:
         margin_m=0.02,
         base_spacing_m=0.49,
     ):
-        from robo_visualize.arms.piperx.model import PiperXModel
+        from robo_visualize.arms.piperx.model import PiperXModel, GRIPPER_STROKE_M
         import hppfcl
 
         if (
@@ -46,6 +46,7 @@ class PiperXClearance:
                 .replace("package://", str(Path(mesh_root).resolve()) + "/")
             )
             self.model = PiperXModel(resolved)
+        self.gripper_stroke_m = GRIPPER_STROKE_M
         self.geometry = [g.geometry for g in self.model.visual_model.geometryObjects]
         for g in self.geometry:
             g.computeLocalAABB()
@@ -78,11 +79,15 @@ class PiperXClearance:
         extents = np.einsum(
             "nij,nj->ni", np.abs(matrices[:, :3, :3]), self.half_extents
         )
-        return matrices, centers, extents
+        limit_excess = max(
+            0.0, float(row[6]) / 2000 - self.gripper_stroke_m, -float(row[6]) / 2000
+        )
+        return matrices, centers, extents, limit_excess
 
     def _clear(self, left, right):
-        lm, lc, le = left
-        rm, rc, re = right
+        lm, lc, le, left_excess = left
+        rm, rc, re, right_excess = right
+        margin = self.margin + left_excess + right_excess
         bounds = (
             np.linalg.norm(lc[:, None] - rc[None, :], axis=-1)
             - self.radii[:, None]
@@ -91,9 +96,7 @@ class PiperXClearance:
         aabb_gap = np.maximum(
             np.abs(lc[:, None] - rc[None, :]) - le[:, None] - re[None, :], 0.0
         )
-        close = (bounds < self.margin) & (
-            np.linalg.norm(aabb_gap, axis=-1) < self.margin
-        )
+        close = (bounds < margin) & (np.linalg.norm(aabb_gap, axis=-1) < margin)
         for a, b in np.argwhere(close):
             ta = self.fcl.Transform3f(lm[a, :3, :3], lm[a, :3, 3])
             tb = self.fcl.Transform3f(rm[b, :3, :3], rm[b, :3, 3])
@@ -106,7 +109,7 @@ class PiperXClearance:
                 self.fcl.DistanceRequest(),
                 result,
             )
-            if distance < self.margin:
+            if distance < margin:
                 return False
         return True
 
@@ -137,6 +140,7 @@ class PiperXClearance:
         geometry = self.fcl.Box(*(hi - lo))
         placement = self.fcl.Transform3f(rotation, rotation @ ((lo + hi) / 2))
         matrices = self.poses[side][source_index][0]
+        margin += self.poses[side][source_index][3]
         for mesh, matrix in zip(self.geometry, matrices):
             pose = self.fcl.Transform3f(matrix[:3, :3], matrix[:3, 3])
             distance = self.fcl.distance(

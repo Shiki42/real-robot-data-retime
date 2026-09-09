@@ -51,7 +51,7 @@ def score_hypothesis(
     reasons = []
     if len(pre) < 3:
         reasons.append("insufficient_pre_grasp_visibility")
-    if len(post) < max(5, window // 3):
+    if len(post) < min(10, max(5, window // 3)):
         reasons.append("insufficient_future_visibility")
     anchor = np.median(obj[pre[:5]], axis=0) if len(pre) else obj[frame]
     displacement = np.linalg.norm(obj[1:] - anchor, axis=1)
@@ -74,21 +74,6 @@ def score_hypothesis(
     static = (
         float(np.exp(-np.median(speed[pre]) / (scale * 0.002))) if len(pre) else 0.0
     )
-    motion = (
-        float(np.clip(np.median(speed[post]) / (scale * 0.006), 0, 1))
-        if len(post)
-        else 0.0
-    )
-    correlation = (
-        float(np.mean(np.exp(-disagreement[post] / (scale * 0.008))))
-        if len(post)
-        else 0.0
-    )
-    attachment = (
-        float(np.mean(proximity_distance[post] < scale * 0.12)) if len(post) else 0.0
-    )
-    if attachment < 0.5:
-        reasons.append("insufficient_persistent_attachment")
     finite_ap = aperture[np.isfinite(aperture)]
     span = float(np.ptp(finite_ap)) if len(finite_ap) else 0.0
     before = aperture[max(0, frame - 8) : frame]
@@ -124,6 +109,31 @@ def score_hypothesis(
                 break
     if release is None:
         reasons.append("release_not_verified")
+    transport_start = pickup if pickup is not None else frame
+    transport_stop = min(end - 1, release if release is not None else end - 1)
+    transport = np.arange(transport_start, transport_stop)
+    transport = transport[edge_valid[transport]]
+    active = transport[
+        (speed[transport] > scale * 0.0015)
+        | (np.linalg.norm(vg[transport], axis=1) > scale * 0.0015)
+    ]
+    motion = (
+        float(np.clip(np.median(speed[active]) / (scale * 0.006), 0, 1))
+        if len(active)
+        else 0.0
+    )
+    correlation = (
+        float(np.mean(np.exp(-disagreement[active] / (scale * 0.008))))
+        if len(active)
+        else 0.0
+    )
+    attachment = (
+        float(np.mean(proximity_distance[transport] < scale * 0.12))
+        if len(transport)
+        else 0.0
+    )
+    if attachment < 0.5:
+        reasons.append("insufficient_persistent_attachment")
     scores = dict(
         proximity=proximity,
         contact=contact,

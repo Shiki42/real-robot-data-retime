@@ -16,3 +16,14 @@ def test_multiple_actions_have_distinct_approaches():
     assert a["approach_start"] < 20
     assert a["retract_end"] < b["approach_start"]
     assert b["approach_start"] >= 58
+
+
+def test_object_origin_is_not_retained_after_pickup():
+    from real_robot_data_retime.timeline.episode import object_state
+
+    event = dict(grasp_start=10, pickup_frame=15, release_frame=30)
+    assert object_state(9, event) == "AT_ORIGIN"
+    assert object_state(14, event) == "GRASPING"
+    assert object_state(15, event) == "HELD"
+    assert object_state(30, event) == "RELEASING"
+    assert object_state(31, event) == "PLACED"

@@ -102,3 +102,39 @@ def pickup_interval(object_track, gripper_track, proposal, confirmed_pickup, fps
         first_confirmed_attachment=int(confirmed_pickup),
         uncertainty_frames=[last + 1, int(confirmed_pickup)],
     )
+
+
+def attachment_visibility(object_track, gripper_track, robot_masks, start, stop):
+    """Explain missing observations using a latent attachment projection.
+
+    Latent coordinates only test occlusion against robot pixels. They are never
+    returned as measured points or used in motion-correlation scoring.
+    """
+    obj = np.asarray(object_track)
+    grip = np.asarray(gripper_track)
+    visible = np.isfinite(obj).all(axis=1)
+    jointly_visible = visible & np.isfinite(grip).all(axis=1)
+    ids = np.flatnonzero(
+        jointly_visible & (np.arange(len(obj)) >= start) & (np.arange(len(obj)) < stop)
+    )
+    supported = np.zeros(len(obj), bool)
+    if len(ids) >= 2:
+        offset = obj[ids] - grip[ids]
+        predicted = grip + np.column_stack(
+            [np.interp(np.arange(len(obj)), ids, offset[:, axis]) for axis in [0, 1]]
+        )
+        h, w = robot_masks.shape[1:]
+        for t in range(start, stop):
+            if visible[t] or not np.isfinite(predicted[t]).all():
+                continue
+            x, y = np.rint(predicted[t]).astype(int)
+            if 0 <= x < w and 0 <= y < h:
+                neighborhood = robot_masks[
+                    t, max(0, y - 4) : min(h, y + 5), max(0, x - 4) : min(w, x + 5)
+                ]
+                supported[t] = neighborhood.mean() > 0.6
+    return dict(
+        visible_fraction=float(visible[start:stop].mean()),
+        robot_occluded_fraction=float(supported[start:stop].mean()),
+        explained_fraction=float((visible | supported)[start:stop].mean()),
+    )

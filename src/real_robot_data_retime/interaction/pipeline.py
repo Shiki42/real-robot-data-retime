@@ -19,7 +19,11 @@ from scipy.ndimage import median_filter
 from .video import read_video, write_video
 from ..tasks import PROFILES
 from .registration import stabilize
-from .verification import validate_origin_departure, pickup_interval
+from .verification import (
+    validate_origin_departure,
+    pickup_interval,
+    attachment_visibility,
+)
 
 
 def discover_task(frames):
@@ -72,11 +76,8 @@ def run(input_path, output_dir, task=None, config=InteractionConfig(), backend="
         config = replace(
             config, evidence_frames=max(config.evidence_frames, round(fps * 2))
         )
-        sam = SamVideo(
-            "facebook/sam2.1-hiera-large"
-            if task == "workpiece"
-            else "facebook/sam2.1-hiera-small"
-        )
+        sam = SamVideo("facebook/sam2.1-hiera-large")
+
         from .cache import gripper_cache
 
         grippers = gripper_cache(
@@ -96,6 +97,7 @@ def run(input_path, output_dir, task=None, config=InteractionConfig(), backend="
             output_dir / "segmentation.npz",
             frame_shape=frames.shape[1:3],
             grippers=np.packbits(grippers["masks"], axis=-1),
+            robots=grippers["robot_masks"],
             objects=np.array([t["packed_masks"] for t in tracks]),
         )
     elif backend == "geometry":
@@ -178,6 +180,32 @@ def run(input_path, output_dir, task=None, config=InteractionConfig(), backend="
                     if contact_distances is None
                     else contact_distances[k, :, side],
                 )
+                result["evidence_window_frames"] = config.evidence_frames
+                if (
+                    not result["accepted"]
+                    and "insufficient_future_visibility" in result["rejection_reasons"]
+                ):
+                    expanded = replace(
+                        config,
+                        evidence_frames=max(config.evidence_frames, round(fps * 4)),
+                    )
+                    alternative = score_hypothesis(
+                        track["centers"],
+                        evidence["centers"][:, side],
+                        aperture,
+                        frame,
+                        frames.shape[2],
+                        expanded,
+                        contact_distance=None
+                        if contact_distances is None
+                        else contact_distances[k, :, side],
+                    )
+                    alternative["evidence_window_frames"] = expanded.evidence_frames
+                    if (
+                        alternative["accepted"]
+                        or alternative["score"] > result["score"]
+                    ):
+                        result = alternative
                 candidates.append(
                     dict(
                         robot_id=["left", "right"][side],
@@ -189,14 +217,6 @@ def run(input_path, output_dir, task=None, config=InteractionConfig(), backend="
     selected = []
     for c in sorted(candidates, key=lambda x: x["score"], reverse=True):
         if not c["accepted"]:
-            continue
-        if any(c["object_id"] == x["object_id"] for x in selected):
-            continue
-        if any(
-            c["robot_id"] == x["robot_id"]
-            and abs(c["pickup_frame"] - x["pickup_frame"]) < config.evidence_frames
-            for x in selected
-        ):
             continue
         side = ["left", "right"].index(c["robot_id"])
         verification = validate_origin_departure(
@@ -233,12 +253,30 @@ def run(input_path, output_dir, task=None, config=InteractionConfig(), backend="
         )
         c["object_origin"] = proposals[c["object_id"]]["origin"].tolist()
         c["transport_start"] = c["pickup_frame"]
+        c["grasp_frame"] = c["pickup_evidence"]["first_confirmed_attachment"]
         c["track_confidence"] = float(
             np.isfinite(object_path[c["pickup_frame"] : c["release_frame"]])
             .all(axis=1)
             .mean()
         )
+        c["track_visibility_fraction"] = c["track_confidence"]
+        if backend == "sam2":
+            robot_visibility = np.unpackbits(
+                grippers["robot_masks"][:, side], axis=-1, count=frames.shape[2]
+            ).astype(bool)
+            visibility = attachment_visibility(
+                object_path,
+                evidence["centers"][:, side],
+                robot_visibility,
+                c["pickup_frame"],
+                c["release_frame"],
+            )
+            c["visibility_evidence"] = visibility
+            c["track_confidence"] = visibility["explained_fraction"]
         selected.append(c)
+    from ..timeline.hypotheses import choose_episodes
+
+    selected = choose_episodes(selected, len(proposals), task, fps)
     from ..timeline.episode import assign_boundaries
 
     selected = assign_boundaries(selected, evidence["centers"], fps, frames.shape[2])
