@@ -21,8 +21,8 @@ def vector(table: pq.Table, key: str) -> np.ndarray:
     return column.values.to_numpy().reshape(len(table), 14)
 
 
-def video_path(root: Path, camera: str) -> Path:
-    return root / f"videos/{camera}/chunk-000/file-000.mp4"
+def video_path(root: Path, camera: str, file_index: int = 0) -> Path:
+    return root / f"videos/{camera}/chunk-000/file-{file_index:03d}.mp4"
 
 
 def frame_at(capture: cv2.VideoCapture, index: int) -> np.ndarray:
@@ -47,16 +47,17 @@ def validate_video_contract(
     mappings: list[dict[str, np.ndarray | int]],
     total_frames: int,
     maximum_mae: float,
+    output_file_index: int = 0,
 ) -> dict[str, object]:
     source_caps = {
         camera: cv2.VideoCapture(str(video_path(source, camera)))
         for camera in CAMERAS
     }
     output_caps = {
-        camera: cv2.VideoCapture(str(video_path(output, camera)))
+        camera: cv2.VideoCapture(str(video_path(output, camera, output_file_index)))
         for camera in CAMERAS
     }
-    for camera, capture in {**source_caps, **output_caps}.items():
+    for camera, capture in (*source_caps.items(), *output_caps.items()):
         if not capture.isOpened():
             raise FileNotFoundError(f"failed to open {camera} video")
 
@@ -73,7 +74,7 @@ def validate_video_contract(
         left = mapping["left"]
         right = mapping["right"]
         source_start = int(mapping["source_start"])
-        sample = sorted({0, len(left) // 2, len(left) - 1})
+        sample = sorted({0, len(left) // 2, len(left) - 1, *mapping.get("sample_indices", [])})
         for local in sample:
             output_index = output_start + local
             left_index = source_start + int(left[local])

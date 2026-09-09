@@ -180,8 +180,8 @@ def build_uniform_schedule_plan(
     grid_index: int,
     grid_size: int,
 ) -> RetimePlan:
-    if grid_size < 1 or not 0 <= grid_index < grid_size:
-        raise ValueError(f"grid index must be in [0, {grid_size}), got {grid_index}")
+    if grid_size < 1 or not 0 <= grid_index <= grid_size:
+        raise ValueError(f"grid index must be in [0, {grid_size}], got {grid_index}")
     total_duration = segments.left.length + segments.right.length
     schedule_position = _round_fraction(grid_index * total_duration, grid_size)
     if schedule_position <= segments.left.length:

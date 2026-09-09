@@ -159,3 +159,29 @@ This tool explicitly uses action, with separate gripper units, and is not
 intended to reproduce the old 1119-frame removal total. Trimming runs
 independently of retiming; retiming's existing no-both-idle policy is unchanged.
 
+
+## Original + right-then-left (bi-sequential)
+
+Keep each original episode and append one generated episode at the exact `u=1`
+endpoint. The original core numeric columns and RGB video bytes are preserved;
+only the generated half uses motion-segment boundary holds. Original recorded
+stillness is allowed. Thus episode count doubles but frame count need not double.
+The training feature set matches Random Retime; acquisition diagnostics are
+omitted and the single task text is normalized to `sort letters`.
+
+```bash
+python -m real_robot_data_retime.bi_sequential \
+  --source /path/to/source-checkout --source-repo owner/source-dataset \
+  --source-revision 0123456789abcdef0123456789abcdef01234567 \
+  --output /path/to/bi-sequential --repo-id owner/bi-sequential
+```
+
+This command validates before producing a passing `VALIDATION_RECEIPT.json`.
+It checks the right-first endpoint independently of the scheduler, all numeric
+mappings, merged episode/data/video indices, original video hashes, recomputed
+numeric statistics and sampled reverse video pixels including the arm handoff.
+Generation also decodes every video to verify frame counts. The input must use
+one shared LeRobot v3 data file and one shared video file per camera.
+
+To repeat validation, pass `--source`, `--output`, and `--validate-only`.
+No upload occurs automatically.
