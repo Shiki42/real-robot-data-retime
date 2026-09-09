@@ -1,7 +1,7 @@
 import numpy as np
 
 
-def track_points(frames, proposals, stride=3):
+def _track_points(frames, proposals, stride=3):
     """CoTracker's visibility distinguishes observation from occlusion prediction."""
     import torch
     from huggingface_hub import hf_hub_download
@@ -28,4 +28,21 @@ def track_points(frames, proposals, stride=3):
     xy = xy[0].cpu().numpy()
     visible = visible[0].cpu().numpy()
     xy[~visible] = np.nan
+    del model, video, points
+    import gc
+
+    gc.collect()
+    torch.cuda.empty_cache()
     return xy, visible, np.arange(0, len(frames), stride)
+
+
+def track_points(frames, proposals, stride=3):
+    """Serialize the high-memory stage across local batch workers."""
+    import fcntl
+    from pathlib import Path
+
+    lock_path = Path.home() / ".cache" / "real-robot-data-retime" / "cotracker.lock"
+    lock_path.parent.mkdir(parents=True, exist_ok=True)
+    with lock_path.open("a") as lock:
+        fcntl.flock(lock, fcntl.LOCK_EX)
+        return _track_points(frames, proposals, stride)

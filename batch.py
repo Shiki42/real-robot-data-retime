@@ -2,7 +2,7 @@ import argparse
 import json
 import traceback
 from pathlib import Path
-from real_robot_data_retime.interaction.pipeline import run
+from real_robot_data_retime.edit import edit_video
 
 
 def main():
@@ -17,7 +17,11 @@ def main():
     reports = []
     for video in videos:
         try:
-            result = run(video, a.output_dir / video.stem)
+            result = edit_video(
+                video,
+                a.output_dir / (video.stem + "_parallel.mp4"),
+                a.output_dir / video.stem,
+            )
         except (ValueError, RuntimeError, OSError) as error:
             # Batch isolation is intentional: retain a full failure record and
             # a failing batch exit status while processing the remaining videos.

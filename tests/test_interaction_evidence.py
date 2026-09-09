@@ -63,3 +63,22 @@ def test_tiny_aperture_change_does_not_override_observed_manipulation():
     assert result["accepted"], result
     assert not result["release_opening_observed"]
     assert not result["closure_observed"]
+
+
+def test_verified_destination_overrides_early_apparent_release():
+    obj = np.zeros((120, 2))
+    obj[30:65, 0] = np.arange(35)
+    obj[65:, 0] = 34
+    grip = obj.copy()
+    grip[65:, 0] += np.arange(55) * 2
+    aperture = np.full(120, 10)
+    result = score_hypothesis(
+        obj,
+        grip,
+        aperture,
+        30,
+        100,
+        release_evidence=dict(verified=True, release_frame=95),
+    )
+    assert result["accepted"]
+    assert result["release_frame"] == 95

@@ -133,3 +133,35 @@ Model revisions and the tested Torch/Transformers versions are pinned. Progress
 JSON records stage and elapsed time; stage caches include behavior, model and
 runtime keys. Rejected aperture-regression experiments were removed from runtime
 code; their results remain in the development artifact directory and git history.
+
+## Current compositing and dataset integration
+
+The video interface now supports `python main.py --input input.mp4 --output parallel.mp4`;
+`--analysis-only` retains interaction diagnostics without editing. The video-only scheduler
+uses conservative projected robot silhouettes. Only the dataset path with recorded joints
+performs RoboVisualize mesh collision checks; those two verification scopes are reported
+separately.
+
+The compositor combines whole-arm and tracked-object source pixels, discovers real clean
+background observations, registers exposure on common stationary pixels, restores object
+origins using the owning arm's source clock, and retains real destination-bin pixels.
+Drawer opening/closing follows the right clock; insertion follows the left clock during
+the verified open dwell. Original aligned uint16 metric depth resolves foreground overlap
+for the drawer dataset. Native image dimensions are retained by dataset rendering.
+
+Pilot previews are under visual review. A successful interaction report alone does not
+mean an edited video or dataset is validated. In particular, workpiece releases now require
+persistent deposition in the corresponding bin, preventing a transport pause from being
+mislabelled as release. The revised workpiece episode 1 finds all four interactions.
+
+The full 87-episode drawer trim has been generated and audited remotely: 54,463 source
+frames become 53,796 frames, with 667 initial static frames removed. Action/state arrays
+match the exact original slices and all three RGB view lengths agree. Every original
+terminal static span is shorter than two seconds; raw trimming preserves available frames.
+Retiming appends a separately labelled 60-frame synthetic boundary hold, without claiming
+those repeated images were captured observations.
+
+`python -m real_robot_data_retime.automatic_dataset` integrates per-episode understanding,
+joint scheduling, native main-view compositing, wrist remapping, telemetry remapping,
+source-index receipts and LeRobot v3 metadata/statistics. It is undergoing pilot validation;
+no complete retimed dataset has been published yet. Episode failure prevents finalization.

@@ -108,11 +108,7 @@ def score_hypothesis(
                     opening[max(pickup, a - window) : min(n, b + 8)].any()
                 )
                 break
-    if (
-        release is None
-        and release_evidence is not None
-        and release_evidence["verified"]
-    ):
+    if release_evidence is not None and release_evidence["verified"]:
         candidate_release = release_evidence["release_frame"]
         if pickup is not None and pickup < candidate_release < n:
             release = int(candidate_release)

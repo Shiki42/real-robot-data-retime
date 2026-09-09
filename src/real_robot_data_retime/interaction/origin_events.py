@@ -37,9 +37,14 @@ def origin_departure_interval(frames, proposal, robot_masks, fps):
     if not after:
         return None, signal
     first = min(after)
+    contacts = stable_runs(~clear, max(3, round(fps * 0.1)))
+    prior = [(a, b) for a, b in contacts if a < first and b <= first + round(fps * 0.2)]
+    contact = prior[-1] if prior else None
     return dict(
         last_observed_at_origin=int(last),
         first_observed_empty=int(first),
         pickup_interval=[int(last + 1), int(first)],
         method="persistent_origin_disappearance",
+        contact_start=None if contact is None else contact[0],
+        contact_end=None if contact is None else contact[1],
     ), signal

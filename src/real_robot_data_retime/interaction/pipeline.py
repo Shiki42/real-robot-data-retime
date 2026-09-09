@@ -152,6 +152,13 @@ def run(
         tracks = track_candidates(frames, proposals, evidence["centers"])
     else:
         raise ValueError(f"unknown tracking backend: {backend}")
+    if backend == "sam2":
+        import gc
+        import torch
+
+        del sam
+        gc.collect()
+        torch.cuda.empty_cache()
     drawer_motion = None
     if task == "drawer" and backend == "sam2":
         from ..tracking.points import track_points
@@ -270,7 +277,6 @@ def run(
                     task == "workpiece"
                     and len(bins) == 2
                     and result["pickup_frame"] is not None
-                    and result["release_frame"] is None
                 ):
                     pickup = result["pickup_frame"]
                     visit = bin_visit(
@@ -281,7 +287,12 @@ def run(
                         fps,
                     )
                     if visit is not None:
-                        key = (side, visit["entry_frame"], visit["clearance_frame"])
+                        key = (
+                            side,
+                            pickup,
+                            visit["entry_frame"],
+                            visit["clearance_frame"],
+                        )
                         if key not in deposit_cache:
                             deposit_cache[key] = verify_deposit(
                                 frames,
@@ -311,8 +322,15 @@ def run(
                         updated["evidence_window_frames"] = result[
                             "evidence_window_frames"
                         ]
-                        if updated["accepted"]:
-                            result = updated
+                        result = updated
+                    if (
+                        result.get("release_evidence") is None
+                        or not result["release_evidence"]["verified"]
+                    ):
+                        result["accepted"] = False
+                        result["rejection_reasons"].append(
+                            "destination_deposition_not_verified"
+                        )
                 history = track["centers"][
                     max(0, frame - config.evidence_frames) : frame
                 ]

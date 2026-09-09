@@ -16,7 +16,17 @@ def event_seeded_tracks(frames, proposals, robot_masks, sam, fps):
         areas = np.zeros(n)
         packed = np.zeros((n, h, (w + 7) // 8), np.uint8)
         seed = (
-            max(0, event["last_observed_at_origin"] - round(fps * 0.1)) if event else 0
+            max(
+                0,
+                (
+                    event["contact_start"]
+                    if event["contact_start"] is not None
+                    else event["last_observed_at_origin"]
+                )
+                - round(fps * 0.1),
+            )
+            if event
+            else 0
         )
         prefix_visible = (
             (signal[:seed] > 0.55) if signal is not None else np.zeros(seed, bool)
