@@ -13,6 +13,7 @@ from ..background.clean_plate import (
 )
 from ..interaction.video import write_video, components
 from ..tasks.workpiece import discover_bins
+from .verification import OriginAudit
 
 
 def drawer_region(frames, open_frame):
@@ -123,6 +124,8 @@ def composite(
             uncovered_patch_pixels += missing
         return patch_cache[cache_key]
 
+    audit = OriginAudit(frames, objects, timeline["episodes"])
+
     def render():
         nonlocal overlap_pixels
         for l, r in zip(left, right):
@@ -188,6 +191,7 @@ def composite(
                 rm = layers[1] & (~layers[0] | right_front)
                 out[lm] = frames[times[0]][lm]
                 out[rm] = frames[times[1]][rm]
+            audit.observe(out, frames, times, robots[times[0], 0] | robots[times[1], 1])
             yield out
 
     write_video(output, render(), timeline["fps"])
@@ -203,6 +207,7 @@ def composite(
         if depth is not None
         else "stable_right_foreground",
         visual_validation="pending",
+        automatic_origin_audit=audit.report(),
     )
     (debug / "compositing_report.json").write_text(json.dumps(report, indent=2))
     return report

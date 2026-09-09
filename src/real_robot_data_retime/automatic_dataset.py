@@ -36,7 +36,6 @@ def analysis_identity(video):
 def remap_table(table, left, right, episode):
     length = len(left)
     columns = {}
-    features = []
     for field in table.schema:
         key = field.name
         if key == "complementary_info.rgb_device_timestamp_ns.top":
@@ -65,7 +64,6 @@ def remap_table(table, left, right, episode):
             columns[key] = table[key].take(pa.array(right))
         else:
             raise ValueError(f"no explicit retime policy for field {key}")
-        features.append(key)
     columns["retime.left_source_frame"] = pa.array(left, type=pa.int64())
     columns["retime.right_source_frame"] = pa.array(right, type=pa.int64())
     return pa.table(columns)
@@ -75,6 +73,9 @@ def process_episode(source, raw_source, output, work_dir, urdf, mesh_root, index
     source, raw_source, output, work_dir = map(
         Path, [source, raw_source, output, work_dir]
     )
+    for original in [source.resolve(), raw_source.resolve()]:
+        if output.resolve() == original or original in output.resolve().parents:
+            raise ValueError("retimed output must be outside both source datasets")
     info = json.loads((source / "meta/info.json").read_text())
     row = source_episodes(source)[index]
     ep = row["episode_index"]
@@ -132,6 +133,8 @@ def process_episode(source, raw_source, output, work_dir, urdf, mesh_root, index
         )
     finally:
         depth.close()
+    if not render["automatic_origin_audit"]["passed"]:
+        raise ValueError(f"episode {ep}: rendered object-origin verification failed")
     del native, masks
     mapped = remap_table(table, left, right, ep)
     pos = mapped.schema.get_field_index("timestamp")
