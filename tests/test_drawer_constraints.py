@@ -94,3 +94,25 @@ def test_quiet_interval_that_started_before_opening_still_counts():
     assert settled_open_frame(gripper, 30, 80, 30, 640) == 30
     gripper[30:80] = np.nan
     assert settled_open_frame(gripper, 30, 80, 30, 640) is None
+
+
+def test_interior_occlusion_cannot_trigger_closing_without_handle_return():
+    from real_robot_data_retime.tasks.drawer_constraints import observed_drawer_return
+
+    travel = np.r_[
+        np.linspace(0, 40, 30), np.full(90, 40), np.linspace(40, 0, 30), np.zeros(30)
+    ]
+    gripper = np.c_[100 + np.zeros(len(travel)), 100 + travel]
+    area = travel / 40
+    area[60:95] = 0.05  # Left arm occludes an otherwise stationary drawer.
+    closing = observed_drawer_return(
+        gripper, area, np.ones(len(area), bool), 30, 0, 0, 1, 30, 424
+    )
+    assert 117 <= closing <= 123
+    gripper[120:] = gripper[119]
+    assert (
+        observed_drawer_return(
+            gripper, area, np.ones(len(area), bool), 30, 0, 0, 1, 30, 424
+        )
+        is None
+    )

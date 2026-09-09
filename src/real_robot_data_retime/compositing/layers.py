@@ -183,6 +183,10 @@ def composite(
                 for event in timeline["episodes"]:
                     if event["robot_id"] != ["left", "right"][side]:
                         continue
+                    # Once released into the drawer, the shared scene owns the
+                    # cube pixels and their occlusion by the closing drawer.
+                    if drawer is not None and t >= event["release_frame"]:
+                        continue
                     object_mask = objects[event["object_id"], t]
                     # Actual source pixels retain grasp-transition and release
                     # occlusions; no artificial object-coordinate interpolation.

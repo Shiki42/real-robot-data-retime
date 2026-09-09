@@ -145,8 +145,23 @@ def validate(source, output):
                         raise ValueError(
                             "retiming skipped a meaningful pose or command change"
                         )
-        if not receipt["plan"]["swept_edges_verified"]:
-            raise ValueError("missing swept collision audit")
+        if not receipt["plan"]["new_edges_collision_free"]:
+            raise ValueError("missing new-edge collision audit")
+        replay = receipt["plan"]["preserved_original_pair_edges"]
+        if bool(replay) == receipt["plan"]["swept_edges_verified"]:
+            raise ValueError(
+                "strict clearance flag disagrees with source-contact ledger"
+            )
+        for edge in replay:
+            k, t = edge["output_edge"], edge["source_edge"]
+            if not (
+                0 <= k < len(left) - 1
+                and left[k] == right[k] == t
+                and left[k + 1] == right[k + 1] == t + 1
+            ):
+                raise ValueError(
+                    "source-contact exception is not an exact original paired edge"
+                )
         if (
             not receipt["compositing"]
             .get("automatic_origin_audit", {})

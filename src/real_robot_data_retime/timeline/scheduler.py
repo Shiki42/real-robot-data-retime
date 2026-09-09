@@ -4,6 +4,10 @@ from typing import Callable
 import numpy as np
 
 
+class NoSafeSchedule(ValueError):
+    """No path satisfies the supplied clearance and precedence constraints."""
+
+
 @dataclass(frozen=True)
 class Schedule:
     left: np.ndarray
@@ -20,6 +24,7 @@ def schedule_sources(
     dependency: Callable[[int, int], bool] = lambda i, j: True,
     left_priority: bool = True,
     tie_break: Callable[[int, int], float] = lambda i, j: 0.0,
+    remaining_lower_bound: Callable[[int, int], int] | None = None,
 ) -> Schedule:
     """Shortest monotone path through recorded poses, including swept edges.
 
@@ -32,19 +37,22 @@ def schedule_sources(
     if min(length_left, length_right) < 1:
         raise ValueError("source trajectories must be nonempty")
     n, m = length_left, length_right
+    remaining = remaining_lower_bound or (lambda i, j: max(n - 1 - i, m - 1 - j))
     goal = (n - 1, m - 1)
     if not dependency(*goal) or not safe(*goal, *goal):
         raise ValueError("terminal configuration is unsafe or violates dependency")
     if not dependency(0, 0):
-        raise ValueError("no safe schedule preserving source trajectories and priority")
-    frontier = [(max(n - 1, m - 1), tie_break(0, 0), 0, 0, 0, 0)]
+        raise NoSafeSchedule(
+            "no safe schedule preserving source trajectories and priority"
+        )
+    frontier = [(remaining(0, 0), tie_break(0, 0), 0, 0, 0, 0)]
     costs = {(0, 0): 0}
     parent = {}
     reached = False
     while frontier:
         priority, _, _, _, i, j = heappop(frontier)
         g = costs[i, j]
-        if priority != g + max(n - 1 - i, m - 1 - j):
+        if priority != g + remaining(i, j):
             continue
         if (i, j) == goal:
             reached = True
@@ -63,13 +71,15 @@ def schedule_sources(
                 continue
             costs[ni, nj] = new_cost
             parent[ni, nj] = (i, j)
-            lower_bound = max(n - 1 - ni, m - 1 - nj)
+            lower_bound = remaining(ni, nj)
             heappush(
                 frontier,
                 (new_cost + lower_bound, tie_break(ni, nj), -ni - nj, -nj, ni, nj),
             )
     if not reached:
-        raise ValueError("no safe schedule preserving source trajectories and priority")
+        raise NoSafeSchedule(
+            "no safe schedule preserving source trajectories and priority"
+        )
     points = [goal]
     while points[-1] != (0, 0):
         points.append(parent[points[-1]])

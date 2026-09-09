@@ -3,7 +3,8 @@
 from functools import lru_cache
 from pathlib import Path
 import numpy as np
-from .scheduler import schedule_sources
+from .scheduler import schedule_sources, NoSafeSchedule
+from .bounds import drawer_remaining_bound
 from .holds import append_terminal_hold, compress_static_spans
 from ..retime import detect_arm_segments
 from ..collision.piperx import PiperXClearance
@@ -95,24 +96,27 @@ def plan_joints(
         Path(mesh_root),
         margin_m=margin,
     )
+    required_contacts = []
     dependency = lambda i, j: True
     if task == "drawer":
         # Derive handle motion in the same base frame used for mesh clearance.
         tcp = [np.array([pose[4] for pose in poses]) for poses in checker.poses]
         volume = drawer_sweep(tcp[1], motion["pull_start"], opening)
-        clear = np.array(
+        arm_clear = np.array(
             [
-                outside_box(tcp[0][t], volume)
-                and checker.arm_clears_volume(0, int(t), volume, margin=margin)
-                for i, t in enumerate(sources[0])
+                checker.arm_clears_volume(0, t, volume, margin=margin)
+                for t in range(len(state))
             ]
         )
+        clear = arm_clear & np.array([outside_box(point, volume) for point in tcp[0]])
         waits = sources[0][
-            clear
+            clear[sources[0]]
             & (sources[0] >= event["pickup_frame"])
             & (sources[0] < event["release_frame"])
         ]
-        withdrawals = sources[0][clear & (sources[0] > event["release_frame"])]
+        withdrawals = sources[0][
+            arm_clear[sources[0]] & (sources[0] > event["release_frame"])
+        ]
         if not len(waits) or not len(withdrawals):
             raise ValueError(
                 "no recorded held waiting pose or withdrawal clears drawer sweep"
@@ -122,6 +126,13 @@ def plan_joints(
         @lru_cache(None)
         def dependency(i, j):
             left, right = int(sources[0][i]), int(sources[1][j])
+            for frame in required_contacts:
+                if (
+                    (left < frame and right > frame)
+                    or (left > frame and right < frame)
+                    or (left == frame and right != frame)
+                ):
+                    return False
             return precedence_gate(
                 left,
                 right,
@@ -138,10 +149,13 @@ def plan_joints(
             wait_method="held_pose_clear_of_future_drawer_sweep",
             moving_clearance="instantaneous_drawer_body_with_motion_bounds",
             withdrawal_frame=withdrawal,
+            withdrawal_geometry="empty_gripper_and_arm_meshes",
             swept_volume=[x.tolist() for x in volume],
             held_cube_radius_m=0.035,
             scene_clearance_m=margin,
         )
+
+    preserved_edges = set()
 
     def safe(i, j, ni, nj):
         li, ri, lni, rni = (
@@ -150,14 +164,16 @@ def plan_joints(
             int(sources[0][ni]),
             int(sources[1][nj]),
         )
-        if not checker(li, ri, lni, rni):
+        if not checker(li, ri, lni, rni) and not original_pair_edge(
+            li, ri, lni, rni, preserved_edges
+        ):
             return False
         if task != "drawer" or ri >= opening:
             return True
         if (
             ni == i
             and event["pickup_frame"] <= li <= event["release_frame"]
-            and not clear[i]
+            and not clear[li]
         ):
             return False
         differences = [state[lni, :7] - state[li, :7], state[rni, 7:] - state[ri, 7:]]
@@ -205,14 +221,106 @@ def plan_joints(
         receipt["alignment"] = (
             "pickup during drawer pull, subordinate to minimum duration"
         )
-    schedule = schedule_sources(
-        len(sources[0]),
-        len(sources[1]),
-        safe,
-        dependency=dependency,
-        left_priority=task != "drawer",
-        tie_break=phase_priority,
-    )
+
+    def search():
+        n, m = len(sources[0]), len(sources[1])
+        if task == "drawer":
+            gate_index = int(np.searchsorted(sources[0], wait, side="right"))
+            withdrawal_index = int(np.searchsorted(sources[0], withdrawal))
+            opening_index = int(np.searchsorted(sources[1], opening))
+            closing_index = int(np.searchsorted(sources[1], closing))
+            markers = [
+                (
+                    int(np.searchsorted(sources[0], t)),
+                    int(np.searchsorted(sources[1], t)),
+                )
+                for t in required_contacts
+            ]
+
+            remaining = drawer_remaining_bound(
+                n,
+                m,
+                gate_index,
+                opening_index,
+                withdrawal_index,
+                closing_index,
+                markers,
+            )
+        else:
+            remaining = None
+        return schedule_sources(
+            n,
+            m,
+            safe,
+            dependency=dependency,
+            left_priority=task != "drawer",
+            tie_break=phase_priority,
+            remaining_lower_bound=remaining,
+        )
+
+    blocked = []
+    if task == "drawer":
+        # A required left pose with no admissible open-drawer partner proves
+        # strict retiming impossible, without exhaustively searching the grid.
+        for frame in sources[0][(sources[0] > wait) & (sources[0] < withdrawal)]:
+            if not any(
+                checker.configuration_safe(int(frame), j)
+                for j in range(opening, closing)
+            ):
+                blocked.append(int(frame))
+    try:
+        if blocked:
+            raise NoSafeSchedule(
+                "required left poses have no collision-free open-drawer partner"
+            )
+        schedule = search()
+    except NoSafeSchedule:
+        if task != "drawer":
+            raise
+        # Cooperative drawer recordings can already contain modeled fingertip
+        # contact. Only an exact replay of those paired source edges is admissible;
+        # a new pose combination or an extended contact hold remains forbidden.
+        preserved_edges = {
+            t
+            for t in range(
+                max(opening, event["pickup_frame"]),
+                min(closing, withdrawal, len(state) - 1),
+            )
+            if not checker(t, t, t + 1, t + 1)
+        }
+        if not preserved_edges:
+            raise
+        restored = np.unique(
+            [
+                t
+                for edge in preserved_edges
+                for t in range(max(opening, edge - 1), min(closing, edge + 3))
+            ]
+        )
+        sources = [np.union1d(clock, restored) for clock in sources]
+        required_contacts = blocked
+        dependency.cache_clear()
+        receipt["strict_infeasibility_witness_frames"] = blocked
+        schedule = search()
+    copied = []
+    for k, (i, j, ni, nj) in enumerate(
+        zip(
+            schedule.left[:-1],
+            schedule.right[:-1],
+            schedule.left[1:],
+            schedule.right[1:],
+        )
+    ):
+        li, ri, lni, rni = (
+            int(sources[0][i]),
+            int(sources[1][j]),
+            int(sources[0][ni]),
+            int(sources[1][nj]),
+        )
+        if not checker(li, ri, lni, rni):
+            if not original_pair_edge(li, ri, lni, rni, preserved_edges):
+                raise RuntimeError("unrecorded collision entered the schedule")
+            copied.append(dict(output_edge=k, source_edge=li))
     edges = zip(
         schedule.left[:-1], schedule.right[:-1], schedule.left[1:], schedule.right[1:]
     )
@@ -221,6 +329,9 @@ def plan_joints(
         for i, j, ni, nj in edges
     ):
         raise RuntimeError("final schedule failed swept collision or dependency audit")
+    if task == "drawer":
+        receipt["compressed_left_idle_frames"] = len(state) - len(sources[0])
+        receipt["compressed_right_idle_frames"] = len(state) - len(sources[1])
     left, right, hold = append_terminal_hold(
         sources[0][schedule.left],
         sources[1][schedule.right],
@@ -231,8 +342,23 @@ def plan_joints(
         output_frames=len(left),
         left_wait_frames=schedule.left_waits,
         right_wait_frames=schedule.right_waits,
-        swept_edges_verified=True,
+        swept_edges_verified=not copied,
+        new_edges_collision_free=True,
+        preserved_original_pair_edges=copied,
+        collision_policy="strict_clearance"
+        if not copied
+        else "strict_new_edges_with_exact_original_contact_replay",
         synthetic_terminal_hold=hold,
         optimality="minimum frames under retained source poses and declared constraints",
     )
     return left, right, receipt
+
+
+def original_pair_edge(left, right, next_left, next_right, preserved):
+    """No time offsets, frame skipping, or prolonged contact are allowed here."""
+    return (
+        left == right
+        and next_left == next_right
+        and next_left == left + 1
+        and left in preserved
+    )

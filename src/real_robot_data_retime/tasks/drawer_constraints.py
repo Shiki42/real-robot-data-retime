@@ -269,12 +269,17 @@ def drawer_area_motion(frames, fps, right_gripper):
     if settled_start is None:
         return None, ratio
     start = settled_start
+    stop = observed_drawer_return(
+        right_gripper, smooth, valid, start, pull, baseline, span, fps, w
+    )
+    if stop is None:
+        return None, ratio
     return dict(
         open_frame=start,
         close_start=stop,
         pull_start=pull,
         confidence=float(valid[pull:stop].mean()),
-        method="cabinet_normalized_interior_area",
+        method="interior_area_with_observed_handle_return",
     ), ratio
 
 
@@ -298,3 +303,46 @@ def settled_open_frame(gripper, start, stop, fps, width):
         if min(b, stop) - max(a, start) >= minimum
     ]
     return min(available) if available else None
+
+
+def observed_drawer_return(
+    gripper, area, area_valid, opening, pull, baseline, span, fps, width
+):
+    """Require inward handle motion with a sustained loss of exposed interior.
+
+    Interior area alone can collapse when the left arm occludes an open drawer.
+    The right gripper supplies an independent observed motion witness.
+    """
+    gripper = np.asarray(gripper, float)
+    valid = np.isfinite(gripper).all(axis=1)
+    ids = np.flatnonzero(valid)
+    window = max(3, round(fps * 0.2))
+    opened = gripper[opening : opening + window]
+    opened = opened[np.isfinite(opened).all(axis=1)]
+    if not len(opened) or not valid[pull] or len(ids) < 2:
+        return None
+    origin = gripper[pull]
+    displacement = np.median(opened, axis=0) - origin
+    distance = np.linalg.norm(displacement)
+    if distance < width * 0.025:
+        return None
+    projection = (gripper - origin) @ displacement / distance**2
+    smooth = median_filter(
+        np.interp(np.arange(len(gripper)), ids, projection[valid]), size=7
+    )
+    falling = (np.gradient(smooth) < -0.002) & valid
+    for a, b in stable_runs(falling, max(3, round(fps * 0.15))):
+        if a <= opening or smooth[a] < 0.7 or smooth[a] - smooth[b - 1] < 0.15:
+            continue
+        end = min(len(gripper), b + round(fps * 2))
+        returned = valid[b:end] & (smooth[b:end] < 0.3)
+        # This establishes closing onset, not successful complete closure.
+        # Some source recordings end with a partly open drawer.
+        closed = area_valid[b:end] & (area[b:end] < baseline + span * 0.65)
+        if not (returned & closed).any():
+            continue
+        arrival = b + int(np.flatnonzero(returned & closed)[0])
+        if np.max(smooth[b : arrival + 1]) > smooth[a] + 0.1:
+            continue
+        return int(a)
+    return None

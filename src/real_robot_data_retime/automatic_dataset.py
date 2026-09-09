@@ -4,6 +4,7 @@ import argparse
 import hashlib
 import json
 import shutil
+from tempfile import TemporaryDirectory
 from pathlib import Path
 import numpy as np
 import pyarrow as pa
@@ -69,13 +70,17 @@ def remap_table(table, left, right, episode):
     return pa.table(columns)
 
 
+def check_output_location(source, raw_source, output):
+    for original in [source.resolve(), raw_source.resolve()]:
+        if output.resolve() == original or original in output.resolve().parents:
+            raise ValueError("retimed output must be outside both source datasets")
+
+
 def process_episode(source, raw_source, output, work_dir, urdf, mesh_root, index):
     source, raw_source, output, work_dir = map(
         Path, [source, raw_source, output, work_dir]
     )
-    for original in [source.resolve(), raw_source.resolve()]:
-        if output.resolve() == original or original in output.resolve().parents:
-            raise ValueError("retimed output must be outside both source datasets")
+    check_output_location(source, raw_source, output)
     info = json.loads((source / "meta/info.json").read_text())
     row = source_episodes(source)[index]
     ep = row["episode_index"]
@@ -103,42 +108,19 @@ def process_episode(source, raw_source, output, work_dir, urdf, mesh_root, index
         raise ValueError(f"episode {ep}: automatic interaction verification failed")
     timeline = json.loads((debug / "interaction_timeline.json").read_text())
     table = read_episode(source, info, row)
-    with (
-        np.load(debug / "tracks.npz") as tracks,
-        np.load(debug / "segmentation.npz") as segmentation,
-    ):
-        left, right, plan = plan_joints(
-            np.asarray(table["observation.state"].to_pylist()),
-            np.asarray(table["action"].to_pylist()),
-            timeline,
-            urdf,
-            mesh_root,
-        )
-        np.savez_compressed(debug / "source_mapping.npz", left=left, right=right)
-        (debug / "schedule.json").write_text(json.dumps(plan, indent=2))
-        native, masks, transforms = native_render_inputs(
-            video, tracks["registration"], segmentation
-        )
-    raw_info = json.loads((raw_source / "meta/info.json").read_text())
-    raw = read_episode(raw_source, raw_info, source_episodes(raw_source)[index])
-    trim = json.loads((source / "trim_manifest.json").read_text())["episodes"][index]
-    depth = AlignedDepth(
-        raw_source,
-        raw["observation.depth.top"].to_pylist()[trim["start"] : trim["stop"]],
-        transforms,
-        native.shape[1:3],
+    left, right, plan = plan_joints(
+        np.asarray(table["observation.state"].to_pylist()),
+        np.asarray(table["action"].to_pylist()),
+        timeline,
+        urdf,
+        mesh_root,
     )
-    main = output / f"videos/observation.images.top/chunk-000/file-{ep:03d}.mp4"
-    try:
-        render = composite(
-            native, timeline, masks, left, right, main, debug, depth=depth
-        )
-    finally:
-        depth.close()
-    if not render["automatic_origin_audit"]["passed"]:
-        raise ValueError(f"episode {ep}: rendered object-origin verification failed")
-    render["output"] = main.relative_to(output).as_posix()
-    del native, masks
+    np.savez_compressed(debug / "source_mapping.npz", left=left, right=right)
+    (debug / "schedule.json").write_text(json.dumps(plan, indent=2))
+    trim = json.loads((source / "trim_manifest.json").read_text())["episodes"][index]
+    render = render_main(
+        video, raw_source, output, debug, index, ep, timeline, left, right, trim
+    )
     mapped = remap_table(table, left, right, ep)
     pos = mapped.schema.get_field_index("timestamp")
     mapped = mapped.set_column(
@@ -202,6 +184,87 @@ def process_episode(source, raw_source, output, work_dir, urdf, mesh_root, index
     receipts = output / "meta/retime_receipts"
     receipts.mkdir(parents=True, exist_ok=True)
     (receipts / f"episode_{ep:03d}.json").write_text(json.dumps(receipt, indent=2))
+    return receipt
+
+
+def render_main(
+    video, raw_source, output, debug, index, episode, timeline, left, right, trim
+):
+    with (
+        np.load(debug / "tracks.npz") as tracks,
+        np.load(debug / "segmentation.npz") as segmentation,
+    ):
+        native, masks, transforms = native_render_inputs(
+            video, tracks["registration"], segmentation
+        )
+    raw_info = json.loads((raw_source / "meta/info.json").read_text())
+    raw = read_episode(raw_source, raw_info, source_episodes(raw_source)[index])
+    depth = AlignedDepth(
+        raw_source,
+        raw["observation.depth.top"].to_pylist()[trim["start"] : trim["stop"]],
+        transforms,
+        native.shape[1:3],
+    )
+    main = output / f"videos/observation.images.top/chunk-000/file-{episode:03d}.mp4"
+    try:
+        render = composite(
+            native, timeline, masks, left, right, main, debug, depth=depth
+        )
+    finally:
+        depth.close()
+    if not render["automatic_origin_audit"]["passed"]:
+        raise ValueError(
+            f"episode {episode}: rendered object-origin verification failed"
+        )
+    render["output"] = main.relative_to(output).as_posix()
+    from .interaction.measurements import producer_fingerprint
+
+    render["implementation_fingerprint"] = producer_fingerprint()
+    return render
+
+
+def rerender_episode(source, raw_source, output, work_dir, index):
+    """Rebuild the main view from an already audited source map, preserving telemetry."""
+    source, raw_source, output, work_dir = map(
+        Path, [source, raw_source, output, work_dir]
+    )
+    check_output_location(source, raw_source, output)
+    row = source_episodes(source)[index]
+    ep = row["episode_index"]
+    debug = work_dir / f"episode_{ep:03d}"
+    path = output / f"meta/retime_receipts/episode_{ep:03d}.json"
+    receipt = json.loads(path.read_text())
+    if receipt["analysis_identity"] != (debug / "analysis_identity.txt").read_text():
+        raise ValueError("render hypotheses differ from the audited schedule")
+    timeline = json.loads((debug / "interaction_timeline.json").read_text())
+    with np.load(output / f"meta/retime_source_indices/episode_{ep:03d}.npz") as maps:
+        left, right = maps["left"], maps["right"]
+    video = source / f"videos/observation.images.top/chunk-000/file-{ep:03d}.mp4"
+    # Render and measure off to the side; an interrupted publish must never
+    # leave an old receipt certifying a newly replaced video.
+    with TemporaryDirectory(prefix=".rerender-", dir=output) as staging:
+        stage = Path(staging)
+        render = render_main(
+            video,
+            raw_source,
+            stage,
+            debug,
+            index,
+            ep,
+            timeline,
+            left,
+            right,
+            receipt["trim"],
+        )
+        receipt["compositing"] = render
+        receipt["statistics"]["observation.images.top"] = image_statistics(
+            stage / render["output"], len(left)
+        )
+        temporary = path.with_suffix(".tmp.json")
+        temporary.write_text(json.dumps(receipt, indent=2))
+        path.unlink()
+        (stage / render["output"]).replace(output / render["output"])
+        temporary.replace(path)
     return receipt
 
 
