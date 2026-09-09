@@ -23,7 +23,8 @@ def test_clean_reference_has_no_departed_arm_ghost_and_detects_reentry():
 
 @pytest.mark.parametrize(
     "failed,objects,sides",
-    [("drawer_open_close", False, (1,)), ("all_objects_identified", True, ())],
+    [("drawer_open_close", False, (1,)), ("all_objects_identified", True, ()),
+     ("drawer_event_order", True, ())],
 )
 def test_recovery_targets_failed_evidence_only(
     monkeypatch, tmp_path, failed, objects, sides

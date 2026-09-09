@@ -33,14 +33,20 @@ low. Recovery can initialize a new SAM track at an automatically observed
 reappearance. Workpiece releases require changed bin contents rather than a
 brief transport pause. Drawer state combines cabinet-relative point motion,
 interior appearance and observed right-arm motion. Closing onset does not imply
-that the source recording eventually closes the drawer completely.
+that the source recording eventually closes the drawer completely. A drawer
+release requires visible stationary cube evidence within the destination and
+separation from the gripper. If withdrawal finishes during occlusion, later
+confirmation uses prior contact and net gripper departure rather than requiring
+concurrent velocity after the cube becomes visible.
 
 ## Checkpoints and recovery
 
 Measurement reuse checks video identity, frame dimensions, registration and the
 proposal set. Current causal tests are rerun on reused hypotheses. Incomplete
 whole-arm tracks are repaired per arm, keeping compatible object and drawer
-measurements. Object recovery likewise reuses the existing robot measurements.
+measurements. Recovery rejects masks claiming the colored cabinet or white
+drawer floor and generates scene-negative prompts automatically. Object
+recovery likewise reuses the existing robot measurements.
 
 Segmentation, tracks and producer provenance are checkpointed before the
 higher-memory point-tracking stage. A checkpoint is not a success report.
@@ -84,6 +90,11 @@ Only the main view is spatially composited. Each arm uses actual pixels at its
 own source time. Source-clock origin restoration removes a picked object from
 its original location. Unselected scene objects are retained. Once a cube is
 released, the shared drawer scene owns its pixels and closing occlusion.
+Scene ownership cannot erase a departing hand merely because an object mask
+follows it. Nearby missing hardware boundary pixels can be restored from
+observed clean-background contrast outside the dynamic drawer region.
+Small silhouette, shadow and exposure seams can remain; these outputs are
+spatial video composites, not unedited sensor observations.
 
 Real, registered temporal observations supply clean plates and scene patches.
 Exposure fitting uses shared background evidence. Drawer-dataset overlap uses

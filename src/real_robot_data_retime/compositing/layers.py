@@ -166,6 +166,7 @@ def composite(
     )
     frames, color_fits = match_background_colors(frames, excluded, dynamic_scene)
     reconstructed, coverage = temporal_plate(frames, excluded)
+    segmented_robots = robots.copy()
     original_robot_pixels = int(robots.sum())
     robots = restore_observed_robot_boundaries(
         frames, robots, reconstructed, coverage, dynamic_scene
@@ -289,6 +290,7 @@ def composite(
                 )
                 out = blend_scene_patch(out, im, region, feather=7, color_match=True)
             layers = []
+            opacity = []
             for side, t in enumerate(times):
                 mask = robots[t, side] | anchors[side]
                 for event in timeline["episodes"]:
@@ -303,14 +305,21 @@ def composite(
                     # occlusions; no artificial object-coordinate interpolation.
                     mask |= object_mask
                 layers.append(mask)
+                alpha = np.ones((h, w), np.float32)
+                added = robots[t, side] & ~segmented_robots[t, side]
+                contrast = np.max(cv2.absdiff(frames[t], reconstructed), axis=-1)
+                # Soft coverage for weak contrast avoids hard cut-out shadows;
+                # strongly observed missing fingers remain fully opaque.
+                alpha[added] = np.clip(
+                    (contrast[added].astype(float) - 25) / 75, 0, 1
+                )
+                opacity.append(alpha)
             overlap = layers[0] & layers[1]
             overlap_pixels += int(overlap.sum())
             if depth is None:
                 # Stable image ordering; explicit report distinguishes this from
                 # metric depth and collision verification.
-                order = [0, 1]
-                for side in order:
-                    out[layers[side]] = frames[times[side]][layers[side]]
+                visible_layers = layers
             else:
                 z = [depth(t) for t in times]
                 if any(a.shape != (h, w) for a in z):
@@ -320,8 +329,13 @@ def composite(
                 right_front = ~(valid[0] & valid[1] & (z[0] < z[1]))
                 lm = layers[0] & (~layers[1] | ~right_front)
                 rm = layers[1] & (~layers[0] | right_front)
-                out[lm] = frames[times[0]][lm]
-                out[rm] = frames[times[1]][rm]
+                visible_layers = [lm, rm]
+            for side, mask in enumerate(visible_layers):
+                alpha = opacity[side][mask, None]
+                out[mask] = (
+                    out[mask] * (1 - alpha)
+                    + frames[times[side]][mask] * alpha
+                ).astype(np.uint8)
             audit.observe(out, frames, times, robots[times[0], 0] | robots[times[1], 1])
             yield out
 

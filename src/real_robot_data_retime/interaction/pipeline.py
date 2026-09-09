@@ -810,6 +810,7 @@ def run(
             "correct_roles",
             "balanced_arm_assignments",
             "drawer_deposition",
+            "drawer_event_order",
         }
     )
     if not sides and not object_failure:
