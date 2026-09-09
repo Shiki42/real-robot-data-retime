@@ -171,6 +171,9 @@ def object_proposals(frames, kind, config):
                     area=int(area),
                     bbox=stat[:4],
                     color=color,
+                    appearance_model="hue"
+                    if kind == "saturated" or color[1] > 95
+                    else "darkness",
                     mask=region,
                 )
             )
@@ -193,7 +196,7 @@ def track_candidates(frames, proposals, grippers=None):
         for t, hsv in enumerate(hsvs):
             hue = np.abs(hsv[:, :, 0].astype(float) - p["color"][0])
             hue = np.minimum(hue, 180 - hue)
-            if p["color"][1] > 95:
+            if p["appearance_model"] == "hue":
                 mask = (
                     (hue < 7)
                     & (hsv[:, :, 1] > max(65, p["color"][1] * 0.45))

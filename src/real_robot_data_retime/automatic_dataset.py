@@ -109,7 +109,9 @@ def process_episode(source, raw_source, output, work_dir, urdf, mesh_root, index
             and reuse is not None
             and failed_gates != {"whole_robot_masks"}
         ):
-            report = run(video, debug, "drawer")
+            report = run(
+                video, debug, "drawer", reuse_measurements=debug, retry_objects=True
+            )
         identity_file.write_text(identity)
     else:
         report = json.loads((debug / "report.json").read_text())
@@ -191,6 +193,7 @@ def process_episode(source, raw_source, output, work_dir, urdf, mesh_root, index
         interaction=dict(
             timeline=timeline,
             report=report,
+            measurements=json.loads((debug / "measurements.json").read_text()),
             robot_mask_audit=json.loads((debug / "robot_mask_audit.json").read_text()),
         ),
         trim=trim,
