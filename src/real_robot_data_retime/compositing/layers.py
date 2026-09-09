@@ -63,6 +63,13 @@ def composite(
     objects = np.unpackbits(segmentation["objects"], axis=-1, count=w).astype(bool)
     if robots.shape != (n, 2, h, w) or objects.shape[1:] != (n, h, w):
         raise ValueError("segmentation must match registered video dimensions")
+    if timeline["task"] == "drawer":
+        for event in timeline["episodes"]:
+            side = ["left", "right"].index(event["robot_id"])
+            release = event["release_frame"]
+            # Enforce scene ownership before both patch exclusion and layering;
+            # a stale SAM arm mask must not erase a placed cube from scene donors.
+            robots[release:, side] &= ~objects[event["object_id"], release:]
     selected_ids = sorted({event["object_id"] for event in timeline["episodes"]})
     moving_objects = objects[selected_ids].any(axis=0)
     excluded = np.array(

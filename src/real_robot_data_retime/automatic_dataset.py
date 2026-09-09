@@ -99,7 +99,16 @@ def process_episode(source, raw_source, output, work_dir, urdf, mesh_root, index
     ):
         reuse = debug if (debug / "measurements.json").exists() else None
         report = run(video, debug, "drawer", reuse_measurements=reuse)
-        if not report["success"] and reuse is not None:
+        failed_gates = {
+            key for key, passed in report["validation_gates"].items() if not passed
+        }
+        # Robot-only failures already triggered a fresh arm repair inside run().
+        # Repeating the identical segmentation cannot add new evidence.
+        if (
+            not report["success"]
+            and reuse is not None
+            and failed_gates != {"whole_robot_masks"}
+        ):
             report = run(video, debug, "drawer")
         identity_file.write_text(identity)
     else:

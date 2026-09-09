@@ -3,6 +3,15 @@
 import numpy as np
 
 
+def robot_entry_side(region):
+    """Use a workspace entry, excluding people moving behind the tabletop."""
+    h, w = region.shape
+    workspace = region[int(h * 0.4) :]
+    left = workspace[:, : max(1, int(np.ceil(w * 0.08)))].any()
+    right = workspace[:, int(w * 0.92) :].any()
+    return None if left == right else (0 if left else 1)
+
+
 def robot_prompt(frames, geometry, side):
     n, h, w = frames.shape[:3]
     from .video import components
@@ -13,9 +22,7 @@ def robot_prompt(frames, geometry, side):
     for t, labels in enumerate(geometry["masks"]):
         for mask, stat, center in components(labels > 0, 150):
             x, y, bw, bh, area = stat
-            anchored = x < w * 0.08 if side == 0 else x + bw > w * 0.92
-            opposite = x + bw > w * 0.92 if side == 0 else x < w * 0.08
-            if not anchored or opposite:
+            if robot_entry_side(mask) != side:
                 continue
             interior = np.exp(-abs(center[0] / w - (0.4 if side == 0 else 0.65)) * 6)
             score = area * interior
@@ -66,11 +73,9 @@ def robot_mask_audit(robots, geometry, fps):
     coverage = np.full((n, 2), np.nan)
     for t, labels in enumerate(geometry["masks"]):
         for region, stat, center in components(labels > 0, int(h * w * 0.015)):
-            left = stat[0] < w * 0.08
-            right = stat[0] + stat[2] > w * 0.92
-            if left == right:
+            side = robot_entry_side(region)
+            if side is None:
                 continue
-            side = 0 if left else 1
             observed = np.unpackbits(robots[t, side], axis=-1, count=w).astype(bool)
             value = float((observed & region).sum() / region.sum())
             if not np.isfinite(coverage[t, side]) or value < coverage[t, side]:
