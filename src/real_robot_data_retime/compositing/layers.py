@@ -85,8 +85,10 @@ def composite(
     )
     frames, color_fits = match_background_colors(frames, excluded, dynamic_scene)
     reconstructed, coverage = temporal_plate(frames, excluded)
+    # Feather inside the 5px exclusion margin, so no original arm pixels bleed
+    # through after the arm leaves its initial pose.
     plate = blend_scene_patch(
-        frames[0], reconstructed, excluded[0], feather=8, color_match=True
+        frames[0], reconstructed, excluded[0], feather=4, color_match=True
     )
     debug = Path(debug_dir)
     debug.mkdir(parents=True, exist_ok=True)

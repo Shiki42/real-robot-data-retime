@@ -1,230 +1,115 @@
 # Automatic interaction and constrained retiming
 
-Implementation in progress on Coder A. No manually supplied boxes, clicks, object
-IDs, or event frames are accepted in the normal video interface. Robot signals
-are reserved for trimming, independent validation and collision scheduling.
+## Input and scene contracts
 
-Task contracts:
-- Drawer: right opens while left picks up and approaches a safe original pose;
-  left insertion waits for opening completion. Right closing waits for left
-  withdrawal. Both moving drawer geometry and held cube must be considered.
-- Letters/workpieces: independent manipulation, left priority, right waits only
-  where necessary; waiting poses must remain safe as left traverses its future.
-- Preserve recorded poses and source pixels; no invented IK trajectory that
-  cannot be represented in the source video.
-- Export one synchronized version per source episode; preserve two seconds of
-  available terminal stillness. Numeric and wrist streams follow their arm.
+The normal interface accepts video without clicks, bounding boxes, chosen
+objects or event-frame labels. Robot state/action data are used only by trimming,
+mesh scheduling and output validation, not by interaction discovery.
 
-Geometry: RoboVisualize dual.py base spacing 0.49 m, parallel +X facing bases,
-left at +Y. assets/piper_x_description.urdf is the user-provided local snapshot
-including the gripper-base 90-degree mounting correction. Meshes and FK are
-loaded from RoboVisualize. Cross-arm margin starts at 0.02 m; transition sampling
-at most 0.25 degrees / 0.25 mm. This is a sampled geometry check, not proof of
-continuous physical safety; scene/held-object verification is additionally needed.
+| Profile | Scene contract | Temporal constraint |
+| --- | --- | --- |
+| Drawer | Right arm operates the drawer; left arm places one cube | Pickup/lifting may overlap opening; insertion waits for opening; closing waits for withdrawal |
+| Letters | Two objects per arm | Independent manipulations with collision-constrained left priority |
+| Workpieces | Four parts, two per destination bin | Independent manipulations; release requires persistent deposition evidence |
 
-Gates: first demonstrate video-only events and candidate evidence on two episodes
-of each task, then segmentation/compositing, then full drawer trim/retime and
-public HF upload. Failed confidence/geometry checks must be recorded and must
-not be reported as successful edited episodes.
+These are supported task priors, not a claim of universal recognition across
+arbitrary robots, viewpoints, lighting or object materials.
 
-The gripper signal is total jaw aperture in mm (observed up to approximately
-70 mm). Each URDF finger has a 35 mm prismatic stroke. Collision FK converts
-total aperture to half-aperture before calling the existing single-finger API.
-Integration tests verify both 35 and 70 mm values, and reject overlapping bases.
+## Automatic evidence
 
-Development runtime: Python 3.11, PyTorch 2.8.0+cu128, torchvision 0.23.0+cu128,
-transformers 5.16.1, Pinocchio 2.7.0. Install PyTorch using the CUDA 12.8 index
-on Coder A; the current default CUDA 13 wheels exceed its installed driver.
+Image motion and entry-side support generate whole-arm SAM2 prompts. Gripper
+geometry is derived from the arm silhouette after suppressing thin cables and
+bridging reflective collar gaps for geometry only. Original segmentation pixels
+remain available for rendering.
 
-## Current real-video evidence
+Gripper closure proposes hypotheses. Acceptance also requires nearby object
+motion, sustained attachment and a verified release. Object identity is checked
+against source-location departure and future observations. Occlusion-consistent
+positions are distinguished from visible observations; heuristic confidence
+scores are not calibrated probabilities.
 
-Six held-out sample videos (episodes 0/1 of each task) are extracted automatically.
-The first geometry-only reports correctly remain `success: false`: wrist/cable
-confusion, orientation-dependent apparent aperture, and tracking loss across
-occlusion prevent reliable event verification. Neither GroundingDINO nor sparse
-Qwen3-VL-4B localization passed visual inspection; neither is a runtime authority.
-SAM2 is publicly accessible; SAM3 access was denied and is not used.
+Colored proposals retain their hue model even when their median saturation is
+low. Recovery can initialize a new SAM track at an automatically observed
+reappearance. Workpiece releases require changed bin contents rather than a
+brief transport pause. Drawer state combines cabinet-relative point motion,
+interior appearance and observed right-arm motion. Closing onset does not imply
+that the source recording eventually closes the drawer completely.
 
-The SAM2 backend now streams frames with a bounded cache after whole-video
-preprocessing caused three experiments to exit 137 under concurrent memory load.
-Object prompts and gripper prompts are generated automatically. Missing visible
-coordinates remain NaN and must not count as measured correlation evidence.
+## Checkpoints and recovery
 
-A task-specific RGB aperture regressor is trained from existing recorded sensor
-values (no manual labels), while inference accepts only images. Episodes 0/1 are
-excluded from both optimization and checkpoint selection; every seventh remaining
-episode is validation. Scripts and checkpoints preserve split provenance.
+Measurement reuse checks video identity, frame dimensions, registration and the
+proposal set. Current causal tests are rerun on reused hypotheses. Incomplete
+whole-arm tracks are repaired per arm, keeping compatible object and drawer
+measurements. Object recovery likewise reuses the existing robot measurements.
 
-Source collision audit at 2 cm: sampled letters/workpiece episodes 0/1 have no
-violations. Drawer samples have near-gripper separations down to about 1.8 mm;
-these do not establish mesh collision but do not pass a 2 cm clearance criterion.
-The final drawer schedule must resolve or explicitly reject such configurations.
+Segmentation, tracks and producer provenance are checkpointed before the
+higher-memory point-tracking stage. A checkpoint is not a success report.
+Completion markers are invalidated before replacing checkpoint arrays; point
+archives are replaced atomically. Batch failures retain a traceback and a
+nonzero outcome rather than being silently accepted.
 
-The first RGB aperture model passed white-table validation (roughly 1–2 mm MAE)
-but failed the dark-table episodes 0/1 (roughly 5–10 mm MAE, missed opening events).
-This is a measured domain shift, not a successful Phase 1 result. A revised
-local-contrast preprocessing and event-weighted training run is being evaluated.
-Its checkpoint contract explicitly records preprocessing to prevent applying
-new image normalization to an old RGB model.
+## Scheduling and geometry
 
-## New causal checks and measured scheduling results
+The joint scheduler uses the supplied RoboVisualize PiperX meshes, 0.49 m base
+spacing and parallel +X orientation. The provided URDF includes the gripper
+mount rotation. Total measured jaw aperture is split equally between the two
+finger joints; out-of-stroke excursions increase the clearance allowance.
 
-Opening is corroborating evidence, not a mandatory large-amplitude trigger:
-letters episode 0's first manipulation has only about 2 mm recorded jaw change,
-and deposition does not show a large opening. Observed object transport followed
-by stationary deposition and gripper separation is therefore required even when
-aperture is weak. A track is rejected if its original object remains visible.
+A* searches monotone per-arm source clocks. Retained poses keep their original
+order and speed; waiting repeats a recorded pose. Idle compaction is allowed
+only when both state and action ranges remain within 0.3 degrees / 0.5 mm.
+Beginning/end poses and motion guards are retained. The drawer planner checks
+its moving body, held waiting poses outside the future drawer sweep, and
+empty-gripper withdrawal. The held-cube proxy radius is 35 mm.
 
-For independent tasks, both sample episodes passed swept mesh checks with left
-priority: letters 1048→909 and 1048→878 source frames; workpieces 1063→881 and
-952→784. These are joint scheduling checks, not visual-edit completion claims.
+New source-pose combinations undergo swept mesh checks. Strict clearance can
+already be violated by the original cooperative drawer recording. After strict
+planning is found infeasible, only exactly recorded adjacent paired edges may
+be preserved in the open-drawer phase. No mismatched clocks, skipped paired
+frames or extended contact holds are admitted by this rule.
 
-Drawer sample 0: automatic handle tracking identifies an open dwell around
-frame 159 and closing near 435. Forward/backward cube tracking estimates pickup
-303, with observed uncertainty interval [303,318], and confirms release around
-382. The image-space entry gate is around 344; a conservative drawer-volume
-proxy moves the latest safe held wait earlier, to around 338 in the first audit.
-The proxy is an estimated scene volume, not a measured drawer CAD model.
+| Receipt field | Meaning |
+| --- | --- |
+| `swept_edges_verified` | Every scheduled edge passed the configured mesh clearance |
+| `new_edges_collision_free` | Every newly combined source-pose edge passed that check |
+| `preserved_original_pair_edges` | Explicit output/source indices for recorded contact edges retained verbatim |
 
-Additional checks now include true mask-to-object proximity, one-to-one terminal
-letter matching, negative prompts from other objects, large-SAM2 retries for
-identity conflicts, and pickup uncertainty intervals. Large SAM2 recovered the
-letter T trajectory after the small model switched to N. Cabinet-relative
-point motion and normalized interior-area motion are separate drawer hypotheses,
-since one recorded episode moves the entire cabinet while closing.
+An output with a nonempty contact ledger must not be described as absolutely
+collision-free. The checks concern the declared robot meshes and estimated
+scene geometry; they are not a physical execution certificate.
 
-A* scheduling matches exhaustive small-grid optima and the earlier exact dynamic
-program's four real-sample output lengths, while reducing their search times.
-Batch errors retain full tracebacks and per-video failure reports; failed batches
-return a nonzero status after processing the remaining videos.
+## Pixel and object ownership
 
-The short-term camera tracker was found to follow robot motion, producing a
-false approximately 40 px shift in a letter sample. It was replaced with
-reference-frame ORB matching and long-term background consistency. On the three
-sample-0 videos, accepted background shifts are approximately 1–2 px; synthetic
-camera/foreground-motion separation tests pass. Gripper identity is additionally
-constrained by entry-edge motion support to prevent same-looking arm swaps.
+Only the main view is spatially composited. Each arm uses actual pixels at its
+own source time. Source-clock origin restoration removes a picked object from
+its original location. Unselected scene objects are retained. Once a cube is
+released, the shared drawer scene owns its pixels and closing occlusion.
 
-Reports now expose automatic gates (arm count, object coverage, persistent track
-visibility, original-location departure, task roles and drawer state). Passing
-these per-video checks is distinct from the subsequent visual-compositing and
-full-dataset release gates. Models trained for aperture experiments remain
-auxiliary research artifacts; the video workflow does not read sensor labels.
+Real, registered temporal observations supply clean plates and scene patches.
+Exposure fitting uses shared background evidence. Drawer-dataset overlap uses
+its aligned metric depth; unavailable depth is reported separately. The video
+interface without depth reports its fixed overlap ordering.
 
-Whole-arm segmentation now anchors end-effector identity. The end-effector is
-located by geodesic distance inside a cable-filtered arm silhouette; direct
-single-gripper tracking had latched onto deposited objects or the other arm.
-Missing object coordinates can be explained as robot occlusion, but predicted
-attachment points are never used as measured motion evidence. Candidate episodes
-are selected jointly with unique-object and same-arm non-overlap constraints.
+Rendering reports include source-origin duplication checks and unresolved scene
+patch counts. They do not replace visual inspection of arm completeness,
+placement, scene boundaries and temporal transitions. Main-only rerenders stage
+and measure their video before publication; interruption cannot leave an old
+receipt certifying a replaced video.
 
-Recorded gripper excursions beyond the URDF stroke now enlarge the collision
-margin rather than disappearing in clipping. All five existing sample schedules
-passed this stricter audit. A read-only trim analysis of the complete drawer
-source found 667 removable initial frames and no excess terminal hold; all 87
-strictly measured tails are shorter than two seconds. Any added retime terminal
-hold must be explicitly labeled as repeated source boundary poses/frames.
+## Dataset verification
 
-For small workpieces, origin-disappearance intervals can initialize SAM close to
-the contact event; static prefixes use measured local template alignment, not
-fabricated motion. Occluded release hypotheses require a bin visit followed by
-an observed exit and persistent new bin appearance. Empty visits fail this check.
-Model revisions and the tested Torch/Transformers versions are pinned. Progress
-JSON records stage and elapsed time; stage caches include behavior, model and
-runtime keys. Rejected aperture-regression experiments were removed from runtime
-code; their results remain in the development artifact directory and git history.
+LeRobot v3 output includes per-arm source indices, raw-episode offsets and an
+explicit synthetic terminal-hold flag. Action, state and arm-specific telemetry
+are remapped independently. Wrist videos retain their own source view and time.
+The composite main image has no single captured sensor timestamp.
 
-## Current compositing and dataset integration
+`automatic_validation.validate_pending_episode` checks an individual completed
+episode before global metadata is assembled. `automatic_validation.validate`
+checks the complete dataset after finalization. Checks cover every numeric row,
+source endpoints, bounded idle jumps, task dependencies, contact ledgers,
+synthetic holds, video dimensions/counts/FPS, and every decoded wrist frame.
 
-The video interface now supports `python main.py --input input.mp4 --output parallel.mp4`;
-`--analysis-only` retains interaction diagnostics without editing. The video-only scheduler
-uses conservative projected robot silhouettes. Only the dataset path with recorded joints
-performs RoboVisualize mesh collision checks; those two verification scopes are reported
-separately.
-
-The compositor combines whole-arm and tracked-object source pixels, discovers real clean
-background observations, registers exposure on common stationary pixels, restores object
-origins using the owning arm's source clock, and retains real destination-bin pixels.
-Drawer opening/closing follows the right clock; insertion follows the left clock during
-the verified open dwell. Original aligned uint16 metric depth resolves foreground overlap
-for the drawer dataset. Native image dimensions are retained by dataset rendering.
-
-Pilot previews are under visual review. A successful interaction report alone does not
-mean an edited video or dataset is validated. In particular, workpiece releases now require
-persistent deposition in the corresponding bin, preventing a transport pause from being
-mislabelled as release. The revised workpiece episode 1 finds all four interactions.
-
-The full 87-episode drawer trim has been generated and audited remotely: 54,463 source
-frames become 53,796 frames, with 667 initial static frames removed. Action/state arrays
-match the exact original slices and all three RGB view lengths agree. Every original
-terminal static span is shorter than two seconds; raw trimming preserves available frames.
-Retiming appends a separately labelled 60-frame synthetic boundary hold, without claiming
-those repeated images were captured observations.
-
-`python -m real_robot_data_retime.automatic_dataset` integrates per-episode understanding,
-joint scheduling, native main-view compositing, wrist remapping, telemetry remapping,
-source-index receipts and LeRobot v3 metadata/statistics. It is undergoing pilot validation;
-no complete retimed dataset has been published yet. Episode failure prevents finalization.
-
-Native-resolution validation exposed two further issues. Reflective wrist collars can
-split the arm silhouette; the end-effector distance map now bridges small gaps while
-keeping original foreground pixels. An unobserved object's projected footprint can also
-partly overlap a gripper without its projected centre lying inside the silhouette. Such
-partial occlusion is explicitly labelled as *consistent*, weighted at half the confidence
-of observed/full-occlusion evidence, and never contributes fabricated motion samples.
-Finally, saturated objects use chromatic occupancy for the independent rendered-origin
-audit; grayscale correlation alone confused the blue cube with its dark tabletop.
-
-Drawer scheduling now evaluates the instantaneous drawer body during motion and its
-complete sweep at held waiting poses. A 2-D projection into the drawer is not a physical
-collision: recorded joints can show that the cube is lifted safely above it. Scene
-transitions use interpolated FK with conservative motion bounds, the same 5 mm drawer
-clearance as cross-arm checking, and an explicit 35 mm held-cube proxy. Insertion and
-closing still have hard precedence gates. Both arms begin at the actual trimmed source
-pose; bounded stationary spans are compacted only when **both** action and state ranges
-stay within 0.3 degrees / 0.5 mm, with onset/end guard frames retained.
-
-Closing detection now requires sustained inward return rather than the end of a quiet
-run. Cabinet references are selected from mutually stable tracks so the carried cube
-cannot masquerade as a cabinet reference. Quiet intervals that already overlap the
-visually open phase count toward settling.
-
-Automatic segmentation/point hypotheses are stored separately from causal interpretation.
-Reinterpretation verifies the video hash, frame geometry, registration and proposal set,
-recomputes gripper geometry, and reruns all posterior checks. A failed reinterpretation
-can trigger fresh neural measurements. Producer identity remains attached to reused
-hypotheses; no human object/frame annotations are supplied by this cache.
-
-The shortest-path search uses pickup-during-pull alignment only as a secondary ordering;
-it never trades away minimum duration. The independently verified drawer-hold interval
-uses a shorter stationary guard, while preserving the same action/state pose-range bounds.
-In the current first-episode plan, pickup is at output frame 167, the drawer finishes opening
-at 217, insertion starts at 225, withdrawal completes at 288 and closing starts at 291.
-Thus lifting overlaps pulling and both placement/closing dependencies remain satisfied.
-
-### Whole-arm recovery and shared drawer pixels
-
-Motion labels can overlap in the center of the image. Robot prompts therefore
-recover the complete connected motion component attached to the corresponding
-entry edge, rejecting components spanning both opposite edges. The pipeline
-checks tracked masks against these independently observed motion components.
-When a cached arm is incomplete, it regenerates only that arm's SAM track and
-keeps the existing object and drawer-point measurements with their producer
-provenance. Insufficient whole-arm coverage remains a validation failure.
-
-A decrease in visible drawer interior can be caused by left-arm occlusion.
-Area-based closing detection also requires sustained inward right-gripper motion
-and reduced exposed interior. It reports closing onset, not a guarantee that the
-recorded drawer eventually shuts completely. After release, drawer-scene pixels
-own the cube and its occlusion. Main-only rerenders stage and measure their video
-before replacing the published artifact; a publish interrupted between video and
-receipt replacement leaves no completion receipt.
-
-Strict mesh clearance can be infeasible even for the original paired recording.
-The planner first attempts strict scheduling. During the open-drawer cooperative
-phase, it may preserve exactly recorded adjacent paired edges, including the
-recorded exit from contact after withdrawing from the drawer volume. This never
-permits mismatched clocks, skipped paired frames, or prolonged contact holds.
-Receipts list each preserved edge and set `swept_edges_verified` to false whenever
-one is used. `new_edges_collision_free` applies to newly combined poses only;
-these outputs must not be described as absolutely collision-free.
+Final release requires all requested episodes, complete metadata/statistics,
+source/provenance records, numeric/video checks, visual review and verification
+of the uploaded files. Automatic processing success and preview availability
+alone do not establish a completed release.

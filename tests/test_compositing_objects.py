@@ -94,3 +94,33 @@ def test_released_cube_uses_closing_drawer_pixels(monkeypatch, tmp_path):
     assert (
         np.max(np.abs(captured[2][22, 57].astype(int) - 120)) < 5
     )  # Closed drawer occludes it.
+
+
+def test_initial_arm_leaves_no_feathered_ghost_when_it_moves(monkeypatch, tmp_path):
+    import real_robot_data_retime.compositing.layers as layers
+
+    n, h, w = 12, 64, 96
+    frames = np.full((n, h, w, 3), 120, np.uint8)
+    robots = np.zeros((n, 2, h, w), bool)
+    for t in range(n):
+        x = 10 if t < 4 else 50
+        frames[t, 20:40, x : x + 20] = 0
+        robots[t, 0, 20:40, x : x + 20] = True
+    captured = []
+    monkeypatch.setattr(
+        layers, "write_video", lambda output, images, fps: captured.extend(images)
+    )
+    segmentation = dict(
+        robots=np.packbits(robots, axis=-1),
+        objects=np.zeros((0, n, h, (w + 7) // 8), np.uint8),
+    )
+    composite(
+        frames,
+        dict(task="letters", fps=30, episodes=[]),
+        segmentation,
+        [0, 8],
+        [0, 8],
+        tmp_path / "out.mp4",
+        tmp_path,
+    )
+    assert np.min(captured[-1][20:40, 10:30]) == 120

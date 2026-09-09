@@ -66,6 +66,12 @@ def run(
 ):
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
+    if (
+        backend == "sam2"
+        and reuse_measurements is None
+        and (output_dir / "measurements.json").exists()
+    ):
+        reuse_measurements = output_dir
     started = time.monotonic()
 
     def progress(stage):

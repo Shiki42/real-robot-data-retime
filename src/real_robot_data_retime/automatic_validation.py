@@ -8,21 +8,26 @@ from .trim import source_episodes, read_episode
 from .video import _SequentialVideoReader
 
 
-def wrist_pixel_error(source, output, mapping, samples=24):
+def wrist_pixel_error(source, output, mapping, samples=None):
     original, edited = (
         _SequentialVideoReader(Path(source)),
         _SequentialVideoReader(Path(output)),
     )
     errors = []
     try:
-        for target in np.unique(
-            np.linspace(0, len(mapping) - 1, min(samples, len(mapping))).astype(int)
-        ):
+        targets = (
+            np.arange(len(mapping))
+            if samples is None
+            else np.unique(
+                np.linspace(0, len(mapping) - 1, min(samples, len(mapping))).astype(int)
+            )
+        )
+        for target in targets:
             expected = original.read_to(int(mapping[target]))
             actual = edited.read_to(int(target))
             if expected.shape != actual.shape:
                 raise ValueError("wrist video dimensions changed")
-            errors.append(float(np.abs(expected.astype(float) - actual).mean()))
+            errors.append(float(cv2.absdiff(expected, actual).mean()))
     finally:
         original.close()
         edited.close()
