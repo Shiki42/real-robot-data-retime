@@ -10,7 +10,13 @@ def stable_runs(mask, minimum):
 
 
 def score_hypothesis(
-    object_xy, gripper_xy, aperture, frame, scale, config=InteractionConfig()
+    object_xy,
+    gripper_xy,
+    aperture,
+    frame,
+    scale,
+    config=InteractionConfig(),
+    contact_distance=None,
 ):
     """Require future object motion and attachment, not closing alone.
 
@@ -35,6 +41,9 @@ def score_hypothesis(
     speed = np.linalg.norm(vo, axis=1)
     disagreement = np.linalg.norm(vo - vg, axis=1)
     distance = np.linalg.norm(obj - grip, axis=1)
+    proximity_distance = (
+        distance if contact_distance is None else np.asarray(contact_distance, float)
+    )
     pre = np.arange(begin, max(begin, frame - 2))
     post = np.arange(frame, end - 1)
     pre = pre[edge_valid[pre]]
@@ -44,12 +53,19 @@ def score_hypothesis(
         reasons.append("insufficient_pre_grasp_visibility")
     if len(post) < max(5, window // 3):
         reasons.append("insufficient_future_visibility")
-    moving = (speed > scale * 0.0015) & (disagreement < scale * 0.012) & edge_valid
+    anchor = np.median(obj[pre[:5]], axis=0) if len(pre) else obj[frame]
+    displacement = np.linalg.norm(obj[1:] - anchor, axis=1)
+    moving = (
+        (speed > scale * 0.0015)
+        & (disagreement < scale * 0.012)
+        & edge_valid
+        & (displacement >= scale * 0.01)
+    )
     runs = stable_runs(moving[frame : end - 1], 3)
     if not runs:
         reasons.append("no_stable_correlated_pickup")
     near = (
-        np.nanmin(distance[max(0, frame - 3) : frame + 4])
+        np.nanmin(proximity_distance[max(0, frame - 3) : frame + 4])
         if valid[max(0, frame - 3) : frame + 4].any()
         else np.inf
     )
@@ -78,20 +94,29 @@ def score_hypothesis(
         if np.isfinite(before).any() and np.isfinite(after).any()
         else 0.0
     )
-    if closure < 0.1:
-        reasons.append("no_measured_closure")
+    closure_observed = closure >= 0.1
     pickup = frame + runs[0][0] + 1 if runs else None
     # Release needs opening, object stillness AND gripper departure.
     release = None
+    release_opening_observed = False
     if pickup is not None:
-        opening = np.r_[0, np.diff(aperture)] > max(1.0, span * 0.08)
+        opening = aperture - np.r_[np.repeat(aperture[0], 8), aperture[:-8]] > max(
+            1.0, span * 0.08
+        )
         stationary = (speed < scale * 0.002) & edge_valid
         departed = (np.linalg.norm(vg, axis=1) > scale * 0.003) & (
             disagreement > scale * 0.002
         )
         for a, b in stable_runs(stationary & departed, 3):
-            if a > pickup + 3 and opening[max(pickup, a - 8) : min(n, b + 8)].any():
+            initial = obj[pre[0]] if len(pre) else obj[frame]
+            displaced = np.linalg.norm(obj[a] - initial) > scale * 0.03
+            if a > pickup + 3 and displaced:
+                # Stable deposition and separation can occur with tiny jaw
+                # changes (e.g. letters). Opening remains corroborating evidence.
                 release = a + 1
+                release_opening_observed = bool(
+                    opening[max(pickup, a - window) : min(n, b + 8)].any()
+                )
                 break
     if release is None:
         reasons.append("release_not_verified")
@@ -111,6 +136,8 @@ def score_hypothesis(
         score=score,
         components=scores,
         closure_score=closure,
+        closure_observed=closure_observed,
+        release_opening_observed=release_opening_observed,
         pickup_frame=pickup,
         release_frame=release,
         accepted=not reasons,

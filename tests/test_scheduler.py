@@ -46,3 +46,40 @@ def test_endpoint_clear_but_swept_collision_rejected():
 def test_no_safe_left_priority_path_fails_explicitly():
     with pytest.raises(ValueError, match="no safe schedule"):
         schedule_sources(3, 2, lambda i, j, ni, nj: ni != 1)
+
+
+def test_astar_matches_exhaustive_small_schedules():
+    from collections import deque
+
+    rng = np.random.default_rng(23)
+    for priority in [False, True]:
+        for _ in range(30):
+            n, m = 4, 4
+            blocked = rng.random((n, m)) < 0.2
+            blocked[0, 0] = False
+            blocked[-1, -1] = False
+
+            def safe(i, j, ni, nj):
+                return not blocked[i, j] and not blocked[ni, nj]
+
+            queue = deque([(0, 0, 0)])
+            seen = {(0, 0)}
+            optimum = None
+            while queue:
+                i, j, cost = queue.popleft()
+                if (i, j) == (n - 1, m - 1):
+                    optimum = cost + 1
+                    break
+                for di, dj in [(1, 1), (1, 0), (0, 1)]:
+                    if priority and di == 0 and i < n - 1:
+                        continue
+                    a, b = i + di, j + dj
+                    if a < n and b < m and (a, b) not in seen and safe(i, j, a, b):
+                        seen.add((a, b))
+                        queue.append((a, b, cost + 1))
+            if optimum is None:
+                with pytest.raises(ValueError, match="no safe schedule"):
+                    schedule_sources(n, m, safe, left_priority=priority)
+            else:
+                plan = schedule_sources(n, m, safe, left_priority=priority)
+                assert len(plan.left) == optimum

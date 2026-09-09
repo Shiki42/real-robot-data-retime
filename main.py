@@ -11,6 +11,7 @@ def main():
     p.add_argument("--input", type=Path)
     p.add_argument("--debug-dir", type=Path)
     p.add_argument("--task", choices=["drawer", "letters", "workpiece"])
+    p.add_argument("--backend", choices=["sam2", "geometry"], default="sam2")
     a = p.parse_args()
     if bool(a.video) == bool(a.input):
         p.error("provide exactly one input video")

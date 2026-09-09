@@ -196,6 +196,7 @@ def track_candidates(frames, proposals, grippers=None):
                     (hue < 7)
                     & (hsv[:, :, 1] > max(65, p["color"][1] * 0.45))
                     & (hsv[:, :, 2] > max(12, p["color"][2] * 0.2))
+                    & (hsv[:, :, 2] < min(256, p["color"][2] * 2 + 15))
                 )
             else:
                 mask = hsv[:, :, 2] < min(110, p["color"][2] + 45)
@@ -249,3 +250,32 @@ def track_candidates(frames, proposals, grippers=None):
             dict(proposal=p, centers=centers, areas=areas, confidence=confidence)
         )
     return tracks
+
+
+def task_object_proposals(frames, task, config=InteractionConfig()):
+    """Apply shared scene priors, never per-episode coordinates or object IDs."""
+    kind = "dark" if task == "workpiece" else "saturated"
+    proposals = object_proposals(frames, kind, config)
+    h, w = frames.shape[1:3]
+    if task == "drawer":
+        hsv = cv2.cvtColor(frames[0], cv2.COLOR_BGR2HSV)
+        red = (
+            ((hsv[:, :, 0] < 12) | (hsv[:, :, 0] > 170))
+            & (hsv[:, :, 1] > 120)
+            & (hsv[:, :, 2] > 70)
+        )
+        boxes = components(red, int(h * w * 0.005))
+        if not boxes:
+            raise ValueError("drawer cabinet not discovered from scene")
+        _, stat, _ = max(boxes, key=lambda x: x[1][4])
+        y_limit = stat[1] + stat[3] + h * 0.15
+        return [
+            p
+            for p in proposals
+            if p["origin"][1] > y_limit and p["color"][1] > 110 and p["color"][2] > 60
+        ]
+    return [
+        p
+        for p in proposals
+        if w * 0.2 < p["origin"][0] < w * 0.8 and p["origin"][1] > h * 0.48
+    ]

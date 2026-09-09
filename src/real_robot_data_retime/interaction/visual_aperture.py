@@ -10,6 +10,9 @@ from torchvision.models import resnet18, ResNet18_Weights
 
 def build_model(pretrained=True):
     model = resnet18(weights=ResNet18_Weights.DEFAULT if pretrained else None)
+    # Preserve finger-scale spatial features instead of downsampling them away.
+    model.layer4[0].conv1.stride = (1, 1)
+    model.layer4[0].downsample[0].stride = (1, 1)
     model.avgpool = nn.AdaptiveAvgPool2d((2, 3))
     model.fc = nn.Sequential(
         nn.Flatten(),
@@ -29,7 +32,7 @@ def prepare_images(inputs):
 
 def predict_aperture(frames, checkpoint: Path, batch_size=64):
     payload = torch.load(checkpoint, map_location="cpu", weights_only=True)
-    if payload["preprocessing"] != "local_contrast_v1":
+    if payload["preprocessing"] != "local_contrast_stride16_v1":
         raise ValueError("checkpoint preprocessing does not match visual model")
     model = build_model(pretrained=False).cuda().eval()
     model.load_state_dict(payload["model"])

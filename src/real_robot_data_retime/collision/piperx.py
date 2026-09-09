@@ -130,3 +130,23 @@ class PiperXClearance:
             if not self._clear(*poses):
                 return False
         return True
+
+    def arm_clears_volume(self, side, source_index, volume, margin=0.02):
+        """Exact arm meshes against a conservative oriented scene volume."""
+        rotation, lo, hi = volume
+        geometry = self.fcl.Box(*(hi - lo))
+        placement = self.fcl.Transform3f(rotation, rotation @ ((lo + hi) / 2))
+        matrices = self.poses[side][source_index][0]
+        for mesh, matrix in zip(self.geometry, matrices):
+            pose = self.fcl.Transform3f(matrix[:3, :3], matrix[:3, 3])
+            distance = self.fcl.distance(
+                mesh,
+                pose,
+                geometry,
+                placement,
+                self.fcl.DistanceRequest(),
+                self.fcl.DistanceResult(),
+            )
+            if distance < margin:
+                return False
+        return True

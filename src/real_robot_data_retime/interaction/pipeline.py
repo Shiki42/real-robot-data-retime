@@ -1,5 +1,5 @@
 import json
-from dataclasses import asdict
+from dataclasses import asdict, replace
 from pathlib import Path
 import cv2
 import numpy as np
@@ -10,13 +10,16 @@ import matplotlib.pyplot as plt
 from .discovery import (
     InteractionConfig,
     motion_and_grippers,
+    task_object_proposals,
     object_proposals,
     track_candidates,
 )
 from .evidence import score_hypothesis, stable_runs
+from scipy.ndimage import median_filter
 from .video import read_video, write_video
 from ..tasks import PROFILES
 from .registration import stabilize
+from .verification import validate_origin_departure, pickup_interval
 
 
 def discover_task(frames):
@@ -34,7 +37,7 @@ def discover_task(frames):
     return "letters" if np.mean(colored) > 0.009 else "workpiece"
 
 
-def run(input_path, output_dir, task=None, config=InteractionConfig()):
+def run(input_path, output_dir, task=None, config=InteractionConfig(), backend="sam2"):
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
     frames, fps = read_video(input_path, width=424)
@@ -42,16 +45,112 @@ def run(input_path, output_dir, task=None, config=InteractionConfig()):
     task = task or discover_task(frames)
     profile = PROFILES[task]
     evidence = motion_and_grippers(frames)
-    proposals = object_proposals(frames, profile["object_kind"], config)
-    tracks = track_candidates(frames, proposals, evidence["centers"])
+    proposals = task_object_proposals(frames, task, config)
+    retries = []
+    contact_distances = None
+    if backend == "sam2":
+        from .neural_tracks import (
+            segment_candidates,
+            recover_candidates,
+            object_gripper_distances,
+            terminal_letter_recovery,
+        )
+        from ..segmentation.sam_backend import SamVideo
+
+        config = replace(
+            config, evidence_frames=max(config.evidence_frames, round(fps * 2))
+        )
+        sam = SamVideo(
+            "facebook/sam2.1-hiera-large"
+            if task == "workpiece"
+            else "facebook/sam2.1-hiera-small"
+        )
+        from .cache import gripper_cache
+
+        grippers = gripper_cache(
+            frames, evidence, sam, Path.home() / ".cache" / "real-robot-data-retime"
+        )
+        evidence["centers"] = grippers["centers"]
+        evidence["apertures"] = grippers["apertures"]
+        tracks = segment_candidates(frames, proposals, evidence, sam)
+        tracks, retries = recover_candidates(frames, proposals, tracks, evidence, sam)
+        if task == "letters":
+            tracks, terminal_retries = terminal_letter_recovery(
+                frames, proposals, tracks, sam
+            )
+            retries.extend(terminal_retries)
+        contact_distances = object_gripper_distances(grippers["masks"], tracks)
+        np.savez_compressed(
+            output_dir / "segmentation.npz",
+            frame_shape=frames.shape[1:3],
+            grippers=np.packbits(grippers["masks"], axis=-1),
+            objects=np.array([t["packed_masks"] for t in tracks]),
+        )
+    elif backend == "geometry":
+        tracks = track_candidates(frames, proposals, evidence["centers"])
+    else:
+        raise ValueError(f"unknown tracking backend: {backend}")
+    drawer_motion = None
+    if task == "drawer" and backend == "sam2":
+        from ..tracking.points import track_points
+        from ..tasks.drawer_constraints import (
+            discover_drawer_motion,
+            drawer_area_motion,
+        )
+
+        handle_proposals = object_proposals(frames, "saturated", config)
+        xy, visible, sampled_indices = track_points(frames, handle_proposals)
+        np.savez_compressed(
+            output_dir / "drawer_point_tracks.npz",
+            xy=xy,
+            visible=visible,
+            source_indices=sampled_indices,
+        )
+        motion = discover_drawer_motion(
+            xy.transpose(1, 0, 2),
+            evidence["centers"][sampled_indices, 1],
+            fps / 3,
+            frames.shape[2],
+        )
+        if motion is None:
+            drawer_motion, drawer_area = drawer_area_motion(
+                frames, fps, evidence["centers"][:, 1]
+            )
+            np.save(output_dir / "drawer_area.npy", drawer_area)
+        else:
+            drawer_motion = dict(
+                open_frame=int(sampled_indices[motion.open_frame]),
+                pull_start=int(sampled_indices[motion.pull_start]),
+                close_start=int(sampled_indices[motion.close_start]),
+                confidence=motion.confidence,
+                handle_candidate=motion.handle_candidate,
+                reference_candidate=motion.reference_candidate,
+            )
     candidates = []
     for side in range(2):
         aperture = evidence["apertures"][:, side]
         if not np.isfinite(aperture).any():
             continue
-        threshold = max(1.0, float(np.nanmax(aperture) - np.nanmin(aperture)) * 0.08)
-        closure = np.diff(aperture) < -threshold
-        onset = [a + 1 for a, b in stable_runs(closure, 1)]
+        valid = np.isfinite(aperture)
+        aperture = median_filter(
+            np.interp(np.arange(len(frames)), np.flatnonzero(valid), aperture[valid]),
+            size=5,
+        )
+        threshold = max(1.0, float(np.ptp(aperture)) * 0.06)
+        closure = aperture[:-8] - aperture[8:] > threshold
+        onset = set(a + 4 for a, b in stable_runs(closure, 1))
+        # Also propose nearby motion onsets when aperture is weakly observable.
+        for track in tracks:
+            speed = np.linalg.norm(np.diff(track["centers"], axis=0), axis=1)
+            near = (
+                np.linalg.norm(
+                    track["centers"][:-1] - evidence["centers"][:-1, side], axis=1
+                )
+                < frames.shape[2] * 0.2
+            )
+            moving = (speed > frames.shape[2] * 0.0015) & near
+            onset.update(int(t) for t in np.flatnonzero(moving)[::3])
+        onset = sorted(onset)
         for frame in onset:
             if frame < 3 or frame >= len(frames) - config.evidence_frames:
                 continue
@@ -63,6 +162,9 @@ def run(input_path, output_dir, task=None, config=InteractionConfig()):
                     frame,
                     frames.shape[2],
                     config,
+                    contact_distance=None
+                    if contact_distances is None
+                    else contact_distances[k, :, side],
                 )
                 candidates.append(
                     dict(
@@ -76,29 +178,80 @@ def run(input_path, output_dir, task=None, config=InteractionConfig()):
     for c in sorted(candidates, key=lambda x: x["score"], reverse=True):
         if not c["accepted"]:
             continue
+        if any(c["object_id"] == x["object_id"] for x in selected):
+            continue
         if any(
             c["robot_id"] == x["robot_id"]
             and abs(c["pickup_frame"] - x["pickup_frame"]) < config.evidence_frames
             for x in selected
         ):
             continue
+        side = ["left", "right"].index(c["robot_id"])
+        verification = validate_origin_departure(
+            frames,
+            proposals[c["object_id"]],
+            evidence["centers"][:, side],
+            c["pickup_frame"],
+            c["release_frame"],
+        )
+        c["origin_verification"] = verification
+        if not verification["verified"]:
+            c["accepted"] = False
+            c["rejection_reasons"].append(verification["reason"])
+            continue
+        object_path = tracks[c["object_id"]]["centers"]
+        interval = pickup_interval(
+            object_path,
+            evidence["centers"][:, side],
+            proposals[c["object_id"]],
+            c["pickup_frame"],
+            fps,
+        )
+        c["pickup_evidence"] = interval
+        c["pickup_frame"] = interval["pickup_frame"]
+        c["grasp_start"] = min(c["grasp_start"], c["pickup_frame"])
+
+        velocity = np.linalg.norm(np.diff(evidence["centers"][:, side], axis=0), axis=1)
+        active = np.flatnonzero(velocity > frames.shape[2] * 0.002)
+        preceding = active[active < c["grasp_start"]]
+        following = active[active >= c["release_frame"]]
+        c["approach_start"] = int(preceding[0]) if len(preceding) else c["grasp_start"]
+        c["retract_end"] = (
+            int(following[-1] + 1) if len(following) else c["release_frame"]
+        )
+        c["object_origin"] = proposals[c["object_id"]]["origin"].tolist()
+        c["transport_start"] = c["pickup_frame"]
+        c["track_confidence"] = float(
+            np.isfinite(object_path[c["pickup_frame"] : c["release_frame"]])
+            .all(axis=1)
+            .mean()
+        )
         selected.append(c)
+    from ..timeline.episode import assign_boundaries
+
+    selected = assign_boundaries(selected, evidence["centers"], fps, frames.shape[2])
     timeline = {
         "task": task,
         "fps": fps,
         "source_frames": len(frames),
         "episodes": sorted(selected, key=lambda x: x["pickup_frame"]),
+        "drawer_motion": drawer_motion,
     }
     report = dict(
         success=False,
         phase="interaction_understanding",
+        backend=backend,
+        expected_objects=profile["expected_objects"],
+        retries=retries,
         task=task,
-        num_robot_arms=int(np.sum(np.isfinite(evidence["centers"]).all(axis=(0, 2)))),
+        num_robot_arms=int(
+            np.sum(np.isfinite(evidence["centers"]).all(axis=2).any(axis=0))
+        ),
         num_object_proposals=len(proposals),
         num_manipulation_episodes=len(selected),
         status="requires_automatic_verification",
         limitations=[
-            "geometry gripper estimator has not passed real-video validation",
+            "gripper aperture has not passed cross-scene event validation",
             "occluded object tracks require segmentation-guided recovery",
         ],
         config=asdict(config),

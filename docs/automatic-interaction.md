@@ -66,3 +66,34 @@ This is a measured domain shift, not a successful Phase 1 result. A revised
 local-contrast preprocessing and event-weighted training run is being evaluated.
 Its checkpoint contract explicitly records preprocessing to prevent applying
 new image normalization to an old RGB model.
+
+## New causal checks and measured scheduling results
+
+Opening is corroborating evidence, not a mandatory large-amplitude trigger:
+letters episode 0's first manipulation has only about 2 mm recorded jaw change,
+and deposition does not show a large opening. Observed object transport followed
+by stationary deposition and gripper separation is therefore required even when
+aperture is weak. A track is rejected if its original object remains visible.
+
+For independent tasks, both sample episodes passed swept mesh checks with left
+priority: letters 1048→909 and 1048→878 source frames; workpieces 1063→881 and
+952→784. These are joint scheduling checks, not visual-edit completion claims.
+
+Drawer sample 0: automatic handle tracking identifies an open dwell around
+frame 159 and closing near 435. Forward/backward cube tracking estimates pickup
+303, with observed uncertainty interval [303,318], and confirms release around
+382. The image-space entry gate is around 344; a conservative drawer-volume
+proxy moves the latest safe held wait earlier, to around 338 in the first audit.
+The proxy is an estimated scene volume, not a measured drawer CAD model.
+
+Additional checks now include true mask-to-object proximity, one-to-one terminal
+letter matching, negative prompts from other objects, large-SAM2 retries for
+identity conflicts, and pickup uncertainty intervals. Large SAM2 recovered the
+letter T trajectory after the small model switched to N. Cabinet-relative
+point motion and normalized interior-area motion are separate drawer hypotheses,
+since one recorded episode moves the entire cabinet while closing.
+
+A* scheduling matches exhaustive small-grid optima and the earlier exact dynamic
+program's four real-sample output lengths, while reducing their search times.
+Batch errors retain full tracebacks and per-video failure reports; failed batches
+return a nonzero status after processing the remaining videos.

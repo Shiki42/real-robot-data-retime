@@ -35,3 +35,31 @@ def test_occlusion_cannot_be_counted_as_correlated_motion():
     )
     assert not result["accepted"]
     assert "insufficient_future_visibility" in result["rejection_reasons"]
+
+
+def test_release_accepts_gradual_opening_with_stationary_object():
+    n = 100
+    obj = np.zeros((n, 2))
+    obj[30:65, 0] = np.arange(35)
+    obj[65:, 0] = 34
+    grip = obj.copy()
+    grip[65:, 0] = 34 + np.arange(35) * 2
+    aperture = np.r_[
+        np.full(30, 20), np.full(30, 2), np.linspace(2, 20, 20), np.full(20, 20)
+    ]
+    result = score_hypothesis(obj, grip, aperture, 30, 100)
+    assert result["accepted"], result
+    assert result["release_frame"] is not None
+
+
+def test_tiny_aperture_change_does_not_override_observed_manipulation():
+    n = 100
+    obj = np.zeros((n, 2))
+    obj[30:65, 0] = np.arange(35)
+    obj[65:, 0] = 34
+    grip = obj.copy()
+    grip[65:, 0] = 34 + np.arange(35) * 2
+    result = score_hypothesis(obj, grip, np.full(n, 49.4), 30, 100)
+    assert result["accepted"], result
+    assert not result["release_opening_observed"]
+    assert not result["closure_observed"]

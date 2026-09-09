@@ -72,6 +72,7 @@ def main():
     p.add_argument("--output", type=Path, required=True)
     p.add_argument("--task", required=True)
     p.add_argument("--epochs", type=int, default=16)
+    p.add_argument("--initial-checkpoint", type=Path)
     a = p.parse_args()
     torch.manual_seed(42)
     np.random.seed(42)
@@ -85,7 +86,7 @@ def main():
     loaders = [
         DataLoader(
             d,
-            batch_size=64,
+            batch_size=32,
             sampler=torch.utils.data.WeightedRandomSampler(
                 d.weights, len(d), replacement=True
             )
@@ -98,6 +99,11 @@ def main():
         for i, d in enumerate([train, val])
     ]
     model = build_model().cuda()
+    if a.initial_checkpoint:
+        payload = torch.load(
+            a.initial_checkpoint, map_location="cpu", weights_only=True
+        )
+        model.load_state_dict(payload["model"])
     optimizer = torch.optim.AdamW(model.parameters(), lr=1e-4, weight_decay=0.01)
     normalize = v2.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
     augment = v2.Compose(
@@ -116,7 +122,17 @@ def main():
             y = y.cuda(non_blocking=True)
             optimizer.zero_grad(set_to_none=True)
             with torch.autocast("cuda", dtype=torch.bfloat16):
-                pred = model(normalize(prepare_images(augment(x))))
+                # Automatically randomize low-saturation bright surfaces to
+                # expose dark-table appearances without changing jaw geometry.
+                brightness = x.amax(dim=1, keepdim=True)
+                saturation = (
+                    brightness - x.amin(dim=1, keepdim=True)
+                ) / brightness.clamp_min(0.01)
+                surface = (brightness > 0.42) & (saturation < 0.28)
+                tint = torch.rand((len(x), 3, 1, 1), device=x.device) * 0.8 + 0.05
+                blend = torch.rand((len(x), 1, 1, 1), device=x.device)
+                jittered = torch.where(surface, x * (1 - blend) + tint * blend, x)
+                pred = model(normalize(prepare_images(augment(jittered))))
                 loss = nn.functional.smooth_l1_loss(pred, y, beta=0.1)
             loss.backward()
             torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
@@ -155,7 +171,7 @@ def main():
             torch.save(
                 {
                     "model": model.state_dict(),
-                    "preprocessing": "local_contrast_v1",
+                    "preprocessing": "local_contrast_stride16_v1",
                     "task": a.task,
                     "train_episodes": train.episodes,
                     "validation_episodes": val.episodes,

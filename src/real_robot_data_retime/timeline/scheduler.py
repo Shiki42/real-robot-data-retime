@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from heapq import heappop, heappush
 from typing import Callable
 import numpy as np
 
@@ -19,47 +20,56 @@ def schedule_sources(
     dependency: Callable[[int, int], bool] = lambda i, j: True,
     left_priority: bool = True,
 ) -> Schedule:
-    """Shortest monotone path through original poses, including swept edges.
+    """Shortest monotone path through recorded poses, including swept edges.
 
-    Never skip source frames or invent poses. Under left priority the left arm
-    advances every frame until finished; backward reachability chooses right
-    waiting positions that remain safe throughout the left arm's future motion.
-    With task dependencies either arm may wait, and duration is minimized.
-    `safe(i,j,ni,nj)` must check the complete transition, including endpoints.
+    A* uses remaining source-frame counts as an admissible duration bound. It
+    searches complete paths, so a tempting right pose with no safe future escape
+    is rejected. Left priority forbids left waits before its trajectory ends.
+    Every edge advances one or both source indices; source poses are never skipped.
+    `safe(i,j,ni,nj)` checks the complete transition, including both endpoints.
     """
     if min(length_left, length_right) < 1:
         raise ValueError("source trajectories must be nonempty")
     n, m = length_left, length_right
-    unreachable = np.iinfo(np.int32).max // 2
-    cost = np.full((n, m), unreachable, dtype=np.int32)
-    choice = np.zeros((n, m), dtype=np.uint8)
-    if not dependency(n - 1, m - 1) or not safe(n - 1, m - 1, n - 1, m - 1):
+    goal = (n - 1, m - 1)
+    if not dependency(*goal) or not safe(*goal, *goal):
         raise ValueError("terminal configuration is unsafe or violates dependency")
-    cost[-1, -1] = 0
-    for i in range(n - 1, -1, -1):
-        for j in range(m - 1, -1, -1):
-            if (i == n - 1 and j == m - 1) or not dependency(i, j):
-                continue
-            # Ties favor simultaneous progress, then left-only progress.
-            edges = [(1, 1, 1), (1, 0, 2)]
-            if not left_priority or i == n - 1:
-                edges.append((0, 1, 3))
-            for di, dj, code in edges:
-                ni, nj = i + di, j + dj
-                if ni >= n or nj >= m or cost[ni, nj] == unreachable:
-                    continue
-                candidate = 1 + cost[ni, nj]
-                if candidate < cost[i, j] and safe(i, j, ni, nj):
-                    cost[i, j], choice[i, j] = candidate, code
-    if cost[0, 0] == unreachable:
+    if not dependency(0, 0):
         raise ValueError("no safe schedule preserving source trajectories and priority")
-    points = [(0, 0)]
-    increments = {1: (1, 1), 2: (1, 0), 3: (0, 1)}
-    while points[-1] != (n - 1, m - 1):
-        i, j = points[-1]
-        di, dj = increments[int(choice[i, j])]
-        points.append((i + di, j + dj))
-    values = np.asarray(points, dtype=np.int64)
+    frontier = [(max(n - 1, m - 1), 0, 0, 0, 0)]
+    costs = {(0, 0): 0}
+    parent = {}
+    reached = False
+    while frontier:
+        priority, _, _, i, j = heappop(frontier)
+        g = costs[i, j]
+        if priority != g + max(n - 1 - i, m - 1 - j):
+            continue
+        if (i, j) == goal:
+            reached = True
+            break
+        moves = [(1, 1), (1, 0)]
+        if not left_priority or i == n - 1:
+            moves.append((0, 1))
+        for di, dj in moves:
+            ni, nj = i + di, j + dj
+            if ni >= n or nj >= m or not dependency(ni, nj):
+                continue
+            new_cost = g + 1
+            if new_cost >= costs.get((ni, nj), n + m + 1):
+                continue
+            if not safe(i, j, ni, nj):
+                continue
+            costs[ni, nj] = new_cost
+            parent[ni, nj] = (i, j)
+            lower_bound = max(n - 1 - ni, m - 1 - nj)
+            heappush(frontier, (new_cost + lower_bound, -ni - nj, -nj, ni, nj))
+    if not reached:
+        raise ValueError("no safe schedule preserving source trajectories and priority")
+    points = [goal]
+    while points[-1] != (0, 0):
+        points.append(parent[points[-1]])
+    values = np.asarray(points[::-1], dtype=np.int64)
     return Schedule(
         values[:, 0],
         values[:, 1],
