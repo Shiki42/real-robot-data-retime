@@ -64,16 +64,31 @@ def segment_grippers(frames, geometry, sam=None):
         box = [x0, y0, min(w, x + radius) - x0, min(h, y + radius) - y0]
         seeds.append(dict(frame=t, bbox=box))
         for reverse in [False, True]:
+            last_tip = None
             for idx, masks in sam.propagate(
                 frames, [{"bbox": box}], seed_frame=t, reverse=reverse
             ):
-                masks_by_side[idx, side] = masks[0]
                 yy, xx = np.where(masks[0])
                 if len(xx) < 10:
                     continue
                 quantile = np.percentile(xx, 90 if side == 0 else 10)
                 distal = xx >= quantile if side == 0 else xx <= quantile
-                centers[idx, side] = [np.median(xx[distal]), np.median(yy[distal])]
+                tip = np.array([np.median(xx[distal]), np.median(yy[distal])])
+                reference = geometry["centers"][idx, side]
+                if (
+                    np.isfinite(reference).all()
+                    and np.linalg.norm(tip - reference) > w * 0.28
+                ):
+                    continue
+                if last_tip is not None and np.linalg.norm(tip - last_tip) > w * 0.18:
+                    if (
+                        not np.isfinite(reference).all()
+                        or np.linalg.norm(tip - reference) > w * 0.1
+                    ):
+                        continue
+                last_tip = tip
+                masks_by_side[idx, side] = masks[0]
+                centers[idx, side] = tip
                 apertures[idx, side] = np.percentile(yy[distal], 90) - np.percentile(
                     yy[distal], 10
                 )
@@ -359,3 +374,21 @@ def terminal_letter_recovery(frames, proposals, tracks, sam):
             if "packed_masks" in tracks[k]:
                 tracks[k]["packed_masks"][observed] = recovered_masks[observed]
     return tracks, retries
+
+
+def segment_robots(frames, geometry, sam):
+    """Track whole articulated arms using automatically generated support points."""
+    from .robot_discovery import robot_prompt
+
+    n, h, w = frames.shape[:3]
+    packed = np.zeros((n, 2, h, (w + 7) // 8), np.uint8)
+    seeds = []
+    for side in [0, 1]:
+        seed, proposal = robot_prompt(frames, geometry, side)
+        seeds.append(dict(frame=seed, bbox=proposal["bbox"]))
+        for reverse in [False, True]:
+            for t, masks in sam.propagate(
+                frames, [proposal], seed_frame=seed, reverse=reverse
+            ):
+                packed[t, side] = np.packbits(masks[0], axis=-1)
+    return packed, seeds

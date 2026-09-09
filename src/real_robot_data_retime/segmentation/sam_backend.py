@@ -45,8 +45,9 @@ class SamVideo:
             labels = []
             for k, c in enumerate(centers):
                 others = [z for j, z in enumerate(centers) if j != k]
-                points.append([c, *others])
-                labels.append([1, *([0] * len(others))])
+                positives = proposals[k].get("positive_points", [c])
+                points.append([*positives, *others])
+                labels.append([*([1] * len(positives)), *([0] * len(others))])
             prompts = dict(input_points=[points], input_labels=[labels])
         self.processor.add_inputs_to_inference_session(
             session,

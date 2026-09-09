@@ -172,9 +172,8 @@ python batch.py --input-dir videos --output-dir debug
 ```
 
 It emits gripper tracks, apparent aperture, candidate videos, an interaction
-timeline, and a report. Current reports deliberately remain `success: false`
-until real-video tracking and event verification pass; producing diagnostic
-files is not proof that a video is ready for retiming. See
+timeline, and a report. Reports include explicit automatic verification gates. A diagnostic file alone
+is not proof that a video is ready for retiming; all interaction gates must pass. See
 [development evidence and constraints](docs/automatic-interaction.md).
 
 `timeline.scheduler.schedule_sources` supports left-priority waits and task

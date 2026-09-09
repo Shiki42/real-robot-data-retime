@@ -84,7 +84,11 @@ def score_hypothesis(
         if len(post)
         else 0.0
     )
-    attachment = float(np.mean(distance[post] < scale * 0.12)) if len(post) else 0.0
+    attachment = (
+        float(np.mean(proximity_distance[post] < scale * 0.12)) if len(post) else 0.0
+    )
+    if attachment < 0.5:
+        reasons.append("insufficient_persistent_attachment")
     finite_ap = aperture[np.isfinite(aperture)]
     span = float(np.ptp(finite_ap)) if len(finite_ap) else 0.0
     before = aperture[max(0, frame - 8) : frame]

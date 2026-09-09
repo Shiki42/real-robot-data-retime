@@ -112,7 +112,9 @@ class RetimePlan:
             "left_idle_seconds": [item.seconds(fps) for item in left_idle],
             "right_idle_seconds": [item.seconds(fps) for item in right_idle],
             "overlap_seconds": [item.seconds(fps) for item in overlap],
-            "both_idle_frames": int(np.count_nonzero(~self.left_active & ~self.right_active)),
+            "both_idle_frames": int(
+                np.count_nonzero(~self.left_active & ~self.right_active)
+            ),
         }
 
 
@@ -124,9 +126,7 @@ def arm_motion_energy(
     vector = _validate_vector(values)
     if arm not in ARM_SLICES:
         raise ValueError(f"unknown arm: {arm}")
-    per_frame_step = np.max(
-        np.abs(np.diff(vector[:, ARM_SLICES[arm]], axis=0)), axis=1
-    )
+    per_frame_step = np.max(np.abs(np.diff(vector[:, ARM_SLICES[arm]], axis=0)), axis=1)
     kernel = np.ones(heuristic.smoothing_frames) / heuristic.smoothing_frames
     smoothed = np.convolve(per_frame_step, kernel, mode="same")
     return np.maximum(smoothed - heuristic.noise_floor_per_frame, 0.0)
@@ -181,9 +181,7 @@ def build_uniform_schedule_plan(
     grid_size: int,
 ) -> RetimePlan:
     if grid_size < 1 or not 0 <= grid_index < grid_size:
-        raise ValueError(
-            f"grid index must be in [0, {grid_size}), got {grid_index}"
-        )
+        raise ValueError(f"grid index must be in [0, {grid_size}), got {grid_index}")
     total_duration = segments.left.length + segments.right.length
     schedule_position = _round_fraction(grid_index * total_duration, grid_size)
     if schedule_position <= segments.left.length:
@@ -203,12 +201,8 @@ def build_uniform_schedule_plan(
     if np.any(~left_active & ~right_active):
         raise ValueError("retime schedule introduced a both-idle gap")
     return RetimePlan(
-        left_source_indices=_scheduled_indices(
-            timeline, left_start, segments.left
-        ),
-        right_source_indices=_scheduled_indices(
-            timeline, right_start, segments.right
-        ),
+        left_source_indices=_scheduled_indices(timeline, left_start, segments.left),
+        right_source_indices=_scheduled_indices(timeline, right_start, segments.right),
         left_active=left_active,
         right_active=right_active,
         left_start_frame=left_start,
@@ -235,7 +229,9 @@ def boolean_ranges(mask: np.ndarray) -> list[FrameRange]:
 
 def materialize_dual_arm(values: np.ndarray, plan: RetimePlan) -> np.ndarray:
     vector = _validate_vector(values)
-    if max(plan.left_source_indices.max(), plan.right_source_indices.max()) >= len(vector):
+    if max(plan.left_source_indices.max(), plan.right_source_indices.max()) >= len(
+        vector
+    ):
         raise IndexError("retime source index is outside the episode")
     return np.concatenate(
         (
@@ -303,9 +299,7 @@ def _cross_motion_ratios(
     )
 
 
-def _active_mask(
-    timeline: np.ndarray, start: int, duration: int
-) -> np.ndarray:
+def _active_mask(timeline: np.ndarray, start: int, duration: int) -> np.ndarray:
     return (timeline >= start) & (timeline < start + duration)
 
 
@@ -345,3 +339,12 @@ def _validate_heuristic(heuristic: MotionHeuristic) -> None:
         raise ValueError("boundary_energy_fraction must be in [0, 0.5)")
     if not 0 <= heuristic.maximum_cross_motion_ratio < 1:
         raise ValueError("maximum_cross_motion_ratio must be in [0, 1)")
+
+
+def detect_motion_interval(
+    values: np.ndarray, arm: str, heuristic: MotionHeuristic = MotionHeuristic()
+) -> ArmSegment:
+    """One arm's active span without assuming cross-arm task independence."""
+    _validate_heuristic(heuristic)
+    energy = arm_motion_energy(values, arm, heuristic)
+    return _energy_segment(energy, 0, len(energy), heuristic)

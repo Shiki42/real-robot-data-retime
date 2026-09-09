@@ -97,3 +97,16 @@ A* scheduling matches exhaustive small-grid optima and the earlier exact dynamic
 program's four real-sample output lengths, while reducing their search times.
 Batch errors retain full tracebacks and per-video failure reports; failed batches
 return a nonzero status after processing the remaining videos.
+
+The short-term camera tracker was found to follow robot motion, producing a
+false approximately 40 px shift in a letter sample. It was replaced with
+reference-frame ORB matching and long-term background consistency. On the three
+sample-0 videos, accepted background shifts are approximately 1–2 px; synthetic
+camera/foreground-motion separation tests pass. Gripper identity is additionally
+constrained by entry-edge motion support to prevent same-looking arm swaps.
+
+Reports now expose automatic gates (arm count, object coverage, persistent track
+visibility, original-location departure, task roles and drawer state). Passing
+these per-video checks is distinct from the subsequent visual-compositing and
+full-dataset release gates. Models trained for aperture experiments remain
+auxiliary research artifacts; the video workflow does not read sensor labels.

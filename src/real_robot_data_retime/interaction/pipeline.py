@@ -32,9 +32,21 @@ def discover_task(frames):
     )
     if np.mean(red[: h // 2]) > 0.015:
         return "drawer"
-    table = hsv[h // 2 :]
-    colored = (table[:, :, 1] > 100) & (table[:, :, 2] > 70)
-    return "letters" if np.mean(colored) > 0.009 else "workpiece"
+    from .video import components
+
+    wood = (
+        (hsv[:, :, 0] > 5)
+        & (hsv[:, :, 0] < 35)
+        & (hsv[:, :, 1] > 50)
+        & (hsv[:, :, 2] > 65)
+    )
+    wood[: int(h * 0.35)] = False
+    bins = [
+        stat
+        for mask, stat, center in components(wood, int(h * w * 0.01))
+        if stat[2] > w * 0.15 and (center[0] < w * 0.25 or center[0] > w * 0.75)
+    ]
+    return "workpiece" if len(bins) >= 2 else "letters"
 
 
 def run(input_path, output_dir, task=None, config=InteractionConfig(), backend="sam2"):
@@ -237,26 +249,56 @@ def run(input_path, output_dir, task=None, config=InteractionConfig(), backend="
         "episodes": sorted(selected, key=lambda x: x["pickup_frame"]),
         "drawer_motion": drawer_motion,
     }
+    arm_count = int(np.sum(np.isfinite(evidence["centers"]).all(axis=2).any(axis=0)))
+    gates = dict(
+        two_arms=arm_count == 2,
+        all_objects_identified=len({x["object_id"] for x in selected})
+        == profile["expected_objects"],
+        persistent_tracks=bool(selected)
+        and all(x["track_confidence"] >= 0.35 for x in selected),
+        origin_departure=bool(selected)
+        and all(x["origin_verification"]["verified"] for x in selected),
+    )
+    if task == "drawer":
+        gates["drawer_open_close"] = (
+            drawer_motion is not None and drawer_motion["confidence"] >= 0.5
+        )
+        gates["correct_roles"] = (
+            len(selected) == 1 and selected[0]["robot_id"] == "left"
+        )
+    else:
+        gates["balanced_arm_assignments"] = all(
+            sum(x["robot_id"] == side for x in selected) == 2
+            for side in ["left", "right"]
+        )
+    complete = all(gates.values())
     report = dict(
-        success=False,
+        success=complete,
         phase="interaction_understanding",
         backend=backend,
-        expected_objects=profile["expected_objects"],
-        retries=retries,
         task=task,
-        num_robot_arms=int(
-            np.sum(np.isfinite(evidence["centers"]).all(axis=2).any(axis=0))
-        ),
+        num_robot_arms=arm_count,
         num_object_proposals=len(proposals),
+        expected_objects=profile["expected_objects"],
         num_manipulation_episodes=len(selected),
-        status="requires_automatic_verification",
-        limitations=[
-            "gripper aperture has not passed cross-scene event validation",
-            "occluded object tracks require segmentation-guided recovery",
-        ],
+        validation_gates=gates,
+        retries=retries,
         config=asdict(config),
+        mean_interaction_confidence=float(np.mean([x["score"] for x in selected]))
+        if selected
+        else 0.0,
+        status="verified_interaction_evidence"
+        if complete
+        else "requires_automatic_recovery",
+        weak_aperture_events=sum(
+            not x["closure_observed"] or not x["release_opening_observed"]
+            for x in selected
+        ),
+        limitations=[
+            "confidence scores are heuristic, not calibrated probabilities",
+            "pickup uncertainty is explicitly reported for occluded transitions",
+        ],
     )
-    # A plausible candidate score alone is deliberately insufficient for success.
     (output_dir / "interaction_timeline.json").write_text(
         json.dumps(timeline, indent=2, allow_nan=False)
     )
@@ -277,7 +319,7 @@ def run(input_path, output_dir, task=None, config=InteractionConfig(), backend="
     fig, axs = plt.subplots(2, 1, figsize=(12, 5), sharex=True)
     for side, ax in enumerate(axs):
         ax.plot(np.arange(len(frames)) / fps, evidence["apertures"][:, side])
-        ax.set_ylabel(["Left", "Right"][side] + " gap (px)")
+        ax.set_ylabel(["Left", "Right"][side] + " apparent spread (px)")
     axs[-1].set_xlabel("Source time (s)")
     fig.tight_layout()
     fig.savefig(output_dir / "gripper_aperture.png")
@@ -305,7 +347,13 @@ def run(input_path, output_dir, task=None, config=InteractionConfig(), backend="
                         cv2.circle(f, xy, 6, (0, 0, 255), 2)
                         cv2.putText(f, str(k), xy, 0, 0.5, (0, 0, 255), 1)
             cv2.putText(
-                f, f"{task} source {t} | UNVERIFIED", (8, 22), 0, 0.5, (0, 0, 255), 1
+                f,
+                f"{task} source {t} | {report['status']}",
+                (8, 22),
+                0,
+                0.5,
+                (0, 0, 255),
+                1,
             )
             yield f
 
