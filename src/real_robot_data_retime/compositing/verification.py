@@ -19,11 +19,29 @@ class OriginAudit:
             template = cv2.cvtColor(frames[0][roi], cv2.COLOR_BGR2GRAY)
             if template.std() < 3:
                 raise ValueError("object origin has insufficient appearance contrast")
+            hsv = cv2.cvtColor(frames[0], cv2.COLOR_BGR2HSV)
+            pixels = hsv[yy, xx]
+            saturated = pixels[pixels[:, 1] > 70]
+            color = None
+            if len(saturated) > len(pixels) * 0.5:
+                angles = saturated[:, 0].astype(float) * (2 * np.pi / 180)
+                hue = float(
+                    np.arctan2(np.sin(angles).mean(), np.cos(angles).mean())
+                    * 180
+                    / (2 * np.pi)
+                    % 180
+                )
+                saturation = max(50.0, float(np.percentile(saturated[:, 1], 10)) * 0.65)
+                color = (hue, saturation)
             self.items.append(
                 dict(
                     event=event,
                     roi=roi,
                     template=template,
+                    color=color,
+                    color_reference=self.color_count(frames[0][roi], color)
+                    if color
+                    else 0,
                     observations=0,
                     duplicates=0,
                 )
@@ -39,26 +57,50 @@ class OriginAudit:
             roi = item["roi"]
             if foreground[roi].mean() > 0.1:
                 continue
-            expected = cv2.cvtColor(source_frames[t][roi], cv2.COLOR_BGR2GRAY)
-            rendered = cv2.cvtColor(frame[roi], cv2.COLOR_BGR2GRAY)
-            source_score = float(
-                cv2.matchTemplate(expected, item["template"], cv2.TM_CCOEFF_NORMED)[
-                    0, 0
-                ]
-            )
-            rendered_score = float(
-                cv2.matchTemplate(rendered, item["template"], cv2.TM_CCOEFF_NORMED)[
-                    0, 0
-                ]
-            )
-            if source_score < 0.5:
+            if item["color"] is not None:
+                expected = self.color_count(source_frames[t][roi], item["color"])
+                rendered = self.color_count(frame[roi], item["color"])
+                absent = expected < max(2, item["color_reference"] * 0.1)
+                duplicate = rendered > max(3, item["color_reference"] * 0.35)
+            else:
+                expected = cv2.cvtColor(source_frames[t][roi], cv2.COLOR_BGR2GRAY)
+                rendered = cv2.cvtColor(frame[roi], cv2.COLOR_BGR2GRAY)
+                source_score = float(
+                    cv2.matchTemplate(expected, item["template"], cv2.TM_CCOEFF_NORMED)[
+                        0, 0
+                    ]
+                )
+                rendered_score = float(
+                    cv2.matchTemplate(rendered, item["template"], cv2.TM_CCOEFF_NORMED)[
+                        0, 0
+                    ]
+                )
+                absent = source_score < 0.5
+                duplicate = rendered_score > 0.8
+            if absent:
                 item["observations"] += 1
-                item["duplicates"] += int(rendered_score > 0.8)
+                item["duplicates"] += int(duplicate)
+
+    @staticmethod
+    def color_count(image, color):
+        hue, saturation = color
+        hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV).astype(float)
+        delta = np.abs(hsv[:, :, 0] - hue)
+        return int(
+            (
+                (np.minimum(delta, 180 - delta) < 10)
+                & (hsv[:, :, 1] > saturation)
+                & (hsv[:, :, 2] > 25)
+            ).sum()
+        )
 
     def report(self):
         entries = [
             dict(
                 object_id=i["event"]["object_id"],
+                appearance_method="chromatic_occupancy"
+                if i["color"]
+                else "template_correlation",
                 robot_id=i["event"]["robot_id"],
                 clear_origin_observations=i["observations"],
                 duplicate_observations=i["duplicates"],

@@ -165,3 +165,12 @@ those repeated images were captured observations.
 joint scheduling, native main-view compositing, wrist remapping, telemetry remapping,
 source-index receipts and LeRobot v3 metadata/statistics. It is undergoing pilot validation;
 no complete retimed dataset has been published yet. Episode failure prevents finalization.
+
+Native-resolution validation exposed two further issues. Reflective wrist collars can
+split the arm silhouette; the end-effector distance map now bridges small gaps while
+keeping original foreground pixels. An unobserved object's projected footprint can also
+partly overlap a gripper without its projected centre lying inside the silhouette. Such
+partial occlusion is explicitly labelled as *consistent*, weighted at half the confidence
+of observed/full-occlusion evidence, and never contributes fabricated motion samples.
+Finally, saturated objects use chromatic occupancy for the independent rendered-origin
+audit; grayscale correlation alone confused the blue cube with its dark tabletop.

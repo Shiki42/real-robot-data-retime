@@ -113,6 +113,8 @@ def process_episode(source, raw_source, output, work_dir, urdf, mesh_root, index
             urdf,
             mesh_root,
         )
+        np.savez_compressed(debug / "source_mapping.npz", left=left, right=right)
+        (debug / "schedule.json").write_text(json.dumps(plan, indent=2))
         del frames
         native, masks, transforms = native_render_inputs(
             video, tracks["registration"], segmentation

@@ -415,9 +415,12 @@ def run(
                 robot_visibility,
                 c["pickup_frame"],
                 c["release_frame"],
+                object_radius_px=float(
+                    np.linalg.norm(proposals[c["object_id"]]["bbox"][2:4]) / 2
+                ),
             )
             c["visibility_evidence"] = visibility
-            c["track_confidence"] = visibility["explained_fraction"]
+            c["track_confidence"] = visibility["evidence_confidence"]
         selected.append(c)
     from ..timeline.hypotheses import choose_episodes
 

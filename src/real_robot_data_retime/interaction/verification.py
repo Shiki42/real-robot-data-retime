@@ -104,11 +104,15 @@ def pickup_interval(object_track, gripper_track, proposal, confirmed_pickup, fps
     )
 
 
-def attachment_visibility(object_track, gripper_track, robot_masks, start, stop):
+def attachment_visibility(
+    object_track, gripper_track, robot_masks, start, stop, *, object_radius_px
+):
     """Explain missing observations using a latent attachment projection.
 
     Latent coordinates only test occlusion against robot pixels. They are never
-    returned as measured points or used in motion-correlation scoring.
+    returned as measured points or used in motion-correlation scoring. Partial
+    footprint overlap is only occlusion-consistent evidence, assigned half the
+    weight of an observation or a projection inside the robot silhouette.
     """
     obj = np.asarray(object_track)
     grip = np.asarray(gripper_track)
@@ -118,6 +122,7 @@ def attachment_visibility(object_track, gripper_track, robot_masks, start, stop)
         jointly_visible & (np.arange(len(obj)) >= start) & (np.arange(len(obj)) < stop)
     )
     supported = np.zeros(len(obj), bool)
+    partial = np.zeros(len(obj), bool)
     if len(ids) >= 2:
         offset = obj[ids] - grip[ids]
         predicted = grip + np.column_stack(
@@ -133,8 +138,19 @@ def attachment_visibility(object_track, gripper_track, robot_masks, start, stop)
                     t, max(0, y - 4) : min(h, y + 5), max(0, x - 4) : min(w, x + 5)
                 ]
                 supported[t] = neighborhood.mean() > 0.6
+                if not supported[t] and robot_masks[t].any():
+                    distance = cv2.distanceTransform(
+                        (~robot_masks[t]).astype(np.uint8), cv2.DIST_L2, 3
+                    )[y, x]
+                    partial[t] = distance < object_radius_px
+
     return dict(
         visible_fraction=float(visible[start:stop].mean()),
         robot_occluded_fraction=float(supported[start:stop].mean()),
-        explained_fraction=float((visible | supported)[start:stop].mean()),
+        partial_occlusion_consistent_fraction=float(partial[start:stop].mean()),
+        explained_fraction=float((visible | supported | partial)[start:stop].mean()),
+        evidence_confidence=float(
+            (visible.astype(float) + supported + 0.5 * partial)[start:stop].mean()
+        ),
+        object_radius_px=float(object_radius_px),
     )

@@ -10,6 +10,10 @@ def end_effector(robot_mask, side):
     h, w = robot_mask.shape
     kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (pixel_kernel(5, w),) * 2)
     thick = cv2.morphologyEx(robot_mask.astype(np.uint8), cv2.MORPH_OPEN, kernel)
+    # Reflective wrist collars can split the visible hand from the forearm.
+    # Bridge only the distance-map topology; output masks retain source pixels.
+    bridge = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (pixel_kernel(11, w),) * 2)
+    thick = cv2.morphologyEx(thick, cv2.MORPH_CLOSE, bridge)
     regions = components(thick, 20)
     if not regions:
         return None
