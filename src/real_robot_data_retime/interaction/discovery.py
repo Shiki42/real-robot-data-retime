@@ -262,6 +262,8 @@ def task_object_proposals(frames, task, config=InteractionConfig()):
     kind = "dark" if task == "workpiece" else "saturated"
     proposals = object_proposals(frames, kind, config)
     h, w = frames.shape[1:3]
+    # The shared work surface excludes the robot entry/boundary regions.
+    proposals = [p for p in proposals if w * 0.2 < p["origin"][0] < w * 0.8]
     if task == "drawer":
         hsv = cv2.cvtColor(frames[0], cv2.COLOR_BGR2HSV)
         red = (
@@ -275,8 +277,4 @@ def task_object_proposals(frames, task, config=InteractionConfig()):
         _, stat, _ = max(boxes, key=lambda x: x[1][4])
         y_limit = stat[1] + stat[3] + h * 0.15
         return [p for p in proposals if p["origin"][1] > y_limit and p["color"][2] > 60]
-    return [
-        p
-        for p in proposals
-        if w * 0.2 < p["origin"][0] < w * 0.8 and p["origin"][1] > h * 0.48
-    ]
+    return [p for p in proposals if p["origin"][1] > h * 0.48]

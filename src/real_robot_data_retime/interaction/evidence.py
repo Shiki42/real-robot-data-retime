@@ -18,6 +18,7 @@ def score_hypothesis(
     config=InteractionConfig(),
     contact_distance=None,
     release_evidence=None,
+    release_confirmation=None,
 ):
     """Require future object motion and attachment, not closing alone.
 
@@ -56,8 +57,12 @@ def score_hypothesis(
         reasons.append("insufficient_future_visibility")
     anchor = np.median(obj[pre[:5]], axis=0) if len(pre) else obj[frame]
     displacement = np.linalg.norm(obj[1:] - anchor, axis=1)
+    grip_speed = np.linalg.norm(vg, axis=1)
+    direction = np.sum(vo * vg, axis=1) / np.maximum(speed * grip_speed, 1e-9)
     moving = (
         (speed > scale * 0.0015)
+        & (grip_speed > scale * 0.0015)
+        & (direction > 0.5)
         & (disagreement < scale * 0.012)
         & edge_valid
         & (displacement >= scale * 0.01)
@@ -100,7 +105,8 @@ def score_hypothesis(
         for a, b in stable_runs(stationary & departed, 3):
             initial = obj[pre[0]] if len(pre) else obj[frame]
             displaced = np.linalg.norm(obj[a] - initial) > scale * 0.03
-            if a > pickup + 3 and displaced:
+            allowed = release_confirmation is None or release_confirmation[a + 1] >= 0
+            if a > pickup + 3 and displaced and allowed:
                 # Stable deposition and separation can occur with tiny jaw
                 # changes (e.g. letters). Opening remains corroborating evidence.
                 release = a + 1
@@ -151,6 +157,17 @@ def score_hypothesis(
     score = float(np.dot(config.weights, list(scores.values())))
     if score < config.minimum_confidence:
         reasons.append("low_posterior_score")
+    last_attached = None
+    if pickup is not None and release is not None:
+        confirmation = (
+            int(release_confirmation[release])
+            if release_confirmation is not None
+            else release
+        )
+        ids = np.arange(pickup, confirmation + 1)
+        contacts = ids[valid[ids] & (proximity_distance[ids] <= scale * 0.01)]
+        if len(contacts):
+            last_attached = int(contacts[-1])
     return dict(
         score=score,
         components=scores,
@@ -160,6 +177,14 @@ def score_hypothesis(
         release_evidence=release_evidence,
         pickup_frame=pickup,
         release_frame=release,
+        last_attached_frame=last_attached,
+        release_confirmation_frame=None
+        if release is None
+        else (
+            int(release_confirmation[release])
+            if release_confirmation is not None
+            else int(release)
+        ),
         accepted=not reasons,
         rejection_reasons=reasons,
     )

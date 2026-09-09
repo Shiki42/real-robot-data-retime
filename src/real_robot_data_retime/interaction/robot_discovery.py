@@ -86,14 +86,23 @@ def robot_mask_audit(robots, geometry, fps):
         missing = valid & (coverage[:, side] < 0.6)
         fraction = float(missing.sum() / max(1, valid.sum()))
         longest = max((b - a for a, b in stable_runs(missing, 1)), default=0)
+        contaminated_fraction = 0.0
+        if "scene_contamination" in geometry:
+            contaminated_fraction = float(
+                geometry["scene_contamination"][:, side].mean()
+            )
         results.append(
             dict(
                 robot_id=["left", "right"][side],
+                scene_contamination_fraction=contaminated_fraction,
                 supported_frames=int(valid.sum()),
                 insufficient_coverage_fraction=fraction,
                 longest_insufficient_run=longest,
                 passed=bool(
-                    valid.sum() >= 5 and fraction <= 0.1 and longest <= fps * 0.5
+                    valid.sum() >= 5
+                    and fraction <= 0.1
+                    and longest <= fps * 0.5
+                    and contaminated_fraction <= 0.05
                 ),
             )
         )

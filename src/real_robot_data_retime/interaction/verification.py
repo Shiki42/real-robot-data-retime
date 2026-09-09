@@ -154,3 +154,41 @@ def attachment_visibility(
         ),
         object_radius_px=float(object_radius_px),
     )
+
+
+def color_support(hsv, mask, proposal):
+    """Visible chromatic support, independent of SAM's predicted object centre."""
+    hue = np.abs(hsv[:, :, 0].astype(float) - proposal["color"][0])
+    hue = np.minimum(hue, 180 - hue)
+    matching = mask & (hue < 12) & (hsv[:, :, 1] > 40) & (hsv[:, :, 2] > 20)
+    return int(matching.sum()), float(matching.sum() / max(1, mask.sum()))
+
+
+def validate_track_colors(frames, proposals, tracks, robots):
+    """Do not count a mask on a different surface as an observed colored object."""
+    n, h, w = frames.shape[:3]
+    issues = np.zeros((len(tracks), n), bool)
+    visible = np.ones((len(tracks), n), bool)
+    for t, frame in enumerate(frames):
+        hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+        robot = np.unpackbits(robots[t], axis=-1, count=w).astype(bool).any(axis=0)
+        for k, (proposal, track) in enumerate(zip(proposals, tracks)):
+            if proposal["appearance_model"] != "hue":
+                continue
+            mask = np.unpackbits(track["packed_masks"][t], axis=-1, count=w).astype(
+                bool
+            )
+            count, fraction = color_support(hsv, mask, proposal)
+            observed = count >= 8 and fraction >= 0.05
+            visible[k, t] = observed
+            if observed:
+                continue
+            track["centers"][t] = np.nan
+            if mask.any():
+                occluded = (mask & robot).sum() / mask.sum() >= 0.5
+                if not occluded:
+                    issues[k, t] = True
+                    track["packed_masks"][t] = 0
+                    if "areas" in track:
+                        track["areas"][t] = 0
+    return issues, visible

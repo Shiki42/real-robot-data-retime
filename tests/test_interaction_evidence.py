@@ -82,3 +82,20 @@ def test_verified_destination_overrides_early_apparent_release():
     )
     assert result["accepted"]
     assert result["release_frame"] == 95
+
+
+def test_nearby_motion_does_not_imply_attachment_without_matching_gripper_motion():
+    from real_robot_data_retime.interaction.evidence import score_hypothesis
+
+    n = 100
+    obj = np.zeros((n, 2))
+    obj[:, 0] = 50
+    obj[40:55, 0] += np.arange(15)
+    obj[55:, 0] += 14
+    for direction in [0, -1]:
+        grip = np.zeros((n, 2))
+        grip[:, 0] = 50
+        grip[40:55, 0] += direction * np.arange(15)
+        grip[55:, 0] += direction * 14
+        result = score_hypothesis(obj, grip, np.full(n, 10.0), 40, 200)
+        assert result["pickup_frame"] is None

@@ -163,3 +163,48 @@ def test_arm_boundary_fragment_uses_its_current_source_clock(monkeypatch, tmp_pa
     assert np.array_equal(captured[0], frames[0])
     assert np.min(captured[1][40:55, :5]) == 120
     assert np.max(captured[2][50:54, :3]) == 0
+
+
+def test_occluded_object_prediction_cannot_erase_departing_gripper(
+    monkeypatch, tmp_path
+):
+    import real_robot_data_retime.compositing.layers as layers
+
+    n, h, w = 20, 64, 96
+    frames = np.full((n, h, w, 3), 120, np.uint8)
+    objects = np.zeros((1, n, h, w), bool)
+    robots = np.zeros((n, 2, h, w), bool)
+    for t in range(n):
+        x = 12 if t < 3 else 55
+        frames[t, 20:26, x : x + 6] = [20, 200, 20]
+        objects[0, t, 20:26, x : x + 6] = True
+    frames[10, 45:55, 10:20] = 20
+    robots[10, 0, 45:55, 10:20] = True
+    objects[0, 10] = robots[10, 0]
+    drawer = np.zeros((h, w), bool)
+    drawer[10:40, 40:90] = True
+    monkeypatch.setattr(layers, "drawer_region", lambda *a: drawer)
+    captured = []
+    monkeypatch.setattr(
+        layers, "write_video", lambda output, images, fps: captured.extend(images)
+    )
+    timeline = dict(
+        task="drawer",
+        fps=30,
+        drawer_motion=dict(open_frame=2, close_start=15),
+        episodes=[
+            dict(
+                robot_id="left",
+                object_id=0,
+                pickup_frame=3,
+                grasp_frame=3,
+                release_frame=8,
+                approach_start=0,
+            )
+        ],
+    )
+    segmentation = dict(
+        robots=np.packbits(robots, axis=-1), objects=np.packbits(objects, axis=-1)
+    )
+    composite(frames, timeline, segmentation, [10], [5], tmp_path / "out.mp4", tmp_path)
+    assert np.max(captured[0][45:55, 10:20]) < 30

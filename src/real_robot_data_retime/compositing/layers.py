@@ -67,9 +67,59 @@ def composite(
         for event in timeline["episodes"]:
             side = ["left", "right"].index(event["robot_id"])
             release = event["release_frame"]
-            # Enforce scene ownership before both patch exclusion and layering;
-            # a stale SAM arm mask must not erase a placed cube from scene donors.
-            robots[release:, side] &= ~objects[event["object_id"], release:]
+            # Transfer visible object pixels, not a hallucinated mask that has
+            # followed the departing gripper instead of the deposited cube.
+            initial_hsv = cv2.cvtColor(frames[0], cv2.COLOR_BGR2HSV)
+            origin_mask = objects[event["object_id"], 0]
+            colored = (
+                origin_mask & (initial_hsv[:, :, 1] > 40) & (initial_hsv[:, :, 2] > 20)
+            )
+            if not colored.any():
+                raise ValueError("drawer object has no observed chromatic origin")
+            angles = initial_hsv[:, :, 0][colored] * (2 * np.pi / 180)
+            hue = (
+                np.arctan2(np.sin(angles).mean(), np.cos(angles).mean())
+                * 180
+                / (2 * np.pi)
+                % 180
+            )
+            yy0, xx0 = np.where(origin_mask)
+            object_span = max(np.ptp(xx0) + 1, np.ptp(yy0) + 1)
+            last_visible_center = None
+            for t in range(release, n):
+                object_mask = objects[event["object_id"], t]
+                hsv = cv2.cvtColor(frames[t], cv2.COLOR_BGR2HSV)
+                difference = np.abs(hsv[:, :, 0].astype(float) - hue)
+                difference = np.minimum(difference, 180 - difference)
+                visible = (
+                    object_mask
+                    & (difference < 12)
+                    & (hsv[:, :, 1] > 40)
+                    & (hsv[:, :, 2] > 20)
+                )
+                if not object_mask.any():
+                    continue
+                yy, xx = np.where(object_mask)
+                center = np.array([xx.mean(), yy.mean()])
+                observed = (
+                    visible.sum() >= 8 and visible.sum() >= object_mask.sum() * 0.05
+                )
+                if (
+                    observed
+                    and last_visible_center is not None
+                    and np.linalg.norm(center - last_visible_center) > object_span * 2
+                ):
+                    observed = False
+                if observed:
+                    last_visible_center = center
+                # A later occluder may hide a previously observed placed cube.
+                # A mask that instead follows the departing hand leaves this region.
+                stays_placed = (
+                    last_visible_center is not None
+                    and np.linalg.norm(center - last_visible_center) <= object_span
+                )
+                if observed or stays_placed:
+                    robots[t, side] &= ~object_mask
     entry = np.zeros((2, h, w), bool)
     entry[0, int(h * 0.4) :, : max(1, round(w * 0.08))] = True
     entry[1, int(h * 0.4) :, round(w * 0.92) :] = True
