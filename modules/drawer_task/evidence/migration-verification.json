@@ -1,0 +1,14 @@
+{
+  "parallel.mp4": {
+    "accepted_sha256": "b8b30aad004eabc78e016704e80dabe7bc501fc0b4077fccf2888d42f906dfdd",
+    "replay_sha256": "b8b30aad004eabc78e016704e80dabe7bc501fc0b4077fccf2888d42f906dfdd",
+    "byte_identical": true
+  },
+  "source_mapping.npz": {
+    "accepted_sha256": "14a360bf75a2c38d2b2ede2cf095e225e462d86fe385c2667fd6461d371423b1",
+    "replay_sha256": "14a360bf75a2c38d2b2ede2cf095e225e462d86fe385c2667fd6461d371423b1",
+    "byte_identical": true
+  },
+  "render_code_producer": "6391cb12160a424b3bf595fbfe7347a82a608637b92ff5339b6cef571862786f",
+  "automatic_checks_passed": true
+}

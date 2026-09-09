@@ -1,0 +1,3 @@
+# Preserve exact snapshot bytes, including original trailing blank lines.
+analysis/src/** whitespace=-blank-at-eof
+render/src/** whitespace=-blank-at-eof

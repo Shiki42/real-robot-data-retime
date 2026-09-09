@@ -1,0 +1,102 @@
+{
+  "success": true,
+  "phase": "interaction_understanding",
+  "motion_reference": "photometric_opaque_support",
+  "backend": "sam2",
+  "task": "drawer",
+  "num_robot_arms": 2,
+  "num_object_proposals": 2,
+  "expected_objects": 1,
+  "num_manipulation_episodes": 1,
+  "validation_gates": {
+    "two_arms": true,
+    "all_objects_identified": true,
+    "persistent_tracks": true,
+    "origin_departure": true,
+    "whole_robot_masks": true,
+    "drawer_open_close": true,
+    "drawer_event_order": true,
+    "correct_roles": true
+  },
+  "retries": [
+    {
+      "kind": "whole_arm_mask_repair",
+      "prior_audit": {
+        "passed": false,
+        "arms": [
+          {
+            "robot_id": "left",
+            "supported_frames": 289,
+            "insufficient_coverage_fraction": 0.48788927335640137,
+            "longest_insufficient_run": 83,
+            "passed": false
+          },
+          {
+            "robot_id": "right",
+            "supported_frames": 459,
+            "insufficient_coverage_fraction": 0.002178649237472767,
+            "longest_insufficient_run": 1,
+            "passed": true
+          }
+        ],
+        "method": "entry_anchored_opaque_motion_support",
+        "unassessed_frame_arm_pairs": 520,
+        "minimum_coverage": 0.6
+      },
+      "seeds": [
+        {
+          "frame": 353,
+          "bbox": [
+            0,
+            68,
+            474,
+            294
+          ]
+        },
+        {
+          "frame": 454,
+          "bbox": [
+            0,
+            200,
+            111,
+            162
+          ],
+          "side": 0,
+          "kind": "visibility_reentry"
+        }
+      ]
+    },
+    {
+      "kind": "reverified_automatic_measurement_hypotheses",
+      "producer": {
+        "parent": "21f5bb755405ae504bd9b5342fb510b9552de7361e60528455b7cc15f4a343e9",
+        "robot_repair": "f2bdc917ea61234606850278ba39b6eb65dc2f024ce4dab13aa2ae7e36f3c5c6",
+        "repaired_sides": [
+          0
+        ]
+      }
+    }
+  ],
+  "config": {
+    "minimum_object_area": 182,
+    "maximum_object_area": 4101,
+    "evidence_frames": 60,
+    "weights": [
+      0.15,
+      0.1,
+      0.15,
+      0.2,
+      0.25,
+      0.1,
+      0.05
+    ],
+    "minimum_confidence": 0.65
+  },
+  "mean_interaction_confidence": 0.8819750484171937,
+  "status": "verified_interaction_evidence",
+  "weak_aperture_events": 1,
+  "limitations": [
+    "confidence scores are heuristic, not calibrated probabilities",
+    "pickup uncertainty is explicitly reported for occluded transitions"
+  ]
+}

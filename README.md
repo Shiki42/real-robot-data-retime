@@ -1,5 +1,7 @@
 # real-robot-data-retime
 
+已固定的抽屉成片路线：见 [拉抽屉任务](modules/drawer_task/README.md)。该模块独立保存用户认可版本的分析与渲染快照，不受主路线后续迭代影响。
+
 Automatically identify dual-arm interactions in a video and edit sequential
 manipulations into overlapping actions. Normal operation requires a video file;
 robot, object, grasp and release prompts are generated from image evidence.

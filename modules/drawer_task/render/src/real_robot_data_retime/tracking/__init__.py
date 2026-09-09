@@ -1,0 +1,1 @@
+"""Automatically initialized visual trajectories."""

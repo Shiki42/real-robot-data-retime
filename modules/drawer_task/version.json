@@ -1,0 +1,18 @@
+{
+  "name": "拉抽屉任务",
+  "version": "accepted-drawer-20260910",
+  "user_visual_acceptance": "用户确认抽屉版本很满意，要求固定该版本。",
+  "source_video_sha256": "a231932957225cbdbe1edea3085afa27a16979af41f1ee7f35e89e7c02da97d4",
+  "accepted_video_sha256": "b8b30aad004eabc78e016704e80dabe7bc501fc0b4077fccf2888d42f906dfdd",
+  "output_frames": 462,
+  "fps": 30,
+  "analysis_snapshot": "runtime-photometric-final",
+  "render_snapshot": "runtime-render-safe-color",
+  "checkpoint_entry_commit": "6d7460da18750f683587d2e45f8d472bfd4f63e8",
+  "artifacts_on_coder_a": {
+    "source": "/home/coder/share/retime-accuracy-20260910/drawer_0-render-safe-color/source.mp4",
+    "analysis": "/home/coder/share/retime-accuracy-20260910/drawer_0-final-photometric",
+    "render": "/home/coder/share/retime-accuracy-20260910/drawer_0-render-safe-color"
+  },
+  "python": "3.11.15"
+}

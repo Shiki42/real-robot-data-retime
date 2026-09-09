@@ -1,0 +1,54 @@
+{
+  "source_sha256": "a231932957225cbdbe1edea3085afa27a16979af41f1ee7f35e89e7c02da97d4",
+  "analysis_report_sha256": "66487d8fb7944a179f388b0afe15605b5197f11ebbb4b144edcc895a819ced48",
+  "measurement_producer": {
+    "parent": "21f5bb755405ae504bd9b5342fb510b9552de7361e60528455b7cc15f4a343e9",
+    "robot_repair": "f2bdc917ea61234606850278ba39b6eb65dc2f024ce4dab13aa2ae7e36f3c5c6",
+    "repaired_sides": [
+      0
+    ]
+  },
+  "render_code_producer": "6391cb12160a424b3bf595fbfe7347a82a608637b92ff5339b6cef571862786f",
+  "plan": {
+    "collision_scope": "projected silhouettes only; no joint-space verification",
+    "left_wait_frames": 0,
+    "right_wait_frames": 103,
+    "output_frames": 462
+  },
+  "compositing": {
+    "output": "/home/coder/share/retime-accuracy-20260910/drawer_0-render-safe-color/parallel.mp4",
+    "output_frames": 462,
+    "paired_source_frames": 1,
+    "clean_plate_method": "masked_temporal_real_frames",
+    "clean_plate_reference_frame": 0,
+    "initial_plate_color_adjusted": true,
+    "skipped_origin_color_matches": 0,
+    "real_plate_coverage_fraction": 1.0,
+    "inpainted_background_pixels": 0,
+    "inpainting_used": false,
+    "unresolved_scene_patch_pixels": 529870,
+    "arm_overlap_pixel_frames": 0,
+    "valid_metric_overlap_pixel_frames": 0,
+    "unknown_depth_order": "stable_right_foreground",
+    "occlusion_method": "stable_right_foreground",
+    "visual_validation": "pending",
+    "automatic_origin_audit": {
+      "passed": true,
+      "objects": [
+        {
+          "object_id": 1,
+          "appearance_method": "chromatic_occupancy",
+          "robot_id": "left",
+          "clear_origin_observations": 328,
+          "duplicate_observations": 0,
+          "passed": true
+        }
+      ],
+      "method": "rendered_origin_appearance_against_observed_source_absence"
+    }
+  },
+  "source_fps": 30.0,
+  "automatic_checks_passed": true,
+  "validated_for_compositing": false,
+  "status": "rendered_pending_visual_review"
+}
