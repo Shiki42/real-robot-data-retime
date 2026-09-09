@@ -17,24 +17,36 @@ from .verification import OriginAudit
 
 
 def drawer_region(frames, open_frame):
-    image = frames[open_frame]
-    h, w = image.shape[:2]
-    hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
-    red = (
-        ((hsv[:, :, 0] < 12) | (hsv[:, :, 0] > 170))
-        & (hsv[:, :, 1] > 120)
-        & (hsv[:, :, 2] > 70)
+    h, w = frames.shape[1:3]
+    candidates = []
+    indices = np.unique(
+        np.r_[
+            0,
+            open_frame,
+            len(frames) - 1,
+            np.linspace(0, len(frames) - 1, 20).astype(int),
+        ]
     )
-    regions = components(red, int(h * w * 0.005))
-    if not regions:
-        raise ValueError("drawer cabinet not visible")
-    _, stat, _ = max(regions, key=lambda a: a[1][4])
-    x, y, bw, bh, _ = map(int, stat)
+    for t in indices:
+        hsv = cv2.cvtColor(frames[t], cv2.COLOR_BGR2HSV)
+        red = (
+            ((hsv[:, :, 0] < 12) | (hsv[:, :, 0] > 170))
+            & (hsv[:, :, 1] > 120)
+            & (hsv[:, :, 2] > 70)
+        )
+        regions = components(red, int(h * w * 0.005))
+        if regions:
+            candidates.append(max(regions, key=lambda a: a[1][4])[1])
+    if not candidates:
+        raise ValueError("drawer cabinet not visible in source video")
+    area = np.percentile([s[4] for s in candidates], 90)
+    boxes = [s for s in candidates if s[4] >= area * 0.6]
+    x0 = min(int(s[0]) - 20 for s in boxes)
+    y0 = min(int(s[1]) - 10 for s in boxes)
+    x1 = max(int(s[0] + s[2] * 1.65) for s in boxes)
+    y1 = max(int(s[1] + s[3] + h * 0.45) for s in boxes)
     mask = np.zeros((h, w), bool)
-    mask[
-        max(0, y - 10) : min(h, y + bh + round(h * 0.45)),
-        max(0, x - 20) : min(w, x + round(bw * 1.65)),
-    ] = True
+    mask[max(0, y0) : min(h, y1), max(0, x0) : min(w, x1)] = True
     return mask
 
 

@@ -47,6 +47,14 @@ def segment_grippers(frames, geometry, sam=None):
     sam = sam or SamVideo("facebook/sam2.1-hiera-large")
     n, h, w = frames.shape[:3]
     robots, seeds = segment_robots(frames, geometry, sam)
+    result = grippers_from_robots(robots, (h, w))
+    result["seeds"] = seeds
+    return result
+
+
+def grippers_from_robots(robots, frame_shape):
+    n = len(robots)
+    h, w = frame_shape
     centers = np.full((n, 2, 2), np.nan)
     apertures = np.full((n, 2), np.nan)
     masks_by_side = np.zeros((n, 2, h, w), bool)
@@ -66,7 +74,7 @@ def segment_grippers(frames, geometry, sam=None):
         centers=centers,
         apertures=apertures,
         masks=masks_by_side,
-        seeds=seeds,
+        seeds=[],
         robot_masks=robots,
     )
 

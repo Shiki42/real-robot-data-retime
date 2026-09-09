@@ -271,11 +271,7 @@ def task_object_proposals(frames, task, config=InteractionConfig()):
             raise ValueError("drawer cabinet not discovered from scene")
         _, stat, _ = max(boxes, key=lambda x: x[1][4])
         y_limit = stat[1] + stat[3] + h * 0.15
-        return [
-            p
-            for p in proposals
-            if p["origin"][1] > y_limit and p["color"][1] > 110 and p["color"][2] > 60
-        ]
+        return [p for p in proposals if p["origin"][1] > y_limit and p["color"][2] > 60]
     return [
         p
         for p in proposals

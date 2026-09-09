@@ -174,3 +174,30 @@ partial occlusion is explicitly labelled as *consistent*, weighted at half the c
 of observed/full-occlusion evidence, and never contributes fabricated motion samples.
 Finally, saturated objects use chromatic occupancy for the independent rendered-origin
 audit; grayscale correlation alone confused the blue cube with its dark tabletop.
+
+Drawer scheduling now evaluates the instantaneous drawer body during motion and its
+complete sweep at held waiting poses. A 2-D projection into the drawer is not a physical
+collision: recorded joints can show that the cube is lifted safely above it. Scene
+transitions use interpolated FK with conservative motion bounds, the same 5 mm drawer
+clearance as cross-arm checking, and an explicit 35 mm held-cube proxy. Insertion and
+closing still have hard precedence gates. Both arms begin at the actual trimmed source
+pose; bounded stationary spans are compacted only when **both** action and state ranges
+stay within 0.3 degrees / 0.5 mm, with onset/end guard frames retained.
+
+Closing detection now requires sustained inward return rather than the end of a quiet
+run. Cabinet references are selected from mutually stable tracks so the carried cube
+cannot masquerade as a cabinet reference. Quiet intervals that already overlap the
+visually open phase count toward settling.
+
+Automatic segmentation/point hypotheses are stored separately from causal interpretation.
+Reinterpretation verifies the video hash, frame geometry, registration and proposal set,
+recomputes gripper geometry, and reruns all posterior checks. A failed reinterpretation
+can trigger fresh neural measurements. Producer identity remains attached to reused
+hypotheses; no human object/frame annotations are supplied by this cache.
+
+The shortest-path search uses pickup-during-pull alignment only as a secondary ordering;
+it never trades away minimum duration. The independently verified drawer-hold interval
+uses a shorter stationary guard, while preserving the same action/state pose-range bounds.
+In the current first-episode plan, pickup is at output frame 167, the drawer finishes opening
+at 217, insertion starts at 225, withdrawal completes at 288 and closing starts at 291.
+Thus lifting overlaps pulling and both placement/closing dependencies remain satisfied.

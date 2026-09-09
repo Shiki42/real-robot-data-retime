@@ -34,3 +34,31 @@ def test_real_mesh_clearance_and_total_aperture():
         base_spacing_m=0.001,
     )
     assert not overlapping(0, 0, 0, 0)
+
+
+@pytest.mark.skipif(
+    not os.environ.get("ROBOVISUALIZE_ASSETS"),
+    reason="RoboVisualize mesh integration test",
+)
+def test_oriented_scene_volume_broad_phase_preserves_collision_decision():
+    from real_robot_data_retime.collision.piperx import PiperXClearance
+
+    x = np.zeros((1, 7))
+    checker = PiperXClearance(
+        x,
+        x,
+        Path("assets/piper_x_description.urdf"),
+        Path(os.environ["ROBOVISUALIZE_ASSETS"]),
+    )
+    angle = 0.7
+    rotation = np.array(
+        [
+            [np.cos(angle), -np.sin(angle), 0],
+            [np.sin(angle), np.cos(angle), 0],
+            [0, 0, 1],
+        ]
+    )
+    center = np.array([0.0, 0.245, 0.0]) @ rotation
+    assert not checker.arm_clears_volume(0, 0, (rotation, center - 0.15, center + 0.15))
+    center = np.array([3.0, 3.0, 3.0]) @ rotation
+    assert checker.arm_clears_volume(0, 0, (rotation, center - 0.15, center + 0.15))

@@ -16,15 +16,37 @@ class DrawerMotion:
     reference_candidate: int
 
 
-def discover_drawer_motion(candidate_tracks, right_gripper, fps, image_width):
+def discover_drawer_motion(
+    candidate_tracks, right_gripper, fps, image_width, *, release_frame=None
+):
     """Rank handles by persistent outward motion, dwell, then return.
 
     Coordinates must already be camera-registered. The open dwell must last at
     least 0.6 seconds; a missing observed return is not silently inferred.
     """
+    points_all = np.asarray(candidate_tracks, float)
+    support = np.zeros(len(points_all), int)
+    for i in range(len(points_all)):
+        for j in range(i):
+            relative = points_all[i] - points_all[j]
+            valid = np.isfinite(relative).all(axis=1)
+            if valid.mean() < 0.4 or valid[-max(3, round(fps)) :].mean() < 0.5:
+                continue
+            residual = relative[valid] - np.median(relative[valid], axis=0)
+            if (
+                np.percentile(np.linalg.norm(residual, axis=1), 95)
+                < image_width * 0.015
+            ):
+                support[i] += 1
+                support[j] += 1
+    references = (
+        np.flatnonzero(support == support.max()).tolist()
+        if support.max(initial=0) > 0
+        else list(range(len(points_all)))
+    )
     hypotheses = []
     for k, track in enumerate(candidate_tracks):
-        for reference_id in [-1, *[j for j in range(len(candidate_tracks)) if j != k]]:
+        for reference_id in [-1, *[j for j in references if j != k]]:
             points = np.asarray(track, float)
             reference = (
                 np.asarray(candidate_tracks[reference_id], float)
@@ -56,6 +78,25 @@ def discover_drawer_motion(candidate_tracks, right_gripper, fps, image_width):
                 after = valid[stop:] & (smooth[stop:] < span * 0.3)
                 if not before.any() or not after.any():
                     continue
+                returned = stop + int(np.flatnonzero(after)[0])
+                falling = stable_runs(
+                    np.gradient(smooth) < -span * 0.002, max(3, round(fps * 0.15))
+                )
+                closing = [
+                    a
+                    for a, b in falling
+                    if start < a < returned and smooth[a] > span * 0.7
+                ]
+                if not closing:
+                    continue
+                close_start = closing[-1]
+                if (
+                    release_frame is not None
+                    and not start < release_frame < close_start
+                ):
+                    continue
+                # Quiet-pose jitter is not closing: require the sustained inward
+                # motion leading to the observed return of the drawer handle.
                 # Use visible contact throughout the outward motion, not color name.
                 approach_start = np.flatnonzero(before)[-1]
                 contact = np.linalg.norm(
@@ -68,14 +109,29 @@ def discover_drawer_motion(candidate_tracks, right_gripper, fps, image_width):
                     continue
                 proximity = float(np.mean(contact[observed] < image_width * 0.13))
                 confidence = 0.6 * proximity + 0.4 * float(
-                    valid[approach_start:stop].mean()
+                    valid[approach_start:close_start].mean()
                 )
                 hypotheses.append(
                     DrawerMotion(
-                        start, stop, k, confidence, int(approach_start), reference_id
+                        start,
+                        close_start,
+                        k,
+                        confidence,
+                        int(approach_start),
+                        reference_id,
                     )
                 )
-    return max(hypotheses, key=lambda x: x.confidence) if hypotheses else None
+    return (
+        max(
+            hypotheses,
+            key=lambda x: (
+                x.confidence + 0.05 * (x.reference_candidate >= 0),
+                -x.open_frame,
+            ),
+        )
+        if hypotheses
+        else None
+    )
 
 
 def precedence_gate(
@@ -209,14 +265,10 @@ def drawer_area_motion(frames, fps, right_gripper):
     if not hypotheses:
         return None, ratio
     _, start, stop, pull = max(hypotheses)
-    velocity = np.linalg.norm(np.diff(right_gripper, axis=0), axis=1)
-    settled = stable_runs(
-        (velocity < w * 0.0015) & np.isfinite(velocity), max(3, round(fps * 0.2))
-    )
-    available = [a for a, b in settled if start <= a < stop]
-    if not available:
+    settled_start = settled_open_frame(right_gripper, start, stop, fps, w)
+    if settled_start is None:
         return None, ratio
-    start = min(available)
+    start = settled_start
     return dict(
         open_frame=start,
         close_start=stop,
@@ -224,3 +276,25 @@ def drawer_area_motion(frames, fps, right_gripper):
         confidence=float(valid[pull:stop].mean()),
         method="cabinet_normalized_interior_area",
     ), ratio
+
+
+def settled_open_frame(gripper, start, stop, fps, width):
+    """First observed quiet interval overlapping the visually open phase."""
+    gripper = np.asarray(gripper, float)
+    observed = np.isfinite(gripper).all(axis=1)
+    ids = np.flatnonzero(observed)
+    if len(ids) < 2:
+        return None
+    filled = np.column_stack(
+        [np.interp(np.arange(len(gripper)), ids, gripper[ids, a]) for a in [0, 1]]
+    )
+    smooth = median_filter(filled, size=(5, 1), mode="nearest")
+    velocity = np.linalg.norm(np.diff(smooth, axis=0), axis=1)
+    minimum = max(3, round(fps * 0.2))
+    quiet = (velocity < width * 0.0015) & observed[:-1] & observed[1:]
+    available = [
+        max(a, start)
+        for a, b in stable_runs(quiet, minimum)
+        if min(b, stop) - max(a, start) >= minimum
+    ]
+    return min(available) if available else None

@@ -4,36 +4,35 @@ from functools import lru_cache
 from pathlib import Path
 import numpy as np
 from .scheduler import schedule_sources
-from .holds import compress_wait, append_terminal_hold
-from ..retime import detect_motion_interval, detect_arm_segments
+from .holds import append_terminal_hold, compress_static_spans
+from ..retime import detect_arm_segments
 from ..collision.piperx import PiperXClearance
-from ..collision.drawer import drawer_sweep, outside_box
-from ..tasks.drawer_constraints import discover_insertion_gate, precedence_gate
+from ..collision.drawer import drawer_sweep, outside_box, drawer_body
+from ..tasks.drawer_constraints import precedence_gate
 
 
 def plan_joints(
     state,
     action,
     timeline,
-    frames,
-    object_tracks,
     urdf,
     mesh_root,
     *,
     terminal_seconds=2,
 ):
-    state = np.asarray(state, float)
-    if state.shape != (timeline["source_frames"], 14) or not np.isfinite(state).all():
+    state, action = np.asarray(state, float), np.asarray(action, float)
+    if (
+        state.shape != (timeline["source_frames"], 14)
+        or action.shape != state.shape
+        or not np.isfinite([state, action]).all()
+    ):
         raise ValueError("joint rows must match every source video frame")
     task = timeline["task"]
     if task == "drawer":
-        segments = [detect_motion_interval(state, side) for side in ["left", "right"]]
+        sources = [np.arange(len(state)), np.arange(len(state))]
     else:
         detected = detect_arm_segments(state, action)
-        segments = [detected.left, detected.right]
-    sources = [
-        np.arange(s.start, len(state) if task == "drawer" else s.end) for s in segments
-    ]
+        sources = [np.arange(s.start, s.end) for s in [detected.left, detected.right]]
     margin = 0.005 if task == "drawer" else 0.02
     receipt = dict(
         task=task,
@@ -51,11 +50,47 @@ def plan_joints(
                 "drawer requires verified left cube and right drawer events"
             )
         opening, closing = motion["open_frame"], motion["close_start"]
-        right = compress_wait(state[:, 7:], opening, closing)
-        sources[1] = right[right >= segments[1].start]
+        guard = round(timeline["fps"] * 0.5)
+        left = compress_static_spans(
+            state[:, :7],
+            np.asarray(action)[:, :7],
+            [
+                (0, max(0, event["grasp_start"] - guard)),
+                (min(len(state), event["release_frame"] + guard), len(state)),
+            ],
+            timeline["fps"],
+        )
+        sources[0] = left
+        sources[1] = compress_static_spans(
+            state[:, 7:],
+            action[:, 7:],
+            [
+                (0, max(0, motion["pull_start"] - guard)),
+                (min(len(state), closing + guard), len(state)),
+            ],
+            timeline["fps"],
+        )
+        held_clock = compress_static_spans(
+            state[:, 7:],
+            action[:, 7:],
+            [(opening, closing)],
+            timeline["fps"],
+            minimum_seconds=3 / timeline["fps"],
+            guard_seconds=1 / timeline["fps"],
+        )
+        sources[1] = np.intersect1d(sources[1], held_clock, assume_unique=True)
+        receipt["compressed_left_idle_frames"] = len(state) - len(sources[0])
+        receipt["compressed_right_idle_frames"] = len(state) - len(sources[1])
+        receipt["idle_pose_range_limits"] = dict(
+            joint_degrees=0.3,
+            gripper_mm=0.5,
+            minimum_seconds=0.5,
+            known_drawer_hold_minimum_frames=3,
+            known_drawer_hold_guard_frames=1,
+        )
     checker = PiperXClearance(
-        state[sources[0], :7],
-        state[sources[1], 7:],
+        state[:, :7],
+        state[:, 7:],
         Path(urdf),
         Path(mesh_root),
         margin_m=margin,
@@ -63,29 +98,19 @@ def plan_joints(
     dependency = lambda i, j: True
     if task == "drawer":
         # Derive handle motion in the same base frame used for mesh clearance.
-        tcp = []
-        for side in [0, 1]:
-            positions = []
-            for row in state:
-                checker._pose(row[side * 7 : side * 7 + 7], side)
-                positions.append(checker.model.tcp_transform().translation.copy())
-            tcp.append(np.asarray(positions))
+        tcp = [np.array([pose[4] for pose in poses]) for poses in checker.poses]
         volume = drawer_sweep(tcp[1], motion["pull_start"], opening)
-        image_gate, _ = discover_insertion_gate(
-            frames[opening],
-            object_tracks[event["object_id"]],
-            event["pickup_frame"],
-            event["release_frame"],
-        )
         clear = np.array(
             [
                 outside_box(tcp[0][t], volume)
-                and checker.arm_clears_volume(0, i, volume)
+                and checker.arm_clears_volume(0, int(t), volume, margin=margin)
                 for i, t in enumerate(sources[0])
             ]
         )
         waits = sources[0][
-            clear & (sources[0] >= event["pickup_frame"]) & (sources[0] <= image_gate)
+            clear
+            & (sources[0] >= event["pickup_frame"])
+            & (sources[0] < event["release_frame"])
         ]
         withdrawals = sources[0][clear & (sources[0] > event["release_frame"])]
         if not len(waits) or not len(withdrawals):
@@ -104,46 +129,89 @@ def plan_joints(
                 open_frame=opening,
                 withdrawal_frame=withdrawal,
                 close_start=closing,
-            ) and (right >= opening or left < event["pickup_frame"] or bool(clear[i]))
+            )
 
         receipt["dependencies"] = dict(
             open_frame=opening,
             close_start=closing,
             safe_wait_frame=wait,
-            image_entry_gate=image_gate,
+            wait_method="held_pose_clear_of_future_drawer_sweep",
+            moving_clearance="instantaneous_drawer_body_with_motion_bounds",
             withdrawal_frame=withdrawal,
             swept_volume=[x.tolist() for x in volume],
             held_cube_radius_m=0.035,
+            scene_clearance_m=margin,
         )
 
     def safe(i, j, ni, nj):
-        if not checker(i, j, ni, nj):
+        li, ri, lni, rni = (
+            int(sources[0][i]),
+            int(sources[1][j]),
+            int(sources[0][ni]),
+            int(sources[1][nj]),
+        )
+        if not checker(li, ri, lni, rni):
             return False
-        if task != "drawer":
+        if task != "drawer" or ri >= opening:
             return True
-        li, ri = int(sources[0][i]), int(sources[1][j])
-        differences = [
-            checker.values[side][stop] - checker.values[side][start]
-            for side, start, stop in [(0, i, ni), (1, j, nj)]
-        ]
+        if (
+            ni == i
+            and event["pickup_frame"] <= li <= event["release_frame"]
+            and not clear[i]
+        ):
+            return False
+        differences = [state[lni, :7] - state[li, :7], state[rni, 7:] - state[ri, 7:]]
         bounds = [
             np.abs(d[:6]).sum() * np.pi / 180 * checker.max_reach_m + abs(d[6]) / 2000
             for d in differences
         ]
-        if event["pickup_frame"] <= li <= event["release_frame"]:
-            if ri < opening:
-                if not outside_box(tcp[0][li], volume, radius=0.035 + bounds[0]):
-                    return False
-                if not checker.arm_clears_volume(0, i, volume, margin=0.02 + bounds[0]):
+        motion_bound = bounds[0] + (bounds[1] if rni > motion["pull_start"] else 0.0)
+        steps = max(1, int(np.ceil(motion_bound / (margin * 0.5))))
+        slack = motion_bound / (2 * steps)
+        for k in range(steps + 1):
+            fraction = k / steps
+            left_pose = checker._interpolated_pose(0, li, lni, k, steps)
+            if ri + fraction * (rni - ri) <= motion["pull_start"]:
+                handle = tcp[1][motion["pull_start"]]
+            else:
+                handle = checker._interpolated_pose(1, ri, rni, k, steps)[4]
+            body = drawer_body(handle, volume[0])
+            if not checker.pose_clears_volume(left_pose, body, margin + slack):
+                return False
+            if (
+                event["pickup_frame"]
+                <= li + fraction * (lni - li)
+                <= event["release_frame"]
+            ):
+                if not outside_box(left_pose[4], body, radius=0.035 + slack):
                     return False
         return True
 
+    phase_priority = lambda i, j: 0.0
+    if task == "drawer":
+        pickup_index = int(np.searchsorted(sources[0], event["pickup_frame"]))
+        pull_index = int(np.searchsorted(sources[1], motion["pull_start"]))
+        open_index = int(np.searchsorted(sources[1], opening))
+        wait_index = int(np.searchsorted(sources[0], wait))
+        target = (pull_index + open_index) / 2
+
+        def phase_priority(i, j):
+            return (
+                abs((i - pickup_index) - (j - target))
+                if i <= wait_index and j <= open_index
+                else 0.0
+            )
+
+        receipt["alignment"] = (
+            "pickup during drawer pull, subordinate to minimum duration"
+        )
     schedule = schedule_sources(
         len(sources[0]),
         len(sources[1]),
         safe,
         dependency=dependency,
         left_priority=task != "drawer",
+        tie_break=phase_priority,
     )
     edges = zip(
         schedule.left[:-1], schedule.right[:-1], schedule.left[1:], schedule.right[1:]

@@ -19,6 +19,7 @@ def schedule_sources(
     *,
     dependency: Callable[[int, int], bool] = lambda i, j: True,
     left_priority: bool = True,
+    tie_break: Callable[[int, int], float] = lambda i, j: 0.0,
 ) -> Schedule:
     """Shortest monotone path through recorded poses, including swept edges.
 
@@ -36,12 +37,12 @@ def schedule_sources(
         raise ValueError("terminal configuration is unsafe or violates dependency")
     if not dependency(0, 0):
         raise ValueError("no safe schedule preserving source trajectories and priority")
-    frontier = [(max(n - 1, m - 1), 0, 0, 0, 0)]
+    frontier = [(max(n - 1, m - 1), tie_break(0, 0), 0, 0, 0, 0)]
     costs = {(0, 0): 0}
     parent = {}
     reached = False
     while frontier:
-        priority, _, _, i, j = heappop(frontier)
+        priority, _, _, _, i, j = heappop(frontier)
         g = costs[i, j]
         if priority != g + max(n - 1 - i, m - 1 - j):
             continue
@@ -63,7 +64,10 @@ def schedule_sources(
             costs[ni, nj] = new_cost
             parent[ni, nj] = (i, j)
             lower_bound = max(n - 1 - ni, m - 1 - nj)
-            heappush(frontier, (new_cost + lower_bound, -ni - nj, -nj, ni, nj))
+            heappush(
+                frontier,
+                (new_cost + lower_bound, tie_break(ni, nj), -ni - nj, -nj, ni, nj),
+            )
     if not reached:
         raise ValueError("no safe schedule preserving source trajectories and priority")
     points = [goal]

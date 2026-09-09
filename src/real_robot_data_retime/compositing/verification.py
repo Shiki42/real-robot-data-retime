@@ -17,8 +17,6 @@ class OriginAudit:
                 slice(max(0, xx.min() - 4), min(w, xx.max() + 5)),
             )
             template = cv2.cvtColor(frames[0][roi], cv2.COLOR_BGR2GRAY)
-            if template.std() < 3:
-                raise ValueError("object origin has insufficient appearance contrast")
             hsv = cv2.cvtColor(frames[0], cv2.COLOR_BGR2HSV)
             pixels = hsv[yy, xx]
             saturated = pixels[pixels[:, 1] > 70]
@@ -33,6 +31,12 @@ class OriginAudit:
                 )
                 saturation = max(50.0, float(np.percentile(saturated[:, 1], 10)) * 0.65)
                 color = (hue, saturation)
+            if color is not None and self.color_count(frames[0][roi], color) < max(
+                3, len(xx) * 0.2
+            ):
+                color = None
+            if color is None and template.std() < 3:
+                raise ValueError("object origin has insufficient appearance contrast")
             self.items.append(
                 dict(
                     event=event,

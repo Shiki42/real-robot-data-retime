@@ -9,7 +9,7 @@ import numpy as np
 import pyarrow as pa
 import pyarrow.parquet as pq
 from .interaction.pipeline import run
-from .edit import registered_frames, native_render_inputs
+from .edit import native_render_inputs
 from .timeline.planner import plan_joints
 from .compositing.layers import composite
 from .compositing.depth import AlignedDepth
@@ -18,12 +18,12 @@ from .stats import feature_statistics
 from .video import remap_video
 
 
-def analysis_identity(video):
+def analysis_identity(video, package_root):
     digest = hashlib.sha256()
     with Path(video).open("rb") as stream:
         for chunk in iter(lambda: stream.read(1024 * 1024), b""):
             digest.update(chunk)
-    root = Path(__file__).parent
+    root = Path(package_root)
     for directory in ["interaction", "tracking", "segmentation", "tasks"]:
         for path in sorted((root / directory).glob("*.py")):
             digest.update(path.relative_to(root).as_posix().encode())
@@ -79,19 +79,23 @@ def process_episode(source, raw_source, output, work_dir, urdf, mesh_root, index
     info = json.loads((source / "meta/info.json").read_text())
     row = source_episodes(source)[index]
     ep = row["episode_index"]
+    (output / f"meta/retime_receipts/episode_{ep:03d}.json").unlink(missing_ok=True)
     debug = work_dir / f"episode_{ep:03d}"
     debug.mkdir(parents=True, exist_ok=True)
     video = source / info["video_path"].format(
         video_key="observation.images.top", chunk_index=0, file_index=ep
     )
-    identity = analysis_identity(video)
+    identity = analysis_identity(video, Path(__file__).parent)
     identity_file = debug / "analysis_identity.txt"
     if not (
         identity_file.exists()
         and identity_file.read_text() == identity
         and (debug / "report.json").exists()
     ):
-        report = run(video, debug, "drawer")
+        reuse = debug if (debug / "measurements.json").exists() else None
+        report = run(video, debug, "drawer", reuse_measurements=reuse)
+        if not report["success"] and reuse is not None:
+            report = run(video, debug, "drawer")
         identity_file.write_text(identity)
     else:
         report = json.loads((debug / "report.json").read_text())
@@ -103,19 +107,15 @@ def process_episode(source, raw_source, output, work_dir, urdf, mesh_root, index
         np.load(debug / "tracks.npz") as tracks,
         np.load(debug / "segmentation.npz") as segmentation,
     ):
-        frames, _ = registered_frames(video, tracks["registration"], 640)
         left, right, plan = plan_joints(
             np.asarray(table["observation.state"].to_pylist()),
             np.asarray(table["action"].to_pylist()),
             timeline,
-            frames,
-            tracks["objects"],
             urdf,
             mesh_root,
         )
         np.savez_compressed(debug / "source_mapping.npz", left=left, right=right)
         (debug / "schedule.json").write_text(json.dumps(plan, indent=2))
-        del frames
         native, masks, transforms = native_render_inputs(
             video, tracks["registration"], segmentation
         )

@@ -49,3 +49,13 @@ def safe_wait_before_entry(tcp, pickup, image_gate, bounds):
     if not candidates:
         raise ValueError("no recorded held pose clears the drawer sweep")
     return max(candidates)
+
+
+def drawer_body(position, rotation, *, half_width=0.12, depth=0.20, half_height=0.035):
+    """Instantaneous solid exclusion volume before insertion is permitted."""
+    local = np.asarray(position) @ rotation
+    return (
+        rotation,
+        local - np.array([depth, half_width, half_height]),
+        local + np.array([0.0, half_width, half_height]),
+    )

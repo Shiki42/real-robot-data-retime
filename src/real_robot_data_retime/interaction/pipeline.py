@@ -61,6 +61,7 @@ def run(
     config=InteractionConfig(),
     backend="sam2",
     analysis_width=640,
+    reuse_measurements=None,
 ):
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -94,6 +95,24 @@ def run(
     proposals = task_object_proposals(frames, task, config)
     retries = []
     contact_distances = None
+    cached_points = None
+    sam = None
+    from .measurements import inputs_fingerprint, producer_fingerprint, load_hypotheses
+
+    measurement_inputs = inputs_fingerprint(input_path, frames, proposals, transforms)
+    measurement_producer = producer_fingerprint()
+    if reuse_measurements is not None:
+        stored = json.loads(
+            (Path(reuse_measurements) / "measurements.json").read_text()
+        )
+        if stored["inputs"] != measurement_inputs:
+            retries.append(
+                dict(
+                    kind="automatic_hypothesis_cache_invalidated",
+                    reason="input_registration_or_proposals_changed",
+                )
+            )
+            reuse_measurements = None
     if backend == "sam2":
         from .neural_tracks import (
             segment_candidates,
@@ -106,40 +125,58 @@ def run(
         config = replace(
             config, evidence_frames=max(config.evidence_frames, round(fps * 2))
         )
-        sam = SamVideo("facebook/sam2.1-hiera-large")
-
-        from .cache import gripper_cache
-
-        progress("robot_and_gripper_tracking")
-        grippers = gripper_cache(
-            frames, evidence, sam, Path.home() / ".cache" / "real-robot-data-retime"
-        )
-        evidence["centers"] = grippers["centers"]
-        evidence["apertures"] = grippers["apertures"]
-        progress("object_segmentation")
-        if task == "workpiece":
-            from .event_seeded_tracking import event_seeded_tracks
-
-            robot_union = (
-                np.unpackbits(grippers["robot_masks"], axis=-1, count=frames.shape[2])
-                .astype(bool)
-                .any(axis=1)
+        if reuse_measurements is not None:
+            progress("reinterpret_automatic_hypotheses")
+            grippers, tracks, cached_points, measurement_producer = load_hypotheses(
+                reuse_measurements, measurement_inputs, proposals
             )
-            tracks, origin_seeds = event_seeded_tracks(
-                frames, proposals, robot_union, sam, fps
-            )
-            (output_dir / "origin_events.json").write_text(
-                json.dumps(origin_seeds, indent=2)
+            evidence["centers"] = grippers["centers"]
+            evidence["apertures"] = grippers["apertures"]
+            retries.append(
+                dict(
+                    kind="reverified_automatic_measurement_hypotheses",
+                    producer=measurement_producer,
+                )
             )
         else:
-            tracks = segment_candidates(frames, proposals, evidence, sam)
-        progress("object_identity_recovery")
-        tracks, retries = recover_candidates(frames, proposals, tracks, evidence, sam)
-        if task == "letters":
-            tracks, terminal_retries = terminal_letter_recovery(
-                frames, proposals, tracks, sam
+            sam = SamVideo("facebook/sam2.1-hiera-large")
+
+            from .cache import gripper_cache
+
+            progress("robot_and_gripper_tracking")
+            grippers = gripper_cache(
+                frames, evidence, sam, Path.home() / ".cache" / "real-robot-data-retime"
             )
-            retries.extend(terminal_retries)
+            evidence["centers"] = grippers["centers"]
+            evidence["apertures"] = grippers["apertures"]
+            progress("object_segmentation")
+            if task == "workpiece":
+                from .event_seeded_tracking import event_seeded_tracks
+
+                robot_union = (
+                    np.unpackbits(
+                        grippers["robot_masks"], axis=-1, count=frames.shape[2]
+                    )
+                    .astype(bool)
+                    .any(axis=1)
+                )
+                tracks, origin_seeds = event_seeded_tracks(
+                    frames, proposals, robot_union, sam, fps
+                )
+                (output_dir / "origin_events.json").write_text(
+                    json.dumps(origin_seeds, indent=2)
+                )
+            else:
+                tracks = segment_candidates(frames, proposals, evidence, sam)
+            progress("object_identity_recovery")
+            tracks, retries = recover_candidates(
+                frames, proposals, tracks, evidence, sam
+            )
+            if task == "letters":
+                tracks, terminal_retries = terminal_letter_recovery(
+                    frames, proposals, tracks, sam
+                )
+                retries.extend(terminal_retries)
         contact_distances = object_gripper_distances(grippers["masks"], tracks)
         np.savez_compressed(
             output_dir / "segmentation.npz",
@@ -152,7 +189,7 @@ def run(
         tracks = track_candidates(frames, proposals, evidence["centers"])
     else:
         raise ValueError(f"unknown tracking backend: {backend}")
-    if backend == "sam2":
+    if sam is not None:
         import gc
         import torch
 
@@ -168,7 +205,12 @@ def run(
         )
 
         handle_proposals = object_proposals(frames, "saturated", config)
-        xy, visible, sampled_indices = track_points(frames, handle_proposals)
+        if cached_points is not None:
+            xy, visible, sampled_indices = (
+                cached_points[k] for k in ["xy", "visible", "source_indices"]
+            )
+        else:
+            xy, visible, sampled_indices = track_points(frames, handle_proposals)
         np.savez_compressed(
             output_dir / "drawer_point_tracks.npz",
             xy=xy,
@@ -428,6 +470,42 @@ def run(
     from ..timeline.episode import assign_boundaries
 
     selected = assign_boundaries(selected, evidence["centers"], fps, frames.shape[2])
+    if task == "drawer" and selected and backend == "sam2":
+        release = max(c["release_frame"] for c in selected)
+
+        def consistent(motion):
+            return (
+                motion is not None
+                and motion["open_frame"] < release < motion["close_start"]
+            )
+
+        if not consistent(drawer_motion):
+            alternative = discover_drawer_motion(
+                xy.transpose(1, 0, 2),
+                evidence["centers"][sampled_indices, 1],
+                fps / 3,
+                frames.shape[2],
+                release_frame=int(np.searchsorted(sampled_indices, release)),
+            )
+            if alternative is not None:
+                drawer_motion = dict(
+                    open_frame=int(sampled_indices[alternative.open_frame]),
+                    close_start=int(sampled_indices[alternative.close_start]),
+                    pull_start=int(sampled_indices[alternative.pull_start]),
+                    confidence=alternative.confidence,
+                    handle_candidate=alternative.handle_candidate,
+                    reference_candidate=alternative.reference_candidate,
+                )
+            else:
+                alternative, drawer_area = drawer_area_motion(
+                    frames, fps, evidence["centers"][:, 1]
+                )
+                if consistent(alternative):
+                    drawer_motion = alternative
+                    np.save(output_dir / "drawer_area.npy", drawer_area)
+            retries.append(
+                dict(kind="drawer_event_chronology", accepted=consistent(drawer_motion))
+            )
     timeline = {
         "task": task,
         "fps": fps,
@@ -448,6 +526,15 @@ def run(
     if task == "drawer":
         gates["drawer_open_close"] = (
             drawer_motion is not None and drawer_motion["confidence"] >= 0.5
+        )
+        gates["drawer_event_order"] = (
+            bool(selected)
+            and drawer_motion is not None
+            and (
+                drawer_motion["open_frame"]
+                < selected[0]["release_frame"]
+                < drawer_motion["close_start"]
+            )
         )
         gates["correct_roles"] = (
             len(selected) == 1 and selected[0]["robot_id"] == "left"
@@ -561,5 +648,11 @@ def run(
         ("selected_object_candidates.mp4", "selected"),
     ]:
         write_video(output_dir / filename, annotated(mode), fps)
+    if backend == "sam2":
+        (output_dir / "measurements.json").write_text(
+            json.dumps(
+                dict(inputs=measurement_inputs, producer=measurement_producer), indent=2
+            )
+        )
     progress("complete")
     return report

@@ -94,11 +94,17 @@ class PiperXClearance:
         limit_excess = max(
             0.0, float(row[6]) / 2000 - self.gripper_stroke_m, -float(row[6]) / 2000
         )
-        return matrices, centers, extents, limit_excess
+        return (
+            matrices,
+            centers,
+            extents,
+            limit_excess,
+            self.model.tcp_transform().translation.copy(),
+        )
 
     def _clear(self, left, right):
-        lm, lc, le, left_excess = left
-        rm, rc, re, right_excess = right
+        lm, lc, le, left_excess, _ = left
+        rm, rc, re, right_excess, _ = right
         margin = self.margin + left_excess + right_excess
         bounds = (
             np.linalg.norm(lc[:, None] - rc[None, :], axis=-1)
@@ -173,8 +179,10 @@ class PiperXClearance:
         return True
 
     def _interpolated_pose(self, side, start, stop, numerator, denominator):
-        if start == stop:
+        if start == stop or numerator == 0:
             return self.poses[side][start]
+        if numerator == denominator:
+            return self.poses[side][stop]
         divisor = gcd(numerator, denominator)
         key = (side, start, stop, numerator // divisor, denominator // divisor)
         if key in self._interpolation_cache:
@@ -192,12 +200,22 @@ class PiperXClearance:
 
     def arm_clears_volume(self, side, source_index, volume, margin=0.02):
         """Exact arm meshes against a conservative oriented scene volume."""
+        return self.pose_clears_volume(self.poses[side][source_index], volume, margin)
+
+    def pose_clears_volume(self, pose, volume, margin):
         rotation, lo, hi = volume
+        matrices, centers, extents, excess, _ = pose
+        margin += excess
+        box_center = rotation @ ((lo + hi) / 2)
+        box_extent = np.abs(rotation) @ ((hi - lo) / 2)
+        gap = np.maximum(np.abs(centers - box_center) - extents - box_extent, 0.0)
+        candidates = np.flatnonzero(np.linalg.norm(gap, axis=1) < margin)
+        if not len(candidates):
+            return True
         geometry = self.fcl.Box(*(hi - lo))
-        placement = self.fcl.Transform3f(rotation, rotation @ ((lo + hi) / 2))
-        matrices = self.poses[side][source_index][0]
-        margin += self.poses[side][source_index][3]
-        for mesh, matrix in zip(self.geometry, matrices):
+        placement = self.fcl.Transform3f(rotation, box_center)
+        for index in candidates:
+            mesh, matrix = self.geometry[index], matrices[index]
             pose = self.fcl.Transform3f(matrix[:3, :3], matrix[:3, 3])
             distance = self.fcl.distance(
                 mesh,

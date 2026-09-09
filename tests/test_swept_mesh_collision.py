@@ -29,7 +29,7 @@ def test_swept_arc_collision_between_clear_endpoints():
         )
         matrix = np.eye(4)
         matrix[:3, 3] = p
-        return matrix[None], p[None], np.full((1, 3), 0.02), 0.0
+        return matrix[None], p[None], np.full((1, 3), 0.02), 0.0, p
 
     checker._pose = pose
     checker.poses = [

@@ -50,7 +50,14 @@ def edit_video(
         del frames
         render = composite(native, timeline, masks, left, right, output_path, debug)
     report.update(phase="parallel_compositing", schedule=plan, compositing=render)
-    report["status"] = "rendered_pending_visual_validation"
+    report["success"] = bool(
+        report["success"] and render["automatic_origin_audit"]["passed"]
+    )
+    report["status"] = (
+        "rendered_pending_visual_validation"
+        if report["success"]
+        else "requires_automatic_recovery"
+    )
     (debug / "report.json").write_text(json.dumps(report, indent=2))
     return report
 

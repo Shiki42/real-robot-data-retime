@@ -60,8 +60,12 @@ def validate(source, output):
                 or np.any(np.diff(mapping) < 0)
             ):
                 raise ValueError("invalid or non-monotone source mapping")
+        numeric_sources = {
+            key: np.asarray(original[key].to_pylist())
+            for key in ["action", "observation.state"]
+        }
         for key in ["action", "observation.state"]:
-            values = np.asarray(original[key].to_pylist())
+            values = numeric_sources[key]
             actual = np.asarray(table[key].to_pylist())
             if not (
                 np.array_equal(actual[:, :7], values[left, :7])
@@ -116,6 +120,31 @@ def validate(source, output):
         receipt = json.loads(
             (output / f"meta/retime_receipts/episode_{episode:03d}.json").read_text()
         )
+        dependencies = receipt["plan"]["dependencies"]
+        if dependencies:
+            if not np.all(
+                (left <= dependencies["safe_wait_frame"])
+                | (right >= dependencies["open_frame"])
+            ):
+                raise ValueError("cube insertion precedes drawer opening")
+            if not np.all(
+                (right < dependencies["close_start"])
+                | (left >= dependencies["withdrawal_frame"])
+            ):
+                raise ValueError("drawer closing precedes left-arm withdrawal")
+        tolerance = np.array([0.3] * 6 + [0.5])
+        for side, mapping in enumerate([left, right]):
+            for start, stop in zip(mapping[:-1], mapping[1:]):
+                if stop - start <= 1:
+                    continue
+                for key in ["action", "observation.state"]:
+                    values = numeric_sources[key][
+                        start : stop + 1, side * 7 : side * 7 + 7
+                    ]
+                    if np.any(np.ptp(values, axis=0) > tolerance + 1e-9):
+                        raise ValueError(
+                            "retiming skipped a meaningful pose or command change"
+                        )
         if not receipt["plan"]["swept_edges_verified"]:
             raise ValueError("missing swept collision audit")
         if (
