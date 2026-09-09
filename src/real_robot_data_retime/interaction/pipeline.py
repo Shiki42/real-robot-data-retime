@@ -2,29 +2,31 @@ import json
 import time
 from dataclasses import asdict, replace
 from pathlib import Path
+
 import cv2
-import numpy as np
 import matplotlib
+import numpy as np
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+from scipy.ndimage import median_filter
+
+from ..tasks import PROFILES
 from .discovery import (
     InteractionConfig,
-    motion_and_grippers,
-    task_object_proposals,
     object_proposals,
+    task_object_proposals,
     track_candidates,
 )
 from .evidence import score_hypothesis, stable_runs
-from scipy.ndimage import median_filter
-from .video import read_video, write_video
-from ..tasks import PROFILES
+from .photometric_motion import photometric_motion
 from .registration import stabilize
 from .verification import (
-    validate_origin_departure,
-    pickup_interval,
     attachment_visibility,
+    pickup_interval,
+    validate_origin_departure,
 )
+from .video import read_video, write_video
 
 
 def discover_task(frames):
@@ -66,6 +68,12 @@ def run(
 ):
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
+    if (
+        backend == "sam2"
+        and reuse_measurements is None
+        and (output_dir / "measurements.json").exists()
+    ):
+        reuse_measurements = output_dir
     started = time.monotonic()
 
     def progress(stage):
@@ -92,13 +100,22 @@ def run(
     task = task or discover_task(frames)
     profile = PROFILES[task]
     progress("robot_discovery")
-    evidence = motion_and_grippers(frames)
+    photometry = photometric_motion(frames)
+    evidence = photometry.discovery
+    np.savez_compressed(
+        output_dir / "motion_photometry.npz",
+        coefficients=photometry.coefficients,
+        raw_motion_pixels=(photometry.raw["masks"] > 0).sum(axis=(1, 2)),
+        discovery_pixels=(evidence["masks"] > 0).sum(axis=(1, 2)),
+        audit_support_pixels=photometry.support.sum(axis=(1, 2)),
+        ambiguous_pixels=photometry.ambiguous.sum(axis=(1, 2)),
+    )
     proposals = task_object_proposals(frames, task, config)
     retries = []
     contact_distances = None
     cached_points = None
     sam = None
-    from .measurements import inputs_fingerprint, producer_fingerprint, load_hypotheses
+    from .measurements import inputs_fingerprint, load_hypotheses, producer_fingerprint
 
     measurement_inputs = inputs_fingerprint(input_path, frames, proposals, transforms)
     measurement_producer = producer_fingerprint()
@@ -115,13 +132,13 @@ def run(
             )
             reuse_measurements = None
     if backend == "sam2":
+        from ..segmentation.sam_backend import SamVideo
         from .neural_tracks import (
-            segment_candidates,
-            recover_candidates,
             object_gripper_distances,
+            recover_candidates,
+            segment_candidates,
             terminal_letter_recovery,
         )
-        from ..segmentation.sam_backend import SamVideo
 
         config = replace(
             config, evidence_frames=max(config.evidence_frames, round(fps * 2))
@@ -131,10 +148,12 @@ def run(
             grippers, tracks, cached_points, measurement_producer = load_hypotheses(
                 reuse_measurements, measurement_inputs, proposals
             )
+            from .neural_tracks import grippers_from_robots, segment_robots
             from .robot_discovery import robot_mask_audit
-            from .neural_tracks import segment_robots, grippers_from_robots
 
-            mask_audit = robot_mask_audit(grippers["robot_masks"], evidence, fps)
+            mask_audit = robot_mask_audit(
+                grippers["robot_masks"], evidence, fps, pixel_support=photometry.support
+            )
             failed_sides = [
                 i for i, arm in enumerate(mask_audit["arms"]) if not arm["passed"]
             ]
@@ -219,7 +238,9 @@ def run(
             )
         from .robot_discovery import robot_mask_audit
 
-        mask_audit = robot_mask_audit(grippers["robot_masks"], evidence, fps)
+        mask_audit = robot_mask_audit(
+            grippers["robot_masks"], evidence, fps, pixel_support=photometry.support
+        )
         contact_distances = object_gripper_distances(grippers["masks"], tracks)
         # A completion marker must never certify a partly replaced checkpoint.
         (output_dir / "measurements.json").unlink(missing_ok=True)
@@ -270,6 +291,7 @@ def run(
         progress("automatic_measurements_checkpoint")
     if sam is not None:
         import gc
+
         import torch
 
         del sam
@@ -277,11 +299,11 @@ def run(
         torch.cuda.empty_cache()
     drawer_motion = None
     if task == "drawer" and backend == "sam2":
-        from ..tracking.points import track_points
         from ..tasks.drawer_constraints import (
             discover_drawer_motion,
             drawer_area_motion,
         )
+        from ..tracking.points import track_points
 
         handle_proposals = object_proposals(frames, "saturated", config)
         if cached_points is not None:
@@ -319,7 +341,7 @@ def run(
     bins = []
     deposit_cache = {}
     if task == "workpiece" and backend == "sam2":
-        from ..tasks.workpiece import discover_bins, bin_visit, verify_deposit
+        from ..tasks.workpiece import bin_visit, discover_bins, verify_deposit
 
         bins = discover_bins(frames[0])
         all_robots = (
@@ -631,6 +653,7 @@ def run(
     report = dict(
         success=complete,
         phase="interaction_understanding",
+        motion_reference="photometric_opaque_support",
         backend=backend,
         task=task,
         num_robot_arms=arm_count,

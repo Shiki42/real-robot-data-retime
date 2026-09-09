@@ -1,180 +1,93 @@
 # real-robot-data-retime
 
-A small standalone toolkit for counterfactually retiming sequential dual-arm
-real-robot demonstrations.
+Automatically identify dual-arm interactions in a video and edit sequential
+manipulations into overlapping actions. Normal operation requires a video file;
+robot, object, grasp and release prompts are generated from image evidence.
 
-It contains only the functional code extracted from the validated PiperX
-sort-letters retiming work:
+Supported scene profiles are cube-into-drawer, letter sorting and workpiece
+storage. The drawer profile enforces opening before insertion and withdrawal
+before closing. Letter and workpiece manipulations are independent, with
+left-arm priority when collision constraints require waiting.
 
-- detect left-arm and right-arm work segments from robot state, with action
-  motion as an independent sanity check;
-- schedule the two original trajectories at uniformly sampled relative timings;
-- guarantee that no new both-arms-idle gap is inserted;
-- hold an arm's boundary pose and wrist frame while that arm is waiting;
-- write per-frame left-idle, right-idle, and overlap labels;
-- record exact per-arm execution, idle, and overlap intervals in frames and
-  seconds;
-- preserve each wrist camera's own source time;
-- build a counterfactual main view using the left half from the left-arm source
-  time and the right half from the right-arm source time;
-- validate numeric mappings, timing labels, video frame counts, sampled pixels,
-  and a complete SHA-256 inventory.
+## Install
 
-## Supported dataset layout
-
-The end-to-end CLI currently targets a dual-arm LeRobot v3 shared-video layout:
-
-- 14-D `action`: seven left-arm values followed by seven right-arm values;
-- 14-D `observation.state` in the same order;
-- `observation.images.left_wrist`;
-- `observation.images.right_wrist`;
-- `observation.images.top`;
-- shared Parquet and MP4 files with episode ranges in
-  `meta/episodes/chunk-000/file-000.parquet`.
-
-The scheduling primitives in `real_robot_data_retime.retime` can also be used
-directly.
-
-## Installation
-
-Python dependencies:
+Python 3.11 and `ffmpeg` are required. The tested GPU runtime uses PyTorch
+2.8.0, torchvision 0.23.0 and transformers 5.16.1. Model revisions are pinned
+in `segmentation/model_versions.py`.
 
 ```bash
-python -m pip install -e .
+python -m pip install torch==2.8.0 torchvision==0.23.0 --index-url https://download.pytorch.org/whl/cu128
+python -m pip install -e '.[interaction,segmentation,collision,test]'
 ```
 
-Video generation additionally requires `ffmpeg` on `PATH`.
+RoboVisualize is additionally required for joint-based dataset scheduling.
+Its asset path and the robot URDF are explicit inputs; this repository includes
+the provided PiperX URDF snapshot in `assets/`.
 
-## Uniform schedule
-
-For (N) source episodes, the pipeline constructs four phase-shifted samples
-per source:
-
-```text
-grid_size = 4 * N
-grid_index = source_episode + N * sample_index
-u = grid_index / grid_size
-```
-
-At `u=0`, the left arm finishes immediately before the right arm starts.
-Increasing `u` advances the right arm relative to the left. The omitted
-`u=1` endpoint would put the left arm immediately after the right arm.
-
-Use `--grid-parity even` and `--grid-parity odd` to generate the two
-alternating, complementary halves of the complete grid.
-
-## Generate
-
-The source directory must be a Git checkout at the exact revision passed on the
-command line. The output directory must not exist.
+## Edit a video
 
 ```bash
-real-robot-retime \
-  --dataset /path/to/source-checkout \
-  --source-repo owner/source-dataset \
-  --source-revision 0123456789abcdef0123456789abcdef01234567 \
-  --output /path/to/new-output \
-  --repo-id owner/output-dataset \
-  --grid-parity even
+python main.py --input input.mp4 --output parallel_actions.mp4
 ```
 
-The output includes:
-
-- `retime.left_idle`, `retime.right_idle`, and `retime.overlap` in the
-  data Parquet;
-- per-episode frame/second interval metadata;
-- exact source-index and active-mask arrays under
-  `meta/retime_source_indices/`;
-- `retime_manifest.json` with source provenance, schedule grid, heuristic
-  settings, and file inventory.
-
-## Validate
+To inspect interaction understanding without rendering:
 
 ```bash
-real-robot-retime-validate \
-  --source /path/to/source-checkout \
-  --dataset /path/to/retimed-output \
-  --report /path/to/retimed-output/VALIDATION_RECEIPT.json
+python main.py --input input.mp4 --analysis-only --debug-dir debug/input
 ```
 
-Validation fails if any output frame has both arms idle, if a numeric or timing
-mapping differs from its receipt, if video counts differ, or if sampled video
-pixels exceed the configured re-encoding tolerance.
-
-## Important semantic boundary
-
-The split main view is a video-edit counterfactual, not a physically captured
-simultaneous world observation. Retiming does not establish task success,
-collision safety, or real simultaneous dual-arm behavior.
-
-## Trim static episode boundaries (PiperX)
-
-This migrates the static-edge analysis and RGB trimming pipeline into this package.
-Supports LeRobot v3 per-episode or shared data/video files, with arbitrary tasks,
-episode counts, and dataset FPS.
-
-The fixed 14-D action layout is left six joints (degrees), left gripper (mm),
-right six joints (degrees), right gripper (mm). Default strict thresholds are
-0.1 degrees/second for joints and 0.1 mm/second for grippers. Speeds use adjacent
-action differences times FPS. Static frames must pass both adjacent edges
-(one edge at episode boundaries). No smoothing or internal static deletion.
-
-- Head: remove all consecutive frames where both arms are static.
-- Tail: retain 2 seconds after the later-stopping arm, keeping both arms and
-  all cameras synchronized. Earlier-stopping arms may retain longer holds.
-- Short tails: keep the original end without inventing/repeating frames; report shortfalls.
-- Entirely static episodes: retain the final two seconds, or all available frames.
-  With zero tail duration retain one frame to avoid empty episodes.
-- Preserve action, state, other numeric fields, task IDs and task text.
-  All RGB cameras use the same contiguous interval; omit depth features/storage.
-
-Analyze only:
+To process a directory without interactive annotation:
 
 ```bash
-real-robot-trim --dataset /path/to/source --report /path/to/edges.json
+python batch.py --input-dir videos --output-dir outputs
 ```
 
-Analyze and write a new RGB dataset:
+Diagnostics include gripper tracks, aperture plots, object candidates,
+`interaction_timeline.json`, segmentation/track checkpoints and `report.json`.
+Low-confidence episodes fail with a report rather than requesting clicks or
+inventing missing observations. Restarting with the same debug directory reuses
+compatible automatic measurements and verifies their source identity.
+
+The video-only path checks projected silhouettes. The dataset path below uses
+recorded joints and RoboVisualize mesh clearance. These verification scopes are
+reported separately.
+
+## Trim and retime a LeRobot v3 dataset
+
+The dataset path supports the PiperX 14-value action/state layout: six joint
+angles in degrees and one gripper aperture in millimetres per arm. Main RGB is
+composited; each wrist view and its telemetry follow that arm's source clock.
+
+Trim initial stillness and retain available terminal stillness:
 
 ```bash
-real-robot-trim \
-  --dataset /path/to/source \
-  --output /path/to/new-rgb-dataset \
-  --repo-id owner/new-rgb-dataset \
-  --tail-seconds 2 \
-  --joint-threshold 0.1 \
-  --gripper-threshold 0.1
+real-robot-trim --dataset /path/to/raw --output /path/to/trimmed \
+  --repo-id owner/trimmed --tail-seconds 2
 ```
 
-Output must not exist and must be outside the source. Nothing is uploaded.
-Interrupted outputs are left for inspection; retry with a new path.
-Outputs contain per-episode Parquet/videos with reset timestamps, updated
-metadata, recomputed statistics, and trim_manifest.json documenting per-arm
-static counts, source intervals [start, stop), removals, and hold shortfalls.
-RGB statistics sample up to 100 uniform frames per episode resized to 64x64;
-every generated video is decoded to verify its frame count.
-
-The earlier one-off script defaulted to both action and measured state.
-This tool explicitly uses action, with separate gripper units, and is not
-intended to reproduce the old 1119-frame removal total. Trimming runs
-independently of retiming; retiming's existing no-both-idle policy is unchanged.
-
-## Automatic interaction development
-
-The automatic video-only interaction pipeline is currently **experimental**.
-The existing numeric retiming CLI above is separate. The new pipeline does not
-accept clicks, boxes, object IDs, or event-frame annotations:
+Generate one synchronized output per trimmed episode:
 
 ```bash
-python -m pip install -e '.[interaction,segmentation]'
-python main.py --input input.mp4 --debug-dir debug/input
-python batch.py --input-dir videos --output-dir debug
+PYTHONPATH=/path/to/robo-visualize/src python -m real_robot_data_retime.automatic_dataset \
+  --source /path/to/trimmed --raw-source /path/to/raw \
+  --output /path/to/retimed --work-dir /path/to/analysis \
+  --urdf assets/piper_x_description.urdf \
+  --mesh-root /path/to/robo-visualize/src/robo_visualize/arms/piperx/assets \
+  --repo-id owner/retimed
 ```
 
-It emits gripper tracks, apparent aperture, candidate videos, an interaction
-timeline, and a report. Reports include explicit automatic verification gates. A diagnostic file alone
-is not proof that a video is ready for retiming; all interaction gates must pass. See
-[development evidence and constraints](docs/automatic-interaction.md).
+`--episodes 0 1` processes selected episode indices without assembling global
+metadata. Failed episodes do not receive completion receipts. Finalization
+requires every source episode; publication additionally requires data and
+visual validation.
+
+Exact per-arm source indices, raw-episode offsets, synthetic-hold flags,
+interaction evidence and collision ledgers are stored in output metadata.
+Retiming adds 60 repeated boundary frames at 30 FPS as an explicitly labelled
+synthetic terminal hold. Trimming itself does not fabricate unavailable frames.
+
+See [pipeline and verification details](docs/automatic-interaction.md),
+[timing-grid augmentation](docs/uniform-retiming.md), and the tests in `tests/`.
 
 `timeline.scheduler.schedule_sources` supports left-priority waits and task
 precedence gates. `collision.piperx.PiperXClearance` reuses RoboVisualize's FK
@@ -187,3 +100,6 @@ reproduction commands are documented in [model experiments](docs/model-experimen
 
 Accuracy-first full-frame-rate probes and remaining failures are recorded in
 [accuracy experiments](docs/accuracy-experiments.md).
+
+Photometric-reference corrections and the source-verified parallel preview are
+documented in [photometric verification](docs/photometric-verification.md).

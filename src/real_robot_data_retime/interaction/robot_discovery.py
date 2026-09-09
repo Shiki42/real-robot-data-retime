@@ -13,19 +13,21 @@ def robot_entry_side(region):
 
 
 def robot_prompt(frames, geometry, side):
-    n, h, w = frames.shape[:3]
+    w = frames.shape[2]
     from .video import components
 
     best = None
     # Per-side motion labels may overlap and overwrite one another. Recover the
     # whole connected silhouette, assigning identity by its actual entry edge.
     for t, labels in enumerate(geometry["masks"]):
-        for mask, stat, center in components(labels > 0, 150):
-            x, y, bw, bh, area = stat
+        for mask, _, center in components(labels > 0, 150):
             if robot_entry_side(mask) != side:
                 continue
             interior = np.exp(-abs(center[0] / w - (0.4 if side == 0 else 0.65)) * 6)
-            score = area * interior
+            supported = mask & geometry["prompt_support"][t]
+            if supported.sum() < 20:
+                continue
+            score = supported.sum() * interior
             if best is None or score > best[0]:
                 best = score, t, mask
     if best is None:
@@ -33,7 +35,7 @@ def robot_prompt(frames, geometry, side):
             "no entry-anchored articulated foreground supports robot discovery"
         )
     _, t, mask = best
-    proposal = prompt_from_robot_region(mask)
+    proposal = supported_robot_prompt(mask, geometry["prompt_support"][t])
     other = (geometry["masks"][t] == 2 - side) & ~mask
     yy, xx = np.where(other)
     negatives = []
@@ -64,18 +66,24 @@ def prompt_from_robot_region(mask):
     return dict(bbox=[x0, y0, x1 - x0, y1 - y0], mask=mask, positive_points=positives)
 
 
-def robot_mask_audit(robots, geometry, fps):
+def robot_mask_audit(robots, geometry, fps, *, pixel_support=None):
     """Check whole-arm support against independently observed motion silhouettes."""
-    from .video import components
     from .evidence import stable_runs
+    from .video import components
 
     n, h, w = geometry["masks"].shape
+    if pixel_support is not None and pixel_support.shape != (n, h, w):
+        raise ValueError("motion support and robot geometry differ")
     coverage = np.full((n, 2), np.nan)
     for t, labels in enumerate(geometry["masks"]):
         for region, stat, center in components(labels > 0, int(h * w * 0.015)):
             side = robot_entry_side(region)
             if side is None:
                 continue
+            if pixel_support is not None:
+                region = region & pixel_support[t]
+                if region.sum() < 150:
+                    continue
             observed = np.unpackbits(robots[t, side], axis=-1, count=w).astype(bool)
             value = float((observed & region).sum() / region.sum())
             if not np.isfinite(coverage[t, side]) or value < coverage[t, side]:
@@ -100,6 +108,23 @@ def robot_mask_audit(robots, geometry, fps):
     return dict(
         passed=all(r["passed"] for r in results),
         arms=results,
-        method="entry_anchored_motion_coverage",
+        method="entry_anchored_opaque_motion_support"
+        if pixel_support is not None
+        else "entry_anchored_motion_coverage",
+        unassessed_frame_arm_pairs=int((~np.isfinite(coverage)).sum()),
         minimum_coverage=0.6,
     )
+
+
+def supported_robot_prompt(region, support):
+    """Keep wide context, but place positive points only on confident evidence."""
+    if region.shape != support.shape:
+        raise ValueError("robot prompt support geometry differs")
+    positive = region & support
+    if positive.sum() < 20:
+        raise ValueError("insufficient reliable robot prompt support")
+    proposal = prompt_from_robot_region(region)
+    proposal["positive_points"] = prompt_from_robot_region(positive)["positive_points"]
+    if not proposal["positive_points"]:
+        raise ValueError("no reliable interior robot prompt points")
+    return proposal

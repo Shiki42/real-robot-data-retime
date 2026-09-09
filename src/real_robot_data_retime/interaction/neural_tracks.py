@@ -1,6 +1,7 @@
 """Automatic segmentation seeds, bounded propagation and measured-track checks."""
 
 import numpy as np
+
 from ..segmentation.sam_backend import SamVideo
 
 
@@ -87,6 +88,7 @@ def recover_candidates(frames, proposals, tracks, geometry, sam):
     """
     import cv2
     from scipy.ndimage import gaussian_filter
+
     from .discovery import track_candidates
     from .verification import origin_presence
 
@@ -251,7 +253,8 @@ def object_gripper_distances(gripper_masks, object_tracks):
 def terminal_letter_recovery(frames, proposals, tracks, sam):
     """Match all visible terminal letters jointly, then track backward."""
     from scipy.optimize import linear_sum_assignment
-    from .discovery import task_object_proposals, InteractionConfig
+
+    from .discovery import InteractionConfig, task_object_proposals
 
     terminal = task_object_proposals(
         frames[-8:], "letters", InteractionConfig(minimum_object_area=40)
@@ -363,8 +366,9 @@ def terminal_letter_recovery(frames, proposals, tracks, sam):
 def segment_robots(frames, geometry, sam, sides=(0, 1)):
     """Track whole articulated arms using automatically generated support points."""
     import cv2
-    from .robot_discovery import robot_prompt, prompt_from_robot_region
+
     from .evidence import stable_runs
+    from .robot_discovery import robot_prompt, supported_robot_prompt
     from .video import components, pixel_kernel
 
     n, h, w = frames.shape[:3]
@@ -401,12 +405,16 @@ def segment_robots(frames, geometry, sam, sides=(0, 1)):
                     if anchored or (not opposite and exits_top):
                         connected |= region & masks[0]
                 packed[t, side] = np.packbits(connected, axis=-1)
-        reference_area = np.sum(geometry["masks"] == side + 1, axis=(1, 2))
+        reference_area = np.sum(
+            (geometry["masks"] == side + 1) & geometry["prompt_support"], axis=(1, 2)
+        )
         visible = np.unpackbits(packed[:, side], axis=-1, count=w).sum(axis=(1, 2))
         missing = (visible < 40) & (reference_area > 150)
         for a, b in stable_runs(missing, 15)[:2]:
             reset = int(a + np.argmax(reference_area[a : min(b, a + 30)]))
-            prompt = prompt_from_robot_region(geometry["masks"][reset] == side + 1)
+            prompt = supported_robot_prompt(
+                geometry["masks"][reset] == side + 1, geometry["prompt_support"][reset]
+            )
             seeds.append(
                 dict(
                     frame=reset,

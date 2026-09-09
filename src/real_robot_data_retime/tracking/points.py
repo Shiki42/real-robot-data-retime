@@ -1,4 +1,5 @@
 import numpy as np
+from functools import partial
 
 
 def _track_points(frames, proposals, stride=3):
@@ -17,6 +18,9 @@ def _track_points(frames, proposals, stride=3):
     model = (
         CoTrackerPredictor(checkpoint=checkpoint, window_len=60, v2=False).cuda().eval()
     )
+    # Keep CoTracker's full temporal window and predictor coordinate handling;
+    # only bound its supported, frame-independent convolution feature batches.
+    model.model.forward = partial(model.model.forward, fmaps_chunk_size=32)
     sampled = frames[::stride]
     points = torch.tensor([[0, *p["origin"]] for p in proposals], dtype=torch.float32)[
         None

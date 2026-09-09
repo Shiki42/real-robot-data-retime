@@ -93,15 +93,22 @@ def match_background_colors(frames, excluded, scene_region=None):
     return normalized, np.asarray(fits)
 
 
-def blend_scene_patch(base, patch, region, *, feather=6, color_match=False):
+def blend_scene_patch(
+    base, patch, region, *, feather=6, color_match=False, color_reference_mask=None
+):
     """Blend only empty scene-patch boundaries, keeping object interiors opaque."""
     result = base.copy()
     pixels = patch.astype(float)
     if color_match:
-        ring = dilate(region, 8) & ~region
-        if ring.sum() >= 20:
-            offset = np.median(base[ring].astype(float) - pixels[ring], axis=0)
-            pixels = np.clip(pixels + offset, 0, 255)
+        if color_reference_mask is None or color_reference_mask.shape != region.shape:
+            raise ValueError(
+                "local color matching requires a background-reference mask"
+            )
+        ring = dilate(region, 8) & ~region & color_reference_mask
+        if ring.sum() < 20:
+            raise ValueError("insufficient background pixels for local color matching")
+        offset = np.median(base[ring].astype(float) - pixels[ring], axis=0)
+        pixels = np.clip(pixels + offset, 0, 255)
     distance = cv2.distanceTransform(region.astype(np.uint8), cv2.DIST_L2, 3)
     alpha = np.minimum(distance / max(1, feather), 1.0)[:, :, None]
     result = np.clip(base * (1 - alpha) + pixels * alpha, 0, 255).astype(np.uint8)

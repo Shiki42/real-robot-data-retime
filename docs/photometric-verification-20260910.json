@@ -1,0 +1,476 @@
+{
+  "ground_truth_available": false,
+  "records": [
+    {
+      "path": "/home/coder/share/retime-accuracy-20260910/drawer_0-opaque-motion/report.json",
+      "sha256": "8da43f353a689fe7b85eafa90c19e762f1f6e909a9cdb568b46d52e37baae0b3",
+      "report": {
+        "input_sha256": "a231932957225cbdbe1edea3085afa27a16979af41f1ee7f35e89e7c02da97d4",
+        "arm_report_sha256": "3af7eef03003c4e20a9b75c4e4acee54efab43fdc1f097037084f01bd3973a08",
+        "producer": "21f5bb755405ae504bd9b5342fb510b9552de7361e60528455b7cc15f4a343e9",
+        "correction": "photometric_opaque_support",
+        "candidate_report_sha256": "da14f1ff1b7bba55bd7171a5e1f14550ce16c1cd45de0b78f5abe2ba0c541ea5",
+        "raw_audit": {
+          "passed": false,
+          "arms": [
+            {
+              "robot_id": "left",
+              "supported_frames": 314,
+              "insufficient_coverage_fraction": 0.054140127388535034,
+              "longest_insufficient_run": 4,
+              "passed": true
+            },
+            {
+              "robot_id": "right",
+              "supported_frames": 595,
+              "insufficient_coverage_fraction": 0.0957983193277311,
+              "longest_insufficient_run": 17,
+              "passed": false
+            }
+          ],
+          "method": "entry_anchored_motion_coverage",
+          "unassessed_frame_arm_pairs": 359,
+          "minimum_coverage": 0.6
+        },
+        "normalized_audit": {
+          "passed": true,
+          "arms": [
+            {
+              "robot_id": "left",
+              "supported_frames": 296,
+              "insufficient_coverage_fraction": 0.04391891891891892,
+              "longest_insufficient_run": 4,
+              "passed": true
+            },
+            {
+              "robot_id": "right",
+              "supported_frames": 551,
+              "insufficient_coverage_fraction": 0.0,
+              "longest_insufficient_run": 0,
+              "passed": true
+            }
+          ],
+          "method": "entry_anchored_opaque_motion_support",
+          "unassessed_frame_arm_pairs": 421,
+          "minimum_coverage": 0.6
+        },
+        "original_masks_normalized_audit": {
+          "passed": false,
+          "arms": [
+            {
+              "robot_id": "left",
+              "supported_frames": 296,
+              "insufficient_coverage_fraction": 0.47635135135135137,
+              "longest_insufficient_run": 117,
+              "passed": false
+            },
+            {
+              "robot_id": "right",
+              "supported_frames": 551,
+              "insufficient_coverage_fraction": 0.0,
+              "longest_insufficient_run": 0,
+              "passed": true
+            }
+          ],
+          "method": "entry_anchored_opaque_motion_support",
+          "unassessed_frame_arm_pairs": 421,
+          "minimum_coverage": 0.6
+        },
+        "empty_masks_normalized_audit": {
+          "passed": false,
+          "arms": [
+            {
+              "robot_id": "left",
+              "supported_frames": 298,
+              "insufficient_coverage_fraction": 1.0,
+              "longest_insufficient_run": 117,
+              "passed": false
+            },
+            {
+              "robot_id": "right",
+              "supported_frames": 551,
+              "insufficient_coverage_fraction": 1.0,
+              "longest_insufficient_run": 551,
+              "passed": false
+            }
+          ],
+          "method": "entry_anchored_motion_coverage",
+          "unassessed_frame_arm_pairs": 419,
+          "minimum_coverage": 0.6
+        },
+        "validated_for_compositing": false,
+        "limitation": "Changed motion reference, unchanged segmentation. Coverage is not accuracy."
+      }
+    },
+    {
+      "path": "/home/coder/share/retime-accuracy-20260910/workpiece_0-opaque-motion/report.json",
+      "sha256": "e23e3d84b8a6f75e71b85d5df8c831ff3c184209d8b3999e07c84a1466684e71",
+      "report": {
+        "input_sha256": "6ba3ebc680e1b310cde385ac48100ea68d239ae71a6e21919739098a42a15dbc",
+        "arm_report_sha256": "4ddd54bbacaeaf7dc8ee21a88a547fcb12b1d0bee1cc265bfd798dad3ad3547a",
+        "producer": "21f5bb755405ae504bd9b5342fb510b9552de7361e60528455b7cc15f4a343e9",
+        "correction": "photometric_opaque_support",
+        "candidate_report_sha256": null,
+        "raw_audit": {
+          "passed": true,
+          "arms": [
+            {
+              "robot_id": "left",
+              "supported_frames": 348,
+              "insufficient_coverage_fraction": 0.040229885057471264,
+              "longest_insufficient_run": 9,
+              "passed": true
+            },
+            {
+              "robot_id": "right",
+              "supported_frames": 382,
+              "insufficient_coverage_fraction": 0.015706806282722512,
+              "longest_insufficient_run": 2,
+              "passed": true
+            }
+          ],
+          "method": "entry_anchored_motion_coverage",
+          "unassessed_frame_arm_pairs": 1454,
+          "minimum_coverage": 0.6
+        },
+        "normalized_audit": {
+          "passed": false,
+          "arms": [
+            {
+              "robot_id": "left",
+              "supported_frames": 388,
+              "insufficient_coverage_fraction": 0.15463917525773196,
+              "longest_insufficient_run": 29,
+              "passed": false
+            },
+            {
+              "robot_id": "right",
+              "supported_frames": 384,
+              "insufficient_coverage_fraction": 0.0,
+              "longest_insufficient_run": 0,
+              "passed": true
+            }
+          ],
+          "method": "entry_anchored_opaque_motion_support",
+          "unassessed_frame_arm_pairs": 1412,
+          "minimum_coverage": 0.6
+        },
+        "original_masks_normalized_audit": {
+          "passed": false,
+          "arms": [
+            {
+              "robot_id": "left",
+              "supported_frames": 388,
+              "insufficient_coverage_fraction": 0.15463917525773196,
+              "longest_insufficient_run": 29,
+              "passed": false
+            },
+            {
+              "robot_id": "right",
+              "supported_frames": 384,
+              "insufficient_coverage_fraction": 0.0,
+              "longest_insufficient_run": 0,
+              "passed": true
+            }
+          ],
+          "method": "entry_anchored_opaque_motion_support",
+          "unassessed_frame_arm_pairs": 1412,
+          "minimum_coverage": 0.6
+        },
+        "empty_masks_normalized_audit": {
+          "passed": false,
+          "arms": [
+            {
+              "robot_id": "left",
+              "supported_frames": 388,
+              "insufficient_coverage_fraction": 1.0,
+              "longest_insufficient_run": 128,
+              "passed": false
+            },
+            {
+              "robot_id": "right",
+              "supported_frames": 384,
+              "insufficient_coverage_fraction": 1.0,
+              "longest_insufficient_run": 233,
+              "passed": false
+            }
+          ],
+          "method": "entry_anchored_motion_coverage",
+          "unassessed_frame_arm_pairs": 1412,
+          "minimum_coverage": 0.6
+        },
+        "validated_for_compositing": false,
+        "limitation": "Changed motion reference, unchanged segmentation. Coverage is not accuracy."
+      }
+    },
+    {
+      "path": "/home/coder/share/retime-accuracy-20260910/workpiece_1-opaque-motion/report.json",
+      "sha256": "25abd0d5f9f594dc3c6558eea30d2207c4f694862b0aff5a38b76f38986e2e65",
+      "report": {
+        "input_sha256": "933a61f65d8a3fe0308c55b9587dff329f9c4c47e6d0b84f0d09a328c493d56f",
+        "arm_report_sha256": "238ffe4deac42d0668416d02b913a3cc62b2d7127a9fb9255fbefd2bf59da7f7",
+        "producer": "21f5bb755405ae504bd9b5342fb510b9552de7361e60528455b7cc15f4a343e9",
+        "correction": "photometric_opaque_support",
+        "candidate_report_sha256": null,
+        "raw_audit": {
+          "passed": true,
+          "arms": [
+            {
+              "robot_id": "left",
+              "supported_frames": 354,
+              "insufficient_coverage_fraction": 0.0,
+              "longest_insufficient_run": 0,
+              "passed": true
+            },
+            {
+              "robot_id": "right",
+              "supported_frames": 317,
+              "insufficient_coverage_fraction": 0.0,
+              "longest_insufficient_run": 0,
+              "passed": true
+            }
+          ],
+          "method": "entry_anchored_motion_coverage",
+          "unassessed_frame_arm_pairs": 1281,
+          "minimum_coverage": 0.6
+        },
+        "normalized_audit": {
+          "passed": true,
+          "arms": [
+            {
+              "robot_id": "left",
+              "supported_frames": 351,
+              "insufficient_coverage_fraction": 0.0,
+              "longest_insufficient_run": 0,
+              "passed": true
+            },
+            {
+              "robot_id": "right",
+              "supported_frames": 315,
+              "insufficient_coverage_fraction": 0.0,
+              "longest_insufficient_run": 0,
+              "passed": true
+            }
+          ],
+          "method": "entry_anchored_opaque_motion_support",
+          "unassessed_frame_arm_pairs": 1286,
+          "minimum_coverage": 0.6
+        },
+        "original_masks_normalized_audit": {
+          "passed": true,
+          "arms": [
+            {
+              "robot_id": "left",
+              "supported_frames": 351,
+              "insufficient_coverage_fraction": 0.0,
+              "longest_insufficient_run": 0,
+              "passed": true
+            },
+            {
+              "robot_id": "right",
+              "supported_frames": 315,
+              "insufficient_coverage_fraction": 0.0,
+              "longest_insufficient_run": 0,
+              "passed": true
+            }
+          ],
+          "method": "entry_anchored_opaque_motion_support",
+          "unassessed_frame_arm_pairs": 1286,
+          "minimum_coverage": 0.6
+        },
+        "empty_masks_normalized_audit": {
+          "passed": false,
+          "arms": [
+            {
+              "robot_id": "left",
+              "supported_frames": 351,
+              "insufficient_coverage_fraction": 1.0,
+              "longest_insufficient_run": 234,
+              "passed": false
+            },
+            {
+              "robot_id": "right",
+              "supported_frames": 315,
+              "insufficient_coverage_fraction": 1.0,
+              "longest_insufficient_run": 261,
+              "passed": false
+            }
+          ],
+          "method": "entry_anchored_motion_coverage",
+          "unassessed_frame_arm_pairs": 1286,
+          "minimum_coverage": 0.6
+        },
+        "validated_for_compositing": false,
+        "limitation": "Changed motion reference, unchanged segmentation. Coverage is not accuracy."
+      }
+    },
+    {
+      "path": "/home/coder/share/retime-accuracy-20260910/drawer_0-final-photometric/report.json",
+      "sha256": "66487d8fb7944a179f388b0afe15605b5197f11ebbb4b144edcc895a819ced48",
+      "report": {
+        "success": true,
+        "phase": "interaction_understanding",
+        "motion_reference": "photometric_opaque_support",
+        "backend": "sam2",
+        "task": "drawer",
+        "num_robot_arms": 2,
+        "num_object_proposals": 2,
+        "expected_objects": 1,
+        "num_manipulation_episodes": 1,
+        "validation_gates": {
+          "two_arms": true,
+          "all_objects_identified": true,
+          "persistent_tracks": true,
+          "origin_departure": true,
+          "whole_robot_masks": true,
+          "drawer_open_close": true,
+          "drawer_event_order": true,
+          "correct_roles": true
+        },
+        "retries": [
+          {
+            "kind": "whole_arm_mask_repair",
+            "prior_audit": {
+              "passed": false,
+              "arms": [
+                {
+                  "robot_id": "left",
+                  "supported_frames": 289,
+                  "insufficient_coverage_fraction": 0.48788927335640137,
+                  "longest_insufficient_run": 83,
+                  "passed": false
+                },
+                {
+                  "robot_id": "right",
+                  "supported_frames": 459,
+                  "insufficient_coverage_fraction": 0.002178649237472767,
+                  "longest_insufficient_run": 1,
+                  "passed": true
+                }
+              ],
+              "method": "entry_anchored_opaque_motion_support",
+              "unassessed_frame_arm_pairs": 520,
+              "minimum_coverage": 0.6
+            },
+            "seeds": [
+              {
+                "frame": 353,
+                "bbox": [
+                  0,
+                  68,
+                  474,
+                  294
+                ]
+              },
+              {
+                "frame": 454,
+                "bbox": [
+                  0,
+                  200,
+                  111,
+                  162
+                ],
+                "side": 0,
+                "kind": "visibility_reentry"
+              }
+            ]
+          },
+          {
+            "kind": "reverified_automatic_measurement_hypotheses",
+            "producer": {
+              "parent": "21f5bb755405ae504bd9b5342fb510b9552de7361e60528455b7cc15f4a343e9",
+              "robot_repair": "f2bdc917ea61234606850278ba39b6eb65dc2f024ce4dab13aa2ae7e36f3c5c6",
+              "repaired_sides": [
+                0
+              ]
+            }
+          }
+        ],
+        "config": {
+          "minimum_object_area": 182,
+          "maximum_object_area": 4101,
+          "evidence_frames": 60,
+          "weights": [
+            0.15,
+            0.1,
+            0.15,
+            0.2,
+            0.25,
+            0.1,
+            0.05
+          ],
+          "minimum_confidence": 0.65
+        },
+        "mean_interaction_confidence": 0.8819750484171937,
+        "status": "verified_interaction_evidence",
+        "weak_aperture_events": 1,
+        "limitations": [
+          "confidence scores are heuristic, not calibrated probabilities",
+          "pickup uncertainty is explicitly reported for occluded transitions"
+        ]
+      }
+    },
+    {
+      "path": "/home/coder/share/retime-accuracy-20260910/drawer_0-render-safe-color/report.json",
+      "sha256": "88a4de5265030ce68dc6e7290d23c29be27f44db4ec192420d8681367c12388c",
+      "report": {
+        "source_sha256": "a231932957225cbdbe1edea3085afa27a16979af41f1ee7f35e89e7c02da97d4",
+        "analysis_report_sha256": "66487d8fb7944a179f388b0afe15605b5197f11ebbb4b144edcc895a819ced48",
+        "measurement_producer": {
+          "parent": "21f5bb755405ae504bd9b5342fb510b9552de7361e60528455b7cc15f4a343e9",
+          "robot_repair": "f2bdc917ea61234606850278ba39b6eb65dc2f024ce4dab13aa2ae7e36f3c5c6",
+          "repaired_sides": [
+            0
+          ]
+        },
+        "render_code_producer": "6391cb12160a424b3bf595fbfe7347a82a608637b92ff5339b6cef571862786f",
+        "plan": {
+          "collision_scope": "projected silhouettes only; no joint-space verification",
+          "left_wait_frames": 0,
+          "right_wait_frames": 103,
+          "output_frames": 462
+        },
+        "compositing": {
+          "output": "/home/coder/share/retime-accuracy-20260910/drawer_0-render-safe-color/parallel.mp4",
+          "output_frames": 462,
+          "paired_source_frames": 1,
+          "clean_plate_method": "masked_temporal_real_frames",
+          "clean_plate_reference_frame": 0,
+          "initial_plate_color_adjusted": true,
+          "skipped_origin_color_matches": 0,
+          "real_plate_coverage_fraction": 1.0,
+          "inpainted_background_pixels": 0,
+          "inpainting_used": false,
+          "unresolved_scene_patch_pixels": 529870,
+          "arm_overlap_pixel_frames": 0,
+          "valid_metric_overlap_pixel_frames": 0,
+          "unknown_depth_order": "stable_right_foreground",
+          "occlusion_method": "stable_right_foreground",
+          "visual_validation": "pending",
+          "automatic_origin_audit": {
+            "passed": true,
+            "objects": [
+              {
+                "object_id": 1,
+                "appearance_method": "chromatic_occupancy",
+                "robot_id": "left",
+                "clear_origin_observations": 328,
+                "duplicate_observations": 0,
+                "passed": true
+              }
+            ],
+            "method": "rendered_origin_appearance_against_observed_source_absence"
+          }
+        },
+        "source_fps": 30.0,
+        "automatic_checks_passed": true,
+        "validated_for_compositing": false,
+        "status": "rendered_pending_visual_review"
+      }
+    }
+  ],
+  "frozen_source_manifests": {
+    "/home/coder/share/retime-accuracy-20260910/runtime-photometric-final/source-manifest.json": "cfd858cfe5a615277360120ad03cd3ad8b0227319723c8210b7a696507f7816b",
+    "/home/coder/share/retime-accuracy-20260910/runtime-render-safe-color/source-manifest.json": "c5e824a5957c583ace166c8a03fbf3e57e3953d3a75bf2966b0b8ca22a3dc267"
+  }
+}

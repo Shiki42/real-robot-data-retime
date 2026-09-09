@@ -1,11 +1,12 @@
 """Content-addressed expensive-stage cache with explicit implementation hashes."""
 
 import hashlib
-from importlib.metadata import version
-from types import CodeType
 import json
 import uuid
+from importlib.metadata import version
 from pathlib import Path
+from types import CodeType
+
 import numpy as np
 
 
@@ -43,19 +44,21 @@ def stage_key(frames, functions, parameters):
 
 
 def gripper_cache(frames, geometry, sam, cache_dir):
+    from ..segmentation.sam_backend import SamVideo
     from .discovery import motion_and_grippers
     from .gripper_geometry import end_effector
     from .neural_tracks import segment_grippers, segment_robots
     from .robot_discovery import (
-        robot_prompt,
         prompt_from_robot_region,
         robot_entry_side,
+        robot_prompt,
+        supported_robot_prompt,
     )
-    from ..segmentation.sam_backend import SamVideo
 
     digest = hashlib.sha256()
     digest.update(memoryview(np.ascontiguousarray(geometry["centers"])))
     digest.update(memoryview(np.ascontiguousarray(geometry["masks"])))
+    digest.update(memoryview(np.ascontiguousarray(geometry["prompt_support"])))
     geometry_hash = digest.hexdigest()
     key = stage_key(
         frames,
@@ -66,7 +69,9 @@ def gripper_cache(frames, geometry, sam, cache_dir):
             segment_robots,
             robot_prompt,
             robot_entry_side,
+            supported_robot_prompt,
             prompt_from_robot_region,
+            supported_robot_prompt,
             SamVideo.propagate,
         ],
         (

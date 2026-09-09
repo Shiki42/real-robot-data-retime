@@ -1,17 +1,19 @@
 """Object-state and whole-arm compositing in a registered camera view."""
 
-from pathlib import Path
 import json
+from pathlib import Path
+
 import cv2
 import numpy as np
+
 from ..background.clean_plate import (
-    dilate,
-    temporal_plate,
-    real_patch,
-    match_background_colors,
     blend_scene_patch,
+    dilate,
+    match_background_colors,
+    real_patch,
+    temporal_plate,
 )
-from ..interaction.video import write_video, components
+from ..interaction.video import components, write_video
 from ..tasks.workpiece import discover_bins
 from .verification import OriginAudit
 
@@ -70,6 +72,11 @@ def composite(
             # Enforce scene ownership before both patch exclusion and layering;
             # a stale SAM arm mask must not erase a placed cube from scene donors.
             robots[release:, side] &= ~objects[event["object_id"], release:]
+    entry = np.zeros((2, h, w), bool)
+    entry[0, int(h * 0.4) :, : max(1, round(w * 0.08))] = True
+    entry[1, int(h * 0.4) :, round(w * 0.92) :] = True
+    # Keep observed boundary fragments when an arm is mostly outside the view.
+    anchors = (robots[0] | robots[-1]) & entry
     selected_ids = sorted({event["object_id"] for event in timeline["episodes"]})
     moving_objects = objects[selected_ids].any(axis=0)
     excluded = np.array(
@@ -85,8 +92,22 @@ def composite(
     )
     frames, color_fits = match_background_colors(frames, excluded, dynamic_scene)
     reconstructed, coverage = temporal_plate(frames, excluded)
+    plate_source = 0
+    plate_region = excluded[plate_source]
+    plate_match_valid = ~plate_region & (coverage > 0)
+    if dynamic_scene is not None:
+        plate_match_valid &= ~dynamic_scene
+    plate_color_match = (
+        dilate(plate_region, 8) & ~plate_region & plate_match_valid
+    ).sum() >= 20
+    # Keep the transition inside the exclusion margin so old arm pixels cannot bleed through.
     plate = blend_scene_patch(
-        frames[0], reconstructed, excluded[0], feather=8, color_match=True
+        frames[plate_source],
+        reconstructed,
+        plate_region,
+        feather=4,
+        color_match=bool(plate_color_match),
+        color_reference_mask=plate_match_valid,
     )
     debug = Path(debug_dir)
     debug.mkdir(parents=True, exist_ok=True)
@@ -133,7 +154,9 @@ def composite(
     patch_cache = {}
     overlap_pixels = 0
     metric_overlap_pixels = 0
+    paired_source_frames = 0
     uncovered_patch_pixels = 0
+    skipped_origin_color_matches = 0
 
     def patch(source, region, key, allowed=None):
         nonlocal uncovered_patch_pixels
@@ -149,9 +172,20 @@ def composite(
     audit = OriginAudit(frames, objects, timeline["episodes"])
 
     def render():
-        nonlocal overlap_pixels, metric_overlap_pixels
+        nonlocal \
+            overlap_pixels, \
+            metric_overlap_pixels, \
+            paired_source_frames, \
+            skipped_origin_color_matches
         for l, r in zip(left, right):
             times = [int(l), int(r)]
+            if l == r:
+                # An unchanged clock pair needs no spatial reconstruction.
+                out = frames[int(l)].copy()
+                audit.observe(out, frames, times, robots[int(l)].any(axis=0))
+                paired_source_frames += 1
+                yield out
+                continue
             out = plate.copy()
             for side, region in scene_regions:
                 im = patch(times[side], region, side)
@@ -183,10 +217,31 @@ def composite(
                 im = patch(
                     clean_source, region, ("origin", event["object_id"]), allowed
                 )
-                out = blend_scene_patch(out, im, region, feather=7, color_match=True)
+                match_valid = ~(
+                    scene_excluded[clean_source]
+                    | scene_excluded[times[0]]
+                    | scene_excluded[times[1]]
+                    | moving_objects[clean_source]
+                    | moving_objects[times[0]]
+                    | moving_objects[times[1]]
+                )
+                if dynamic_scene is not None:
+                    match_valid &= ~dynamic_scene
+                for _, scene_region in scene_regions:
+                    match_valid &= ~scene_region
+                local_match = (dilate(region, 8) & ~region & match_valid).sum() >= 20
+                skipped_origin_color_matches += int(not local_match)
+                out = blend_scene_patch(
+                    out,
+                    im,
+                    region,
+                    feather=7,
+                    color_match=bool(local_match),
+                    color_reference_mask=match_valid,
+                )
             layers = []
             for side, t in enumerate(times):
-                mask = robots[t, side].copy()
+                mask = robots[t, side] | anchors[side]
                 for event in timeline["episodes"]:
                     if event["robot_id"] != ["left", "right"][side]:
                         continue
@@ -225,7 +280,11 @@ def composite(
     report = dict(
         output=str(output),
         output_frames=len(left),
+        paired_source_frames=paired_source_frames,
         clean_plate_method="masked_temporal_real_frames",
+        clean_plate_reference_frame=plate_source,
+        initial_plate_color_adjusted=bool(plate_color_match),
+        skipped_origin_color_matches=skipped_origin_color_matches,
         real_plate_coverage_fraction=float((coverage > 0).mean()),
         inpainted_background_pixels=int((coverage == 0).sum()),
         inpainting_used=bool((coverage == 0).any()),

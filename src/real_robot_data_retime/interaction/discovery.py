@@ -1,7 +1,9 @@
 from dataclasses import dataclass
+
 import cv2
 import numpy as np
 from scipy.ndimage import median_filter
+
 from .video import components, pixel_kernel
 
 
@@ -118,6 +120,7 @@ def motion_and_grippers(frames):
         apertures=apertures,
         boxes=boxes,
         masks=masks,
+        prompt_support=masks > 0,
         energy=energies,
         background=bg,
     )

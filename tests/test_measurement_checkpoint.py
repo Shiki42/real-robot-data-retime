@@ -1,7 +1,10 @@
 import json
+
 import numpy as np
 import pytest
-from real_robot_data_retime.interaction import pipeline, measurements, robot_discovery
+
+from real_robot_data_retime.interaction import measurements, pipeline, robot_discovery
+from real_robot_data_retime.interaction.photometric_motion import PhotometricMotion
 from real_robot_data_retime.tracking import points
 
 
@@ -35,11 +38,18 @@ def test_point_tracking_failure_keeps_complete_measurements_for_retry(
     monkeypatch.setattr(
         pipeline, "stabilize", lambda *a: (frames, transforms, np.ones(n))
     )
+    geometry = dict(
+        centers=centers, apertures=aperture, masks=np.zeros((n, h, w), np.uint8)
+    )
     monkeypatch.setattr(
         pipeline,
-        "motion_and_grippers",
-        lambda *a: dict(
-            centers=centers, apertures=aperture, masks=np.zeros((n, h, w), np.uint8)
+        "photometric_motion",
+        lambda *a: PhotometricMotion(
+            geometry,
+            geometry,
+            np.zeros((n, h, w), bool),
+            np.zeros((n, h, w), bool),
+            np.zeros((n, 3, 2)),
         ),
     )
     monkeypatch.setattr(
@@ -56,7 +66,7 @@ def test_point_tracking_failure_keeps_complete_measurements_for_retry(
     monkeypatch.setattr(
         robot_discovery,
         "robot_mask_audit",
-        lambda *a: dict(passed=True, arms=[dict(passed=True), dict(passed=True)]),
+        lambda *a, **k: dict(passed=True, arms=[dict(passed=True), dict(passed=True)]),
     )
 
     def interrupted(*args):
@@ -64,9 +74,7 @@ def test_point_tracking_failure_keeps_complete_measurements_for_retry(
 
     monkeypatch.setattr(points, "track_points", interrupted)
     with pytest.raises(RuntimeError, match="point tracking interrupted"):
-        pipeline.run(
-            tmp_path / "input.mp4", tmp_path, "drawer", reuse_measurements=tmp_path
-        )
+        pipeline.run(tmp_path / "input.mp4", tmp_path, "drawer")
     manifest = json.loads((tmp_path / "measurements.json").read_text())
     assert manifest["producer"] == "original-automatic-producer"
     with np.load(tmp_path / "tracks.npz") as saved:
