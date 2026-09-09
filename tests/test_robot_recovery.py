@@ -53,7 +53,8 @@ def test_recovery_targets_failed_evidence_only(
     assert len(calls) == 2
 
 
-def test_robot_mask_cannot_claim_the_colored_cabinet():
+@pytest.mark.parametrize("surface", ["cabinet", "tray"])
+def test_robot_mask_cannot_claim_scene_surfaces(surface):
     import cv2
     from real_robot_data_retime.interaction.robot_discovery import robot_mask_audit
 
@@ -64,7 +65,10 @@ def test_robot_mask_cannot_claim_the_colored_cabinet():
     frames[:, 40:60, 70:] = 20
     robots = np.zeros((n, 2, h, w), bool)
     robots[:, 1, 40:60, 70:] = True
-    robots[:, 1, 5:20, 40:75] = True
+    if surface == "cabinet":
+        robots[:, 1, 5:20, 40:75] = True
+    else:
+        robots[:, 1, 25:40, 40:75] = True
     geometry = dict(masks=np.zeros((n, h, w), np.uint8))
     geometry["masks"][:, 40:60, 70:] = 2
     reference = reference_geometry(frames, geometry, np.packbits(robots, axis=-1))

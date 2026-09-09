@@ -208,3 +208,20 @@ def test_occluded_object_prediction_cannot_erase_departing_gripper(
     )
     composite(frames, timeline, segmentation, [10], [5], tmp_path / "out.mp4", tmp_path)
     assert np.max(captured[0][45:55, 10:20]) < 30
+
+
+def test_observed_hardware_boundary_restores_missing_finger_without_table_pixels():
+    from real_robot_data_retime.compositing.layers import restore_observed_robot_boundaries
+
+    frames = np.full((1, 40, 100, 3), 180, np.uint8)
+    plate = frames[0].copy()
+    frames[0, 15:25, 10:30] = 30
+    frames[0, 25:27, 20:25] = 30
+    robots = np.zeros((1, 2, 40, 100), bool)
+    robots[0, 0, 15:25, 10:30] = True
+    result = restore_observed_robot_boundaries(
+        frames, robots, plate, np.full((40, 100), 5), None
+    )
+    assert result[0, 0, 25:27, 20:25].all()
+    assert not result[0, 0, 27:30, 20:25].any()
+    assert not result[0, 1].any()

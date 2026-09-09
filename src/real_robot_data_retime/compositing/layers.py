@@ -50,6 +50,32 @@ def drawer_region(frames, open_frame):
     return mask
 
 
+def restore_observed_robot_boundaries(frames, robots, plate, coverage, scene):
+    """Recover nearby omitted hardware pixels from observed background contrast."""
+    h, w = frames.shape[1:3]
+    restored = robots.copy()
+    observed = coverage >= 3
+    if scene is not None:
+        observed &= ~scene
+    radius = max(2, round(w * 0.025))
+    for t, frame in enumerate(frames):
+        hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+        changed = np.max(cv2.absdiff(frame, plate), axis=-1) > 25
+        hardware = (hsv[:, :, 1] < 100) | (hsv[:, :, 2] < 25)
+        support = observed & changed & hardware
+        distances = [
+            cv2.distanceTransform((~robots[t, side]).astype(np.uint8), cv2.DIST_L2, 5)
+            for side in [0, 1]
+        ]
+        for side in [0, 1]:
+            restored[t, side] |= (
+                support
+                & (distances[side] <= radius)
+                & (distances[side] < distances[1 - side])
+            )
+    return restored
+
+
 def composite(
     frames, timeline, segmentation, left, right, output, debug_dir, *, depth=None
 ):
@@ -140,6 +166,17 @@ def composite(
     )
     frames, color_fits = match_background_colors(frames, excluded, dynamic_scene)
     reconstructed, coverage = temporal_plate(frames, excluded)
+    original_robot_pixels = int(robots.sum())
+    robots = restore_observed_robot_boundaries(
+        frames, robots, reconstructed, coverage, dynamic_scene
+    )
+    restored_robot_pixels = int(robots.sum()) - original_robot_pixels
+    excluded = np.array(
+        [
+            dilate(a, 5) | dilate(b, 12)
+            for a, b in zip(robots.any(axis=1), moving_objects)
+        ]
+    )
     # Feather inside the 5px exclusion margin, so no original arm pixels bleed
     # through after the arm leaves its initial pose.
     plate = blend_scene_patch(
@@ -293,6 +330,7 @@ def composite(
         output=str(output),
         output_frames=len(left),
         paired_source_frames=paired_source_frames,
+        restored_observed_robot_pixel_frames=restored_robot_pixels,
         clean_plate_method="masked_temporal_real_frames",
         real_plate_coverage_fraction=float((coverage > 0).mean()),
         inpainted_background_pixels=int((coverage == 0).sum()),

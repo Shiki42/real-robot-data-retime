@@ -114,6 +114,27 @@ def score_hypothesis(
                     opening[max(pickup, a - window) : min(n, b + 8)].any()
                 )
                 break
+    if pickup is not None and release is None and release_confirmation is not None:
+        # Withdrawal may finish while the cube is occluded. A later visible,
+        # stationary and separated cube still verifies release; simultaneous
+        # gripper velocity is not necessary at its first unobscured observation.
+        separated = valid & (proximity_distance > scale * 0.01)
+        for t in np.flatnonzero(separated & (np.asarray(release_confirmation) >= 0)):
+            if t <= pickup + 3:
+                continue
+            contacts = np.flatnonzero(
+                valid[pickup:t] & (proximity_distance[pickup:t] <= scale * 0.01)
+            ) + pickup
+            if not len(contacts):
+                continue
+            last = int(contacts[-1])
+            if (
+                np.linalg.norm(grip[t] - grip[last]) > scale * 0.03
+                and np.linalg.norm(obj[t] - anchor) > scale * 0.03
+            ):
+                release = int(t)
+                release_opening_observed = bool(opening[last:t + 1].any())
+                break
     if release_evidence is not None and release_evidence["verified"]:
         candidate_release = release_evidence["release_frame"]
         if pickup is not None and pickup < candidate_release < n:

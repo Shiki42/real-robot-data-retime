@@ -36,15 +36,17 @@ def reference_geometry(frames, geometry, robots):
     scene_contamination = np.zeros((n, 2), bool)
     for t, frame in enumerate(frames):
         hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-        red_scene = (
-            scene
-            & ((hsv[:, :, 0] < 12) | (hsv[:, :, 0] > 170))
-            & (hsv[:, :, 1] > 120)
-            & (hsv[:, :, 2] > 70)
+        scene_surface = scene & (
+            (
+                ((hsv[:, :, 0] < 12) | (hsv[:, :, 0] > 170))
+                & (hsv[:, :, 1] > 120)
+                & (hsv[:, :, 2] > 70)
+            )
+            | ((hsv[:, :, 1] < 60) & (hsv[:, :, 2] > 130))
         )
         for side in [0, 1]:
             predicted = np.unpackbits(robots[t, side], axis=-1, count=w).astype(bool)
-            scene_contamination[t, side] = (predicted & red_scene).sum() > max(
+            scene_contamination[t, side] = (predicted & scene_surface).sum() > max(
                 h * w * 0.007, predicted.sum() * 0.1
             )
         hardware = (hsv[:, :, 1] < 100) | (hsv[:, :, 2] < 25)
@@ -143,6 +145,14 @@ def recovery_prompts(frames, side, other_robot):
         negative = []
         for region, _, _ in components(
             (hsv[:, :, 1] > 120) & (hsv[:, :, 2] > 70), int(h * w * 0.005)
+        ):
+            distance = cv2.distanceTransform(region.astype(np.uint8), cv2.DIST_L2, 5)
+            yy, xx = np.unravel_index(np.argmax(distance), distance.shape)
+            negative.append([float(xx), float(yy)])
+        # The white drawer floor is also a scene surface, not robot hardware.
+        for region, _, _ in components(
+            scene & (hsv[:, :, 1] < 60) & (hsv[:, :, 2] > 130),
+            int(h * w * 0.005),
         ):
             distance = cv2.distanceTransform(region.astype(np.uint8), cv2.DIST_L2, 5)
             yy, xx = np.unravel_index(np.argmax(distance), distance.shape)
