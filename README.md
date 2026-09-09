@@ -181,3 +181,6 @@ precedence gates. `collision.piperx.PiperXClearance` reuses RoboVisualize's FK
 and meshes, using the recorded 0.49 m base spacing and this repository's URDF
 snapshot. The collision integration test needs the RoboVisualize package on
 `PYTHONPATH` and its assets directory in `ROBOVISUALIZE_ASSETS`.
+
+Experimental RobotSeg and BootsTAPIR backends, measured pilot results and
+reproduction commands are documented in [model experiments](docs/model-experiments.md).
