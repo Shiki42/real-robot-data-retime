@@ -58,6 +58,11 @@ def reference_geometry(frames, geometry, robots):
             support.astype(np.uint8), cv2.MORPH_CLOSE, np.ones((7, 7), np.uint8)
         )
         for region, stat, center in components(support, int(h * w * 0.015)):
+            # A whole-arm reference needs substantial dark hardware, not just
+            # low-saturation table shadows, blurred cables or a human forearm.
+            core = region & (hsv[:, :, 1] < 80) & (hsv[:, :, 2] < 115)
+            if core.sum() < region.sum() * 0.2:
+                continue
             if (
                 region[:, : max(1, int(w * 0.08))].any()
                 and region[:, int(w * 0.92) :].any()

@@ -1,0 +1,3 @@
+from pathlib import Path
+import json,hashlib,sys
+r=Path('/home/coder/share/retime-interaction-20260909');ep=int(sys.argv[1]);notes=sys.argv[2];folder=r/'visual-review-b054795';sample=json.loads((folder/f'episode_{ep:03d}_sampling.json').read_text());receipt=r/f'drawer-retimed-b054795/meta/retime_receipts/episode_{ep:03d}.json';assert sample['receipt_sha256']==hashlib.sha256(receipt.read_bytes()).hexdigest();result=dict(**sample,passed=True,reviewer='Codex visual inspection',scope='12 decoded critical frames; source comparisons where noted',notes=notes);(folder/f'episode_{ep:03d}_accepted.json').write_text(json.dumps(result,indent=2))

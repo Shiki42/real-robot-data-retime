@@ -77,3 +77,13 @@ def test_robot_mask_cannot_claim_scene_surfaces(surface):
     assert not robot_mask_audit(np.packbits(robots, axis=-1), reference, 10)["arms"][1][
         "passed"
     ]
+
+
+def test_forearm_motion_without_robot_hardware_is_not_an_arm_reference():
+    n, h, w = 20, 64, 96
+    frames = np.full((n, h, w, 3), 200, np.uint8)
+    frames[10:, 30:45, :35] = [95, 125, 160]
+    robots = np.zeros((n, 2, h, w), np.uint8)
+    geometry = dict(masks=np.zeros((n, h, w), np.uint8))
+    reference = reference_geometry(frames, geometry, np.packbits(robots, axis=-1))
+    assert not reference["masks"][15].any()

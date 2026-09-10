@@ -152,6 +152,22 @@ def composite(
     # Keep observed boundary fragments when an arm is mostly outside the view.
     anchors = (robots[0] | robots[-1]) & entry
     selected_ids = sorted({event["object_id"] for event in timeline["episodes"]})
+    origin_masks = {k: objects[k, 0].copy() for k in selected_ids}
+    origin_aliases = {k: [k] for k in selected_ids}
+    if timeline["task"] == "drawer":
+        for k in selected_ids:
+            original = objects[k, 0]
+            for other, candidate in enumerate(objects[:, 0]):
+                overlap = (original & candidate).sum()
+                if overlap > min(original.sum(), candidate.sum()) * 0.25:
+                    origin_masks[k] |= candidate
+                    if other != k:
+                        origin_aliases[k].append(other)
+    origin_exclusions = [
+        (event["pickup_frame"], dilate(origin_masks[event["object_id"]], 12))
+        for event in timeline["episodes"]
+        if len(origin_aliases[event["object_id"]]) > 1
+    ]
     moving_objects = objects[selected_ids].any(axis=0)
     excluded = np.array(
         [
@@ -159,6 +175,8 @@ def composite(
             for a, b in zip(robots.any(axis=1), moving_objects)
         ]
     )
+    for stop, mask in origin_exclusions:
+        excluded[:stop] |= mask
     dynamic_scene = (
         drawer_region(frames, timeline["drawer_motion"]["open_frame"])
         if timeline["task"] == "drawer"
@@ -178,6 +196,8 @@ def composite(
             for a, b in zip(robots.any(axis=1), moving_objects)
         ]
     )
+    for stop, mask in origin_exclusions:
+        excluded[:stop] |= mask
     # Feather inside the 5px exclusion margin, so no original arm pixels bleed
     # through after the arm leaves its initial pose.
     plate = blend_scene_patch(
@@ -210,12 +230,12 @@ def composite(
             origin = objects[event["object_id"], : max(1, event["approach_start"])].any(
                 axis=0
             )
-            drawer &= ~dilate(origin, 6)
+            drawer &= ~dilate(origin | origin_masks[event["object_id"]], 6)
     # Copying source-time destination pixels preserves actual rims and occlusion.
     scene_excluded = np.array([dilate(m, 3) for m in robots.any(axis=1)])
     origins = []
     for event in timeline["episodes"]:
-        origin_mask = objects[event["object_id"], 0]
+        origin_mask = origin_masks[event["object_id"]]
         yy, xx = np.where(origin_mask)
         if not len(xx):
             raise ValueError("object origin mask is missing")
@@ -242,7 +262,10 @@ def composite(
             uncovered_patch_pixels += missing
         return patch_cache[cache_key]
 
-    audit = OriginAudit(frames, objects, timeline["episodes"])
+    audit_origins = objects[:, :1].copy()
+    for k, mask in origin_masks.items():
+        audit_origins[k, 0] = mask
+    audit = OriginAudit(frames, audit_origins, timeline["episodes"])
 
     def render():
         nonlocal overlap_pixels, metric_overlap_pixels, paired_source_frames
@@ -345,6 +368,7 @@ def composite(
         output_frames=len(left),
         paired_source_frames=paired_source_frames,
         restored_observed_robot_pixel_frames=restored_robot_pixels,
+        origin_hypothesis_footprint_union=origin_aliases,
         clean_plate_method="masked_temporal_real_frames",
         real_plate_coverage_fraction=float((coverage > 0).mean()),
         inpainted_background_pixels=int((coverage == 0).sum()),

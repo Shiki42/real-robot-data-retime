@@ -1,0 +1,256 @@
+{
+  "recorded_at_utc": "2026-09-10T00:04:38.076351+00:00",
+  "artifact_root": "/home/coder/share/retime-interaction-20260909",
+  "output_candidate": "/home/coder/share/retime-interaction-20260909/drawer-retimed-b054795",
+  "code_before_archive": "b054795",
+  "claims": [
+    {
+      "episode": 0,
+      "status": "complete",
+      "version": "b054795",
+      "worker": 0,
+      "cache": "/home/coder/share/retime-interaction-20260909/release-final-analysis/episode_000",
+      "exit_code": 0,
+      "seconds": 67.93883919715881
+    },
+    {
+      "episode": 1,
+      "status": "failed",
+      "version": "b054795",
+      "worker": 3,
+      "cache": "/home/coder/share/retime-interaction-20260909/release-earliest/episode_001",
+      "exit_code": 1,
+      "seconds": 630.0766429901123
+    },
+    {
+      "episode": 2,
+      "status": "complete",
+      "version": "b054795",
+      "worker": 1,
+      "cache": "/home/coder/share/retime-interaction-20260909/release-final-analysis/episode_002",
+      "exit_code": 0,
+      "seconds": 195.36556482315063
+    },
+    {
+      "episode": 3,
+      "status": "complete",
+      "version": "b054795",
+      "worker": 0,
+      "cache": "/home/coder/share/retime-interaction-20260909/release-final-analysis/episode_003",
+      "exit_code": 0,
+      "seconds": 249.19590759277344
+    },
+    {
+      "episode": 4,
+      "status": "complete",
+      "version": "b054795",
+      "worker": 1,
+      "cache": "/home/coder/share/retime-interaction-20260909/release-final-analysis/episode_004",
+      "exit_code": 0,
+      "seconds": 177.2136070728302
+    },
+    {
+      "episode": 5,
+      "status": "complete",
+      "version": "b054795",
+      "worker": 0,
+      "cache": "/home/coder/share/retime-interaction-20260909/release-final-analysis/episode_005",
+      "exit_code": 0,
+      "seconds": 74.2731397151947
+    },
+    {
+      "episode": 6,
+      "status": "complete",
+      "version": "b054795",
+      "worker": 0,
+      "cache": "/home/coder/share/retime-interaction-20260909/release-final-analysis/episode_006",
+      "exit_code": 0,
+      "seconds": 82.92604541778564
+    },
+    {
+      "episode": 7,
+      "status": "complete",
+      "version": "b054795",
+      "worker": 1,
+      "cache": "/home/coder/share/retime-interaction-20260909/release-final-analysis/episode_007",
+      "exit_code": 0,
+      "seconds": 73.83444023132324
+    },
+    {
+      "episode": 8,
+      "status": "complete",
+      "version": "b054795",
+      "worker": 2,
+      "cache": "/home/coder/share/retime-interaction-20260909/release-final-analysis/episode_008",
+      "exit_code": 0,
+      "seconds": 66.49777603149414
+    },
+    {
+      "episode": 9,
+      "status": "complete",
+      "version": "b054795",
+      "worker": 1,
+      "cache": "/home/coder/share/retime-interaction-20260909/release-final-analysis/episode_009",
+      "exit_code": 0,
+      "seconds": 170.5371389389038
+    },
+    {
+      "episode": 10,
+      "status": "complete",
+      "version": "b054795",
+      "worker": 0,
+      "cache": "/home/coder/share/retime-interaction-20260909/release-final-analysis/episode_010",
+      "exit_code": 0,
+      "seconds": 141.41538166999817
+    },
+    {
+      "episode": 11,
+      "status": "complete",
+      "version": "b054795",
+      "worker": 2,
+      "cache": "/home/coder/share/retime-interaction-20260909/release-current/episode_011",
+      "exit_code": 0,
+      "seconds": 338.9330532550812
+    },
+    {
+      "episode": 12,
+      "status": "complete",
+      "version": "b054795",
+      "worker": 0,
+      "cache": "/home/coder/share/retime-interaction-20260909/release-final-analysis/episode_012",
+      "exit_code": 0,
+      "seconds": 207.97499179840088
+    },
+    {
+      "episode": 13,
+      "status": "complete",
+      "version": "b054795",
+      "worker": 1,
+      "cache": "/home/coder/share/retime-interaction-20260909/release-current/episode_013",
+      "exit_code": 0,
+      "seconds": 238.4643840789795
+    },
+    {
+      "episode": 14,
+      "status": "complete",
+      "version": "b054795",
+      "worker": 3,
+      "cache": "/home/coder/share/retime-interaction-20260909/release-final-analysis/episode_014",
+      "exit_code": 0,
+      "seconds": 54.861804485321045
+    },
+    {
+      "episode": 15,
+      "status": "complete",
+      "version": "b054795",
+      "worker": 3,
+      "cache": "/home/coder/share/retime-interaction-20260909/release-current/episode_015",
+      "exit_code": 0,
+      "seconds": 210.66188883781433
+    },
+    {
+      "episode": 16,
+      "status": "complete",
+      "version": "b054795",
+      "worker": 2,
+      "cache": "/home/coder/share/retime-interaction-20260909/release-current/episode_016",
+      "exit_code": 0,
+      "seconds": 478.4462730884552
+    },
+    {
+      "episode": 17,
+      "status": "complete",
+      "version": "b054795",
+      "worker": 0,
+      "cache": "/home/coder/share/retime-interaction-20260909/release-current/episode_017",
+      "exit_code": 0,
+      "seconds": 273.9910852909088
+    },
+    {
+      "episode": 18,
+      "status": "interrupted",
+      "version": "b054795",
+      "worker": 1,
+      "cache": "/home/coder/share/retime-interaction-20260909/release-current/episode_018",
+      "exit_code": -15,
+      "seconds": 586.6847393512726,
+      "reason": "User superseded this implementation; candidate branch archived and background processing stopped"
+    },
+    {
+      "episode": 19,
+      "status": "interrupted",
+      "version": "b054795",
+      "worker": 3,
+      "cache": "/home/coder/share/retime-interaction-20260909/release-current/episode_019",
+      "exit_code": -15,
+      "seconds": 546.5212614536285,
+      "reason": "User superseded this implementation; candidate branch archived and background processing stopped"
+    },
+    {
+      "episode": 20,
+      "status": "complete",
+      "version": "b054795",
+      "worker": 0,
+      "cache": "/home/coder/share/retime-interaction-20260909/release-current/episode_020",
+      "exit_code": 0,
+      "seconds": 234.97512674331665
+    },
+    {
+      "episode": 21,
+      "status": "interrupted",
+      "version": "b054795",
+      "worker": 2,
+      "cache": "/home/coder/share/retime-interaction-20260909/release-current/episode_021",
+      "exit_code": -15,
+      "seconds": 150.0640251636505,
+      "reason": "User superseded this implementation; candidate branch archived and background processing stopped"
+    },
+    {
+      "episode": 22,
+      "status": "interrupted",
+      "version": "b054795",
+      "worker": 0,
+      "cache": "/home/coder/share/retime-interaction-20260909/release-current/episode_022",
+      "exit_code": -15,
+      "seconds": 109.4052324295044,
+      "reason": "User superseded this implementation; candidate branch archived and background processing stopped"
+    },
+    {
+      "episode": 49,
+      "status": "failed",
+      "version": "b054795",
+      "worker": 2,
+      "cache": "/home/coder/share/retime-interaction-20260909/release-surface/episode_049",
+      "exit_code": 1,
+      "seconds": 408.159526348114
+    }
+  ],
+  "numeric_checked_episodes": [
+    0,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    20
+  ],
+  "visually_reviewed_episodes": [
+    2,
+    4,
+    5,
+    6
+  ],
+  "final_metadata_assembled": false,
+  "final_hf_uploaded": false
+}

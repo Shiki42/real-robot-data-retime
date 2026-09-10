@@ -225,3 +225,32 @@ def test_observed_hardware_boundary_restores_missing_finger_without_table_pixels
     assert result[0, 0, 25:27, 20:25].all()
     assert not result[0, 0, 27:30, 20:25].any()
     assert not result[0, 1].any()
+
+
+def test_overlapping_cube_hypotheses_leave_no_unrestored_top_face(monkeypatch, tmp_path):
+    import real_robot_data_retime.compositing.layers as layers
+
+    frames = np.full((20, 64, 96, 3), 120, np.uint8)
+    masks = np.zeros((2, 20, 64, 96), bool)
+    frames[:3, 15:44, 12:18] = [20, 200, 20]
+    masks[0, :3, 30:44, 12:18] = True
+    masks[1, :3, 15:36, 12:18] = True
+    frames[3:, 20:26, 55:61] = [20, 200, 20]
+    masks[:, 3:, 20:26, 55:61] = True
+    drawer = np.zeros((64, 96), bool)
+    drawer[10:50, 40:90] = True
+    monkeypatch.setattr(layers, "drawer_region", lambda *args: drawer)
+    captured = []
+    monkeypatch.setattr(layers, "write_video", lambda out, images, fps: captured.extend(images))
+    report = composite(
+        frames,
+        dict(task="drawer", fps=30, drawer_motion=dict(open_frame=2, close_start=12),
+             episodes=[dict(object_id=0, robot_id="left", pickup_frame=3,
+                            grasp_frame=3, release_frame=8, approach_start=0)]),
+        dict(robots=np.packbits(np.zeros((20, 2, 64, 96), bool), axis=-1),
+             objects=np.packbits(masks, axis=-1)),
+        [1, 10], [2, 9], tmp_path / "out.mp4", tmp_path,
+    )
+    assert captured[0][17, 14, 1] > 180
+    assert np.max(np.abs(captured[1][15:44, 12:18].astype(int) - 120)) < 5
+    assert report["origin_hypothesis_footprint_union"][0] == [0, 1]
