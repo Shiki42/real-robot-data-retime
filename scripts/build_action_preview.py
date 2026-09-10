@@ -5,6 +5,7 @@ import hashlib
 import json
 from pathlib import Path
 import subprocess
+import re
 import pyarrow.parquet as pq
 import numpy as np
 
@@ -12,7 +13,16 @@ import numpy as np
 def build(root):
     root = Path(root)
     datasets = []
-    for name, title in [("final-wait", "空中等待"), ("early", "抽屉已提前打开")]:
+    cases = json.loads((root / "cases.json").read_text())
+    names = [case["name"] for case in cases]
+    if (
+        not names
+        or len(set(names)) != len(names)
+        or any(not re.fullmatch(r"[a-z0-9-]+", name) for name in names)
+    ):
+        raise ValueError("cases require distinct safe directory names")
+    for case in cases:
+        name, title = case["name"], case["title"]
         folder = root / name
         table = pq.read_table(folder / "trajectories.parquet")
         timestamps = np.array(table["timestamp"].to_pylist(), float)
@@ -66,6 +76,7 @@ def build(root):
             dict(
                 name=name,
                 title=title,
+                description=case["description"],
                 timestamps=timestamps.tolist(),
                 video_pts=web_pts,
                 action=action.tolist(),
@@ -79,13 +90,13 @@ def build(root):
         / "src/real_robot_data_retime/preview/action.html"
     )
     html = template.read_text().replace(
-        "__ACTION_DATA__", json.dumps(datasets, allow_nan=False)
+        "__ACTION_DATA__", json.dumps(datasets, allow_nan=False).replace("<", "\\u003c")
     )
     (root / "index.html").write_text(html)
     (root / "serve.py").write_text(
         Path(__file__).with_name("serve_action_preview.py").read_text()
     )
-    paths = ["index.html", "serve.py"] + [
+    paths = ["index.html", "serve.py", "cases.json"] + [
         f"{d['name']}/{f}"
         for d in datasets
         for f in [

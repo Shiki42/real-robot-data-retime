@@ -110,3 +110,38 @@ Browser checks cover initial frame, frame 142 → 143, timeline end (535), chart
 click seeking and playing/pausing. Both 536-frame and 492-frame media files pass
 PTS checks. This exposes export alignment, not an independent proof that the
 source robot state or optical-flow pose exactly matches its action command.
+
+## Highlighted phases and additional episodes
+
+The viewer builder now reads an explicit `cases.json` array from the preview
+root. Each entry supplies `name` (a unique directory slug), `title`, and
+`description`. It includes all cases in the local download manifest.
+
+Each joint plot shares shaded left-arm intervals: purple braking, green
+stationary waiting, yellow restart, with exact boundary times in the legend.
+The right arm may keep moving during the left arm's stationary band. Stopped
+cases default to a zoomed time window extending one second before braking and
+one second after restarting; the checkbox restores the full timeline. Seeking
+on either scale still selects the absolute output frame, and out-of-window
+cursors are hidden rather than drawn at misleading positions.
+
+Additional source episodes 5, 10 and 13 use the existing successful
+`release-current/episode_NNN` checkpoints and matching trimmed parquet/video.
+They were screened for a safe held peak and complete braking interval before
+rendering with the current main compositor. Each uses an explicitly labelled
+3 s right-arm onset delay to demonstrate waiting; this is a scheduling
+augmentation, not a claim about the source recording's timing.
+
+| Episode | Braking | Stationary wait | Restart | Output frames |
+| --- | --- | --- | --- | --- |
+| 5 | 0.50 s | 6.70 s | 0.30 s | 645 |
+| 10 | 0.50 s | 4.07 s | 0.30 s | 546 |
+| 13 | 0.50 s | 4.63 s | 0.30 s | 640 |
+
+All three rendered-origin checks and frame-interval precedence checks pass.
+The entire left action, including gripper, is exactly constant during each
+stationary interval. Brake-final finite-difference joint-speed norms are
+0.153, 0.196 and 0.191 deg/s respectively; hold differences are zero. Transition
+contact sheets were inspected. Outputs are under the previous preview root in
+`episode-005`, `episode-010`, `episode-013`; all videos, actions and source clocks
+are copied to the local download directory with SHA-256 verification.

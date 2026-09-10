@@ -111,6 +111,27 @@
         monospace;
       fill: var(--fg);
     }
+    .phases {
+      font-size: 14px;
+      line-height: 1.8;
+      margin: 10px 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px 16px;
+    }
+    .phase-key {
+      border-left: 4px solid;
+      padding-left: 7px;
+    }
+    .zoom-control {
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .zoom-control input {
+      width: auto;
+    }
     .alert {
       color: #ff9d9d;
     }
@@ -135,7 +156,7 @@
   <h1>抓取并抬起 → 等抽屉打开 → 放入</h1>
   <p>
     视频下方为导出的 action：J1–J6
-    单位为度，夹爪开度单位为毫米。白色游标对应正在显示的视频帧；点击曲线或逐帧按钮可核对同一时刻的动作。
+    单位为度，夹爪开度单位为毫米。白色游标对应正在显示的视频帧；点击曲线或逐帧按钮可核对同一时刻的动作。色带标注左臂的阶段，左臂静止时右臂仍可运动。
   </p>
   <main id="viewers"></main>
   <footer>
@@ -166,7 +187,9 @@
     for (const d of datasets) {
       const section = document.createElement("section");
       section.dataset.name = d.name;
-      section.innerHTML = `<h2>${d.title}</h2><video controls preload="auto" src="${d.name}/preview.webm"></video><div class="controls"><button data-step="-1">上一帧</button><button data-step="1">下一帧</button><button data-phase>查看高点附近</button><a href="${d.name}/parallel.mp4" download>下载 MP4</a></div><div class="clock" aria-live="off">等待视频帧…</div><input type="range" min="0" max="${d.timestamps.length - 1}" value="0" step="1" aria-label="${d.title}逐帧时间轴"><div class="legend"><span class="left">━ 左臂 action</span><span class="right">━ 右臂 action</span></div><div class="charts"></div><p><a href="${d.name}/trajectories.parquet" download>下载逐帧 action / state</a></p>`;
+      section.innerHTML = `<h2></h2><p class="description"></p><video controls preload="auto" src="${d.name}/preview.webm"></video><div class="controls"><button data-step="-1">上一帧</button><button data-step="1">下一帧</button><button data-phase>查看高点附近</button><a href="${d.name}/parallel.mp4" download>下载 MP4</a></div><div class="clock" aria-live="off">等待视频帧…</div><input type="range" min="0" max="${d.timestamps.length - 1}" value="0" step="1" aria-label="${d.title}逐帧时间轴"><div class="legend"><span class="left">━ 左臂 action</span><span class="right">━ 右臂 action</span></div><div class="phases" aria-label="左臂阶段"></div><label class="zoom-control"><input data-zoom type="checkbox">放大减速、静止和启动区间</label><div class="charts"></div><p><a href="${d.name}/trajectories.parquet" download>下载逐帧 action / state</a></p>`;
+      section.querySelector("h2").textContent = d.title;
+      section.querySelector(".description").textContent = d.description;
       document.getElementById("viewers").append(section);
       const video = section.querySelector("video"),
         clock = section.querySelector(".clock"),
@@ -175,6 +198,39 @@
       let current = 0,
         requested = null,
         chartRows = [];
+      const phaseSpec = d.stages.smooth_stop_required
+        ? [
+            {
+              label: "减速",
+              start: d.stages.brake_start_output_frame,
+              stop: d.stages.stop_output_frames[0],
+              color: "#b799ff",
+            },
+            {
+              label: "静止等待",
+              start: d.stages.stop_output_frames[0],
+              stop: d.stages.restart_start_output_frame,
+              color: "#82cfa7",
+            },
+            {
+              label: "启动",
+              start: d.stages.restart_start_output_frame,
+              stop: d.stages.restart_end_output_frame,
+              color: "#ffc46a",
+            },
+          ]
+        : [];
+      for (const phase of phaseSpec) {
+        const label = document.createElement("span");
+        label.className = "phase-key";
+        label.style.borderColor = phase.color;
+        label.textContent = `${phase.label} ${d.timestamps[phase.start].toFixed(2)}–${d.timestamps[phase.stop].toFixed(2)} s`;
+        section.querySelector(".phases").append(label);
+      }
+      const zoomControl = section.querySelector("[data-zoom]");
+      let zoom = phaseSpec.length > 0;
+      zoomControl.checked = zoom;
+      zoomControl.disabled = !phaseSpec.length;
       const end = d.timestamps[d.timestamps.length - 1],
         last = d.timestamps.length - 1;
       function paint(index, mediaTime) {
@@ -206,6 +262,12 @@
         clock.style.whiteSpace = "pre-line";
         for (const row of chartRows) {
           let x = row.x(d.timestamps[index]);
+          const visible =
+            d.timestamps[index] >= row.viewStart &&
+            d.timestamps[index] <= row.viewEnd;
+          row.cursor.style.visibility = visible ? "visible" : "hidden";
+          for (const dot of row.dots)
+            dot.style.visibility = visible ? "visible" : "hidden";
           row.cursor.setAttribute("x1", x);
           row.cursor.setAttribute("x2", x);
           row.value.textContent = `L ${d.action[index][row.j].toFixed(2)}  /  R ${d.action[index][row.j + 7].toFixed(2)}`;
@@ -234,9 +296,25 @@
           top = 26,
           bottom = 23,
           height = 95;
-        const x = (t) => left + (t / end) * (width - left - right);
+        const viewStart = zoom
+          ? Math.max(0, d.timestamps[phaseSpec[0].start] - 1)
+          : 0;
+        const viewEnd = zoom
+          ? Math.min(end, d.timestamps[phaseSpec[2].stop] + 1)
+          : end;
+        const x = (t) =>
+          left +
+          ((t - viewStart) / (viewEnd - viewStart)) * (width - left - right);
+        const visibleIndices = d.timestamps
+          .map((t, i) => i)
+          .filter(
+            (i) => d.timestamps[i] >= viewStart && d.timestamps[i] <= viewEnd,
+          );
         for (let j = 0; j < 7; j++) {
-          const values = d.action.flatMap((a) => [a[j], a[j + 7]]),
+          const values = visibleIndices.flatMap((i) => [
+              d.action[i][j],
+              d.action[i][j + 7],
+            ]),
             min = Math.min(...values),
             max = Math.max(...values),
             pad = Math.max((max - min) * 0.1, 1),
@@ -264,6 +342,35 @@
             class: "values",
           });
           svg.append(value);
+          for (const phase of phaseSpec) {
+            const a = Math.max(viewStart, d.timestamps[phase.start]),
+              b = Math.min(viewEnd, d.timestamps[phase.stop]);
+            if (b > a) {
+              svg.append(
+                element("rect", {
+                  x: x(a),
+                  y: top,
+                  width: x(b) - x(a),
+                  height: height - top - bottom,
+                  fill: phase.color,
+                  opacity: 0.16,
+                  "data-phase-band": phase.label,
+                }),
+              );
+              for (const t of [a, b])
+                svg.append(
+                  element("line", {
+                    x1: x(t),
+                    x2: x(t),
+                    y1: top,
+                    y2: height - bottom,
+                    stroke: phase.color,
+                    "stroke-width": 1,
+                    "stroke-dasharray": "3 3",
+                  }),
+                );
+            }
+          }
           for (let k = 0; k < 3; k++) {
             let v = lo + ((hi - lo) * k) / 2;
             svg.append(
@@ -289,7 +396,7 @@
             );
           }
           for (let k = 0; k <= 4; k++) {
-            let t = (end * k) / 4;
+            let t = viewStart + ((viewEnd - viewStart) * k) / 4;
             svg.append(
               element(
                 "text",
@@ -304,10 +411,10 @@
             );
           }
           for (let side = 0; side < 2; side++) {
-            const path = d.action
+            const path = visibleIndices
               .map(
-                (a, i) =>
-                  `${i ? "L" : "M"}${x(d.timestamps[i]).toFixed(2)},${y(a[j + side * 7]).toFixed(2)}`,
+                (i, k) =>
+                  `${k ? "L" : "M"}${x(d.timestamps[i]).toFixed(2)},${y(d.action[i][j + side * 7]).toFixed(2)}`,
               )
               .join(" ");
             svg.append(
@@ -336,18 +443,19 @@
           svg.addEventListener("pointerdown", (event) => {
             const box = svg.getBoundingClientRect();
             let t = Math.max(
-              0,
+              viewStart,
               Math.min(
-                end,
+                viewEnd,
                 ((((event.clientX - box.left) * width) / box.width - left) /
                   (width - left - right)) *
-                  end,
+                  (viewEnd - viewStart) +
+                  viewStart,
               ),
             );
             seek(Math.round((t / end) * last));
           });
           charts.append(svg);
-          chartRows.push({ j, x, y, cursor, value, dots });
+          chartRows.push({ j, x, y, cursor, value, dots, viewStart, viewEnd });
         }
         if (section.dataset.mediaTime)
           paint(current, Number(section.dataset.mediaTime));
@@ -368,6 +476,10 @@
               : Math.max(0, d.stages.stop_output_frames[0] - 15),
           ),
         );
+      zoomControl.addEventListener("change", () => {
+        zoom = zoomControl.checked;
+        draw();
+      });
       range.addEventListener("input", () => seek(Number(range.value)));
       if (!("requestVideoFrameCallback" in video)) {
         clock.classList.add("alert");
@@ -384,7 +496,7 @@
       }
       video.addEventListener("error", () => {
         clock.classList.add("alert");
-        clock.textContent = "视频加载失败，请保留页面旁的两个视频文件夹。";
+        clock.textContent = "视频加载失败，请保留页面旁的对应视频文件夹。";
       });
       new ResizeObserver(draw).observe(charts);
     }
