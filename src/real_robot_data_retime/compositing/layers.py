@@ -61,17 +61,13 @@ def composite(
     left, right = np.asarray(left), np.asarray(right)
     if left.shape != right.shape or left.ndim != 1 or not len(left):
         raise ValueError("source maps must be nonempty and equally sized")
-    if min(left.min(), right.min()) < 0 or max(left.max(), right.max()) >= n:
+    if min(left.min(), right.min()) < 0 or max(left.max(), right.max()) > n - 1:
         raise ValueError("source maps outside video")
     if not np.isfinite([left, right]).all():
         raise ValueError("nonfinite source clock")
-    if np.any(right != np.floor(right)):
-        raise ValueError("moving drawer clock must use recorded frames")
-    fractional = bool(np.any(left != np.floor(left)))
-    if fractional and depth is not None:
-        raise ValueError(
-            "fractional foreground requires corresponding interpolated depth"
-        )
+    fractional = bool(
+        np.any(left != np.floor(left)) or np.any(right != np.floor(right))
+    )
     flow_frames = None
     robots = np.unpackbits(segmentation["robots"], axis=-1, count=w).astype(bool)
     objects = np.unpackbits(segmentation["objects"], axis=-1, count=w).astype(bool)
@@ -211,6 +207,10 @@ def composite(
                     # Right owns moving drawer; preserve its real handle occlusion.
                     source = int(r)
                     im = frames[source]
+                    if r != source:
+                        im, _ = flow_frames.sample(
+                            float(r), [np.ones((h, w), bool)] * 2
+                        )
                     other = drawer & dilate(robots[source, 0], 3)
                     out[drawer] = im[drawer]
                     if other.any():
@@ -270,17 +270,20 @@ def composite(
                 for side, t in enumerate(times)
             ]
             layer_images = [frames[t] for t in times]
-            if l != int(l):
-                lo, hi = int(np.floor(l)), int(np.ceil(l))
-                endpoint_masks = [
-                    arm_foreground(robots, objects, timeline["episodes"], 0, t)
-                    | anchors[0]
-                    for t in (lo, hi)
-                ]
-                layer_images[0], layers[0] = flow_frames.sample(
-                    float(l), endpoint_masks
-                )
+            for side, source in enumerate((l, r)):
+                if source != int(source):
+                    lo, hi = int(np.floor(source)), int(np.ceil(source))
+                    endpoint_masks = [
+                        arm_foreground(robots, objects, timeline["episodes"], side, t)
+                        | anchors[side]
+                        for t in (lo, hi)
+                    ]
+                    layer_images[side], layers[side] = flow_frames.sample(
+                        float(source), endpoint_masks
+                    )
             overlap = layers[0] & layers[1]
+            if fractional and depth is None and overlap.any():
+                raise ValueError("interpolated foregrounds violate projected clearance")
             overlap_pixels += int(overlap.sum())
             if depth is None:
                 # Stable image ordering; explicit report distinguishes this from
@@ -289,7 +292,18 @@ def composite(
                 for side in order:
                     out[layers[side]] = layer_images[side][layers[side]]
             else:
-                z = [depth(t) for t in times]
+                z = []
+                for source in (l, r):
+                    lo, hi = int(np.floor(source)), int(np.ceil(source))
+                    if lo == hi:
+                        z.append(depth(lo))
+                    else:
+                        values = [depth(lo), depth(hi)]
+                        interpolated, valid_depth = flow_frames.sample(
+                            float(source), [v > 0 for v in values], values=values
+                        )
+                        interpolated[~valid_depth] = 0
+                        z.append(interpolated)
                 if any(a.shape != (h, w) for a in z):
                     raise ValueError("registered depth must match RGB shape")
                 valid = [(a > 0) & np.isfinite(a) for a in z]
@@ -297,8 +311,8 @@ def composite(
                 right_front = ~(valid[0] & valid[1] & (z[0] < z[1]))
                 lm = layers[0] & (~layers[1] | ~right_front)
                 rm = layers[1] & (~layers[0] | right_front)
-                out[lm] = frames[times[0]][lm]
-                out[rm] = frames[times[1]][rm]
+                out[lm] = layer_images[0][lm]
+                out[rm] = layer_images[1][rm]
             audit.observe(out, frames, times, robots[times[0], 0] | robots[times[1], 1])
             yield out
 
@@ -306,6 +320,7 @@ def composite(
     report = dict(
         output=str(output),
         output_frames=len(left),
+        interpolated_right_frames=int(np.sum(right != np.floor(right))),
         interpolated_left_frames=int(np.sum(left != np.floor(left))),
         interpolation_method="bidirectional_DIS_flow" if fractional else "none",
         paired_source_frames=paired_source_frames,

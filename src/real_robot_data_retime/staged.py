@@ -63,7 +63,7 @@ def export_trajectories(output, joints, left, right, fps, plan):
             .tolist(),
         )
     stages = plan["stages"]
-    if stages["smooth_stop_required"]:
+    if stages and stages["smooth_stop_required"]:
         start = stages["brake_start_output_frame"]
         stop = stages["stop_output_frames"][0]
         resume = stages["restart_start_output_frame"]

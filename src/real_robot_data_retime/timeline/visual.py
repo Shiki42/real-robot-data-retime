@@ -3,7 +3,7 @@
 import numpy as np
 from functools import lru_cache
 from .scheduler import schedule_sources
-from .smooth import lift_clock, select_lift_peak, sample_rows
+from .smooth import lift_clock, select_lift_peak, sample_rows, smooth_wait_boundaries
 from ..background.clean_plate import dilate
 from ..compositing.ownership import arm_foreground
 from ..tasks.drawer_constraints import discover_insertion_gate, precedence_gate
@@ -45,10 +45,8 @@ def plan_visual(
     if (
         not np.isfinite([right_delay_seconds, left_delay_seconds]).all()
         or min(right_delay_seconds, left_delay_seconds) < 0
-        or (joints is not None and not drawer)
-        or (joints is None and (right_delay_seconds or left_delay_seconds))
     ):
-        raise ValueError("staged joint timing requires drawer and nonnegative delay")
+        raise ValueError("onset delays must be finite and nonnegative")
     if drawer:
         (event,) = events
         motion = timeline["drawer_motion"]
@@ -72,7 +70,7 @@ def plan_visual(
         withdrawal = outside[0]
         sources[0] = np.arange(min(e["approach_start"] for e in events), n)
 
-        if joints is not None:
+        if joints is not None and drawer:
             from ..collision.piperx import PiperXClearance
             from ..collision.drawer import drawer_sweep, outside_box
             from pathlib import Path
@@ -133,7 +131,7 @@ def plan_visual(
     def safe(i, j, ni, nj):
         # Sweep union of adjacent silhouettes; this is a projected-occlusion
         # constraint, never reported as a metric robot collision guarantee.
-        if joints is not None:
+        if drawer:
             if sources[0][ni] > gate and sources[1][j] < a:
                 return False
             if sources[1][nj] >= b and sources[0][i] < withdrawal:
@@ -143,9 +141,14 @@ def plan_visual(
     left_delay = (
         round(left_delay_seconds * timeline["fps"]) if joints is not None else 0
     )
-    if joints is not None and left_delay:
+    if joints is not None and drawer and left_delay:
         sources[0] = np.r_[np.full(left_delay, sources[0][0]), sources[0]]
         stop_index += left_delay
+
+    if not (joints is not None and drawer):
+        for side, seconds in enumerate((left_delay_seconds, right_delay_seconds)):
+            count = round(seconds * timeline["fps"])
+            sources[side] = np.r_[np.full(count, sources[side][0]), sources[side]]
 
     def search():
         return schedule_sources(
@@ -156,13 +159,14 @@ def plan_visual(
             left_priority=not drawer,
             can_wait=lambda side, i: (
                 joints is None
+                or not drawer
                 or (side == 1 and (sources[1][i] == a or i == len(sources[1]) - 1))
                 or (side == 0 and i in (stop_index, len(sources[0]) - 1))
             ),
         )
 
     schedule = search()
-    if joints is not None:
+    if joints is not None and drawer:
         waiting = np.flatnonzero(
             (np.diff(schedule.left) == 0) & (schedule.left[:-1] == stop_index)
         )
@@ -222,14 +226,85 @@ def plan_visual(
         stages["open_source_frame"] = a
         stages["withdrawal_source_frame"] = withdrawal
         stages["close_source_frame"] = b
+    left, right = sources[0][schedule.left], sources[1][schedule.right]
+    smoothing = dict(transitions=[])
+    if not (joints is not None and drawer):
+        left, right, smoothing = smooth_wait_boundaries(left, right, timeline["fps"])
+
+        @lru_cache(maxsize=4096)
+        def support(side, start, end):
+            result = np.zeros((h, w), bool)
+            for t in range(int(np.floor(start)), int(np.ceil(end)) + 1):
+                result |= arm_foreground(robots, objects, events, side, t)
+            return dilate(result, 2)
+
+        if smoothing["transitions"]:
+            for left_frame, right_frame, nl, nr in zip(
+                left[:-1], right[:-1], left[1:], right[1:]
+            ):
+                if drawer and (
+                    (nl > gate and right_frame < a)
+                    or (nr >= b and left_frame < withdrawal)
+                ):
+                    raise ValueError("smoothed path violates task precedence")
+                cuts = {0.0, 1.0}
+                for start, end in [(left_frame, nl), (right_frame, nr)]:
+                    if end > start:
+                        cuts.update(
+                            (t - start) / (end - start)
+                            for t in range(int(np.floor(start)) + 1, int(np.ceil(end)))
+                            if start < t < end
+                        )
+                cuts = sorted(cuts)
+                for u, v in zip(cuts[:-1], cuts[1:]):
+                    la, lb = np.round(
+                        [
+                            left_frame + u * (nl - left_frame),
+                            left_frame + v * (nl - left_frame),
+                        ],
+                        10,
+                    )
+                    ra, rb = np.round(
+                        [
+                            right_frame + u * (nr - right_frame),
+                            right_frame + v * (nr - right_frame),
+                        ],
+                        10,
+                    )
+                    if np.any(support(0, la, lb) & support(1, ra, rb)):
+                        raise ValueError(
+                            f"smoothed wait transition fails silhouette clearance at {la},{ra} -> {lb},{rb}"
+                        )
+        if joints is not None:
+            from ..collision.piperx import PiperXClearance
+            from pathlib import Path
+
+            for values in joints[:2]:
+                checker = PiperXClearance(
+                    sample_rows(values[:, :7], left),
+                    sample_rows(values[:, 7:], right),
+                    Path(joints[2]),
+                    Path(joints[3]),
+                )
+                if not all(checker(i, i, i + 1, i + 1) for i in range(len(left) - 1)):
+                    raise ValueError(
+                        "smoothed wait transition fails joint swept clearance"
+                    )
     return (
-        sources[0][schedule.left],
-        sources[1][schedule.right],
+        left,
+        right,
         dict(
-            collision_scope="projected silhouettes only; no joint-space verification",
-            left_wait_frames=schedule.left_waits,
-            right_wait_frames=schedule.right_waits,
-            output_frames=len(schedule.left),
+            collision_scope=(
+                "projected silhouettes plus metric wait/brake clearance"
+                if joints is not None and drawer
+                else "projected silhouettes plus state/action swept meshes"
+                if joints is not None
+                else "projected silhouettes only"
+            ),
+            left_wait_frames=int(np.sum(np.diff(left) == 0)),
+            right_wait_frames=int(np.sum(np.diff(right) == 0)),
+            output_frames=len(left),
+            smoothing=smoothing,
             stages=stages,
         ),
     )

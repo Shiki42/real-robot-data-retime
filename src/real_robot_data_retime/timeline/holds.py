@@ -7,8 +7,8 @@ def append_terminal_hold(left_indices, right_indices, fps, seconds=2.0):
     """Explicit synthetic still hold: repeat original final poses and RGB frames."""
     if fps <= 0 or seconds < 0:
         raise ValueError("invalid terminal hold duration")
-    left = np.asarray(left_indices, dtype=np.int64)
-    right = np.asarray(right_indices, dtype=np.int64)
+    left = np.asarray(left_indices)
+    right = np.asarray(right_indices)
     if left.ndim != 1 or right.shape != left.shape or not len(left):
         raise ValueError("source maps must be nonempty and equally sized")
     count = int(np.ceil(fps * seconds))

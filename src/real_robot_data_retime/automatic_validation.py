@@ -6,6 +6,8 @@ import cv2
 import numpy as np
 from .trim import source_episodes, read_episode
 from .video import _SequentialVideoReader
+from .timeline.smooth import sample_rows
+import pyarrow as pa
 
 
 def wrist_pixel_error(source, output, mapping, samples=None):
@@ -23,7 +25,7 @@ def wrist_pixel_error(source, output, mapping, samples=None):
             )
         )
         for target in targets:
-            expected = original.read_to(int(mapping[target]))
+            expected = original.sample(float(mapping[target]))
             actual = edited.read_to(int(target))
             if expected.shape != actual.shape:
                 raise ValueError("wrist video dimensions changed")
@@ -90,10 +92,15 @@ def validate_episode(source, output, si, oi, original_row, row, *, global_start=
     for key in ["action", "observation.state"]:
         values = numeric_sources[key]
         actual = np.asarray(table[key].to_pylist())
-        if not (
-            np.array_equal(actual[:, :7], values[left, :7])
-            and np.array_equal(actual[:, 7:], values[right, 7:])
-        ):
+        expected = np.c_[
+            sample_rows(values[:, :7], left), sample_rows(values[:, 7:], right)
+        ]
+        expected = np.asarray(
+            pa.array(
+                expected.tolist(), type=original.schema.field(key).type
+            ).to_pylist()
+        )
+        if not np.array_equal(actual, expected):
             raise ValueError(f"{episode}: {key} violates per-arm source mapping")
     if table["index"].to_pylist() != list(range(global_start, global_start + n)):
         raise ValueError("global data indices are not contiguous")
@@ -183,7 +190,10 @@ def validate_episode(source, output, si, oi, original_row, row, *, global_start=
             if stop - start <= 1:
                 continue
             for key in ["action", "observation.state"]:
-                values = numeric_sources[key][start : stop + 1, side * 7 : side * 7 + 7]
+                values = numeric_sources[key][
+                    int(np.floor(start)) : int(np.ceil(stop)) + 1,
+                    side * 7 : side * 7 + 7,
+                ]
                 if np.any(np.ptp(values, axis=0) > tolerance + 1e-9):
                     raise ValueError(
                         "retiming skipped a meaningful pose or command change"

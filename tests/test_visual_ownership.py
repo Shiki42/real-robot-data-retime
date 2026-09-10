@@ -28,7 +28,7 @@ def test_visual_schedule_checks_carried_object_extent(monkeypatch):
 
     monkeypatch.setattr(visual, "schedule_sources", inspect)
     visual.plan_visual(
-        {"task": "letters", "episodes": [event]},
+        {"task": "letters", "episodes": [event], "fps": 30},
         np.zeros((n, h, w, 3), np.uint8),
         {},
         {

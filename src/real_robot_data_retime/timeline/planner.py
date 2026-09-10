@@ -3,6 +3,7 @@
 from functools import lru_cache
 from pathlib import Path
 import numpy as np
+from .smooth import smooth_wait_boundaries, sample_rows
 from .scheduler import schedule_sources, NoSafeSchedule
 from .bounds import drawer_remaining_bound
 from .holds import append_terminal_hold, compress_static_spans
@@ -100,7 +101,10 @@ def plan_joints(
         margin_m=margin,
     )
     required_contacts = []
-    dependency = lambda i, j: True
+
+    def dependency(i, j):
+        return True
+
     if task == "drawer":
         # Derive handle motion in the same base frame used for mesh clearance.
         tcp = [np.array([pose[4] for pose in poses]) for poses in checker.poses]
@@ -244,7 +248,9 @@ def plan_joints(
                     return False
         return True
 
-    phase_priority = lambda i, j: 0.0
+    def phase_priority(i, j):
+        return 0.0
+
     if task == "drawer":
         pickup_index = int(np.searchsorted(sources[0], event["pickup_frame"]))
         pull_index = int(np.searchsorted(sources[1], motion["pull_start"]))
@@ -375,16 +381,74 @@ def plan_joints(
     if task == "drawer":
         receipt["compressed_left_idle_frames"] = len(state) - len(sources[0])
         receipt["compressed_right_idle_frames"] = len(state) - len(sources[1])
+    left, right, smoothing = smooth_wait_boundaries(
+        sources[0][schedule.left], sources[1][schedule.right], timeline["fps"]
+    )
+    if smoothing["transitions"]:
+        if copied:
+            raise NoSafeSchedule("cannot smooth preserved original contact edges")
+        for values in (state, action):
+            sampled = np.c_[
+                sample_rows(values[:, :7], left), sample_rows(values[:, 7:], right)
+            ]
+            audit = PiperXClearance(
+                sampled[:, :7],
+                sampled[:, 7:],
+                Path(urdf),
+                Path(mesh_root),
+                margin_m=margin,
+            )
+            for k in range(len(left) - 1):
+                if not audit(k, k, k + 1, k + 1):
+                    raise NoSafeSchedule(
+                        "smoothed trajectory failed swept mesh clearance"
+                    )
+                if task != "drawer":
+                    continue
+                if (left[k + 1] > wait and right[k] < opening) or (
+                    right[k + 1] >= closing and left[k] < withdrawal
+                ):
+                    raise NoSafeSchedule(
+                        "smoothed trajectory violates drawer precedence"
+                    )
+                if right[k] >= opening:
+                    continue
+                delta = np.abs(sampled[k + 1] - sampled[k])
+                bound = (
+                    delta[:6].sum() + delta[7:13].sum()
+                ) * np.pi / 180 * audit.max_reach_m + (delta[6] + delta[13]) / 2000
+                steps = max(1, int(np.ceil(bound / (margin * 0.5))))
+                slack = bound / (2 * steps)
+                for sub in range(steps + 1):
+                    fraction = sub / steps
+                    pose = audit._interpolated_pose(0, k, k + 1, sub, steps)
+                    handle = (
+                        tcp[1][motion["pull_start"]]
+                        if right[k] + fraction * (right[k + 1] - right[k])
+                        <= motion["pull_start"]
+                        else audit._interpolated_pose(1, k, k + 1, sub, steps)[4]
+                    )
+                    body = drawer_body(handle, volume[0])
+                    if not audit.pose_clears_volume(pose, body, margin + slack):
+                        raise NoSafeSchedule("smoothed trajectory enters moving drawer")
+                    source = left[k] + fraction * (left[k + 1] - left[k])
+                    if event["pickup_frame"] <= source <= event[
+                        "release_frame"
+                    ] and not outside_box(pose[4], body, radius=0.035 + slack):
+                        raise NoSafeSchedule(
+                            "smoothed held object enters unopened drawer"
+                        )
+    receipt["smoothing"] = smoothing
     left, right, hold = append_terminal_hold(
-        sources[0][schedule.left],
-        sources[1][schedule.right],
+        left,
+        right,
         timeline["fps"],
         terminal_seconds,
     )
     receipt.update(
         output_frames=len(left),
-        left_wait_frames=schedule.left_waits,
-        right_wait_frames=schedule.right_waits,
+        left_wait_frames=int(np.sum(np.diff(left[: hold["start_frame"]]) == 0)),
+        right_wait_frames=int(np.sum(np.diff(right[: hold["start_frame"]]) == 0)),
         swept_edges_verified=not copied,
         new_edges_collision_free=True,
         preserved_original_pair_edges=copied,
@@ -392,7 +456,7 @@ def plan_joints(
         if not copied
         else "strict_new_edges_with_exact_original_contact_replay",
         synthetic_terminal_hold=hold,
-        optimality="minimum frames under retained source poses and declared constraints",
+        optimality="shortest discrete schedule followed by validated smooth retiming",
     )
     return left, right, receipt
 

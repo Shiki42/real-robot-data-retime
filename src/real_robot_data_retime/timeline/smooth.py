@@ -19,6 +19,18 @@ def sample_rows(values, clock):
     return values[lo] + weight * (values[hi] - values[lo])
 
 
+def speed_ramp(duration, distance, up):
+    u = np.arange(duration + 1, dtype=float) / duration
+    correction = 30 * (distance / duration - 0.5)
+    if abs(correction) > 3 + 1e-10:
+        raise ValueError("ramp cannot remain monotone at this frame rate")
+    integral = u**3 - 0.5 * u**4 if up else u - u**3 + 0.5 * u**4
+    integral += correction * (u**3 / 3 - u**4 / 2 + u**5 / 5)
+    result = duration * integral
+    result[0], result[-1] = 0, distance
+    return result
+
+
 def lift_clock(start, stop, peak, fps, *, brake_seconds=0.5, restart_seconds=0.3):
     """Monotone speed ramps with zero speed and acceleration at the stop.
 
@@ -40,22 +52,11 @@ def lift_clock(start, stop, peak, fps, *, brake_seconds=0.5, restart_seconds=0.3
     if not start <= begin < peak < end <= stop:
         raise ValueError("insufficient source trajectory around lift peak")
 
-    def ramp(duration, distance, up):
-        u = np.arange(duration + 1, dtype=float) / duration
-        correction = 30 * (distance / duration - 0.5)
-        if abs(correction) > 3 + 1e-10:
-            raise ValueError("ramp cannot remain monotone at this frame rate")
-        integral = u**3 - 0.5 * u**4 if up else u - u**3 + 0.5 * u**4
-        integral += correction * (u**3 / 3 - u**4 / 2 + u**5 / 5)
-        result = duration * integral
-        result[0], result[-1] = 0, distance
-        return result
-
     lead = int(begin - start)
     x = np.r_[
         np.arange(start, begin),
-        begin + ramp(brake, distance_down, False),
-        peak + ramp(restart, distance_up, True)[1:],
+        begin + speed_ramp(brake, distance_down, False),
+        peak + speed_ramp(restart, distance_up, True)[1:],
         np.arange(end + 1, stop + 1),
     ]
     return (
@@ -94,4 +95,80 @@ def select_lift_peak(tcp, eligible, pickup, gate, *, height_band_m=0.002):
         tcp_height_m=float(tcp[peak, 2]),
         maximum_safe_height_m=highest,
         height_band_m=height_band_m,
+    )
+
+
+def smooth_wait_boundaries(left, right, fps, *, brake_seconds=0.5, restart_seconds=0.3):
+    """Retime a paired path at every change between moving and waiting.
+
+    Both clocks share one path parameter: this does not independently drag an
+    arm into a different section of the other arm's path. A moving partner also
+    eases at the boundary, then continues while the waiting arm stays still.
+    Short adjacent segments lower their peak rate instead of overlapping ramps.
+    Callers must audit interpolated configurations before consuming the result.
+    """
+    points = np.column_stack([left, right]).astype(float)
+    if (
+        len(points) < 1
+        or not np.isfinite(points).all()
+        or np.any(np.diff(points, axis=0) < 0)
+    ):
+        raise ValueError("expected finite monotone paired source clocks")
+    down, up = round(fps * brake_seconds), round(fps * restart_seconds)
+    if fps <= 0 or min(down, up) < 2:
+        raise ValueError("invalid smooth waiting duration")
+    moving = np.diff(points, axis=0) > 0
+    corners = np.flatnonzero(np.any(moving[:-1] != moving[1:], axis=1)) + 1
+    if not len(corners):
+        return (
+            points[:, 0],
+            points[:, 1],
+            dict(transitions=[], output_frames=len(points)),
+        )
+    bounds = np.r_[0, corners, len(points) - 1]
+    path = [0.0]
+    transitions = []
+    for segment, (a, b) in enumerate(zip(bounds[:-1], bounds[1:])):
+        accelerating = segment > 0
+        braking = segment < len(bounds) - 2
+        distance = float(b - a)
+        nominal = (round(up / 2) if accelerating else 0) + (
+            round(down / 2) if braking else 0
+        )
+        plateau = max(0, int(np.floor(distance - nominal)))
+        rate = distance / (nominal + plateau)
+        local = [0.0]
+        if accelerating:
+            local.extend((rate * speed_ramp(up, round(up / 2), True)[1:]).tolist())
+        if plateau:
+            local.extend((local[-1] + rate * np.arange(1, plateau + 1)).tolist())
+        if braking:
+            begin = len(path) - 1 + len(local) - 1
+            local.extend(
+                (
+                    local[-1] + rate * speed_ramp(down, round(down / 2), False)[1:]
+                ).tolist()
+            )
+            transitions.append(
+                dict(
+                    source_path_frame=int(b),
+                    brake_start_output_frame=begin,
+                    stop_output_frame=len(path) - 1 + len(local) - 1,
+                    restart_end_output_frame=len(path) - 1 + len(local) - 1 + up,
+                    waiting_arms=np.flatnonzero(~moving[b]).tolist(),
+                )
+            )
+        local[-1] = distance
+        path.extend((a + np.array(local[1:])).tolist())
+    result = sample_rows(points, np.array(path))
+    return (
+        result[:, 0],
+        result[:, 1],
+        dict(
+            transitions=transitions,
+            output_frames=len(result),
+            brake_seconds=down / fps,
+            restart_seconds=up / fps,
+            method="coordinated_source_path_wait_boundaries",
+        ),
     )

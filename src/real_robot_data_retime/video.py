@@ -31,7 +31,7 @@ def remap_video(
     encoder = _open_encoder(output, fps, width, height)
     try:
         for target in indices:
-            _write_frame(encoder, reader.read_to(int(target)))
+            _write_frame(encoder, reader.sample(float(target)))
     finally:
         reader.close()
         _close_encoder(encoder, output)
@@ -72,15 +72,15 @@ class _SequentialVideoReader:
         self.capture = cv2.VideoCapture(str(source))
         if not self.capture.isOpened():
             raise FileNotFoundError(f"failed to open video: {source}")
+        self._flow_key = None
+        self._flow = None
         self.index = -1
         self.frame: np.ndarray | None = None
 
     def read_to(self, target: int) -> np.ndarray:
         if target < self.index:
             if not self.capture.set(cv2.CAP_PROP_POS_FRAMES, target):
-                raise RuntimeError(
-                    f"failed to seek {self.source} to frame {target}"
-                )
+                raise RuntimeError(f"failed to seek {self.source} to frame {target}")
             self.index = target - 1
             self.frame = None
         while self.index < target:
@@ -94,6 +94,20 @@ class _SequentialVideoReader:
         if self.frame is None:
             raise RuntimeError(f"video {self.source} did not yield frame {target}")
         return self.frame
+
+    def sample(self, target):
+        lo, hi = int(np.floor(target)), int(np.ceil(target))
+        if lo == hi:
+            return self.read_to(lo)
+        if self._flow_key != lo:
+            from .compositing.interpolation import FlowFrames
+
+            a = self.read_to(lo).copy()
+            b = self.read_to(hi).copy()
+            self._flow = FlowFrames(np.array([a, b]))
+            self._flow_key = lo
+        shape = self._flow.frames.shape[1:3]
+        return self._flow.sample(target - lo, [np.ones(shape, bool)] * 2)[0]
 
     def close(self) -> None:
         self.capture.release()
@@ -149,9 +163,9 @@ def _close_encoder(encoder: subprocess.Popen[bytes], output: Path) -> None:
 
 
 def _validate_indices(source_indices: np.ndarray) -> np.ndarray:
-    indices = np.asarray(source_indices, dtype=np.int64)
+    indices = np.asarray(source_indices, dtype=float)
     if indices.ndim != 1 or len(indices) == 0:
         raise ValueError("video source indices must be a non-empty vector")
-    if indices.min() < 0:
+    if not np.isfinite(indices).all() or indices.min() < 0:
         raise ValueError("video source indices must be non-negative")
     return indices

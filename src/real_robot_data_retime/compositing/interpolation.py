@@ -23,10 +23,11 @@ class FlowFrames:
             self.flow.calc(gray[1], gray[0], None),
         )
 
-    def sample(self, source, masks):
+    def sample(self, source, masks, *, values=None):
         lo, hi = int(np.floor(source)), int(np.ceil(source))
+        frames = (self.frames[lo], self.frames[hi]) if values is None else values
         if lo == hi:
-            return self.frames[lo], masks[0].astype(bool)
+            return frames[0], masks[0].astype(bool)
         alpha = source - lo
         forward, backward = self.pair(lo)
         # Solve inverse maps with fixed-point iterations; forward flow lives
@@ -45,15 +46,14 @@ class FlowFrames:
                 mapping = self.grid - weight * sampled
             maps.append(mapping)
         colors, support = [], []
-        for frame, mask, mapping in zip(
-            (self.frames[lo], self.frames[hi]), masks, maps
-        ):
+        for frame, mask, mapping in zip(frames, masks, maps):
             support.append(
                 cv2.remap(mask.astype(np.float32), mapping, None, cv2.INTER_LINEAR)
             )
             colors.append(
                 cv2.remap(
-                    frame.astype(np.float32) * mask[..., None],
+                    frame.astype(np.float32)
+                    * (mask[..., None] if frame.ndim == 3 else mask),
                     mapping,
                     None,
                     cv2.INTER_LINEAR,
@@ -62,8 +62,13 @@ class FlowFrames:
         weights = (1 - alpha) * support[0] + alpha * support[1]
         premultiplied = (1 - alpha) * colors[0] + alpha * colors[1]
         image = (
-            np.rint(premultiplied / np.maximum(weights[..., None], 1e-6))
-            .clip(0, 255)
-            .astype(np.uint8)
+            np.rint(
+                premultiplied
+                / np.maximum(
+                    weights[..., None] if frames[0].ndim == 3 else weights, 1e-6
+                )
+            )
+            .clip(0, np.iinfo(frames[0].dtype).max)
+            .astype(frames[0].dtype)
         )
         return image, weights >= 0.5

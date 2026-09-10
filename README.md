@@ -61,8 +61,10 @@ The video-only path checks projected silhouettes. The dataset path below uses
 recorded joints and RoboVisualize mesh clearance. These verification scopes are
 reported separately.
 
-For joint-guided lift/wait/insert timing with smooth 0.5 s braking and 0.3 s
-restart, see [staged drawer timing](docs/staged-drawer.md).
+All task planners apply smooth transitions at scheduled waits (0.5 s braking,
+0.3 s restart), with post-retiming clearance checks. See
+[general smooth scheduling](docs/general-smoothing.md) and the
+[joint-guided drawer lift/wait/insert mode](docs/staged-drawer.md).
 
 ## Trim and retime a LeRobot v3 dataset
 

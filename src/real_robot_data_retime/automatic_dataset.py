@@ -17,6 +17,7 @@ from .compositing.depth import AlignedDepth
 from .trim import source_episodes, read_episode, image_statistics, aggregate_stats
 from .stats import feature_statistics
 from .video import remap_video
+from .timeline.smooth import sample_rows
 
 
 def analysis_identity(video, package_root):
@@ -36,6 +37,7 @@ def analysis_identity(video, package_root):
 
 def remap_table(table, left, right, episode):
     length = len(left)
+    left_rows, right_rows = np.floor(left).astype(int), np.floor(right).astype(int)
     columns = {}
     for field in table.schema:
         key = field.name
@@ -43,7 +45,10 @@ def remap_table(table, left, right, episode):
             continue  # A composite has two physical source timestamps.
         if key in ["action", "observation.state"]:
             values = np.asarray(table[key].to_pylist())
-            values = np.concatenate([values[left, :7], values[right, 7:]], axis=1)
+            values = np.concatenate(
+                [sample_rows(values[:, :7], left), sample_rows(values[:, 7:], right)],
+                axis=1,
+            )
             columns[key] = pa.array(values.tolist(), type=field.type)
         elif key in ["episode_index", "frame_index", "index", "timestamp"]:
             values = {
@@ -56,17 +61,17 @@ def remap_table(table, left, right, episode):
         elif key == "task_index":
             if len(set(table[key].to_pylist())) != 1:
                 raise ValueError("task changes inside source episode")
-            columns[key] = table[key].take(pa.array(left))
+            columns[key] = table[key].take(pa.array(left_rows))
         elif key.startswith("complementary_info.left_") or key.endswith(".left_wrist"):
-            columns[key] = table[key].take(pa.array(left))
+            columns[key] = table[key].take(pa.array(left_rows))
         elif key.startswith("complementary_info.right_") or key.endswith(
             ".right_wrist"
         ):
-            columns[key] = table[key].take(pa.array(right))
+            columns[key] = table[key].take(pa.array(right_rows))
         else:
             raise ValueError(f"no explicit retime policy for field {key}")
-    columns["retime.left_source_frame"] = pa.array(left, type=pa.int64())
-    columns["retime.right_source_frame"] = pa.array(right, type=pa.int64())
+    columns["retime.left_source_frame"] = pa.array(left, type=pa.float64())
+    columns["retime.right_source_frame"] = pa.array(right, type=pa.float64())
     return pa.table(columns)
 
 
@@ -339,8 +344,8 @@ def finalize(source, output, repo_id):
         if k in table.column_names or v["dtype"] == "video"
     }
     for key, dtype in [
-        ("retime.left_source_frame", "int64"),
-        ("retime.right_source_frame", "int64"),
+        ("retime.left_source_frame", "float64"),
+        ("retime.right_source_frame", "float64"),
         ("retime.synthetic_hold", "bool"),
     ]:
         info["features"][key] = dict(dtype=dtype, shape=[1], names=None)
