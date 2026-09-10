@@ -44,6 +44,19 @@ Private analysis, source clocks, renders and verification artifacts are under
 `final_v2_episode_0`, `final_v2_episode_1` and `final_v2_episode_2` are the final exports;
 previous candidate outputs are retained separately as diagnostics.
 
+Final clips passed uninterrupted-clock, admission-order, projected-overlap and
+source-origin checks. All three have zero detected origin duplicates and zero
+moving-foreground overlap pixels. Fourteen frames per episode, including every
+pickup before/at/after and the final scene, were visually reviewed.
+
+| Episode | Duration | Left 1 | Right 1 | Left 2 | Right 2 |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| 0 | 21.13 s | 3.57 s | 6.33 s | 9.27 s | 14.87 s |
+| 1 | 21.00 s | 3.50 s | 5.17 s | 9.70 s | 14.17 s |
+| 2 | 22.33 s | 3.60 s | 7.00 s | 12.83 s | 15.53 s |
+
+The complete receipt is [recorded here](workpiece-alternating-verification.json).
+
 ## Shadow-connected object proposals
 
 Episode 2 initially yielded only two proposals: a dark sleeve and an adjacent
