@@ -81,3 +81,32 @@ hold, and 0.3 s restart (219–228). `early` has 492 frames with no smoothing.
 Both origin audits pass and both interval-level dependency checks pass.
 Transition contact sheets were inspected; thin-cable/occlusion boundaries
 remain subject to the source segmentation and optical-flow approximation.
+
+## Local video/action alignment viewer
+
+Build a self-contained comparison page from the two generated previews:
+
+```bash
+python scripts/build_action_preview.py /path/to/preview-root
+python scripts/serve_action_preview.py --directory /path/to/preview-root --port 38765
+```
+
+The root contains `final-wait` and `early`, each with MP4, WebM, trajectories,
+source mapping and report. The builder verifies every video's frame PTS against
+trajectory timestamps (0.51 ms tolerance for WebM's millisecond time base),
+and verifies both action source clocks against the renderer mapping. It embeds
+all action rows and the exact video PTS in the page and writes a SHA-256 download
+manifest. `serve.py` is copied alongside the page for local use.
+
+The viewer displays J1–J6 for both arms plus gripper aperture on shared time axes.
+`requestVideoFrameCallback` drives the displayed row from the presented frame's
+media time; no independent animation clock or assumed wall-clock timing is used.
+Seeking uses recorded PTS and updates curves only after a decoded frame is
+presented. Curves, frame slider and previous/next controls seek the same video.
+The range-capable loopback server is required for browser random access.
+
+Local downloads for this run: `/Users/shuyuan/Downloads/drawer-action-alignment`.
+Browser checks cover initial frame, frame 142 → 143, timeline end (535), chart
+click seeking and playing/pausing. Both 536-frame and 492-frame media files pass
+PTS checks. This exposes export alignment, not an independent proof that the
+source robot state or optical-flow pose exactly matches its action command.

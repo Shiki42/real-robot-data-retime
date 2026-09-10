@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="zh-CN">
+  <meta charset="utf-8" /><meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+  /><title>抽屉任务 · 视频与 Action 逐帧对齐</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #111923;
+      --fg: #eaf1f7;
+      --muted: #adc0d0;
+      --line: #334352;
+      --left: #68d4ed;
+      --right: #ffb76b;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font: 16px system-ui;
+      background: var(--bg);
+      color: var(--fg);
+      max-width: 1480px;
+      margin: 28px auto;
+      padding: 0 24px;
+    }
+    h1 {
+      font-size: 25px;
+    }
+    h2 {
+      font-size: 21px;
+    }
+    p {
+      color: var(--muted);
+      line-height: 1.65;
+    }
+    main {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+    section {
+      min-width: 0;
+    }
+    video {
+      width: 100%;
+      border-radius: 10px;
+    }
+    button,
+    a {
+      font: inherit;
+    }
+    button {
+      padding: 7px 12px;
+      background: #263746;
+      border: 1px solid #496073;
+      border-radius: 6px;
+      color: var(--fg);
+      cursor: pointer;
+    }
+    a {
+      color: var(--left);
+    }
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      margin: 12px 0;
+    }
+    .clock {
+      font-variant-numeric: tabular-nums;
+      line-height: 1.7;
+      min-height: 58px;
+    }
+    .legend {
+      display: flex;
+      gap: 18px;
+      margin: 12px 0;
+      font-size: 14px;
+    }
+    .left {
+      color: var(--left);
+    }
+    .right {
+      color: var(--right);
+    }
+    svg {
+      width: 100%;
+      display: block;
+      touch-action: none;
+    }
+    .plot {
+      cursor: crosshair;
+    }
+    .row-title {
+      font-size: 13px;
+    }
+    .axes {
+      font-size: 11px;
+      fill: var(--muted);
+    }
+    .cursor {
+      stroke: #fff;
+      stroke-width: 1;
+    }
+    .values {
+      font:
+        12px ui-monospace,
+        monospace;
+      fill: var(--fg);
+    }
+    .alert {
+      color: #ff9d9d;
+    }
+    input {
+      width: 100%;
+      margin: 12px 0;
+    }
+    footer {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    @media (max-width: 900px) {
+      main {
+        grid-template-columns: 1fr;
+      }
+      body {
+        padding: 0 14px;
+      }
+    }
+  </style>
+  <h1>抓取并抬起 → 等抽屉打开 → 放入</h1>
+  <p>
+    视频下方为导出的 action：J1–J6
+    单位为度，夹爪开度单位为毫米。白色游标对应正在显示的视频帧；点击曲线或逐帧按钮可核对同一时刻的动作。
+  </p>
+  <main id="viewers"></main>
+  <footer>
+    时间对齐按视频解码帧的呈现时间计算，播放、暂停和拖动共用同一帧索引。构建时已逐帧核对
+    MP4 / WebM 呈现时间与动作时间戳（WebM
+    时间戳精度为毫秒）。这验证的是生成结果的时序对应，不代表真机已执行或实测姿态等于
+    action。
+  </footer>
+  <script>
+    const datasets = __ACTION_DATA__;
+    const NS = "http://www.w3.org/2000/svg";
+    function element(tag, attrs = {}, text = "") {
+      const e = document.createElementNS(NS, tag);
+      for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, v);
+      e.textContent = text;
+      return e;
+    }
+    function frameAt(pts, time) {
+      let lo = 0,
+        hi = pts.length;
+      while (lo < hi) {
+        let mid = (lo + hi) >> 1;
+        if (pts[mid] <= time + 1e-6) lo = mid + 1;
+        else hi = mid;
+      }
+      return Math.max(0, lo - 1);
+    }
+    for (const d of datasets) {
+      const section = document.createElement("section");
+      section.dataset.name = d.name;
+      section.innerHTML = `<h2>${d.title}</h2><video controls preload="auto" src="${d.name}/preview.webm"></video><div class="controls"><button data-step="-1">上一帧</button><button data-step="1">下一帧</button><button data-phase>查看高点附近</button><a href="${d.name}/parallel.mp4" download>下载 MP4</a></div><div class="clock" aria-live="off">等待视频帧…</div><input type="range" min="0" max="${d.timestamps.length - 1}" value="0" step="1" aria-label="${d.title}逐帧时间轴"><div class="legend"><span class="left">━ 左臂 action</span><span class="right">━ 右臂 action</span></div><div class="charts"></div><p><a href="${d.name}/trajectories.parquet" download>下载逐帧 action / state</a></p>`;
+      document.getElementById("viewers").append(section);
+      const video = section.querySelector("video"),
+        clock = section.querySelector(".clock"),
+        range = section.querySelector("input"),
+        charts = section.querySelector(".charts");
+      let current = 0,
+        requested = null,
+        chartRows = [];
+      const end = d.timestamps[d.timestamps.length - 1],
+        last = d.timestamps.length - 1;
+      function paint(index, mediaTime) {
+        current = index;
+        section.dataset.frame = String(index);
+        section.dataset.mediaTime = String(mediaTime);
+        section.dataset.actionTime = String(d.timestamps[index]);
+        range.value = index;
+        const s = d.stages;
+        let phase = "连续运动";
+        if (s.smooth_stop_required) {
+          if (
+            index >= s.brake_start_output_frame &&
+            index < s.stop_output_frames[0]
+          )
+            phase = "减速";
+          else if (
+            index >= s.stop_output_frames[0] &&
+            index < s.restart_start_output_frame
+          )
+            phase = "高点等待";
+          else if (
+            index >= s.restart_start_output_frame &&
+            index <= s.restart_end_output_frame
+          )
+            phase = "启动";
+        }
+        clock.textContent = `第 ${index} 帧 / ${last} · ${phase}\n视频帧 PTS ${mediaTime.toFixed(3)} s · action ${d.timestamps[index].toFixed(3)} s · 源帧 L ${d.left[index].toFixed(3)} / R ${d.right[index].toFixed(3)}`;
+        clock.style.whiteSpace = "pre-line";
+        for (const row of chartRows) {
+          let x = row.x(d.timestamps[index]);
+          row.cursor.setAttribute("x1", x);
+          row.cursor.setAttribute("x2", x);
+          row.value.textContent = `L ${d.action[index][row.j].toFixed(2)}  /  R ${d.action[index][row.j + 7].toFixed(2)}`;
+          for (let side = 0; side < 2; side++) {
+            row.dots[side].setAttribute("cx", x);
+            row.dots[side].setAttribute(
+              "cy",
+              row.y(d.action[index][row.j + side * 7]),
+            );
+          }
+        }
+      }
+      function seek(index) {
+        requested = Math.max(0, Math.min(last, index));
+        video.pause();
+        video.currentTime =
+          d.video_pts[requested] +
+          Math.min(0.001, (video.duration - d.video_pts[requested]) / 2);
+      }
+      function draw() {
+        charts.replaceChildren();
+        chartRows = [];
+        const width = Math.max(280, charts.clientWidth),
+          left = 48,
+          right = 12,
+          top = 26,
+          bottom = 23,
+          height = 95;
+        const x = (t) => left + (t / end) * (width - left - right);
+        for (let j = 0; j < 7; j++) {
+          const values = d.action.flatMap((a) => [a[j], a[j + 7]]),
+            min = Math.min(...values),
+            max = Math.max(...values),
+            pad = Math.max((max - min) * 0.1, 1),
+            lo = min - pad,
+            hi = max + pad;
+          const y = (v) =>
+            height - bottom - ((v - lo) / (hi - lo)) * (height - top - bottom);
+          const svg = element("svg", {
+            viewBox: `0 0 ${width} ${height}`,
+            role: "img",
+            "aria-label": `${j < 6 ? "关节 J" + (j + 1) + " 角度" : "夹爪开度"}随时间变化`,
+            class: "plot",
+          });
+          svg.append(
+            element(
+              "text",
+              { x: 0, y: 15, fill: "var(--fg)", class: "row-title" },
+              j < 6 ? `J${j + 1} (°)` : "夹爪 (mm)",
+            ),
+          );
+          const value = element("text", {
+            x: width - right,
+            y: 15,
+            "text-anchor": "end",
+            class: "values",
+          });
+          svg.append(value);
+          for (let k = 0; k < 3; k++) {
+            let v = lo + ((hi - lo) * k) / 2;
+            svg.append(
+              element("line", {
+                x1: left,
+                x2: width - right,
+                y1: y(v),
+                y2: y(v),
+                stroke: "var(--line)",
+              }),
+            );
+            svg.append(
+              element(
+                "text",
+                {
+                  x: left - 6,
+                  y: y(v) + 4,
+                  "text-anchor": "end",
+                  class: "axes",
+                },
+                v.toFixed(0),
+              ),
+            );
+          }
+          for (let k = 0; k <= 4; k++) {
+            let t = (end * k) / 4;
+            svg.append(
+              element(
+                "text",
+                {
+                  x: x(t),
+                  y: height - 4,
+                  "text-anchor": k === 0 ? "start" : k === 4 ? "end" : "middle",
+                  class: "axes",
+                },
+                t.toFixed(1) + (k === 4 ? " s" : ""),
+              ),
+            );
+          }
+          for (let side = 0; side < 2; side++) {
+            const path = d.action
+              .map(
+                (a, i) =>
+                  `${i ? "L" : "M"}${x(d.timestamps[i]).toFixed(2)},${y(a[j + side * 7]).toFixed(2)}`,
+              )
+              .join(" ");
+            svg.append(
+              element("path", {
+                d: path,
+                fill: "none",
+                stroke: side ? "var(--right)" : "var(--left)",
+                "stroke-width": 1.4,
+              }),
+            );
+          }
+          const cursor = element("line", {
+            y1: top,
+            y2: height - bottom,
+            class: "cursor",
+          });
+          svg.append(cursor);
+          const dots = [0, 1].map((side) => {
+            const dot = element("circle", {
+              r: 3,
+              fill: side ? "var(--right)" : "var(--left)",
+            });
+            svg.append(dot);
+            return dot;
+          });
+          svg.addEventListener("pointerdown", (event) => {
+            const box = svg.getBoundingClientRect();
+            let t = Math.max(
+              0,
+              Math.min(
+                end,
+                ((((event.clientX - box.left) * width) / box.width - left) /
+                  (width - left - right)) *
+                  end,
+              ),
+            );
+            seek(Math.round((t / end) * last));
+          });
+          charts.append(svg);
+          chartRows.push({ j, x, y, cursor, value, dots });
+        }
+        if (section.dataset.mediaTime)
+          paint(current, Number(section.dataset.mediaTime));
+      }
+      section
+        .querySelectorAll("[data-step]")
+        .forEach((button) =>
+          button.addEventListener("click", () =>
+            seek((requested ?? current) + Number(button.dataset.step)),
+          ),
+        );
+      section
+        .querySelector("[data-phase]")
+        .addEventListener("click", () =>
+          seek(
+            d.stages.smooth_stop_required
+              ? d.stages.brake_start_output_frame
+              : Math.max(0, d.stages.stop_output_frames[0] - 15),
+          ),
+        );
+      range.addEventListener("input", () => seek(Number(range.value)));
+      if (!("requestVideoFrameCallback" in video)) {
+        clock.classList.add("alert");
+        clock.textContent =
+          "此浏览器不支持逐帧呈现回调，请使用新版 Chrome / Safari。";
+      } else {
+        const onFrame = (now, metadata) => {
+          const index = frameAt(d.video_pts, metadata.mediaTime);
+          paint(index, metadata.mediaTime);
+          if (requested === index) requested = null;
+          video.requestVideoFrameCallback(onFrame);
+        };
+        video.requestVideoFrameCallback(onFrame);
+      }
+      video.addEventListener("error", () => {
+        clock.classList.add("alert");
+        clock.textContent = "视频加载失败，请保留页面旁的两个视频文件夹。";
+      });
+      new ResizeObserver(draw).observe(charts);
+    }
+  </script>
+</html>
