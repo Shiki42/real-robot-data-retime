@@ -14,6 +14,11 @@ def main():
     p.add_argument("--backend", choices=["sam2", "geometry"], default="sam2")
     p.add_argument("--analysis-width", type=int, default=640)
     p.add_argument("--analysis-only", action="store_true")
+    p.add_argument("--joint-data", type=Path)
+    p.add_argument("--urdf", type=Path)
+    p.add_argument("--mesh-root", type=Path)
+    p.add_argument("--right-delay-seconds", type=float, default=0)
+    p.add_argument("--left-delay-seconds", type=float, default=0)
     a = p.parse_args()
     if bool(a.video) == bool(a.input):
         p.error("provide exactly one input video")
@@ -26,7 +31,18 @@ def main():
         output = a.output or source.parent / (source.stem + "_parallel.mp4")
         if output.resolve() == source.resolve():
             p.error("output must differ from input")
-        result = edit_video(source, output, debug, a.task, **options)
+        result = edit_video(
+            source,
+            output,
+            debug,
+            a.task,
+            **options,
+            joint_data=a.joint_data,
+            urdf=a.urdf,
+            mesh_root=a.mesh_root,
+            right_delay_seconds=a.right_delay_seconds,
+            left_delay_seconds=a.left_delay_seconds,
+        )
     print(result)
     if not result["success"]:
         raise SystemExit(1)

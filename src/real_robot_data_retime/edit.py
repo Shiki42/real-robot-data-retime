@@ -8,6 +8,7 @@ from .interaction.pipeline import run
 from .interaction.video import read_video
 from .compositing.layers import composite
 from .timeline.visual import plan_visual
+from .staged import load_joints, export_trajectories
 
 
 def registered_frames(input_path, transforms, width):
@@ -24,7 +25,18 @@ def registered_frames(input_path, transforms, width):
 
 
 def edit_video(
-    input_path, output_path, debug_dir, task=None, *, backend="sam2", analysis_width=640
+    input_path,
+    output_path,
+    debug_dir,
+    task=None,
+    *,
+    backend="sam2",
+    analysis_width=640,
+    joint_data=None,
+    urdf=None,
+    mesh_root=None,
+    right_delay_seconds=0,
+    left_delay_seconds=0,
 ):
     debug = Path(debug_dir)
     report = run(
@@ -42,7 +54,20 @@ def edit_video(
         frames, fps = registered_frames(
             input_path, tracks["registration"], analysis_width
         )
-        left, right, plan = plan_visual(timeline, frames, tracks, segmentation)
+        joints = (
+            load_joints(joint_data, urdf, mesh_root, timeline) if joint_data else None
+        )
+        left, right, plan = plan_visual(
+            timeline,
+            frames,
+            tracks,
+            segmentation,
+            joints=joints,
+            right_delay_seconds=right_delay_seconds,
+            left_delay_seconds=left_delay_seconds,
+        )
+        if joints is not None:
+            export_trajectories(debug, joints, left, right, fps, plan)
         np.savez_compressed(debug / "source_mapping.npz", left=left, right=right)
         native, masks, _ = native_render_inputs(
             input_path, tracks["registration"], segmentation

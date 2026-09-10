@@ -60,7 +60,9 @@ def test_render_cli_exits_nonzero_when_automatic_checks_fail(monkeypatch):
         sys, "argv", ["render", "--input", "i.mp4", "--analysis", "a", "--output", "o"]
     )
     monkeypatch.setattr(
-        renderer, "render_checkpoint", lambda *a: {"automatic_checks_passed": False}
+        renderer,
+        "render_checkpoint",
+        lambda *a, **kw: {"automatic_checks_passed": False},
     )
     with pytest.raises(SystemExit) as error:
         renderer.main()

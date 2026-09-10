@@ -23,6 +23,7 @@ def schedule_sources(
     *,
     dependency: Callable[[int, int], bool] = lambda i, j: True,
     left_priority: bool = True,
+    can_wait: Callable[[int, int], bool] = lambda side, index: True,
     tie_break: Callable[[int, int], float] = lambda i, j: 0.0,
     remaining_lower_bound: Callable[[int, int], int] | None = None,
 ) -> Schedule:
@@ -61,6 +62,8 @@ def schedule_sources(
         if not left_priority or i == n - 1:
             moves.append((0, 1))
         for di, dj in moves:
+            if (di == 0 and not can_wait(0, i)) or (dj == 0 and not can_wait(1, j)):
+                continue
             ni, nj = i + di, j + dj
             if ni >= n or nj >= m or not dependency(ni, nj):
                 continue

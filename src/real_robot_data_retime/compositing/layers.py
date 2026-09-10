@@ -16,6 +16,7 @@ from ..background.clean_plate import (
 from ..interaction.video import components, write_video
 from ..tasks.workpiece import discover_bins
 from .verification import OriginAudit
+from .interpolation import FlowFrames
 from .ownership import arm_foreground, is_carried
 
 
@@ -62,6 +63,16 @@ def composite(
         raise ValueError("source maps must be nonempty and equally sized")
     if min(left.min(), right.min()) < 0 or max(left.max(), right.max()) >= n:
         raise ValueError("source maps outside video")
+    if not np.isfinite([left, right]).all():
+        raise ValueError("nonfinite source clock")
+    if np.any(right != np.floor(right)):
+        raise ValueError("moving drawer clock must use recorded frames")
+    fractional = bool(np.any(left != np.floor(left)))
+    if fractional and depth is not None:
+        raise ValueError(
+            "fractional foreground requires corresponding interpolated depth"
+        )
+    flow_frames = None
     robots = np.unpackbits(segmentation["robots"], axis=-1, count=w).astype(bool)
     objects = np.unpackbits(segmentation["objects"], axis=-1, count=w).astype(bool)
     if robots.shape != (n, 2, h, w) or objects.shape[1:] != (n, h, w):
@@ -92,6 +103,8 @@ def composite(
         else None
     )
     frames, color_fits = match_background_colors(frames, excluded, dynamic_scene)
+    if fractional:
+        flow_frames = FlowFrames(frames)
     reconstructed, coverage = temporal_plate(frames, excluded)
     plate_source = 0
     plate_region = excluded[plate_source]
@@ -180,7 +193,7 @@ def composite(
             skipped_origin_color_matches
         for l, r in zip(left, right):
             times = [int(l), int(r)]
-            if l == r:
+            if l == r and l == int(l):
                 # An unchanged clock pair needs no spatial reconstruction.
                 out = frames[int(l)].copy()
                 audit.observe(out, frames, times, robots[int(l)].any(axis=0))
@@ -256,6 +269,17 @@ def composite(
                 | anchors[side]
                 for side, t in enumerate(times)
             ]
+            layer_images = [frames[t] for t in times]
+            if l != int(l):
+                lo, hi = int(np.floor(l)), int(np.ceil(l))
+                endpoint_masks = [
+                    arm_foreground(robots, objects, timeline["episodes"], 0, t)
+                    | anchors[0]
+                    for t in (lo, hi)
+                ]
+                layer_images[0], layers[0] = flow_frames.sample(
+                    float(l), endpoint_masks
+                )
             overlap = layers[0] & layers[1]
             overlap_pixels += int(overlap.sum())
             if depth is None:
@@ -263,7 +287,7 @@ def composite(
                 # metric depth and collision verification.
                 order = [0, 1]
                 for side in order:
-                    out[layers[side]] = frames[times[side]][layers[side]]
+                    out[layers[side]] = layer_images[side][layers[side]]
             else:
                 z = [depth(t) for t in times]
                 if any(a.shape != (h, w) for a in z):
@@ -282,6 +306,8 @@ def composite(
     report = dict(
         output=str(output),
         output_frames=len(left),
+        interpolated_left_frames=int(np.sum(left != np.floor(left))),
+        interpolation_method="bidirectional_DIS_flow" if fractional else "none",
         paired_source_frames=paired_source_frames,
         clean_plate_method="masked_temporal_real_frames",
         clean_plate_reference_frame=plate_source,

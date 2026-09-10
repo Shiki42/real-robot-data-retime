@@ -61,6 +61,9 @@ The video-only path checks projected silhouettes. The dataset path below uses
 recorded joints and RoboVisualize mesh clearance. These verification scopes are
 reported separately.
 
+For joint-guided lift/wait/insert timing with smooth 0.5 s braking and 0.3 s
+restart, see [staged drawer timing](docs/staged-drawer.md).
+
 ## Trim and retime a LeRobot v3 dataset
 
 The dataset path supports the PiperX 14-value action/state layout: six joint

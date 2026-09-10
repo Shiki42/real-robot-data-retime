@@ -14,9 +14,20 @@ from real_robot_data_retime.interaction.measurements import (
 )
 from real_robot_data_retime.model_experiment import sha256
 from real_robot_data_retime.timeline.visual import plan_visual
+from real_robot_data_retime.staged import load_joints, export_trajectories
 
 
-def render_checkpoint(source, analysis, output):
+def render_checkpoint(
+    source,
+    analysis,
+    output,
+    *,
+    joint_data=None,
+    urdf=None,
+    mesh_root=None,
+    right_delay_seconds=0,
+    left_delay_seconds=0,
+):
     progress = json.loads((analysis / "progress.json").read_text())
     if progress["stage"] != "complete":
         raise ValueError("interaction checkpoint is unfinished")
@@ -41,7 +52,20 @@ def render_checkpoint(source, analysis, output):
             raise ValueError(
                 "interaction checkpoint frame geometry or registration differs"
             )
-        left, right, plan = plan_visual(timeline, frames, tracks, segmentation)
+        joints = (
+            load_joints(joint_data, urdf, mesh_root, timeline) if joint_data else None
+        )
+        left, right, plan = plan_visual(
+            timeline,
+            frames,
+            tracks,
+            segmentation,
+            joints=joints,
+            right_delay_seconds=right_delay_seconds,
+            left_delay_seconds=left_delay_seconds,
+        )
+        if joints is not None:
+            export_trajectories(output, joints, left, right, fps, plan)
         np.savez_compressed(output / "source_mapping.npz", left=left, right=right)
         native, masks, _ = native_render_inputs(
             source, tracks["registration"], segmentation
@@ -52,6 +76,7 @@ def render_checkpoint(source, analysis, output):
     passed = bool(rendered["automatic_origin_audit"]["passed"])
     result = {
         "source_sha256": sha256(source),
+        "joint_data_sha256": sha256(joint_data) if joint_data else None,
         "analysis_report_sha256": sha256(analysis / "report.json"),
         "measurement_producer": manifest["producer"],
         "render_code_producer": producer_fingerprint(),
@@ -74,8 +99,22 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     for name in ("input", "analysis", "output"):
         parser.add_argument("--" + name, type=Path, required=True)
+    parser.add_argument("--joint-data", type=Path)
+    parser.add_argument("--urdf", type=Path)
+    parser.add_argument("--mesh-root", type=Path)
+    parser.add_argument("--right-delay-seconds", type=float, default=0)
+    parser.add_argument("--left-delay-seconds", type=float, default=0)
     args = parser.parse_args()
-    result = render_checkpoint(args.input, args.analysis, args.output)
+    result = render_checkpoint(
+        args.input,
+        args.analysis,
+        args.output,
+        joint_data=args.joint_data,
+        urdf=args.urdf,
+        mesh_root=args.mesh_root,
+        right_delay_seconds=args.right_delay_seconds,
+        left_delay_seconds=args.left_delay_seconds,
+    )
     print(json.dumps(result, indent=2))
     if not result["automatic_checks_passed"]:
         raise SystemExit(1)
