@@ -16,6 +16,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+pilot = ["h5py>=3.10", "scipy>=1.11", "scikit-image>=0.24", "matplotlib>=3.8", "Pillow>=10", "huggingface-hub>=0.32"]
 test = ["pytest>=8"]
 interaction = ["scipy>=1.11", "matplotlib>=3.8", "scikit-image>=0.24"]
 collision = ["pin==2.7.0", "numpy>=1.26,<2"]

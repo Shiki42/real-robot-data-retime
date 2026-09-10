@@ -5,3 +5,11 @@ __pycache__/
 build/
 dist/
 *.egg-info/
+
+# External pilot workspaces and artifacts
+/data/
+/checkpoints/
+/outputs/
+/work/
+/.cache/
+/experiments/aist_molmo/work/

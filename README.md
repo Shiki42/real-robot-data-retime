@@ -118,3 +118,10 @@ documented in [photometric verification](docs/photometric-verification.md).
 
 Workpiece and letter scene-ownership refinements are documented in
 [episode refinement](docs/object-episode-iterations.md).
+
+## AIST / Molmo external-data pilots
+
+Optional source-clock experiments and their validation limits are documented in
+[AIST / Molmo pilot notes](docs/aist-molmo-pilots.md).
+The reproducible entry points live in [experiments/aist_molmo](experiments/aist_molmo/README.md)
+and do not replace the default video pipeline above.
