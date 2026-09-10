@@ -32,7 +32,7 @@ calibrated robot-control collision guarantee. Missing interactions fail explicit
 
 ## Validation
 
-- 157 tests passed, 4 optional tests skipped on Coder A.
+- 158 tests passed, 4 optional tests skipped on Coder A.
 - A slow-right shared-space regression checks that left 1 retains its original
   clock, left 2 can wait before entry, and admitted left/right motions cannot stop.
 - Independent ramp tests verify source joins and maximum clock rate.
@@ -41,7 +41,7 @@ calibrated robot-control collision guarantee. Missing interactions fail explicit
 
 Private analysis, source clocks, renders and verification artifacts are under
 `/home/coder/share/retime-workpiece-alternating-20260911` on Coder A.
-`final_episode_0`, `final_episode_1` and `final_episode_2` are the final exports;
+`final_v2_episode_0`, `final_v2_episode_1` and `final_v2_episode_2` are the final exports;
 previous candidate outputs are retained separately as diagnostics.
 
 ## Shadow-connected object proposals
@@ -80,7 +80,10 @@ Before pickup, an untouched workpiece is limited to its independently observed
 initial footprint. A later tracking hypothesis cannot paint a neighboring
 workpiece over its correctly emptied origin. After release, the destination
 bin scene owns the deposited object; its stale track is not painted again as
-independent scene foreground. Moving, carried objects still use tracked masks.
+independent scene foreground. Moving, carried objects still use tracked masks. A disconnected carried-track
+component that overlaps another independently observed stationary origin is
+excluded; a component attached to the carrying arm is retained. The same
+ownership helper is used by both scheduling and compositing.
 
 ## Reproduce
 
