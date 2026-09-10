@@ -64,6 +64,7 @@ def plan_visual(
             staging_candidates,
             admission_allowed,
             verify_uninterrupted,
+            prepend_right_preparation,
         )
 
         milestones = alternating_pickups(events)
@@ -343,6 +344,9 @@ def plan_visual(
     smoothing = dict(transitions=[])
     if not (joints is not None and drawer):
         if workpiece:
+            left, right = prepend_right_preparation(
+                left, right, stages, timeline["fps"]
+            )
             verify_uninterrupted(left, right, stages)
             smoothing = dict(
                 method="independent_approach_clocks",

@@ -21,9 +21,13 @@ advance exactly one source frame per output frame through its protected end.
 Staging candidates are checked against the preceding manipulation's carried
 foreground sweep. The planner searches nearer poses first and backs off only
 when no complete uninterrupted paired path exists. It checks every swept edge,
-not just the waiting poses. The right arm starts at a recorded staging pose;
-its omitted pre-grasp preparation frames are reported explicitly. Four complete
-pickup/transport/place motions remain in source order. Waiting locations, entry
+not just the waiting poses. The right arm's original approach to the first
+waiting pose is shown as a preparation lead-in with a smooth stop. During this
+lead-in, the left arm stays at its initial pose and has not begun its first
+execution. The main schedule joins at the identical pair of source poses, so
+all four pickup/transport/place clocks remain unchanged after the lead-in.
+`plan.stages.right_preparation` records the source and output boundaries;
+`preparation_output_frames` is the main schedule's output offset. Waiting locations, entry
 gates, protected intervals and search attempts are recorded under `plan.stages`.
 
 The final clocks must pass pickup precedence, uninterrupted-execution and swept
@@ -32,7 +36,9 @@ calibrated robot-control collision guarantee. Missing interactions fail explicit
 
 ## Validation
 
-- 158 tests passed, 4 optional tests skipped on Coder A.
+- 161 tests passed, 4 optional tests skipped on Coder A.
+- Preparation tests cover the original starting pose, continuous source coverage,
+  a very short approach, an exact execution-clock suffix and invalid join rejection.
 - A slow-right shared-space regression checks that left 1 retains its original
   clock, left 2 can wait before entry, and admitted left/right motions cannot stop.
 - Independent ramp tests verify source joins and maximum clock rate.
@@ -44,7 +50,8 @@ Private analysis, source clocks, renders and verification artifacts are under
 `final_v2_episode_0`, `final_v2_episode_1` and `final_v2_episode_2` are the final exports;
 previous candidate outputs are retained separately as diagnostics.
 
-Final clips passed uninterrupted-clock, admission-order, projected-overlap and
+The previously reviewed clips without the preparation lead-in passed
+uninterrupted-clock, admission-order, projected-overlap and
 source-origin checks. All three have zero detected origin duplicates and zero
 moving-foreground overlap pixels. Fourteen frames per episode, including every
 pickup before/at/after and the final scene, were visually reviewed.
@@ -56,6 +63,28 @@ pickup before/at/after and the final scene, were visually reviewed.
 | 2 | 22.33 s | 3.60 s | 7.00 s | 12.83 s | 15.53 s |
 
 The complete receipt is [recorded here](workpiece-alternating-verification.json).
+
+## Restored right preparation
+
+The default main-view output now includes the right arm moving from the first
+interaction's detected `approach_start` to its staging pose. It no longer starts
+at the staging pose. This restores the visible recorded preparation movement;
+initial source-video inactivity before `approach_start` remains trimmed.
+
+A separate lead-in is used so preparation cannot slow an already executing left
+arm. Only the right clock moves during preparation. It brakes using the existing
+0.5 second ramp, reaches the exact prior waiting pose, and joins the original
+four-action schedule without a source jump. Very short approaches use the
+existing scaled ramp instead of dropping source frames. The complete output,
+including this new prefix, undergoes swept silhouette validation.
+
+All three source-clock suffixes were compared with the previously reviewed
+exports and are exactly equal. The preparation adds 42, 37 and 15 output frame
+intervals (1.40, 1.23 and 0.50 seconds at 30 FPS). Sources begin at right frames
+547, 532 and 674, respectively, and reach waiting frames 582, 562 and 677.
+
+New artifacts are on Coder A under
+`/home/coder/share/retime-workpiece-preparation-20260911`.
 
 ## Shadow-connected object proposals
 

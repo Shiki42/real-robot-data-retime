@@ -138,8 +138,11 @@ def workpiece_sources(events, fps, stops):
             ],
         ),
         policy="admitted_execution_cannot_be_preempted",
-        right_preposition_source_frame=right_stop1,
-        right_preposition_trimmed_frames=right_stop1 - right1["approach_start"],
+        right_preparation=dict(
+            source_start_frame=right1["approach_start"],
+            source_end_frame=right_stop1,
+        ),
+        preparation_output_frames=0,
         smoothing="independent_approach_clocks",
         onset_delay_frames=[0, 0],
         admission_gates=[
@@ -164,9 +167,28 @@ def admission_allowed(left, right, stages):
     )
 
 
+def prepend_right_preparation(left, right, stages, fps):
+    """Show the original approach before starting the non-preemptive executions."""
+    preparation = stages["right_preparation"]
+    start, stop = preparation["source_start_frame"], preparation["source_end_frame"]
+    clock, _, ramps = approach_clock(start, stop, [stop], fps)
+    if right[0] != stop:
+        raise ValueError(
+            "right preparation must join the execution at its waiting pose"
+        )
+    count = len(clock) - 1
+    stages["preparation_output_frames"] = count
+    preparation["output_start_frame"] = 0
+    preparation["output_end_frame"] = count
+    preparation["braking"] = ramps
+    return np.r_[np.full(count, left[0]), left], np.r_[clock[:-1], right]
+
+
 def verify_uninterrupted(left, right, stages):
     for index, (side, clock) in enumerate([("left", left), ("right", right)]):
-        clock = clock[stages["onset_delay_frames"][index] :]
+        clock = clock[
+            stages["preparation_output_frames"] + stages["onset_delay_frames"][index] :
+        ]
         for start, end in stages["protected_source_intervals"][side]:
             selected = (
                 (clock[:-1] >= start - 1e-9)

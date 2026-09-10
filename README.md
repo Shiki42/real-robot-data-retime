@@ -127,9 +127,11 @@ Workpiece and letter scene-ownership refinements are documented in
 Workpiece video scheduling uses independent approach clocks: only the arm
 preparing to wait brakes and restarts. An admitted execution advances at one
 source frame per output frame, including while the other arm waits. The first
-right arm is prepositioned at an observed staging pose; the omitted initial
-preparation frames are recorded explicitly. All pickup/transport/place frames
-are retained in source order. The final paired path is checked again for
+right arm's recorded approach from its original starting pose to the waiting
+pose is shown as a preparation lead-in, while the left arm has not yet started.
+The four admitted executions then use their unchanged independent clocks. No
+right preparation frames are omitted; pickup/transport/place frames are retained
+in source order. The final paired path is checked again for
 precedence, uninterrupted execution and swept projected foreground clearance.
 Reports include `plan.pickup_order` and `plan.stages` with waiting poses,
 protected source intervals and staging-search evidence. See
