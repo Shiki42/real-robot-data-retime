@@ -190,3 +190,63 @@ def dark_object_masks(value, minimum_area, maximum_area):
             mask[region] = False
             break
     return [mask, *divided]
+
+
+def bin_aware_audit_support(frames, robots, motion, support):
+    """Exclude independently observed stationary bin appearance from robot evidence."""
+    import numpy as np
+    from ..background.clean_plate import match_background_colors
+
+    n, h, w = frames.shape[:3]
+    bins = discover_bins(frames[0])
+    if len(bins) != 2:
+        raise ValueError("both destination bins must be observed for scene auditing")
+    result = support.copy()
+    motion = motion.copy()
+    records = []
+    for bin in bins:
+        x, y, bw, bh = map(int, bin["bbox"])
+        # Include the same three-pixel rim used by the scene compositor.
+        x1, y1 = min(w, x + bw + 3), min(h, y + bh + 3)
+        x, y = max(0, x - 3), max(0, y - 3)
+        bw, bh = x1 - x, y1 - y
+        bin_robots = np.array(
+            [
+                np.unpackbits(robots[t], axis=-1, count=w)[:, y:y1, x:x1].any(axis=0)
+                for t in range(n)
+            ]
+        )
+        clear = np.flatnonzero(bin_robots.mean(axis=(1, 2)) < 0.01)
+        if len(clear) < 5:
+            records.append(
+                dict(bbox=[x, y, bw, bh], reference_frames=[], excluded_pixel_frames=0)
+            )
+            continue
+        observed = clear[-5:]
+        common = (~bin_robots & ~bin_robots[observed[-1]]).sum(axis=(1, 2))
+        eligible = np.flatnonzero(common >= 100)
+        indices = np.r_[eligible, observed[-1]]
+        normalized, _ = match_background_colors(
+            frames[indices, y:y1, x:x1], bin_robots[indices]
+        )
+        references = normalized[np.searchsorted(eligible, observed)].astype(float)
+        reference = np.median(references, axis=0)
+        stable = np.max(np.ptp(references, axis=0), axis=-1) <= 12
+        excluded = 0
+        for position, t in enumerate(eligible):
+            stationary = stable & (
+                np.max(np.abs(normalized[position].astype(float) - reference), axis=-1)
+                <= 12
+            )
+            region = result[t, y:y1, x:x1]
+            excluded += int((region & stationary).sum())
+            region[stationary] = False
+            motion[t, y:y1, x:x1][stationary] = 0
+        records.append(
+            dict(
+                bbox=[x, y, bw, bh],
+                reference_frames=observed.tolist(),
+                excluded_pixel_frames=excluded,
+            )
+        )
+    return motion, result, records
