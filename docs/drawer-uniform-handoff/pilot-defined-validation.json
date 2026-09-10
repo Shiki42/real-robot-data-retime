@@ -1,0 +1,22 @@
+[
+  {
+    "output": 0,
+    "source": 0,
+    "frames": 780,
+    "phase": 0.0,
+    "visual_review_passed": false,
+    "visual_review_reason": "left arm absent at the lift peak and source cube remains on the table after pickup; automatic receipts are insufficient",
+    "numeric_checks_passed": true,
+    "passed": false
+  },
+  {
+    "output": 87,
+    "source": 0,
+    "frames": 621,
+    "phase": 0.5,
+    "visual_review_passed": false,
+    "visual_review_reason": "left arm absent at the lift peak and source cube remains on the table after pickup; automatic receipts are insufficient",
+    "numeric_checks_passed": true,
+    "passed": false
+  }
+]

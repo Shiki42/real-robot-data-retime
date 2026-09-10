@@ -1,0 +1,465 @@
+{
+  "code_commit": "d7d4286",
+  "source_episodes": 87,
+  "expected_output_episodes": 174,
+  "preflight_passed": 10,
+  "preflight_failed": 77,
+  "failure_counts": {
+    "real_robot_data_retime.timeline.scheduler.NoSafeSchedule: no safe schedule preserving source trajectories and priority": 36,
+    "ValueError: 0.5 second braking path leaves safe held interval": 34,
+    "ValueError: interpolated braking pose enters drawer sweep": 4,
+    "ValueError: no safe held lift peak before drawer entry": 1,
+    "ValueError: restart ramp must retain the held object": 1,
+    "ValueError: no settled recorded jaw closure after visual pickup": 1
+  },
+  "episodes": [
+    {
+      "source_episode": 0,
+      "passed": true,
+      "error": null
+    },
+    {
+      "source_episode": 1,
+      "passed": false,
+      "error": "real_robot_data_retime.timeline.scheduler.NoSafeSchedule: no safe schedule preserving source trajectories and priority"
+    },
+    {
+      "source_episode": 2,
+      "passed": false,
+      "error": "ValueError: 0.5 second braking path leaves safe held interval"
+    },
+    {
+      "source_episode": 3,
+      "passed": true,
+      "error": null
+    },
+    {
+      "source_episode": 4,
+      "passed": false,
+      "error": "ValueError: 0.5 second braking path leaves safe held interval"
+    },
+    {
+      "source_episode": 5,
+      "passed": true,
+      "error": null
+    },
+    {
+      "source_episode": 6,
+      "passed": false,
+      "error": "ValueError: 0.5 second braking path leaves safe held interval"
+    },
+    {
+      "source_episode": 7,
+      "passed": false,
+      "error": "real_robot_data_retime.timeline.scheduler.NoSafeSchedule: no safe schedule preserving source trajectories and priority"
+    },
+    {
+      "source_episode": 8,
+      "passed": false,
+      "error": "ValueError: 0.5 second braking path leaves safe held interval"
+    },
+    {
+      "source_episode": 9,
+      "passed": false,
+      "error": "ValueError: 0.5 second braking path leaves safe held interval"
+    },
+    {
+      "source_episode": 10,
+      "passed": false,
+      "error": "real_robot_data_retime.timeline.scheduler.NoSafeSchedule: no safe schedule preserving source trajectories and priority"
+    },
+    {
+      "source_episode": 11,
+      "passed": false,
+      "error": "ValueError: 0.5 second braking path leaves safe held interval"
+    },
+    {
+      "source_episode": 12,
+      "passed": false,
+      "error": "real_robot_data_retime.timeline.scheduler.NoSafeSchedule: no safe schedule preserving source trajectories and priority"
+    },
+    {
+      "source_episode": 13,
+      "passed": true,
+      "error": null
+    },
+    {
+      "source_episode": 14,
+      "passed": false,
+      "error": "ValueError: 0.5 second braking path leaves safe held interval"
+    },
+    {
+      "source_episode": 15,
+      "passed": false,
+      "error": "ValueError: 0.5 second braking path leaves safe held interval"
+    },
+    {
+      "source_episode": 16,
+      "passed": false,
+      "error": "real_robot_data_retime.timeline.scheduler.NoSafeSchedule: no safe schedule preserving source trajectories and priority"
+    },
+    {
+      "source_episode": 17,
+      "passed": false,
+      "error": "ValueError: 0.5 second braking path leaves safe held interval"
+    },
+    {
+      "source_episode": 18,
+      "passed": false,
+      "error": "ValueError: interpolated braking pose enters drawer sweep"
+    },
+    {
+      "source_episode": 19,
+      "passed": false,
+      "error": "real_robot_data_retime.timeline.scheduler.NoSafeSchedule: no safe schedule preserving source trajectories and priority"
+    },
+    {
+      "source_episode": 20,
+      "passed": false,
+      "error": "real_robot_data_retime.timeline.scheduler.NoSafeSchedule: no safe schedule preserving source trajectories and priority"
+    },
+    {
+      "source_episode": 21,
+      "passed": false,
+      "error": "real_robot_data_retime.timeline.scheduler.NoSafeSchedule: no safe schedule preserving source trajectories and priority"
+    },
+    {
+      "source_episode": 22,
+      "passed": false,
+      "error": "ValueError: 0.5 second braking path leaves safe held interval"
+    },
+    {
+      "source_episode": 23,
+      "passed": false,
+      "error": "real_robot_data_retime.timeline.scheduler.NoSafeSchedule: no safe schedule preserving source trajectories and priority"
+    },
+    {
+      "source_episode": 24,
+      "passed": false,
+      "error": "real_robot_data_retime.timeline.scheduler.NoSafeSchedule: no safe schedule preserving source trajectories and priority"
+    },
+    {
+      "source_episode": 25,
+      "passed": false,
+      "error": "real_robot_data_retime.timeline.scheduler.NoSafeSchedule: no safe schedule preserving source trajectories and priority"
+    },
+    {
+      "source_episode": 26,
+      "passed": false,
+      "error": "real_robot_data_retime.timeline.scheduler.NoSafeSchedule: no safe schedule preserving source trajectories and priority"
+    },
+    {
+      "source_episode": 27,
+      "passed": false,
+      "error": "real_robot_data_retime.timeline.scheduler.NoSafeSchedule: no safe schedule preserving source trajectories and priority"
+    },
+    {
+      "source_episode": 28,
+      "passed": false,
+      "error": "real_robot_data_retime.timeline.scheduler.NoSafeSchedule: no safe schedule preserving source trajectories and priority"
+    },
+    {
+      "source_episode": 29,
+      "passed": false,
+      "error": "real_robot_data_retime.timeline.scheduler.NoSafeSchedule: no safe schedule preserving source trajectories and priority"
+    },
+    {
+      "source_episode": 30,
+      "passed": false,
+      "error": "ValueError: 0.5 second braking path leaves safe held interval"
+    },
+    {
+      "source_episode": 31,
+      "passed": false,
+      "error": "real_robot_data_retime.timeline.scheduler.NoSafeSchedule: no safe schedule preserving source trajectories and priority"
+    },
+    {
+      "source_episode": 32,
+      "passed": false,
+      "error": "ValueError: no safe held lift peak before drawer entry"
+    },
+    {
+      "source_episode": 33,
+      "passed": false,
+      "error": "real_robot_data_retime.timeline.scheduler.NoSafeSchedule: no safe schedule preserving source trajectories and priority"
+    },
+    {
+      "source_episode": 34,
+      "passed": false,
+      "error": "ValueError: restart ramp must retain the held object"
+    },
+    {
+      "source_episode": 35,
+      "passed": false,
+      "error": "real_robot_data_retime.timeline.scheduler.NoSafeSchedule: no safe schedule preserving source trajectories and priority"
+    },
+    {
+      "source_episode": 36,
+      "passed": false,
+      "error": "real_robot_data_retime.timeline.scheduler.NoSafeSchedule: no safe schedule preserving source trajectories and priority"
+    },
+    {
+      "source_episode": 37,
+      "passed": false,
+      "error": "real_robot_data_retime.timeline.scheduler.NoSafeSchedule: no safe schedule preserving source trajectories and priority"
+    },
+    {
+      "source_episode": 38,
+      "passed": false,
+      "error": "real_robot_data_retime.timeline.scheduler.NoSafeSchedule: no safe schedule preserving source trajectories and priority"
+    },
+    {
+      "source_episode": 39,
+      "passed": false,
+      "error": "real_robot_data_retime.timeline.scheduler.NoSafeSchedule: no safe schedule preserving source trajectories and priority"
+    },
+    {
+      "source_episode": 40,
+      "passed": false,
+      "error": "ValueError: 0.5 second braking path leaves safe held interval"
+    },
+    {
+      "source_episode": 41,
+      "passed": false,
+      "error": "real_robot_data_retime.timeline.scheduler.NoSafeSchedule: no safe schedule preserving source trajectories and priority"
+    },
+    {
+      "source_episode": 42,
+      "passed": false,
+      "error": "real_robot_data_retime.timeline.scheduler.NoSafeSchedule: no safe schedule preserving source trajectories and priority"
+    },
+    {
+      "source_episode": 43,
+      "passed": false,
+      "error": "real_robot_data_retime.timeline.scheduler.NoSafeSchedule: no safe schedule preserving source trajectories and priority"
+    },
+    {
+      "source_episode": 44,
+      "passed": false,
+      "error": "ValueError: 0.5 second braking path leaves safe held interval"
+    },
+    {
+      "source_episode": 45,
+      "passed": false,
+      "error": "real_robot_data_retime.timeline.scheduler.NoSafeSchedule: no safe schedule preserving source trajectories and priority"
+    },
+    {
+      "source_episode": 46,
+      "passed": false,
+      "error": "ValueError: 0.5 second braking path leaves safe held interval"
+    },
+    {
+      "source_episode": 47,
+      "passed": false,
+      "error": "ValueError: 0.5 second braking path leaves safe held interval"
+    },
+    {
+      "source_episode": 48,
+      "passed": false,
+      "error": "ValueError: 0.5 second braking path leaves safe held interval"
+    },
+    {
+      "source_episode": 49,
+      "passed": true,
+      "error": null
+    },
+    {
+      "source_episode": 50,
+      "passed": false,
+      "error": "ValueError: 0.5 second braking path leaves safe held interval"
+    },
+    {
+      "source_episode": 51,
+      "passed": false,
+      "error": "ValueError: 0.5 second braking path leaves safe held interval"
+    },
+    {
+      "source_episode": 52,
+      "passed": true,
+      "error": null
+    },
+    {
+      "source_episode": 53,
+      "passed": true,
+      "error": null
+    },
+    {
+      "source_episode": 54,
+      "passed": false,
+      "error": "ValueError: 0.5 second braking path leaves safe held interval"
+    },
+    {
+      "source_episode": 55,
+      "passed": false,
+      "error": "ValueError: interpolated braking pose enters drawer sweep"
+    },
+    {
+      "source_episode": 56,
+      "passed": false,
+      "error": "ValueError: 0.5 second braking path leaves safe held interval"
+    },
+    {
+      "source_episode": 57,
+      "passed": false,
+      "error": "ValueError: 0.5 second braking path leaves safe held interval"
+    },
+    {
+      "source_episode": 58,
+      "passed": false,
+      "error": "ValueError: 0.5 second braking path leaves safe held interval"
+    },
+    {
+      "source_episode": 59,
+      "passed": false,
+      "error": "ValueError: 0.5 second braking path leaves safe held interval"
+    },
+    {
+      "source_episode": 60,
+      "passed": false,
+      "error": "ValueError: no settled recorded jaw closure after visual pickup"
+    },
+    {
+      "source_episode": 61,
+      "passed": false,
+      "error": "ValueError: 0.5 second braking path leaves safe held interval"
+    },
+    {
+      "source_episode": 62,
+      "passed": false,
+      "error": "ValueError: interpolated braking pose enters drawer sweep"
+    },
+    {
+      "source_episode": 63,
+      "passed": false,
+      "error": "ValueError: 0.5 second braking path leaves safe held interval"
+    },
+    {
+      "source_episode": 64,
+      "passed": false,
+      "error": "ValueError: 0.5 second braking path leaves safe held interval"
+    },
+    {
+      "source_episode": 65,
+      "passed": false,
+      "error": "ValueError: 0.5 second braking path leaves safe held interval"
+    },
+    {
+      "source_episode": 66,
+      "passed": false,
+      "error": "real_robot_data_retime.timeline.scheduler.NoSafeSchedule: no safe schedule preserving source trajectories and priority"
+    },
+    {
+      "source_episode": 67,
+      "passed": false,
+      "error": "real_robot_data_retime.timeline.scheduler.NoSafeSchedule: no safe schedule preserving source trajectories and priority"
+    },
+    {
+      "source_episode": 68,
+      "passed": false,
+      "error": "ValueError: interpolated braking pose enters drawer sweep"
+    },
+    {
+      "source_episode": 69,
+      "passed": false,
+      "error": "real_robot_data_retime.timeline.scheduler.NoSafeSchedule: no safe schedule preserving source trajectories and priority"
+    },
+    {
+      "source_episode": 70,
+      "passed": true,
+      "error": null
+    },
+    {
+      "source_episode": 71,
+      "passed": false,
+      "error": "ValueError: 0.5 second braking path leaves safe held interval"
+    },
+    {
+      "source_episode": 72,
+      "passed": false,
+      "error": "ValueError: 0.5 second braking path leaves safe held interval"
+    },
+    {
+      "source_episode": 73,
+      "passed": false,
+      "error": "ValueError: 0.5 second braking path leaves safe held interval"
+    },
+    {
+      "source_episode": 74,
+      "passed": false,
+      "error": "real_robot_data_retime.timeline.scheduler.NoSafeSchedule: no safe schedule preserving source trajectories and priority"
+    },
+    {
+      "source_episode": 75,
+      "passed": false,
+      "error": "real_robot_data_retime.timeline.scheduler.NoSafeSchedule: no safe schedule preserving source trajectories and priority"
+    },
+    {
+      "source_episode": 76,
+      "passed": false,
+      "error": "real_robot_data_retime.timeline.scheduler.NoSafeSchedule: no safe schedule preserving source trajectories and priority"
+    },
+    {
+      "source_episode": 77,
+      "passed": false,
+      "error": "real_robot_data_retime.timeline.scheduler.NoSafeSchedule: no safe schedule preserving source trajectories and priority"
+    },
+    {
+      "source_episode": 78,
+      "passed": false,
+      "error": "ValueError: 0.5 second braking path leaves safe held interval"
+    },
+    {
+      "source_episode": 79,
+      "passed": false,
+      "error": "real_robot_data_retime.timeline.scheduler.NoSafeSchedule: no safe schedule preserving source trajectories and priority"
+    },
+    {
+      "source_episode": 80,
+      "passed": false,
+      "error": "ValueError: 0.5 second braking path leaves safe held interval"
+    },
+    {
+      "source_episode": 81,
+      "passed": true,
+      "error": null
+    },
+    {
+      "source_episode": 82,
+      "passed": false,
+      "error": "real_robot_data_retime.timeline.scheduler.NoSafeSchedule: no safe schedule preserving source trajectories and priority"
+    },
+    {
+      "source_episode": 83,
+      "passed": false,
+      "error": "real_robot_data_retime.timeline.scheduler.NoSafeSchedule: no safe schedule preserving source trajectories and priority"
+    },
+    {
+      "source_episode": 84,
+      "passed": true,
+      "error": null
+    },
+    {
+      "source_episode": 85,
+      "passed": false,
+      "error": "ValueError: 0.5 second braking path leaves safe held interval"
+    },
+    {
+      "source_episode": 86,
+      "passed": false,
+      "error": "ValueError: 0.5 second braking path leaves safe held interval"
+    }
+  ],
+  "visual_rejected_source_episodes": [
+    0
+  ],
+  "status": "incomplete; blocked by stage/geometry failures and a rejected visual pilot",
+  "pilot_outputs_with_numeric_and_stage_snapshot_checks": [
+    5,
+    92
+  ],
+  "rejected_visual_outputs": [
+    0,
+    87
+  ],
+  "complete_dataset": false
+}

@@ -1,0 +1,392 @@
+{
+  "old0": {
+    "path": "/home/coder/share/retime-interaction-20260909/release-current/episode_000",
+    "event": {
+      "object_id": 0,
+      "object_origin": [
+        238.14987714987714,
+        316.6068796068796
+      ],
+      "approach_start": 156,
+      "pickup_frame": 301,
+      "grasp_frame": 334,
+      "release_frame": 386
+    },
+    "drawer_motion": {
+      "open_frame": 159,
+      "pull_start": 111,
+      "close_start": 435,
+      "confidence": 0.9925925925925926,
+      "handle_candidate": 2,
+      "reference_candidate": 6
+    },
+    "inputs": {
+      "video_sha256": "22a2784fcdae06d13343ce3b39136342571ecee97dc534767681984dcbb91e9f",
+      "shape": [
+        634,
+        362,
+        640,
+        3
+      ],
+      "registration_sha256": "2fbbe071e9a54fdcfe91ddccc84c7cde4f00c50b6e089b2c743ede0054f7c39f",
+      "proposals": [
+        {
+          "bbox": [
+            223,
+            298,
+            31,
+            29
+          ],
+          "origin": [
+            238.14987714987714,
+            316.6068796068796
+          ]
+        },
+        {
+          "bbox": [
+            223,
+            284,
+            31,
+            36
+          ],
+          "origin": [
+            237.82626680455016,
+            301.952430196484
+          ]
+        }
+      ]
+    }
+  },
+  "accepted0": {
+    "path": "/home/coder/share/retime-accuracy-20260910/drawer_0-final-photometric",
+    "event": {
+      "object_id": 1,
+      "object_origin": [
+        238.28154425612053,
+        302.80131826741996
+      ],
+      "approach_start": 172,
+      "pickup_frame": 297,
+      "grasp_frame": 297,
+      "release_frame": 382
+    },
+    "drawer_motion": {
+      "open_frame": 159,
+      "pull_start": 111,
+      "close_start": 435,
+      "confidence": 0.9518518518518518,
+      "handle_candidate": 3,
+      "reference_candidate": 0
+    },
+    "inputs": {
+      "video_sha256": "a231932957225cbdbe1edea3085afa27a16979af41f1ee7f35e89e7c02da97d4",
+      "shape": [
+        634,
+        362,
+        640,
+        3
+      ],
+      "registration_sha256": "cbccf45b4d086be039b6132d67d3945233d3ffc5edacadaff894060cc0911b75",
+      "proposals": [
+        {
+          "bbox": [
+            96,
+            280,
+            24,
+            24
+          ],
+          "origin": [
+            104.0944625407166,
+            291.1302931596091
+          ]
+        },
+        {
+          "bbox": [
+            222,
+            284,
+            32,
+            42
+          ],
+          "origin": [
+            238.28154425612053,
+            302.80131826741996
+          ]
+        }
+      ]
+    }
+  },
+  "new0": {
+    "path": "/home/coder/share/drawer-uniform-174-20260911/analysis/episode_000",
+    "event": {
+      "object_id": 0,
+      "object_origin": [
+        59.96862745098039,
+        322.66274509803924
+      ],
+      "approach_start": 25,
+      "pickup_frame": 177,
+      "grasp_frame": 177,
+      "release_frame": 387
+    },
+    "drawer_motion": {
+      "open_frame": 159,
+      "pull_start": 111,
+      "close_start": 435,
+      "confidence": 0.9925925925925926,
+      "handle_candidate": 2,
+      "reference_candidate": 6
+    },
+    "inputs": {
+      "video_sha256": "22a2784fcdae06d13343ce3b39136342571ecee97dc534767681984dcbb91e9f",
+      "shape": [
+        634,
+        362,
+        640,
+        3
+      ],
+      "registration_sha256": "2fbbe071e9a54fdcfe91ddccc84c7cde4f00c50b6e089b2c743ede0054f7c39f",
+      "proposals": [
+        {
+          "bbox": [
+            51,
+            308,
+            22,
+            29
+          ],
+          "origin": [
+            59.96862745098039,
+            322.66274509803924
+          ]
+        },
+        {
+          "bbox": [
+            223,
+            298,
+            31,
+            29
+          ],
+          "origin": [
+            238.14987714987714,
+            316.6068796068796
+          ]
+        },
+        {
+          "bbox": [
+            223,
+            284,
+            31,
+            36
+          ],
+          "origin": [
+            237.82626680455016,
+            301.952430196484
+          ]
+        }
+      ]
+    }
+  },
+  "plan_0_0": {
+    "stages": {
+      "peak_source_frame": 202,
+      "tcp_height_m": 0.26380940843056677,
+      "maximum_safe_height_m": 0.26380940843056677,
+      "height_band_m": 0.002,
+      "recorded_grasp_frame": 177,
+      "recorded_reopening_frame": 208,
+      "holding_aperture_limit_mm": 0.6000000014901161,
+      "wait_geometry": "arm_mesh_and_35mm_held_object_clear_of_drawer_sweep",
+      "uniform": {
+        "position": 0.0,
+        "a_frames": 184,
+        "b_frames": 159,
+        "width_frames": 343,
+        "requested_relative_start_frames": 184.0,
+        "relative_start_frames": 184,
+        "rounding_error_frames": 0.0,
+        "left_delay_frames": 0,
+        "right_delay_frames": 184
+      },
+      "smooth_stop_required": true,
+      "brake_seconds": 0.5,
+      "restart_seconds": 0.3,
+      "brake_source_start": 194,
+      "restart_source_end": 206,
+      "brake_start_index": 169,
+      "stop_index": 184,
+      "restart_end_index": 193,
+      "timing_method": "integrated_monotone_speed_with_integer_source_joins",
+      "left_delay_seconds": 0.0,
+      "right_delay_seconds": 6.133333333333334,
+      "brake_start_output_frame": 169,
+      "restart_start_output_frame": 343,
+      "restart_end_output_frame": 352,
+      "held_output_intervals": 159,
+      "open_source_frame": 159,
+      "withdrawal_source_frame": 388,
+      "close_source_frame": 435
+    },
+    "stage_validation": {
+      "left_start_frame": 0,
+      "right_start_frame": 184,
+      "lift_peak_frame": 184,
+      "drawer_open_frame": 343,
+      "insertion_start_frame": 343,
+      "passed": true
+    },
+    "output_frames": 780,
+    "producer": "6cafb4d318e098bd29fdf33a58565fd71d5a5d5d99b75064e50f76b73c4efdad"
+  },
+  "plan_0_1": {
+    "stages": {
+      "peak_source_frame": 202,
+      "tcp_height_m": 0.26380940843056677,
+      "maximum_safe_height_m": 0.26380940843056677,
+      "height_band_m": 0.002,
+      "recorded_grasp_frame": 177,
+      "recorded_reopening_frame": 208,
+      "holding_aperture_limit_mm": 0.6000000014901161,
+      "wait_geometry": "arm_mesh_and_35mm_held_object_clear_of_drawer_sweep",
+      "uniform": {
+        "position": 0.5,
+        "a_frames": 184,
+        "b_frames": 159,
+        "width_frames": 343,
+        "requested_relative_start_frames": 12.5,
+        "relative_start_frames": 13,
+        "rounding_error_frames": 0.5,
+        "left_delay_frames": 0,
+        "right_delay_frames": 13
+      },
+      "smooth_stop_required": true,
+      "brake_seconds": 0.5,
+      "restart_seconds": 0.3,
+      "brake_source_start": 194,
+      "restart_source_end": 206,
+      "brake_start_index": 169,
+      "stop_index": 184,
+      "restart_end_index": 193,
+      "timing_method": "integrated_monotone_speed_with_integer_source_joins",
+      "left_delay_seconds": 0.0,
+      "right_delay_seconds": 0.43333333333333335,
+      "brake_start_output_frame": 169,
+      "restart_start_output_frame": 184,
+      "restart_end_output_frame": 193,
+      "held_output_intervals": 0,
+      "open_source_frame": 159,
+      "withdrawal_source_frame": 388,
+      "close_source_frame": 435
+    },
+    "stage_validation": {
+      "left_start_frame": 0,
+      "right_start_frame": 13,
+      "lift_peak_frame": 184,
+      "drawer_open_frame": 172,
+      "insertion_start_frame": 184,
+      "passed": true
+    },
+    "output_frames": 621,
+    "producer": "6cafb4d318e098bd29fdf33a58565fd71d5a5d5d99b75064e50f76b73c4efdad"
+  },
+  "plan_5_0": {
+    "stages": {
+      "peak_source_frame": 345,
+      "tcp_height_m": 0.20350281624777805,
+      "maximum_safe_height_m": 0.20451800531868297,
+      "height_band_m": 0.002,
+      "recorded_grasp_frame": 310,
+      "recorded_reopening_frame": 385,
+      "holding_aperture_limit_mm": 35.5,
+      "wait_geometry": "arm_mesh_and_35mm_held_object_clear_of_drawer_sweep",
+      "uniform": {
+        "position": 0.028735632183908046,
+        "a_frames": 141,
+        "b_frames": 252,
+        "width_frames": 393,
+        "requested_relative_start_frames": 129.70689655172413,
+        "relative_start_frames": 130,
+        "rounding_error_frames": 0.29310344827587187,
+        "left_delay_frames": 0,
+        "right_delay_frames": 130
+      },
+      "smooth_stop_required": true,
+      "brake_seconds": 0.5,
+      "restart_seconds": 0.3,
+      "brake_source_start": 337,
+      "restart_source_end": 349,
+      "brake_start_index": 126,
+      "stop_index": 141,
+      "restart_end_index": 150,
+      "timing_method": "integrated_monotone_speed_with_integer_source_joins",
+      "left_delay_seconds": 0.0,
+      "right_delay_seconds": 4.333333333333333,
+      "brake_start_output_frame": 126,
+      "restart_start_output_frame": 382,
+      "restart_end_output_frame": 391,
+      "held_output_intervals": 241,
+      "open_source_frame": 252,
+      "withdrawal_source_frame": 414,
+      "close_source_frame": 447
+    },
+    "stage_validation": {
+      "left_start_frame": 0,
+      "right_start_frame": 130,
+      "lift_peak_frame": 141,
+      "drawer_open_frame": 382,
+      "insertion_start_frame": 382,
+      "passed": true
+    },
+    "output_frames": 685,
+    "producer": "6cafb4d318e098bd29fdf33a58565fd71d5a5d5d99b75064e50f76b73c4efdad"
+  },
+  "plan_5_1": {
+    "stages": {
+      "peak_source_frame": 345,
+      "tcp_height_m": 0.20350281624777805,
+      "maximum_safe_height_m": 0.20451800531868297,
+      "height_band_m": 0.002,
+      "recorded_grasp_frame": 310,
+      "recorded_reopening_frame": 385,
+      "holding_aperture_limit_mm": 35.5,
+      "wait_geometry": "arm_mesh_and_35mm_held_object_clear_of_drawer_sweep",
+      "uniform": {
+        "position": 0.5287356321839081,
+        "a_frames": 141,
+        "b_frames": 252,
+        "width_frames": 393,
+        "requested_relative_start_frames": -66.79310344827587,
+        "relative_start_frames": -67,
+        "rounding_error_frames": -0.20689655172412813,
+        "left_delay_frames": 67,
+        "right_delay_frames": 0
+      },
+      "smooth_stop_required": true,
+      "brake_seconds": 0.5,
+      "restart_seconds": 0.3,
+      "brake_source_start": 337,
+      "restart_source_end": 349,
+      "brake_start_index": 126,
+      "stop_index": 141,
+      "restart_end_index": 150,
+      "timing_method": "integrated_monotone_speed_with_integer_source_joins",
+      "left_delay_seconds": 2.2333333333333334,
+      "right_delay_seconds": 0.0,
+      "brake_start_output_frame": 193,
+      "restart_start_output_frame": 252,
+      "restart_end_output_frame": 261,
+      "held_output_intervals": 44,
+      "open_source_frame": 252,
+      "withdrawal_source_frame": 414,
+      "close_source_frame": 447
+    },
+    "stage_validation": {
+      "left_start_frame": 67,
+      "right_start_frame": 0,
+      "lift_peak_frame": 208,
+      "drawer_open_frame": 252,
+      "insertion_start_frame": 252,
+      "passed": true
+    },
+    "output_frames": 555,
+    "producer": "6cafb4d318e098bd29fdf33a58565fd71d5a5d5d99b75064e50f76b73c4efdad"
+  }
+}
