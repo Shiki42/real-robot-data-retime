@@ -16,9 +16,10 @@ robot, object, grasp and release prompts are generated from image evidence.
 Supported scene profiles are cube-into-drawer, letter sorting and workpiece
 storage. The drawer profile enforces opening before insertion and withdrawal
 before closing. Letter manipulations use left-arm priority. Workpiece storage
-requires two pickups per arm, alternating left, right, left, right. Both arms
-may approach concurrently and either arm waits when projected clearance requires
-it, including a left arm waiting for the first right pickup to withdraw.
+requires two pickups per arm, alternating left, right, left, right. The first
+left execution cannot be stopped or slowed by the right arm. The second left
+execution may wait before admission for the first right pickup, then runs
+uninterrupted; the second right execution yields until it can enter safely.
 
 ## Install
 
@@ -123,9 +124,13 @@ documented in [photometric verification](docs/photometric-verification.md).
 Workpiece and letter scene-ownership refinements are documented in
 [episode refinement](docs/object-episode-iterations.md).
 
-Workpiece video scheduling preserves each arm's recorded source order and applies
-pickup precedence to each of the four individual interactions. The shortest safe
-paired path can hold either arm; a future left pickup no longer reserves the
-workspace ahead of the first right pickup. The final smoothed path is checked
-again for pickup order and swept projected foreground clearance. Render reports
-include `plan.pickup_order` with source and output frame milestones.
+Workpiece video scheduling uses independent approach clocks: only the arm
+preparing to wait brakes and restarts. An admitted execution advances at one
+source frame per output frame, including while the other arm waits. The first
+right arm is prepositioned at an observed staging pose; the omitted initial
+preparation frames are recorded explicitly. All pickup/transport/place frames
+are retained in source order. The final paired path is checked again for
+precedence, uninterrupted execution and swept projected foreground clearance.
+Reports include `plan.pickup_order` and `plan.stages` with waiting poses,
+protected source intervals and staging-search evidence. See
+[workpiece priority and verification](docs/workpiece-alternating.md).

@@ -14,7 +14,7 @@ recorded frames outside ramps. Short segments between adjacent wait boundaries
 reduce their peak rate so acceleration and braking do not overlap or reverse.
 No-wait schedules retain their source clocks.
 
-General retiming uses a **coordinated paired-path clock**. At each arm's wait
+Drawer and letter general retiming uses a **coordinated paired-path clock**. At each arm's wait
 entry or exit, both clocks ease to zero on the existing paired path, then
 restart. Thus a partner arm may briefly decelerate even when it is not the arm
 that needs to wait; it continues during the other arm's hold. This is a
@@ -22,6 +22,11 @@ conservative safety/complexity tradeoff, not a claim of minimum execution time.
 The specialized accepted drawer high-point mode retains its existing independent
 left-arm ramp and right-arm opening behavior. Its episode-0 source clocks remain
 byte-identical to the accepted 536-frame preview.
+
+Workpiece video scheduling instead uses independent approach clocks and fixed
+staging poses. Waiting by one arm cannot retime an admitted execution by the
+other arm. The first left execution and every admitted pickup/transport/place
+interval retain source speed. See [workpiece priority](workpiece-alternating.md).
 
 ## Clearance and failure behavior
 

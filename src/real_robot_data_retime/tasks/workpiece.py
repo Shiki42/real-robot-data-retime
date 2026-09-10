@@ -117,8 +117,8 @@ def verify_deposit(frames, robots, pickup, visit, bin_box, fps):
     )
 
 
-def alternating_pickups(events):
-    """Return the four source pickup milestones in shared-workspace order."""
+def workpiece_events(events):
+    """Validate and order the two source manipulations belonging to each arm."""
     own = [
         sorted(
             (e for e in events if e["robot_id"] == side),
@@ -128,6 +128,12 @@ def alternating_pickups(events):
     ]
     if [len(group) for group in own] != [2, 2]:
         raise ValueError("workpiece scheduling requires two pickups per arm")
+    return own
+
+
+def alternating_pickups(events):
+    """Return the four source pickup milestones in shared-workspace order."""
+    own = workpiece_events(events)
     return [
         (side, own[side][cycle]["pickup_frame"])
         for cycle in range(2)

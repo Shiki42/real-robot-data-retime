@@ -3,16 +3,15 @@ import pytest
 
 from real_robot_data_retime.tasks.workpiece import alternating_pickups
 from real_robot_data_retime.timeline.visual import plan_visual
+from real_robot_data_retime.timeline.workpiece import approach_clock
 
 
-def test_alternating_pickups_allow_left_wait_for_slow_right_exit():
-    n, h, w = 85, 24, 64
+def test_execution_owner_cannot_be_slowed_by_the_other_arm():
+    n, h, w = 260, 24, 64
     robots = np.zeros((n, 2, h, w), bool)
     robots[:, 0, 8:12, 2:6] = True
     robots[:, 1, 8:12, 56:60] = True
-    # Left visits twice; the first right visit clears slowly. A later left
-    # visit must not force the first right arm to wait outside both visits.
-    for side, spans in [(0, [(8, 16), (23, 30)]), (1, [(45, 66), (72, 79)])]:
+    for side, spans in [(0, [(10, 28), (60, 72)]), (1, [(115, 168), (220, 235)])]:
         for start, stop in spans:
             robots[start:stop, side] = False
             robots[start:stop, side, 8:12, 29:33] = True
@@ -22,27 +21,27 @@ def test_alternating_pickups_allow_left_wait_for_slow_right_exit():
             object_id=k,
             approach_start=start,
             pickup_frame=pickup,
-            release_frame=pickup + 2,
+            release_frame=release,
             retract_end=end,
+            release_evidence=dict(clearance_frame=release + 1),
         )
-        for k, (side, start, pickup, end) in enumerate(
+        for k, (side, start, pickup, release, end) in enumerate(
             [
-                ("left", 0, 12, 22),
-                ("left", 17, 26, 38),
-                ("right", 40, 49, 70),
-                ("right", 67, 75, 84),
+                ("left", 0, 20, 40, 60),
+                ("left", 41, 65, 85, 95),
+                ("right", 100, 125, 175, 220),
+                ("right", 176, 225, 245, 259),
             ]
         )
     ]
-    segmentation = dict(
-        robots=np.packbits(robots, axis=-1),
-        objects=np.packbits(np.zeros((4, n, h, w), bool), axis=-1),
-    )
     left, right, report = plan_visual(
         dict(task="workpiece", fps=30, episodes=events),
         np.zeros((n, h, w, 3), np.uint8),
         {},
-        segmentation,
+        dict(
+            robots=np.packbits(robots, axis=-1),
+            objects=np.packbits(np.zeros((4, n, h, w), bool), axis=-1),
+        ),
     )
     assert [x["arm"] for x in report["pickup_order"]] == [
         "left",
@@ -51,11 +50,24 @@ def test_alternating_pickups_allow_left_wait_for_slow_right_exit():
         "right",
     ]
     assert np.all(np.diff([x["output_frame"] for x in report["pickup_order"]]) > 0)
-    assert np.any((np.diff(left) == 0) & (left[:-1] < 26) & (right[:-1] >= 49))
-    assert np.any((np.diff(right) == 0) & (right[:-1] < 49))
-    assert np.all((left < 23) | (right >= 66))
-    assert np.all(np.diff(left) >= 0) and np.all(np.diff(right) >= 0)
-    assert (left[0], left[-1], right[0], right[-1]) == (0, 38, 40, 84)
+    # Right's entry and any waits have no effect on the complete first left action.
+    np.testing.assert_array_equal(left[:41], np.arange(41))
+    assert np.any((np.diff(left) == 0) & (left[:-1] < 65) & (right[:-1] >= 125))
+    for clock, start, end in [(left, 65, 95), (right, 125, 175), (right, 225, 259)]:
+        active = (clock[:-1] >= start) & (clock[:-1] < end) & (clock[1:] <= end)
+        np.testing.assert_allclose(np.diff(clock)[active], 1, atol=1e-9)
+    assert np.all((left < 60) | (right >= 168))
+    assert report["smoothing"]["method"] == "independent_approach_clocks"
+
+
+def test_approach_ramps_do_not_retime_an_earlier_execution():
+    clock, holds, ramps = approach_clock(0, 100, [60], 30)
+    assert clock[holds[0]] == 60
+    np.testing.assert_array_equal(clock[:53], np.arange(53))
+    assert np.max(np.diff(clock)) <= 1.000000001
+    assert np.min(np.diff(clock)) > 0
+    assert ramps[0]["brake_source_start"] == 52
+    assert clock[-1] == 100
 
 
 def test_incomplete_workpiece_fails_explicitly():

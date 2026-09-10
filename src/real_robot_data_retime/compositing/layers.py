@@ -260,9 +260,16 @@ def composite(
                 t = times[side]
                 if is_carried(event, t):
                     continue
-                if drawer is not None and t >= event["release_frame"]:
+                if (
+                    timeline["task"] in ("drawer", "workpiece")
+                    and t >= event["release_frame"]
+                ):
                     continue
                 visible = objects[event["object_id"], t] & ~robots[t].any(axis=0)
+                if timeline["task"] == "workpiece":
+                    # Untouched workpieces still occupy their observed origins;
+                    # a drifting tracker cannot copy a neighboring arm's object.
+                    visible &= objects[event["object_id"], 0]
                 out[visible] = frames[t][visible]
             layers = [
                 arm_foreground(robots, objects, timeline["episodes"], side, t)
