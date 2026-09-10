@@ -3,10 +3,20 @@
 import numpy as np
 from functools import lru_cache
 from .scheduler import schedule_sources
-from .smooth import lift_clock, select_lift_peak, sample_rows, smooth_wait_boundaries
+from .smooth import (
+    lift_clock,
+    select_lift_peak,
+    sample_rows,
+    smooth_wait_boundaries,
+    held_grasp_interval,
+)
 from ..background.clean_plate import dilate
 from ..compositing.ownership import arm_foreground
-from ..tasks.drawer_constraints import discover_insertion_gate, precedence_gate
+from ..tasks.drawer_constraints import (
+    discover_insertion_gate,
+    precedence_gate,
+    discover_drawer_interior,
+)
 
 
 def plan_visual(
@@ -18,7 +28,12 @@ def plan_visual(
     joints=None,
     right_delay_seconds=0,
     left_delay_seconds=0,
+    uniform_position=None,
 ):
+    if uniform_position is not None and (
+        timeline["task"] != "drawer" or joints is None
+    ):
+        raise ValueError("uniform staging requires drawer joint data")
     n, h, w = frames.shape[:3]
     robots = np.unpackbits(segmentation["robots"], axis=-1, count=w).astype(bool)
     objects = np.unpackbits(segmentation["objects"], axis=-1, count=w).astype(bool)
@@ -51,12 +66,15 @@ def plan_visual(
         (event,) = events
         motion = timeline["drawer_motion"]
         a, b = motion["open_frame"], motion["close_start"]
-        gate, interior = discover_insertion_gate(
-            frames[a],
-            tracks["objects"][event["object_id"]],
-            event["pickup_frame"],
-            event["release_frame"],
-        )
+        if uniform_position is None:
+            gate, interior = discover_insertion_gate(
+                frames[a],
+                tracks["objects"][event["object_id"]],
+                event["pickup_frame"],
+                event["release_frame"],
+            )
+        else:
+            interior = discover_drawer_interior(frames[a])
         # The open drawer's source dwell becomes a held right pose. The actual
         # moving parts before and after this dwell are retained at source speed.
         sources[1] = np.r_[np.arange(a + 1), np.arange(b, n)]
@@ -90,18 +108,42 @@ def plan_visual(
             volume = drawer_sweep(tcp[1], motion["pull_start"], a)
             grasp = event["grasp_frame"]
             aperture = max(state[grasp, 6], action[grasp, 6]) + 0.5
+            if uniform_position is not None:
+                grasp, held_end, aperture = held_grasp_interval(
+                    state, action, event, timeline["fps"]
+                )
+                candidate_start, candidate_end = grasp, held_end - 1
+            else:
+                candidate_start, candidate_end = event["pickup_frame"], gate
             eligible = np.zeros(n, bool)
-            for t in range(event["pickup_frame"], gate + 1):
+            for t in range(candidate_start, candidate_end + 1):
                 eligible[t] = (
                     max(state[t, 6], action[t, 6]) <= aperture
                     and outside_box(tcp[0, t], volume)
                     and checker.arm_clears_volume(0, t, volume, margin=0.005)
                 )
-            gate, stages = select_lift_peak(tcp[0], eligible, grasp, gate)
+            gate, stages = select_lift_peak(tcp[0], eligible, grasp, candidate_end)
+            if uniform_position is not None:
+                stages["recorded_grasp_frame"] = grasp
+                stages["recorded_reopening_frame"] = held_end
             stages["holding_aperture_limit_mm"] = float(aperture)
             stages["wait_geometry"] = (
                 "arm_mesh_and_35mm_held_object_clear_of_drawer_sweep"
             )
+            if uniform_position is not None:
+                from .uniform import stage_delays
+
+                if left_delay_seconds or right_delay_seconds:
+                    raise ValueError(
+                        "uniform position and explicit delays are mutually exclusive"
+                    )
+                _, peak_index, _ = lift_clock(
+                    sources[0][0], sources[0][-1], gate, timeline["fps"]
+                )
+                uniform = stage_delays(peak_index, a, uniform_position)
+                left_delay_seconds = uniform["left_delay_frames"] / timeline["fps"]
+                right_delay_seconds = uniform["right_delay_frames"] / timeline["fps"]
+                stages["uniform"] = uniform
             delay = round(right_delay_seconds * timeline["fps"])
             sources[1] = np.r_[np.zeros(delay, dtype=int), sources[1]]
             stop_index = gate - sources[0][0]
@@ -165,18 +207,18 @@ def plan_visual(
             ),
         )
 
-    schedule = search()
+    schedule = search() if uniform_position is None else None
     if joints is not None and drawer:
-        waiting = np.flatnonzero(
-            (np.diff(schedule.left) == 0) & (schedule.left[:-1] == stop_index)
+        smooth_stop = uniform_position is not None or bool(
+            np.any((np.diff(schedule.left) == 0) & (schedule.left[:-1] == stop_index))
         )
-        stages["smooth_stop_required"] = bool(len(waiting))
-        if len(waiting):
+        stages["smooth_stop_required"] = smooth_stop
+        if smooth_stop:
             clock, stop_index, ramps = lift_clock(
                 sources[0][0], sources[0][-1], gate, timeline["fps"]
             )
             begin = int(np.floor(ramps["brake_source_start"]))
-            if begin < event["pickup_frame"] or not eligible[begin : gate + 1].all():
+            if begin < candidate_start or not eligible[begin : gate + 1].all():
                 raise ValueError("0.5 second braking path leaves safe held interval")
             # Recheck the interpolated braking poses, not only recorded endpoints.
             samples = np.linspace(
@@ -195,7 +237,10 @@ def plan_visual(
                     raise ValueError("interpolated braking pose enters drawer sweep")
             end = int(ramps["restart_source_end"])
             if (
-                end >= event["release_frame"]
+                end
+                >= (
+                    held_end if uniform_position is not None else event["release_frame"]
+                )
                 or np.maximum(state[gate : end + 1, 6], action[gate : end + 1, 6]).max()
                 > aperture
             ):

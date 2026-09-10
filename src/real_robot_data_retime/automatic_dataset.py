@@ -124,6 +124,43 @@ def process_episode(source, raw_source, output, work_dir, urdf, mesh_root, index
     render = render_main(
         video, raw_source, output, debug, index, ep, timeline, left, right, trim
     )
+    return write_retimed_episode(
+        source,
+        output,
+        row,
+        ep,
+        table,
+        left,
+        right,
+        trim,
+        plan,
+        render,
+        identity,
+        dict(
+            timeline=timeline,
+            report=report,
+            measurements=json.loads((debug / "measurements.json").read_text()),
+            robot_mask_audit=json.loads((debug / "robot_mask_audit.json").read_text()),
+        ),
+    )
+
+
+def write_retimed_episode(
+    source,
+    output,
+    row,
+    ep,
+    table,
+    left,
+    right,
+    trim,
+    plan,
+    render,
+    identity,
+    interaction,
+):
+    source, output = Path(source), Path(output)
+    info = json.loads((source / "meta/info.json").read_text())
     mapped = remap_table(table, left, right, ep)
     pos = mapped.schema.get_field_index("timestamp")
     mapped = mapped.set_column(
@@ -150,7 +187,7 @@ def process_episode(source, raw_source, output, work_dir, urdf, mesh_root, index
                 "observation.images.right_wrist": right,
             }[camera]
             original = source / info["video_path"].format(
-                video_key=camera, chunk_index=0, file_index=ep
+                video_key=camera, chunk_index=0, file_index=row["episode_index"]
             )
             remap_video(
                 original,
@@ -182,12 +219,8 @@ def process_episode(source, raw_source, output, work_dir, urdf, mesh_root, index
         compositing=render,
         statistics=stats,
         analysis_identity=identity,
-        interaction=dict(
-            timeline=timeline,
-            report=report,
-            measurements=json.loads((debug / "measurements.json").read_text()),
-            robot_mask_audit=json.loads((debug / "robot_mask_audit.json").read_text()),
-        ),
+        interaction=interaction,
+        source_episode_index=int(row["episode_index"]),
         trim=trim,
     )
     receipts = output / "meta/retime_receipts"
@@ -277,17 +310,18 @@ def rerender_episode(source, raw_source, output, work_dir, index):
     return receipt
 
 
-def finalize(source, output, repo_id):
+def finalize(source, output, repo_id, *, episode_indices=None):
     source, output = Path(source), Path(output)
     info = json.loads((source / "meta/info.json").read_text())
     rows = source_episodes(source)
+    indices = (
+        [r["episode_index"] for r in rows]
+        if episode_indices is None
+        else list(episode_indices)
+    )
     receipts = [
-        json.loads(
-            (
-                output / f"meta/retime_receipts/episode_{r['episode_index']:03d}.json"
-            ).read_text()
-        )
-        for r in rows
+        json.loads((output / f"meta/retime_receipts/episode_{ep:03d}.json").read_text())
+        for ep in indices
     ]
     metadata = []
     total = 0
@@ -352,8 +386,8 @@ def finalize(source, output, repo_id):
     info.update(
         repo_id=repo_id,
         total_frames=total,
-        total_episodes=len(rows),
-        splits={"train": f"0:{len(rows)}"},
+        total_episodes=len(receipts),
+        splits={"train": f"0:{len(receipts)}"},
     )
     (output / "meta/episodes/chunk-000").mkdir(parents=True, exist_ok=True)
     pq.write_table(
@@ -365,7 +399,7 @@ def finalize(source, output, repo_id):
     (output / "meta/stats.json").write_text(
         json.dumps(aggregate_stats(all_stats), indent=2)
     )
-    return dict(episodes=len(rows), frames=total)
+    return dict(episodes=len(receipts), frames=total)
 
 
 def main():

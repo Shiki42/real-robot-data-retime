@@ -172,3 +172,26 @@ def smooth_wait_boundaries(left, right, fps, *, brake_seconds=0.5, restart_secon
             method="coordinated_source_path_wait_boundaries",
         ),
     )
+
+
+def held_grasp_interval(state, action, event, fps):
+    """A settled jaw closure followed by the first reopening, within visual pickup.
+
+    Later post-release jaw closure cannot re-enter this interval. Visual
+    attachment confirmation may lag the actual pickup and must not discard
+    the recorded lift peak.
+    """
+    aperture = np.maximum(np.asarray(state)[:, 6], np.asarray(action)[:, 6])
+    start, stop = event["pickup_frame"], event["release_frame"]
+    window = max(3, round(fps * 0.1))
+    opened = float(aperture[event["approach_start"] : stop + 1].max())
+    for grasp in range(start, stop - window + 1):
+        values = aperture[grasp : grasp + window]
+        if np.ptp(values) <= 0.5 and values.max() < opened - 2:
+            limit = float(values.max() + 0.5)
+            reopening = np.flatnonzero(aperture[grasp + window : stop + 1] > limit)
+            end = grasp + window + int(reopening[0]) if len(reopening) else stop
+            if end - grasp < window:
+                raise ValueError("recorded grasp has no settled holding interval")
+            return grasp, end, limit
+    raise ValueError("no settled recorded jaw closure after visual pickup")

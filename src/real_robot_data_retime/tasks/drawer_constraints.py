@@ -149,14 +149,8 @@ def precedence_gate(
     )
 
 
-def discover_insertion_gate(
-    open_frame_image, object_track, pickup_frame, release_frame
-):
-    """Find the last recorded approach pose outside the visible open interior.
-
-    Task prior: colored cabinet and a pale drawer interior. Returns the mask as
-    evidence; this image-space exclusion is additional to the 3-D arm audit.
-    """
+def discover_drawer_interior(open_frame_image):
+    """Locate the open interior without conflating projected entry with TCP height."""
     import cv2
     from ..interaction.video import components
 
@@ -183,6 +177,21 @@ def discover_insertion_gate(
     if not options:
         raise ValueError("open drawer interior not discovered")
     mask, _, _ = max(options, key=lambda z: z[1][4])
+    return mask
+
+
+def discover_insertion_gate(
+    open_frame_image, object_track, pickup_frame, release_frame
+):
+    """Find the last recorded approach pose outside the visible open interior.
+
+    Task prior: colored cabinet and a pale drawer interior. Returns the mask as
+    evidence; this image-space exclusion is additional to the 3-D arm audit.
+    """
+    import cv2
+
+    mask = discover_drawer_interior(open_frame_image)
+    h, w = mask.shape
     expanded = cv2.dilate(mask.astype(np.uint8), np.ones((15, 15), np.uint8)).astype(
         bool
     )
