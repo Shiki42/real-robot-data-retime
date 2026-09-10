@@ -143,3 +143,50 @@ def pickup_precedence(left, right, milestones):
             milestones, milestones[1:]
         )
     )
+
+
+def dark_object_masks(value, minimum_area, maximum_area):
+    """Separate dark objects joined only by a brighter shadow saddle.
+
+    Normal-size components retain their original support. Oversized workspace
+    components need two independently large dark cores before being divided;
+    nearest-core ownership retains their original object pixels for SAM prompts.
+    """
+    import numpy as np
+    from scipy.ndimage import distance_transform_edt
+
+    from ..interaction.video import components
+
+    h, w = value.shape
+    mask = value < 95
+    divided = []
+    for region, stat, center in components(mask, minimum_area, maximum_area):
+        if not (
+            w * 0.2 < center[0] < w * 0.8
+            and center[1] > h * 0.48
+            and max(stat[2:4]) > w * 0.15
+        ):
+            continue
+        for threshold in np.unique(value[region])[::-1]:
+            cores = [
+                core
+                for core, bounds, _ in components(
+                    region & (value < threshold), minimum_area, maximum_area
+                )
+                if max(bounds[2:4]) <= w * 0.15
+            ]
+            if len(cores) < 2:
+                continue
+            labels = np.zeros((h, w), np.int32)
+            for index, core in enumerate(cores, 1):
+                labels[core] = index
+            nearest = distance_transform_edt(
+                labels == 0, return_distances=False, return_indices=True
+            )
+            owners = labels[tuple(nearest)]
+            divided.extend(
+                region & (owners == index) for index in range(1, len(cores) + 1)
+            )
+            mask[region] = False
+            break
+    return [mask, *divided]
