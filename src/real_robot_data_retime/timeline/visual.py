@@ -54,6 +54,16 @@ def plan_visual(
     def dependency(i, j):
         return True
 
+    workpiece = timeline["task"] == "workpiece"
+    milestones = []
+    if workpiece:
+        from ..tasks.workpiece import alternating_pickups, pickup_precedence
+
+        milestones = alternating_pickups(events)
+
+        def dependency(i, j):
+            return pickup_precedence(sources[0][i], sources[1][j], milestones)
+
     drawer = timeline["task"] == "drawer"
     stages = {}
     stop_index = None
@@ -198,7 +208,7 @@ def plan_visual(
             len(sources[1]),
             safe,
             dependency=dependency,
-            left_priority=not drawer,
+            left_priority=not (drawer or workpiece),
             can_wait=lambda side, i: (
                 joints is None
                 or not drawer
@@ -292,6 +302,8 @@ def plan_visual(
                     or (nr >= b and left_frame < withdrawal)
                 ):
                     raise ValueError("smoothed path violates task precedence")
+                if workpiece and not pickup_precedence(nl, nr, milestones):
+                    raise ValueError("smoothed path violates alternating pickup order")
                 cuts = {0.0, 1.0}
                 for start, end in [(left_frame, nl), (right_frame, nr)]:
                     if end > start:
@@ -351,5 +363,13 @@ def plan_visual(
             output_frames=len(left),
             smoothing=smoothing,
             stages=stages,
+            pickup_order=[
+                dict(
+                    arm=("left", "right")[side],
+                    source_frame=frame,
+                    output_frame=int(np.flatnonzero((left, right)[side] >= frame)[0]),
+                )
+                for side, frame in milestones
+            ],
         ),
     )

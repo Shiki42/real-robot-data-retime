@@ -4,7 +4,7 @@ PROFILE = dict(
     expected_objects=4,
     object_kind="dark",
     dependencies=[],
-    priority="left",
+    priority="alternating_pickups",
 )
 
 
@@ -114,4 +114,32 @@ def verify_deposit(frames, robots, pickup, visit, bin_box, fps):
         reason="destination_changed"
         if pixels >= 12
         else "no_persistent_destination_change",
+    )
+
+
+def alternating_pickups(events):
+    """Return the four source pickup milestones in shared-workspace order."""
+    own = [
+        sorted(
+            (e for e in events if e["robot_id"] == side),
+            key=lambda e: e["pickup_frame"],
+        )
+        for side in ("left", "right")
+    ]
+    if [len(group) for group in own] != [2, 2]:
+        raise ValueError("workpiece scheduling requires two pickups per arm")
+    return [
+        (side, own[side][cycle]["pickup_frame"])
+        for cycle in range(2)
+        for side in range(2)
+    ]
+
+
+def pickup_precedence(left, right, milestones):
+    clocks = (left, right)
+    return all(
+        clocks[side] < frame or clocks[previous_side] > previous_frame
+        for (previous_side, previous_frame), (side, frame) in zip(
+            milestones, milestones[1:]
+        )
     )
