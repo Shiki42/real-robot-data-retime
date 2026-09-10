@@ -1,0 +1,570 @@
+{
+  "baseline_commit": "c33dca779aa4b9a506810060b677b2d0b5e50c24",
+  "scope": "One workpiece episode; shared GPU; not validated for compositing",
+  "reports": [
+    {
+      "name": "workpiece0-tapir-180-r2",
+      "raw_report": "/home/coder/share/retime-model-experiments-20260910/workpiece0-tapir-180-r2/report.json",
+      "raw_report_sha256": "4697c1b6c84d9df60482649d34167b8686ed793a26a91e104b3ace224836563f",
+      "observations": {
+        "backend": "tapir",
+        "input": "/home/coder/share/retime-interaction-20260909/samples/workpiece_0.mp4",
+        "input_sha256": "6ba3ebc680e1b310cde385ac48100ea68d239ae71a6e21919739098a42a15dbc",
+        "source_start": 0,
+        "source_stop": 180,
+        "stride": 3,
+        "source_fps": 30.0,
+        "decoded_frames": 60,
+        "frame_shape": [
+          480,
+          640
+        ],
+        "preprocessing_seconds": 0.13232550024986267,
+        "model_load_and_inference_seconds": 5.6046712547540665,
+        "processed_fps": 10.705355813528943,
+        "peak_allocated_bytes": 1500165120,
+        "gpu_at_start": "NVIDIA GeForce RTX 5090, 23264 MiB, 99 %",
+        "torch_version": "2.8.0+cu128",
+        "experiment_commit": "c33dca779aa4b9a506810060b677b2d0b5e50c24",
+        "worktree_dirty": true,
+        "validated_for_compositing": false,
+        "limitation": "Shared-GPU stage measurement; visibility/coverage is not identity or event ground truth.",
+        "upstream_commit": "c2cbab81cc06092b5f05bfe2da7bfec54e2079c9",
+        "checkpoint_sha256": "8493c7a69e02c85b9382fbb3c7b8b539b36bc08ede744b9e99feb739a0129f4b",
+        "tapir_resolution": 256,
+        "point_count": 64,
+        "object_count": 4,
+        "visible_fraction": 0.8252604166666667,
+        "per_object_visible_fraction": [
+          0.503125,
+          0.9677083333333333,
+          0.8302083333333333,
+          1.0
+        ]
+      }
+    },
+    {
+      "name": "workpiece0-cotracker-180-r2",
+      "raw_report": "/home/coder/share/retime-model-experiments-20260910/workpiece0-cotracker-180-r2/report.json",
+      "raw_report_sha256": "d678f599c097c86867d74cf37922785fef139b8938e6cccdc2f8ac2493d6e145",
+      "observations": {
+        "backend": "cotracker",
+        "input": "/home/coder/share/retime-interaction-20260909/samples/workpiece_0.mp4",
+        "input_sha256": "6ba3ebc680e1b310cde385ac48100ea68d239ae71a6e21919739098a42a15dbc",
+        "source_start": 0,
+        "source_stop": 180,
+        "stride": 3,
+        "source_fps": 30.0,
+        "decoded_frames": 60,
+        "frame_shape": [
+          480,
+          640
+        ],
+        "preprocessing_seconds": 0.13894149661064148,
+        "model_load_and_inference_seconds": 4.994491413235664,
+        "processed_fps": 12.013235189672537,
+        "peak_allocated_bytes": 5388179968,
+        "gpu_at_start": "NVIDIA GeForce RTX 5090, 23264 MiB, 98 %",
+        "torch_version": "2.8.0+cu128",
+        "experiment_commit": "c33dca779aa4b9a506810060b677b2d0b5e50c24",
+        "worktree_dirty": true,
+        "validated_for_compositing": false,
+        "limitation": "Shared-GPU stage measurement; visibility/coverage is not identity or event ground truth.",
+        "upstream_commit": "82e02e8029753ad4ef13cf06be7f4fc5facdda4d",
+        "model_revisions": {
+          "facebook/sam2.1-hiera-small": "ee5bba1d82bb8749febdf90f45e84b687142ba03",
+          "facebook/sam2.1-hiera-large": "665f8e2ad61cf5f53d65644ff27c8ee525124610",
+          "facebook/cotracker3": "bf55ea50d4390e1820a267f131cd6587240fb2c5"
+        },
+        "point_count": 64,
+        "object_count": 4,
+        "visible_fraction": 0.81171875,
+        "per_object_visible_fraction": [
+          0.49895833333333334,
+          0.95625,
+          0.7916666666666666,
+          1.0
+        ]
+      }
+    },
+    {
+      "name": "workpiece0-robotseg-s6-t4",
+      "raw_report": "/home/coder/share/retime-model-experiments-20260910/workpiece0-robotseg-s6-t4/report.json",
+      "raw_report_sha256": "a3aabe2af26fce72db4bc4e8f6171d1b9592e6c238e204b388e0e0d4eb034604",
+      "observations": {
+        "backend": "robotseg",
+        "input": "/home/coder/share/retime-interaction-20260909/samples/workpiece_0.mp4",
+        "input_sha256": "6ba3ebc680e1b310cde385ac48100ea68d239ae71a6e21919739098a42a15dbc",
+        "source_start": 0,
+        "source_stop": 1092,
+        "stride": 6,
+        "source_fps": 30.0,
+        "decoded_frames": 182,
+        "frame_shape": [
+          480,
+          640
+        ],
+        "preprocessing_seconds": 8.786795608699322,
+        "model_load_and_inference_seconds": 10.94778846949339,
+        "processed_fps": 16.62436212639228,
+        "peak_allocated_bytes": 783281664,
+        "gpu_at_start": "NVIDIA GeForce RTX 5090, 6773 MiB, 0 %",
+        "torch_version": "2.8.0+cu128",
+        "cpu_threads": 4,
+        "experiment_commit": "c33dca779aa4b9a506810060b677b2d0b5e50c24",
+        "worktree_dirty": true,
+        "validated_for_compositing": false,
+        "limitation": "Shared-GPU stage measurement; visibility/coverage is not identity or event ground truth.",
+        "upstream_commit": "dafb8c0d507276e2f96d2b07ac3661a7b3a41a5f",
+        "checkpoint_sha256": "1384c38c4f313487a32503025d4566ac1d815f6be983199362fc4af19aaa06a2",
+        "motion_coverage_audit": {
+          "passed": false,
+          "arms": [
+            {
+              "robot_id": "left",
+              "supported_frames": 60,
+              "insufficient_coverage_fraction": 1.0,
+              "longest_insufficient_run": 48,
+              "passed": false
+            },
+            {
+              "robot_id": "right",
+              "supported_frames": 69,
+              "insufficient_coverage_fraction": 0.028985507246376812,
+              "longest_insufficient_run": 1,
+              "passed": true
+            }
+          ],
+          "method": "entry_anchored_motion_coverage",
+          "minimum_coverage": 0.6
+        },
+        "unassigned_pixels": 3198101,
+        "source_manifest_sha256": "759c9a690d22b41988a70209446934ac28007ee171790d2f3737f6274eb49947"
+      }
+    },
+    {
+      "name": "workpiece0-sam2-s6-t4",
+      "raw_report": "/home/coder/share/retime-model-experiments-20260910/workpiece0-sam2-s6-t4/report.json",
+      "raw_report_sha256": "08c87c9a12d69f7f402a89522318c0a52feafc1575d2622416ee6eeea623e1e2",
+      "observations": {
+        "backend": "sam2",
+        "input": "/home/coder/share/retime-interaction-20260909/samples/workpiece_0.mp4",
+        "input_sha256": "6ba3ebc680e1b310cde385ac48100ea68d239ae71a6e21919739098a42a15dbc",
+        "source_start": 0,
+        "source_stop": 1092,
+        "stride": 6,
+        "source_fps": 30.0,
+        "decoded_frames": 182,
+        "frame_shape": [
+          480,
+          640
+        ],
+        "preprocessing_seconds": 8.254585668444633,
+        "model_load_and_inference_seconds": 41.663824915885925,
+        "processed_fps": 4.368297926737052,
+        "peak_allocated_bytes": 1674566144,
+        "gpu_at_start": "NVIDIA GeForce RTX 5090, 6773 MiB, 0 %",
+        "torch_version": "2.8.0+cu128",
+        "cpu_threads": 4,
+        "experiment_commit": "c33dca779aa4b9a506810060b677b2d0b5e50c24",
+        "worktree_dirty": true,
+        "validated_for_compositing": false,
+        "limitation": "Shared-GPU stage measurement; visibility/coverage is not identity or event ground truth.",
+        "model_revisions": {
+          "facebook/sam2.1-hiera-small": "ee5bba1d82bb8749febdf90f45e84b687142ba03",
+          "facebook/sam2.1-hiera-large": "665f8e2ad61cf5f53d65644ff27c8ee525124610",
+          "facebook/cotracker3": "bf55ea50d4390e1820a267f131cd6587240fb2c5"
+        },
+        "motion_coverage_audit": {
+          "passed": true,
+          "arms": [
+            {
+              "robot_id": "left",
+              "supported_frames": 60,
+              "insufficient_coverage_fraction": 0.03333333333333333,
+              "longest_insufficient_run": 1,
+              "passed": true
+            },
+            {
+              "robot_id": "right",
+              "supported_frames": 69,
+              "insufficient_coverage_fraction": 0.014492753623188406,
+              "longest_insufficient_run": 1,
+              "passed": true
+            }
+          ],
+          "method": "entry_anchored_motion_coverage",
+          "minimum_coverage": 0.6
+        },
+        "unassigned_pixels": 0,
+        "source_manifest_sha256": "759c9a690d22b41988a70209446934ac28007ee171790d2f3737f6274eb49947"
+      }
+    },
+    {
+      "name": "workpiece0-robotseg-prompted-s6-t4",
+      "raw_report": "/home/coder/share/retime-model-experiments-20260910/workpiece0-robotseg-prompted-s6-t4/report.json",
+      "raw_report_sha256": "dd323024217626ad279f0862b9e9316642def61e2223edb05a02cc38b10a9b79",
+      "observations": {
+        "backend": "robotseg-prompted",
+        "input": "/home/coder/share/retime-interaction-20260909/samples/workpiece_0.mp4",
+        "input_sha256": "6ba3ebc680e1b310cde385ac48100ea68d239ae71a6e21919739098a42a15dbc",
+        "source_start": 0,
+        "source_stop": 1092,
+        "stride": 6,
+        "source_fps": 30.0,
+        "decoded_frames": 182,
+        "frame_shape": [
+          480,
+          640
+        ],
+        "preprocessing_seconds": 8.957191176712513,
+        "model_load_and_inference_seconds": 107.61429400742054,
+        "processed_fps": 1.6912251451229166,
+        "peak_allocated_bytes": 783196672,
+        "gpu_at_start": "NVIDIA GeForce RTX 5090, 14400 MiB, 99 %",
+        "torch_version": "2.8.0+cu128",
+        "cpu_threads": 4,
+        "experiment_commit": "c33dca779aa4b9a506810060b677b2d0b5e50c24",
+        "worktree_dirty": true,
+        "validated_for_compositing": false,
+        "limitation": "Shared-GPU stage measurement; visibility/coverage is not identity or event ground truth.",
+        "upstream_commit": "dafb8c0d507276e2f96d2b07ac3661a7b3a41a5f",
+        "checkpoint_sha256": "1384c38c4f313487a32503025d4566ac1d815f6be983199362fc4af19aaa06a2",
+        "motion_coverage_audit": {
+          "passed": true,
+          "arms": [
+            {
+              "robot_id": "left",
+              "supported_frames": 60,
+              "insufficient_coverage_fraction": 0.03333333333333333,
+              "longest_insufficient_run": 1,
+              "passed": true
+            },
+            {
+              "robot_id": "right",
+              "supported_frames": 69,
+              "insufficient_coverage_fraction": 0.0,
+              "longest_insufficient_run": 0,
+              "passed": true
+            }
+          ],
+          "method": "entry_anchored_motion_coverage",
+          "minimum_coverage": 0.6
+        },
+        "unassigned_pixels": 0,
+        "source_manifest_sha256": "52d85ec6a3284c2b8420bd4f135a91ef081de1e3a9f2329ee230e6ca63268791"
+      }
+    },
+    {
+      "name": "workpiece0-robotseg-prompted-s6-profile",
+      "raw_report": "/home/coder/share/retime-model-experiments-20260910/workpiece0-robotseg-prompted-s6-profile/report.json",
+      "raw_report_sha256": "08926f663f9f6a88b738f932404d3f16cf55e13d13352ba83319f188804f9f5d",
+      "observations": {
+        "backend": "robotseg-prompted",
+        "input": "/home/coder/share/retime-interaction-20260909/samples/workpiece_0.mp4",
+        "input_sha256": "6ba3ebc680e1b310cde385ac48100ea68d239ae71a6e21919739098a42a15dbc",
+        "source_start": 0,
+        "source_stop": 1092,
+        "stride": 6,
+        "source_fps": 30.0,
+        "decoded_frames": 182,
+        "frame_shape": [
+          480,
+          640
+        ],
+        "preprocessing_seconds": 8.589632704854012,
+        "model_load_and_inference_seconds": 24.729700155556202,
+        "processed_fps": 7.35957164280897,
+        "peak_allocated_bytes": 783196672,
+        "gpu_at_start": "NVIDIA GeForce RTX 5090, 10388 MiB, 94 %",
+        "torch_version": "2.8.0+cu128",
+        "cpu_threads": 4,
+        "experiment_commit": "c33dca779aa4b9a506810060b677b2d0b5e50c24",
+        "worktree_dirty": true,
+        "validated_for_compositing": false,
+        "limitation": "Shared-GPU stage measurement; visibility/coverage is not identity or event ground truth.",
+        "robotseg_preparation": {
+          "jpeg_seconds": 0.25483715534210205,
+          "state_init_seconds": 5.012261167168617,
+          "state_count": 8
+        },
+        "upstream_commit": "dafb8c0d507276e2f96d2b07ac3661a7b3a41a5f",
+        "checkpoint_sha256": "1384c38c4f313487a32503025d4566ac1d815f6be983199362fc4af19aaa06a2",
+        "motion_coverage_audit": {
+          "passed": true,
+          "arms": [
+            {
+              "robot_id": "left",
+              "supported_frames": 60,
+              "insufficient_coverage_fraction": 0.03333333333333333,
+              "longest_insufficient_run": 1,
+              "passed": true
+            },
+            {
+              "robot_id": "right",
+              "supported_frames": 69,
+              "insufficient_coverage_fraction": 0.0,
+              "longest_insufficient_run": 0,
+              "passed": true
+            }
+          ],
+          "method": "entry_anchored_motion_coverage",
+          "minimum_coverage": 0.6
+        },
+        "unassigned_pixels": 0,
+        "source_manifest_sha256": "3de6012b4490061ce452498dfd383e93faef55e1e00260a5447006b3683ba9a6"
+      }
+    },
+    {
+      "name": "workpiece0-categories",
+      "raw_report": "/home/coder/share/retime-model-experiments-20260910/workpiece0-categories/report.json",
+      "raw_report_sha256": "92e4166e4c2c484292ed88d559f646eb5f190936ac49d8eba1f052c1bda5d295",
+      "observations": {
+        "input_sha256": "6ba3ebc680e1b310cde385ac48100ea68d239ae71a6e21919739098a42a15dbc",
+        "checkpoint_sha256": "1384c38c4f313487a32503025d4566ac1d815f6be983199362fc4af19aaa06a2",
+        "automatic_seed_source_frame": 102,
+        "frames": 32,
+        "category_seconds_excluding_model_load": {
+          "robot": 118.28222162276506,
+          "arm": 128.510446049273,
+          "gripper": 89.35813051462173
+        },
+        "validated_for_compositing": false
+      }
+    },
+    {
+      "name": "workpiece0-sam2-final",
+      "raw_report": "/home/coder/share/retime-model-experiments-20260910/workpiece0-sam2-final/report.json",
+      "raw_report_sha256": "3995a944d79fc0ca050f2fc802d01e2d957b9e309e266883cccce9cc4e1a253f",
+      "observations": {
+        "backend": "sam2",
+        "input": "/home/coder/share/retime-interaction-20260909/samples/workpiece_0.mp4",
+        "input_sha256": "6ba3ebc680e1b310cde385ac48100ea68d239ae71a6e21919739098a42a15dbc",
+        "source_start": 0,
+        "source_stop": 1092,
+        "stride": 6,
+        "source_fps": 30.0,
+        "decoded_frames": 182,
+        "frame_shape": [
+          480,
+          640
+        ],
+        "preprocessing_seconds": 8.379844553768635,
+        "model_load_and_inference_seconds": 130.89196146279573,
+        "processed_fps": 1.390459719344423,
+        "peak_allocated_bytes": 1672468992,
+        "gpu_at_start": "NVIDIA GeForce RTX 5090, 15203 MiB, 98 %",
+        "torch_version": "2.8.0+cu128",
+        "cpu_threads": 4,
+        "random_seed": 0,
+        "experiment_commit": "c33dca779aa4b9a506810060b677b2d0b5e50c24",
+        "worktree_dirty": true,
+        "validated_for_compositing": false,
+        "limitation": "Shared-GPU stage measurement; visibility/coverage is not identity or event ground truth.",
+        "model_revisions": {
+          "facebook/sam2.1-hiera-small": "ee5bba1d82bb8749febdf90f45e84b687142ba03",
+          "facebook/sam2.1-hiera-large": "665f8e2ad61cf5f53d65644ff27c8ee525124610",
+          "facebook/cotracker3": "bf55ea50d4390e1820a267f131cd6587240fb2c5"
+        },
+        "motion_coverage_audit": {
+          "passed": true,
+          "arms": [
+            {
+              "robot_id": "left",
+              "supported_frames": 60,
+              "insufficient_coverage_fraction": 0.03333333333333333,
+              "longest_insufficient_run": 1,
+              "passed": true
+            },
+            {
+              "robot_id": "right",
+              "supported_frames": 69,
+              "insufficient_coverage_fraction": 0.014492753623188406,
+              "longest_insufficient_run": 1,
+              "passed": true
+            }
+          ],
+          "method": "entry_anchored_motion_coverage",
+          "minimum_coverage": 0.6
+        },
+        "unassigned_pixels": 0,
+        "source_manifest_sha256": "9a960ba62ca32a0a2b5ba0a2f82a16f8464af238ce8c7c23d494b468e1cc2774"
+      }
+    },
+    {
+      "name": "workpiece0-robotseg-prompted-final",
+      "raw_report": "/home/coder/share/retime-model-experiments-20260910/workpiece0-robotseg-prompted-final/report.json",
+      "raw_report_sha256": "b0254c275320e0cd8232c91dbc1ca2a16eb95c2de6e34b0375089a5f87910a83",
+      "observations": {
+        "backend": "robotseg-prompted",
+        "input": "/home/coder/share/retime-interaction-20260909/samples/workpiece_0.mp4",
+        "input_sha256": "6ba3ebc680e1b310cde385ac48100ea68d239ae71a6e21919739098a42a15dbc",
+        "source_start": 0,
+        "source_stop": 1092,
+        "stride": 6,
+        "source_fps": 30.0,
+        "decoded_frames": 182,
+        "frame_shape": [
+          480,
+          640
+        ],
+        "preprocessing_seconds": 8.368132658302784,
+        "model_load_and_inference_seconds": 289.8392793685198,
+        "processed_fps": 0.6279342137357229,
+        "peak_allocated_bytes": 783196672,
+        "gpu_at_start": "NVIDIA GeForce RTX 5090, 12394 MiB, 99 %",
+        "torch_version": "2.8.0+cu128",
+        "cpu_threads": 4,
+        "random_seed": 0,
+        "experiment_commit": "c33dca779aa4b9a506810060b677b2d0b5e50c24",
+        "worktree_dirty": true,
+        "validated_for_compositing": false,
+        "limitation": "Shared-GPU stage measurement; visibility/coverage is not identity or event ground truth.",
+        "robotseg_preparation": {
+          "jpeg_seconds": 0.26809118688106537,
+          "state_init_seconds": 5.4214193150401115,
+          "state_count": 8
+        },
+        "upstream_commit": "dafb8c0d507276e2f96d2b07ac3661a7b3a41a5f",
+        "checkpoint_sha256": "1384c38c4f313487a32503025d4566ac1d815f6be983199362fc4af19aaa06a2",
+        "motion_coverage_audit": {
+          "passed": true,
+          "arms": [
+            {
+              "robot_id": "left",
+              "supported_frames": 60,
+              "insufficient_coverage_fraction": 0.03333333333333333,
+              "longest_insufficient_run": 1,
+              "passed": true
+            },
+            {
+              "robot_id": "right",
+              "supported_frames": 69,
+              "insufficient_coverage_fraction": 0.0,
+              "longest_insufficient_run": 0,
+              "passed": true
+            }
+          ],
+          "method": "entry_anchored_motion_coverage",
+          "minimum_coverage": 0.6
+        },
+        "unassigned_pixels": 0,
+        "source_manifest_sha256": "9a960ba62ca32a0a2b5ba0a2f82a16f8464af238ce8c7c23d494b468e1cc2774"
+      }
+    },
+    {
+      "name": "workpiece0-tapir-full-final",
+      "raw_report": "/home/coder/share/retime-model-experiments-20260910/workpiece0-tapir-full-final/report.json",
+      "raw_report_sha256": "f143c0cd7f4b838fde91332543618db22d3b874546a7c0ebd32421cb6815f62b",
+      "observations": {
+        "backend": "tapir",
+        "input": "/home/coder/share/retime-interaction-20260909/samples/workpiece_0.mp4",
+        "input_sha256": "6ba3ebc680e1b310cde385ac48100ea68d239ae71a6e21919739098a42a15dbc",
+        "source_start": 0,
+        "source_stop": 1092,
+        "stride": 3,
+        "source_fps": 30.0,
+        "decoded_frames": 364,
+        "frame_shape": [
+          480,
+          640
+        ],
+        "preprocessing_seconds": 0.5073646903038025,
+        "model_load_and_inference_seconds": 3.1064011678099632,
+        "processed_fps": 117.17739607232468,
+        "peak_allocated_bytes": 12917585408,
+        "gpu_at_start": "NVIDIA GeForce RTX 5090, 10352 MiB, 93 %",
+        "torch_version": "2.8.0+cu128",
+        "cpu_threads": 4,
+        "random_seed": 0,
+        "experiment_commit": "c33dca779aa4b9a506810060b677b2d0b5e50c24",
+        "worktree_dirty": true,
+        "validated_for_compositing": false,
+        "limitation": "Shared-GPU stage measurement; visibility/coverage is not identity or event ground truth.",
+        "upstream_commit": "c2cbab81cc06092b5f05bfe2da7bfec54e2079c9",
+        "checkpoint_sha256": "8493c7a69e02c85b9382fbb3c7b8b539b36bc08ede744b9e99feb739a0129f4b",
+        "tapir_resolution": 256,
+        "point_count": 64,
+        "object_count": 4,
+        "visible_fraction": 0.5127489697802198,
+        "per_object_visible_fraction": [
+          0.7214972527472527,
+          0.3708791208791209,
+          0.21531593406593408,
+          0.7433035714285714
+        ],
+        "source_manifest_sha256": "9a960ba62ca32a0a2b5ba0a2f82a16f8464af238ce8c7c23d494b468e1cc2774"
+      }
+    },
+    {
+      "name": "workpiece0-cotracker-full-expandable",
+      "raw_report": "/home/coder/share/retime-model-experiments-20260910/workpiece0-cotracker-full-expandable/report.json",
+      "raw_report_sha256": "fe562f9fcbeb7f89c72169a427787178473276db86fa846d54d7760f3fe4d21c",
+      "observations": {
+        "backend": "cotracker",
+        "input": "/home/coder/share/retime-interaction-20260909/samples/workpiece_0.mp4",
+        "input_sha256": "6ba3ebc680e1b310cde385ac48100ea68d239ae71a6e21919739098a42a15dbc",
+        "source_start": 0,
+        "source_stop": 1092,
+        "stride": 3,
+        "source_fps": 30.0,
+        "decoded_frames": 364,
+        "frame_shape": [
+          480,
+          640
+        ],
+        "preprocessing_seconds": 1.3809070587158203,
+        "model_load_and_inference_seconds": 6.326452620327473,
+        "processed_fps": 57.53619316304284,
+        "peak_allocated_bytes": 18260877312,
+        "gpu_at_start": "NVIDIA GeForce RTX 5090, 14430 MiB, 99 %",
+        "torch_version": "2.8.0+cu128",
+        "cpu_threads": 4,
+        "random_seed": 0,
+        "runtime_env": {
+          "OMP_NUM_THREADS": "4",
+          "OPENBLAS_NUM_THREADS": "4",
+          "MKL_NUM_THREADS": "4",
+          "PYTORCH_CUDA_ALLOC_CONF": "expandable_segments:True"
+        },
+        "experiment_commit": "c33dca779aa4b9a506810060b677b2d0b5e50c24",
+        "worktree_dirty": true,
+        "validated_for_compositing": false,
+        "limitation": "Shared-GPU stage measurement; visibility/coverage is not identity or event ground truth.",
+        "upstream_commit": "82e02e8029753ad4ef13cf06be7f4fc5facdda4d",
+        "model_revisions": {
+          "facebook/sam2.1-hiera-small": "ee5bba1d82bb8749febdf90f45e84b687142ba03",
+          "facebook/sam2.1-hiera-large": "665f8e2ad61cf5f53d65644ff27c8ee525124610",
+          "facebook/cotracker3": "bf55ea50d4390e1820a267f131cd6587240fb2c5"
+        },
+        "point_count": 64,
+        "object_count": 4,
+        "visible_fraction": 0.4167668269230769,
+        "per_object_visible_fraction": [
+          0.671875,
+          0.2929258241758242,
+          0.13598901098901098,
+          0.5662774725274725
+        ],
+        "source_manifest_sha256": "163ee7690f84a2e8ecc1dffb327b1e58b4683bd817cb72a10cba7e7a199b5a36"
+      }
+    }
+  ],
+  "failed_runs": [
+    {
+      "log": "/home/coder/share/retime-model-experiments-20260910/cotracker-full.log",
+      "reason": "CUDA OOM",
+      "sha256": "af786e830e94914f72bc38df6d88bd17bceab890b18fee11cbc31b8ee85d0f76"
+    },
+    {
+      "log": "/home/coder/share/retime-model-experiments-20260910/tapir-full.log",
+      "reason": "CUDA initialization OOM before model inference",
+      "sha256": "5c0993463a4237d39ea6159cca3d7024d09d3c595a4d3dcf4a9ec6a3e51ff0fe"
+    },
+    {
+      "log": "/home/coder/share/retime-model-experiments-20260910/cotracker-full-final.log",
+      "reason": "CUDA OOM; expandable allocator tested separately",
+      "sha256": "9869d838c9d1b1d16e1a5acd69f2b75f19a3bd90935284f6cb1ba47d19651484"
+    }
+  ]
+}

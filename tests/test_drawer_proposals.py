@@ -37,26 +37,3 @@ def test_muted_colored_cube_is_not_retracked_as_dark_robot():
     assert len(proposals) == 1 and proposals[0]["color"][1] < 95
     tracks = track_candidates(frames, proposals)
     assert np.linalg.norm(tracks[0]["centers"][-1] - [70.5, 84.5]) < 2
-
-
-def test_drawer_proposals_exclude_colored_robot_entry_pixels():
-    import cv2
-    import numpy as np
-    from real_robot_data_retime.interaction.discovery import (
-        task_object_proposals,
-        InteractionConfig,
-    )
-
-    frames = np.full((8, 120, 200, 3), 200, np.uint8)
-    red = cv2.cvtColor(np.uint8([[[0, 220, 200]]]), cv2.COLOR_HSV2BGR)[0, 0]
-    blue = cv2.cvtColor(np.uint8([[[96, 110, 200]]]), cv2.COLOR_HSV2BGR)[0, 0]
-    frames[:, 10:40, 130:180] = red
-    frames[:, 85:97, 75:87] = blue
-    frames[:, 85:97, 15:27] = blue
-    proposals = task_object_proposals(
-        frames,
-        "drawer",
-        InteractionConfig(minimum_object_area=50, maximum_object_area=1000),
-    )
-    assert len(proposals) == 1
-    assert 75 <= proposals[0]["origin"][0] <= 87

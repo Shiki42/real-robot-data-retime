@@ -158,4 +158,3 @@ The earlier one-off script defaulted to both action and measured state.
 This tool explicitly uses action, with separate gripper units, and is not
 intended to reproduce the old 1119-frame removal total. Trimming runs
 independently of retiming; retiming's existing no-both-idle policy is unchanged.
-

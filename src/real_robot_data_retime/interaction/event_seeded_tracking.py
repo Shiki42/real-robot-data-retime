@@ -1,9 +1,10 @@
 """Initialize object tracking at visually observed origin-departure events."""
 
-import numpy as np
 import cv2
-from .origin_events import origin_departure_interval
+import numpy as np
+
 from .neural_tracks import mask_measurements
+from .origin_events import origin_departure_interval, tracking_seed_frame
 
 
 def event_seeded_tracks(frames, proposals, robot_masks, sam, fps):
@@ -15,19 +16,7 @@ def event_seeded_tracks(frames, proposals, robot_masks, sam, fps):
         centers = np.full((n, 2), np.nan)
         areas = np.zeros(n)
         packed = np.zeros((n, h, (w + 7) // 8), np.uint8)
-        seed = (
-            max(
-                0,
-                (
-                    event["contact_start"]
-                    if event["contact_start"] is not None
-                    else event["last_observed_at_origin"]
-                )
-                - round(fps * 0.1),
-            )
-            if event
-            else 0
-        )
+        seed = tracking_seed_frame(event, fps)
         prefix_visible = (
             (signal[:seed] > 0.55) if signal is not None else np.zeros(seed, bool)
         )

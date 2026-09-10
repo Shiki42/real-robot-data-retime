@@ -1,8 +1,9 @@
 import numpy as np
+
 from real_robot_data_retime.background.clean_plate import (
-    temporal_plate,
-    real_patch,
     match_background_colors,
+    real_patch,
+    temporal_plate,
 )
 
 
@@ -43,8 +44,40 @@ def test_exposure_registration_ignores_moving_foreground():
     frames[0, 10:30, 10:40] = [0, 0, 240]
     excluded = np.zeros(frames.shape[:3], bool)
     excluded[0, 10:30, 10:40] = True
-    corrected, fits = match_background_colors(frames, excluded)
+    corrected, _fits = match_background_colors(frames, excluded)
     assert (
         np.abs(corrected[0][~excluded[0]].astype(float) - base[~excluded[0]]).mean()
         < 1.1
     )
+
+
+def test_foreground_in_color_ring_cannot_whiten_object_patch():
+    from real_robot_data_retime.background.clean_plate import blend_scene_patch, dilate
+
+    base = np.full((60, 60, 3), 100, np.uint8)
+    patch = base.copy()
+    region = np.zeros((60, 60), bool)
+    region[20:40, 20:40] = True
+    patch[region] = [180, 70, 30]
+    foreground = dilate(region, 8) & ~region
+    foreground[:, 43:] = False
+    patch[foreground] = 0
+    result = blend_scene_patch(
+        base,
+        patch,
+        region,
+        color_match=True,
+        color_reference_mask=~foreground & ~region,
+    )
+    np.testing.assert_array_equal(result[30, 30], [180, 70, 30])
+
+
+def test_local_color_match_requires_valid_background():
+    import pytest
+
+    from real_robot_data_retime.background.clean_plate import blend_scene_patch
+
+    image = np.zeros((20, 20, 3), np.uint8)
+    region = np.ones((20, 20), bool)
+    with pytest.raises(ValueError, match="background-reference"):
+        blend_scene_patch(image, image, region, color_match=True)

@@ -1,19 +1,22 @@
 """Object-state and whole-arm compositing in a registered camera view."""
 
-from pathlib import Path
 import json
+from pathlib import Path
+
 import cv2
 import numpy as np
+
 from ..background.clean_plate import (
-    dilate,
-    temporal_plate,
-    real_patch,
-    match_background_colors,
     blend_scene_patch,
+    dilate,
+    match_background_colors,
+    real_patch,
+    temporal_plate,
 )
-from ..interaction.video import write_video, components
+from ..interaction.video import components, write_video
 from ..tasks.workpiece import discover_bins
 from .verification import OriginAudit
+from .ownership import arm_foreground, is_carried
 
 
 def drawer_region(frames, open_frame):
@@ -67,59 +70,9 @@ def composite(
         for event in timeline["episodes"]:
             side = ["left", "right"].index(event["robot_id"])
             release = event["release_frame"]
-            # Transfer visible object pixels, not a hallucinated mask that has
-            # followed the departing gripper instead of the deposited cube.
-            initial_hsv = cv2.cvtColor(frames[0], cv2.COLOR_BGR2HSV)
-            origin_mask = objects[event["object_id"], 0]
-            colored = (
-                origin_mask & (initial_hsv[:, :, 1] > 40) & (initial_hsv[:, :, 2] > 20)
-            )
-            if not colored.any():
-                raise ValueError("drawer object has no observed chromatic origin")
-            angles = initial_hsv[:, :, 0][colored] * (2 * np.pi / 180)
-            hue = (
-                np.arctan2(np.sin(angles).mean(), np.cos(angles).mean())
-                * 180
-                / (2 * np.pi)
-                % 180
-            )
-            yy0, xx0 = np.where(origin_mask)
-            object_span = max(np.ptp(xx0) + 1, np.ptp(yy0) + 1)
-            last_visible_center = None
-            for t in range(release, n):
-                object_mask = objects[event["object_id"], t]
-                hsv = cv2.cvtColor(frames[t], cv2.COLOR_BGR2HSV)
-                difference = np.abs(hsv[:, :, 0].astype(float) - hue)
-                difference = np.minimum(difference, 180 - difference)
-                visible = (
-                    object_mask
-                    & (difference < 12)
-                    & (hsv[:, :, 1] > 40)
-                    & (hsv[:, :, 2] > 20)
-                )
-                if not object_mask.any():
-                    continue
-                yy, xx = np.where(object_mask)
-                center = np.array([xx.mean(), yy.mean()])
-                observed = (
-                    visible.sum() >= 8 and visible.sum() >= object_mask.sum() * 0.05
-                )
-                if (
-                    observed
-                    and last_visible_center is not None
-                    and np.linalg.norm(center - last_visible_center) > object_span * 2
-                ):
-                    observed = False
-                if observed:
-                    last_visible_center = center
-                # A later occluder may hide a previously observed placed cube.
-                # A mask that instead follows the departing hand leaves this region.
-                stays_placed = (
-                    last_visible_center is not None
-                    and np.linalg.norm(center - last_visible_center) <= object_span
-                )
-                if observed or stays_placed:
-                    robots[t, side] &= ~object_mask
+            # Enforce scene ownership before both patch exclusion and layering;
+            # a stale SAM arm mask must not erase a placed cube from scene donors.
+            robots[release:, side] &= ~objects[event["object_id"], release:]
     entry = np.zeros((2, h, w), bool)
     entry[0, int(h * 0.4) :, : max(1, round(w * 0.08))] = True
     entry[1, int(h * 0.4) :, round(w * 0.92) :] = True
@@ -140,10 +93,22 @@ def composite(
     )
     frames, color_fits = match_background_colors(frames, excluded, dynamic_scene)
     reconstructed, coverage = temporal_plate(frames, excluded)
-    # Feather inside the 5px exclusion margin, so no original arm pixels bleed
-    # through after the arm leaves its initial pose.
+    plate_source = 0
+    plate_region = excluded[plate_source]
+    plate_match_valid = ~plate_region & (coverage > 0)
+    if dynamic_scene is not None:
+        plate_match_valid &= ~dynamic_scene
+    plate_color_match = (
+        dilate(plate_region, 8) & ~plate_region & plate_match_valid
+    ).sum() >= 20
+    # Keep the transition inside the exclusion margin so old arm pixels cannot bleed through.
     plate = blend_scene_patch(
-        frames[0], reconstructed, excluded[0], feather=4, color_match=True
+        frames[plate_source],
+        reconstructed,
+        plate_region,
+        feather=4,
+        color_match=bool(plate_color_match),
+        color_reference_mask=plate_match_valid,
     )
     debug = Path(debug_dir)
     debug.mkdir(parents=True, exist_ok=True)
@@ -192,6 +157,7 @@ def composite(
     metric_overlap_pixels = 0
     paired_source_frames = 0
     uncovered_patch_pixels = 0
+    skipped_origin_color_matches = 0
 
     def patch(source, region, key, allowed=None):
         nonlocal uncovered_patch_pixels
@@ -207,7 +173,11 @@ def composite(
     audit = OriginAudit(frames, objects, timeline["episodes"])
 
     def render():
-        nonlocal overlap_pixels, metric_overlap_pixels, paired_source_frames
+        nonlocal \
+            overlap_pixels, \
+            metric_overlap_pixels, \
+            paired_source_frames, \
+            skipped_origin_color_matches
         for l, r in zip(left, right):
             times = [int(l), int(r)]
             if l == r:
@@ -248,22 +218,44 @@ def composite(
                 im = patch(
                     clean_source, region, ("origin", event["object_id"]), allowed
                 )
-                out = blend_scene_patch(out, im, region, feather=7, color_match=True)
-            layers = []
-            for side, t in enumerate(times):
-                mask = robots[t, side] | anchors[side]
-                for event in timeline["episodes"]:
-                    if event["robot_id"] != ["left", "right"][side]:
-                        continue
-                    # Once released into the drawer, the shared scene owns the
-                    # cube pixels and their occlusion by the closing drawer.
-                    if drawer is not None and t >= event["release_frame"]:
-                        continue
-                    object_mask = objects[event["object_id"], t]
-                    # Actual source pixels retain grasp-transition and release
-                    # occlusions; no artificial object-coordinate interpolation.
-                    mask |= object_mask
-                layers.append(mask)
+                match_valid = ~(
+                    scene_excluded[clean_source]
+                    | scene_excluded[times[0]]
+                    | scene_excluded[times[1]]
+                    | moving_objects[clean_source]
+                    | moving_objects[times[0]]
+                    | moving_objects[times[1]]
+                )
+                if dynamic_scene is not None:
+                    match_valid &= ~dynamic_scene
+                for _, scene_region in scene_regions:
+                    match_valid &= ~scene_region
+                local_match = (dilate(region, 8) & ~region & match_valid).sum() >= 20
+                skipped_origin_color_matches += int(not local_match)
+                out = blend_scene_patch(
+                    out,
+                    im,
+                    region,
+                    feather=7,
+                    color_match=bool(local_match),
+                    color_reference_mask=match_valid,
+                )
+            # Stationary objects are scene content, never a right/left foreground
+            # override. Either arm can occlude them at its independently mapped time.
+            for event in timeline["episodes"]:
+                side = ("left", "right").index(event["robot_id"])
+                t = times[side]
+                if is_carried(event, t):
+                    continue
+                if drawer is not None and t >= event["release_frame"]:
+                    continue
+                visible = objects[event["object_id"], t] & ~robots[t].any(axis=0)
+                out[visible] = frames[t][visible]
+            layers = [
+                arm_foreground(robots, objects, timeline["episodes"], side, t)
+                | anchors[side]
+                for side, t in enumerate(times)
+            ]
             overlap = layers[0] & layers[1]
             overlap_pixels += int(overlap.sum())
             if depth is None:
@@ -292,6 +284,9 @@ def composite(
         output_frames=len(left),
         paired_source_frames=paired_source_frames,
         clean_plate_method="masked_temporal_real_frames",
+        clean_plate_reference_frame=plate_source,
+        initial_plate_color_adjusted=bool(plate_color_match),
+        skipped_origin_color_matches=skipped_origin_color_matches,
         real_plate_coverage_fraction=float((coverage > 0).mean()),
         inpainted_background_pixels=int((coverage == 0).sum()),
         inpainting_used=bool((coverage == 0).any()),

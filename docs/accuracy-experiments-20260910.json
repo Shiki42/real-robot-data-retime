@@ -1,0 +1,513 @@
+{
+  "scope": "Accuracy-first probes; no human truth; not validated for compositing",
+  "baseline_commit": "d4d6519",
+  "user_confirmed_no_annotations": true,
+  "grippers": [
+    {
+      "input": "workpiece_0",
+      "frames": 1092,
+      "size": [
+        480,
+        640
+      ],
+      "input_sha256": "6ba3ebc680e1b310cde385ac48100ea68d239ae71a6e21919739098a42a15dbc",
+      "arm_motion_audit": {
+        "passed": true,
+        "arms": [
+          {
+            "robot_id": "left",
+            "supported_frames": 348,
+            "insufficient_coverage_fraction": 0.040229885057471264,
+            "longest_insufficient_run": 9,
+            "passed": true
+          },
+          {
+            "robot_id": "right",
+            "supported_frames": 382,
+            "insufficient_coverage_fraction": 0.015706806282722512,
+            "longest_insufficient_run": 2,
+            "passed": true
+          }
+        ],
+        "method": "entry_anchored_motion_coverage",
+        "minimum_coverage": 0.6
+      },
+      "eligible_frame_arm_pairs": 967,
+      "direct_mask_pairs": 774,
+      "gap_pairs_evaluated": 161,
+      "gap_pairs_proposed": 26,
+      "added_robot_pixels": 41077,
+      "reports": {
+        "/home/coder/share/retime-accuracy-20260910/workpiece_0-arms/report.json": "4ddd54bbacaeaf7dc8ee21a88a547fcb12b1d0bee1cc265bfd798dad3ad3547a",
+        "/home/coder/share/retime-accuracy-20260910/workpiece_0-grippers-v2/report.json": "2332c16bb202e6b547057e64473f961aa5a23407282a76aa149193e7597bdeeb",
+        "/home/coder/share/retime-accuracy-20260910/workpiece_0-grippers-agreement-v2/report.json": "0c90f7282707a535c0321fc5631f34033ad8b95a4fd82d8d546f631f4dc2a18a"
+      }
+    },
+    {
+      "input": "workpiece_1",
+      "frames": 976,
+      "size": [
+        480,
+        640
+      ],
+      "input_sha256": "933a61f65d8a3fe0308c55b9587dff329f9c4c47e6d0b84f0d09a328c493d56f",
+      "arm_motion_audit": {
+        "passed": true,
+        "arms": [
+          {
+            "robot_id": "left",
+            "supported_frames": 354,
+            "insufficient_coverage_fraction": 0.0,
+            "longest_insufficient_run": 0,
+            "passed": true
+          },
+          {
+            "robot_id": "right",
+            "supported_frames": 317,
+            "insufficient_coverage_fraction": 0.0,
+            "longest_insufficient_run": 0,
+            "passed": true
+          }
+        ],
+        "method": "entry_anchored_motion_coverage",
+        "minimum_coverage": 0.6
+      },
+      "eligible_frame_arm_pairs": 825,
+      "direct_mask_pairs": 682,
+      "gap_pairs_evaluated": 128,
+      "gap_pairs_proposed": 11,
+      "added_robot_pixels": 45277,
+      "reports": {
+        "/home/coder/share/retime-accuracy-20260910/workpiece_1-arms/report.json": "238ffe4deac42d0668416d02b913a3cc62b2d7127a9fb9255fbefd2bf59da7f7",
+        "/home/coder/share/retime-accuracy-20260910/workpiece_1-grippers-v2/report.json": "6915cca82d016ebafe4ccb3c43b60bd1d780abe9b5ac78d59469a9aa85d510fe",
+        "/home/coder/share/retime-accuracy-20260910/workpiece_1-grippers-agreement-v2/report.json": "5a05c37597ab578679ae2fcad407aaf0f1e63bd610f1a3faf253ad5b76ca0a7c"
+      }
+    },
+    {
+      "input": "drawer_0",
+      "frames": 634,
+      "size": [
+        362,
+        640
+      ],
+      "input_sha256": "a231932957225cbdbe1edea3085afa27a16979af41f1ee7f35e89e7c02da97d4",
+      "arm_motion_audit": {
+        "passed": false,
+        "arms": [
+          {
+            "robot_id": "left",
+            "supported_frames": 314,
+            "insufficient_coverage_fraction": 0.4872611464968153,
+            "longest_insufficient_run": 147,
+            "passed": false
+          },
+          {
+            "robot_id": "right",
+            "supported_frames": 595,
+            "insufficient_coverage_fraction": 0.11764705882352941,
+            "longest_insufficient_run": 18,
+            "passed": false
+          }
+        ],
+        "method": "entry_anchored_motion_coverage",
+        "minimum_coverage": 0.6
+      },
+      "eligible_frame_arm_pairs": 1055,
+      "direct_mask_pairs": 974,
+      "gap_pairs_evaluated": 42,
+      "gap_pairs_proposed": 5,
+      "added_robot_pixels": 68300,
+      "reports": {
+        "/home/coder/share/retime-accuracy-20260910/drawer_0-arms/report.json": "3af7eef03003c4e20a9b75c4e4acee54efab43fdc1f097037084f01bd3973a08",
+        "/home/coder/share/retime-accuracy-20260910/drawer_0-grippers-v2/report.json": "68dd8cc52b1cb5849b4177759ca9b031b76417cab23c3e0be3cbb21fc12ed83e",
+        "/home/coder/share/retime-accuracy-20260910/drawer_0-grippers-agreement-v2/report.json": "29a238f50ac7c27380f150fb405770a74b31a06a8845f6b560311037e6daf521"
+      }
+    }
+  ],
+  "points": [
+    {
+      "input": "workpiece_0",
+      "report": "/home/coder/share/retime-accuracy-20260910/workpiece_0-points-visible-seed/report.json",
+      "report_sha256": "1ea2d46dcc935f9f096eb3a9807dbcff0dec80dc569effc4006fa038758cf19b",
+      "input_sha256": "6ba3ebc680e1b310cde385ac48100ea68d239ae71a6e21919739098a42a15dbc",
+      "arm_report_sha256": "4ddd54bbacaeaf7dc8ee21a88a547fcb12b1d0bee1cc265bfd798dad3ad3547a",
+      "checkpoint_sha256": "8493c7a69e02c85b9382fbb3c7b8b539b36bc08ede744b9e99feb739a0129f4b",
+      "producer": "5523d3f68a68059d3bfb1c95e908b72348f9f322dba96f9c621c37e115984e76",
+      "task": "workpiece",
+      "random_seed": 0,
+      "consensus_rule": {
+        "minimum_points": 3,
+        "minimum_fraction_of_visible": 0.6,
+        "maximum_diameter_in_origin_box_diagonals": 3
+      },
+      "objects": [
+        {
+          "object_id": 0,
+          "event": {
+            "last_observed_at_origin": 851,
+            "first_observed_empty": 907,
+            "pickup_interval": [
+              852,
+              907
+            ],
+            "method": "persistent_origin_disappearance",
+            "contact_start": 852,
+            "contact_end": 907
+          },
+          "query_count": 24,
+          "seed_arm_overlap_excluded_pixels": 34,
+          "status": "measured",
+          "source_window": [
+            834,
+            967
+          ],
+          "seed_source_frame": 849,
+          "registration_confidence_at_seed": 0.695906432748538,
+          "resolutions": {
+            "256": {
+              "visible_point_fraction": 0.9542606516290727,
+              "retained_point_fraction": 0.9542606516290727,
+              "consensus_frame_fraction": 1.0,
+              "rejected_visible_points": 0
+            },
+            "512": {
+              "visible_point_fraction": 0.45050125313283207,
+              "retained_point_fraction": 0.44893483709273185,
+              "consensus_frame_fraction": 0.6090225563909775,
+              "rejected_visible_points": 5
+            }
+          }
+        },
+        {
+          "object_id": 1,
+          "event": {
+            "last_observed_at_origin": 315,
+            "first_observed_empty": 355,
+            "pickup_interval": [
+              316,
+              355
+            ],
+            "method": "persistent_origin_disappearance",
+            "contact_start": 316,
+            "contact_end": 355
+          },
+          "query_count": 24,
+          "seed_arm_overlap_excluded_pixels": 133,
+          "status": "measured",
+          "source_window": [
+            298,
+            415
+          ],
+          "seed_source_frame": 313,
+          "registration_confidence_at_seed": 0.7027027027027027,
+          "resolutions": {
+            "256": {
+              "visible_point_fraction": 0.8222934472934473,
+              "retained_point_fraction": 0.8215811965811965,
+              "consensus_frame_fraction": 0.9658119658119658,
+              "rejected_visible_points": 2
+            },
+            "512": {
+              "visible_point_fraction": 0.35505698005698005,
+              "retained_point_fraction": 0.349002849002849,
+              "consensus_frame_fraction": 0.6410256410256411,
+              "rejected_visible_points": 17
+            }
+          }
+        },
+        {
+          "object_id": 2,
+          "event": {
+            "last_observed_at_origin": 158,
+            "first_observed_empty": 187,
+            "pickup_interval": [
+              159,
+              187
+            ],
+            "method": "persistent_origin_disappearance",
+            "contact_start": 159,
+            "contact_end": 187
+          },
+          "query_count": 24,
+          "seed_arm_overlap_excluded_pixels": 171,
+          "status": "measured",
+          "source_window": [
+            141,
+            247
+          ],
+          "seed_source_frame": 156,
+          "registration_confidence_at_seed": 0.7631578947368421,
+          "resolutions": {
+            "256": {
+              "visible_point_fraction": 0.652122641509434,
+              "retained_point_fraction": 0.6497641509433962,
+              "consensus_frame_fraction": 0.8207547169811321,
+              "rejected_visible_points": 6
+            },
+            "512": {
+              "visible_point_fraction": 0.3639937106918239,
+              "retained_point_fraction": 0.36242138364779874,
+              "consensus_frame_fraction": 0.7358490566037735,
+              "rejected_visible_points": 4
+            }
+          }
+        },
+        {
+          "object_id": 3,
+          "event": {
+            "last_observed_at_origin": 585,
+            "first_observed_empty": 697,
+            "pickup_interval": [
+              586,
+              697
+            ],
+            "method": "persistent_origin_disappearance",
+            "contact_start": 586,
+            "contact_end": 697
+          },
+          "query_count": 24,
+          "seed_arm_overlap_excluded_pixels": 0,
+          "status": "measured",
+          "source_window": [
+            568,
+            757
+          ],
+          "seed_source_frame": 583,
+          "registration_confidence_at_seed": 0.571969696969697,
+          "resolutions": {
+            "256": {
+              "visible_point_fraction": 0.687610229276896,
+              "retained_point_fraction": 0.5861992945326279,
+              "consensus_frame_fraction": 0.873015873015873,
+              "rejected_visible_points": 460
+            },
+            "512": {
+              "visible_point_fraction": 0.39197530864197533,
+              "retained_point_fraction": 0.38315696649029984,
+              "consensus_frame_fraction": 0.8571428571428571,
+              "rejected_visible_points": 40
+            }
+          }
+        }
+      ],
+      "validated_for_compositing": false,
+      "limitation": "Local pickup windows; consensus can reject drift but cannot certify identity or separation."
+    },
+    {
+      "input": "workpiece_1",
+      "report": "/home/coder/share/retime-accuracy-20260910/workpiece_1-points-visible-seed/report.json",
+      "report_sha256": "495b2e7b60d19207e1a42daeebcee947346bc7890e31f028e54f12511b2d00d3",
+      "input_sha256": "933a61f65d8a3fe0308c55b9587dff329f9c4c47e6d0b84f0d09a328c493d56f",
+      "arm_report_sha256": "238ffe4deac42d0668416d02b913a3cc62b2d7127a9fb9255fbefd2bf59da7f7",
+      "checkpoint_sha256": "8493c7a69e02c85b9382fbb3c7b8b539b36bc08ede744b9e99feb739a0129f4b",
+      "producer": "5523d3f68a68059d3bfb1c95e908b72348f9f322dba96f9c621c37e115984e76",
+      "task": "workpiece",
+      "random_seed": 0,
+      "consensus_rule": {
+        "minimum_points": 3,
+        "minimum_fraction_of_visible": 0.6,
+        "maximum_diameter_in_origin_box_diagonals": 3
+      },
+      "objects": [
+        {
+          "object_id": 0,
+          "event": {
+            "last_observed_at_origin": 768,
+            "first_observed_empty": 794,
+            "pickup_interval": [
+              769,
+              794
+            ],
+            "method": "persistent_origin_disappearance",
+            "contact_start": 770,
+            "contact_end": 794
+          },
+          "query_count": 24,
+          "seed_arm_overlap_excluded_pixels": 142,
+          "status": "measured",
+          "source_window": [
+            752,
+            854
+          ],
+          "seed_source_frame": 767,
+          "registration_confidence_at_seed": 0.6121212121212121,
+          "resolutions": {
+            "256": {
+              "visible_point_fraction": 0.7990196078431373,
+              "retained_point_fraction": 0.7973856209150327,
+              "consensus_frame_fraction": 0.9117647058823529,
+              "rejected_visible_points": 4
+            },
+            "512": {
+              "visible_point_fraction": 0.5473856209150327,
+              "retained_point_fraction": 0.5400326797385621,
+              "consensus_frame_fraction": 0.7058823529411765,
+              "rejected_visible_points": 18
+            }
+          }
+        },
+        {
+          "object_id": 1,
+          "event": {
+            "last_observed_at_origin": 301,
+            "first_observed_empty": 360,
+            "pickup_interval": [
+              302,
+              360
+            ],
+            "method": "persistent_origin_disappearance",
+            "contact_start": 302,
+            "contact_end": 360
+          },
+          "query_count": 24,
+          "seed_arm_overlap_excluded_pixels": 0,
+          "status": "measured",
+          "source_window": [
+            284,
+            420
+          ],
+          "seed_source_frame": 299,
+          "registration_confidence_at_seed": 0.6826923076923077,
+          "resolutions": {
+            "256": {
+              "visible_point_fraction": 0.46292892156862747,
+              "retained_point_fraction": 0.46231617647058826,
+              "consensus_frame_fraction": 0.7867647058823529,
+              "rejected_visible_points": 2
+            },
+            "512": {
+              "visible_point_fraction": 0.2956495098039216,
+              "retained_point_fraction": 0.29534313725490197,
+              "consensus_frame_fraction": 0.6323529411764706,
+              "rejected_visible_points": 1
+            }
+          }
+        },
+        {
+          "object_id": 2,
+          "event": {
+            "last_observed_at_origin": 129,
+            "first_observed_empty": 167,
+            "pickup_interval": [
+              130,
+              167
+            ],
+            "method": "persistent_origin_disappearance",
+            "contact_start": 130,
+            "contact_end": 167
+          },
+          "query_count": 24,
+          "seed_arm_overlap_excluded_pixels": 148,
+          "status": "measured",
+          "source_window": [
+            112,
+            227
+          ],
+          "seed_source_frame": 127,
+          "registration_confidence_at_seed": 0.6044776119402985,
+          "resolutions": {
+            "256": {
+              "visible_point_fraction": 0.5942028985507246,
+              "retained_point_fraction": 0.5786231884057971,
+              "consensus_frame_fraction": 0.8608695652173913,
+              "rejected_visible_points": 43
+            },
+            "512": {
+              "visible_point_fraction": 0.3786231884057971,
+              "retained_point_fraction": 0.3721014492753623,
+              "consensus_frame_fraction": 0.6782608695652174,
+              "rejected_visible_points": 18
+            }
+          }
+        },
+        {
+          "object_id": 3,
+          "event": {
+            "last_observed_at_origin": 553,
+            "first_observed_empty": 617,
+            "pickup_interval": [
+              554,
+              617
+            ],
+            "method": "persistent_origin_disappearance",
+            "contact_start": 554,
+            "contact_end": 617
+          },
+          "query_count": 24,
+          "seed_arm_overlap_excluded_pixels": 0,
+          "status": "measured",
+          "source_window": [
+            536,
+            677
+          ],
+          "seed_source_frame": 551,
+          "registration_confidence_at_seed": 0.6907894736842105,
+          "resolutions": {
+            "256": {
+              "visible_point_fraction": 0.6702127659574468,
+              "retained_point_fraction": 0.66548463356974,
+              "consensus_frame_fraction": 0.7801418439716312,
+              "rejected_visible_points": 16
+            },
+            "512": {
+              "visible_point_fraction": 0.350177304964539,
+              "retained_point_fraction": 0.34426713947990545,
+              "consensus_frame_fraction": 0.6028368794326241,
+              "rejected_visible_points": 20
+            }
+          }
+        }
+      ],
+      "validated_for_compositing": false,
+      "limitation": "Local pickup windows; consensus can reject drift but cannot certify identity or separation."
+    }
+  ],
+  "arm_reseed": {
+    "report": "/home/coder/share/retime-accuracy-20260910/drawer_0-reseed-agreement/report.json",
+    "report_sha256": "da14f1ff1b7bba55bd7171a5e1f14550ce16c1cd45de0b78f5abe2ba0c541ea5",
+    "before": {
+      "passed": false,
+      "arms": [
+        {
+          "robot_id": "left",
+          "supported_frames": 314,
+          "insufficient_coverage_fraction": 0.4872611464968153,
+          "longest_insufficient_run": 147,
+          "passed": false
+        },
+        {
+          "robot_id": "right",
+          "supported_frames": 595,
+          "insufficient_coverage_fraction": 0.11764705882352941,
+          "longest_insufficient_run": 18,
+          "passed": false
+        }
+      ],
+      "method": "entry_anchored_motion_coverage",
+      "minimum_coverage": 0.6
+    },
+    "after": {
+      "passed": false,
+      "arms": [
+        {
+          "robot_id": "left",
+          "supported_frames": 314,
+          "insufficient_coverage_fraction": 0.054140127388535034,
+          "longest_insufficient_run": 4,
+          "passed": true
+        },
+        {
+          "robot_id": "right",
+          "supported_frames": 595,
+          "insufficient_coverage_fraction": 0.0957983193277311,
+          "longest_insufficient_run": 17,
+          "passed": false
+        }
+      ],
+      "method": "entry_anchored_motion_coverage",
+      "minimum_coverage": 0.6
+    },
+    "cases": 223,
+    "selected": 149
+  }
+}

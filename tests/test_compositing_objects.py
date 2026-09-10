@@ -165,46 +165,39 @@ def test_arm_boundary_fragment_uses_its_current_source_clock(monkeypatch, tmp_pa
     assert np.max(captured[2][50:54, :3]) == 0
 
 
-def test_occluded_object_prediction_cannot_erase_departing_gripper(
-    monkeypatch, tmp_path
-):
+def test_stationary_right_object_cannot_paint_over_left_arm(monkeypatch, tmp_path):
     import real_robot_data_retime.compositing.layers as layers
 
-    n, h, w = 20, 64, 96
-    frames = np.full((n, h, w, 3), 120, np.uint8)
-    objects = np.zeros((1, n, h, w), bool)
-    robots = np.zeros((n, 2, h, w), bool)
-    for t in range(n):
-        x = 12 if t < 3 else 55
-        frames[t, 20:26, x : x + 6] = [20, 200, 20]
-        objects[0, t, 20:26, x : x + 6] = True
-    frames[10, 45:55, 10:20] = 20
-    robots[10, 0, 45:55, 10:20] = True
-    objects[0, 10] = robots[10, 0]
-    drawer = np.zeros((h, w), bool)
-    drawer[10:40, 40:90] = True
-    monkeypatch.setattr(layers, "drawer_region", lambda *a: drawer)
+    frames = np.full((15, 64, 96, 3), 120, np.uint8)
+    robots = np.zeros((15, 2, 64, 96), bool)
+    objects = np.zeros((1, 15, 64, 96), bool)
+    objects[:, :, 24:30, 40:46] = True
+    frames[:, 24:30, 40:46] = [20, 30, 230]
+    robots[4, 0, 20:35, 35:55] = True
+    frames[4, 20:35, 35:55] = 10
     captured = []
     monkeypatch.setattr(
         layers, "write_video", lambda output, images, fps: captured.extend(images)
     )
-    timeline = dict(
-        task="drawer",
-        fps=30,
-        drawer_motion=dict(open_frame=2, close_start=15),
-        episodes=[
-            dict(
-                robot_id="left",
-                object_id=0,
-                pickup_frame=3,
-                grasp_frame=3,
-                release_frame=8,
-                approach_start=0,
-            )
-        ],
+    event = dict(
+        object_id=0,
+        robot_id="right",
+        pickup_frame=6,
+        release_frame=9,
+        approach_start=0,
+        grasp_frame=6,
     )
-    segmentation = dict(
-        robots=np.packbits(robots, axis=-1), objects=np.packbits(objects, axis=-1)
+    composite(
+        frames,
+        dict(task="letters", fps=30, episodes=[event]),
+        dict(
+            robots=np.packbits(robots, axis=-1), objects=np.packbits(objects, axis=-1)
+        ),
+        [4, 4, 4],
+        [2, 7, 11],
+        tmp_path / "out.mp4",
+        tmp_path,
     )
-    composite(frames, timeline, segmentation, [10], [5], tmp_path / "out.mp4", tmp_path)
-    assert np.max(captured[0][45:55, 10:20]) < 30
+    assert np.max(captured[0][26, 42]) < 30  # Untouched object behind left arm.
+    assert captured[1][26, 42, 2] > 180  # Carried right object retains its layer.
+    assert np.max(captured[2][26, 42]) < 30  # Deposited object is scene again.

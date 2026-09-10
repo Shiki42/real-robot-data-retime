@@ -2,29 +2,31 @@ import json
 import time
 from dataclasses import asdict, replace
 from pathlib import Path
+
 import cv2
-import numpy as np
 import matplotlib
+import numpy as np
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+from scipy.ndimage import median_filter
+
+from ..tasks import PROFILES
 from .discovery import (
     InteractionConfig,
-    motion_and_grippers,
-    task_object_proposals,
     object_proposals,
+    task_object_proposals,
     track_candidates,
 )
 from .evidence import score_hypothesis, stable_runs
-from scipy.ndimage import median_filter
-from .video import read_video, write_video
-from ..tasks import PROFILES
+from .photometric_motion import photometric_motion
 from .registration import stabilize
 from .verification import (
-    validate_origin_departure,
-    pickup_interval,
     attachment_visibility,
+    pickup_interval,
+    validate_origin_departure,
 )
+from .video import read_video, write_video
 
 
 def discover_task(frames):
@@ -54,7 +56,7 @@ def discover_task(frames):
     return "workpiece" if len(bins) >= 2 else "letters"
 
 
-def _run_once(
+def run(
     input_path,
     output_dir,
     task=None,
@@ -63,7 +65,6 @@ def _run_once(
     analysis_width=640,
     reuse_measurements=None,
     retry_objects=False,
-    retry_robot_sides=(),
 ):
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -99,13 +100,22 @@ def _run_once(
     task = task or discover_task(frames)
     profile = PROFILES[task]
     progress("robot_discovery")
-    evidence = motion_and_grippers(frames)
+    photometry = photometric_motion(frames)
+    evidence = photometry.discovery
+    np.savez_compressed(
+        output_dir / "motion_photometry.npz",
+        coefficients=photometry.coefficients,
+        raw_motion_pixels=(photometry.raw["masks"] > 0).sum(axis=(1, 2)),
+        discovery_pixels=(evidence["masks"] > 0).sum(axis=(1, 2)),
+        audit_support_pixels=photometry.support.sum(axis=(1, 2)),
+        ambiguous_pixels=photometry.ambiguous.sum(axis=(1, 2)),
+    )
     proposals = task_object_proposals(frames, task, config)
     retries = []
     contact_distances = None
     cached_points = None
     sam = None
-    from .measurements import inputs_fingerprint, producer_fingerprint, load_hypotheses
+    from .measurements import inputs_fingerprint, load_hypotheses, producer_fingerprint
 
     measurement_inputs = inputs_fingerprint(input_path, frames, proposals, transforms)
     measurement_producer = producer_fingerprint()
@@ -122,13 +132,13 @@ def _run_once(
             )
             reuse_measurements = None
     if backend == "sam2":
+        from ..segmentation.sam_backend import SamVideo
         from .neural_tracks import (
-            segment_candidates,
-            recover_candidates,
             object_gripper_distances,
+            recover_candidates,
+            segment_candidates,
             terminal_letter_recovery,
         )
-        from ..segmentation.sam_backend import SamVideo
 
         config = replace(
             config, evidence_frames=max(config.evidence_frames, round(fps * 2))
@@ -138,34 +148,34 @@ def _run_once(
             grippers, tracks, cached_points, measurement_producer = load_hypotheses(
                 reuse_measurements, measurement_inputs, proposals
             )
+            from .neural_tracks import grippers_from_robots, segment_robots
             from .robot_discovery import robot_mask_audit
-            from .robot_recovery import reference_geometry, recover_robot_masks
 
-            reference = reference_geometry(frames, evidence, grippers["robot_masks"])
-            mask_audit = robot_mask_audit(grippers["robot_masks"], reference, fps)
-            if retry_robot_sides:
+            mask_audit = robot_mask_audit(
+                grippers["robot_masks"], evidence, fps, pixel_support=photometry.support
+            )
+            failed_sides = [
+                i for i, arm in enumerate(mask_audit["arms"]) if not arm["passed"]
+            ]
+            if failed_sides:
                 progress("repair_incomplete_robot_masks")
                 sam = SamVideo("facebook/sam2.1-hiera-large")
-                grippers, trials = recover_robot_masks(
-                    frames,
-                    evidence,
-                    grippers["robot_masks"],
-                    sam,
-                    retry_robot_sides,
-                    fps,
-                    task,
-                    cached_points,
+                repaired, seeds = segment_robots(
+                    frames, evidence, sam, sides=failed_sides
                 )
+                robots = grippers["robot_masks"].copy()
+                robots[:, failed_sides] = repaired[:, failed_sides]
+                grippers = grippers_from_robots(robots, frames.shape[1:3])
                 measurement_producer = dict(
                     parent=measurement_producer,
                     robot_repair=producer_fingerprint(),
-                    repaired_sides=list(retry_robot_sides),
+                    repaired_sides=failed_sides,
                 )
                 retries.append(
                     dict(
                         kind="whole_arm_mask_repair",
                         prior_audit=mask_audit,
-                        trials=trials,
+                        seeds=seeds,
                     )
                 )
             evidence["centers"] = grippers["centers"]
@@ -208,13 +218,7 @@ def _run_once(
                 tracks = segment_candidates(frames, proposals, evidence, sam)
             progress("object_identity_recovery")
             tracks, retries = recover_candidates(
-                frames,
-                proposals,
-                tracks,
-                evidence,
-                sam,
-                task=task,
-                robots=grippers["robot_masks"],
+                frames, proposals, tracks, evidence, sam
             )
             if task == "letters":
                 tracks, terminal_retries = terminal_letter_recovery(
@@ -226,29 +230,32 @@ def _run_once(
             if sam is None:
                 sam = SamVideo("facebook/sam2.1-hiera-large")
             tracks, object_retries = recover_candidates(
-                frames,
-                proposals,
-                tracks,
-                evidence,
-                sam,
-                task=task,
-                robots=grippers["robot_masks"],
+                frames, proposals, tracks, evidence, sam
             )
             retries.extend(object_retries)
             measurement_producer = dict(
                 parent=measurement_producer, object_repair=producer_fingerprint()
             )
+        if task == "letters":
+            from .neural_tracks import grippers_from_robots, object_free_robot_masks
+
+            # Whole-arm SAM can include a released letter and pull the inferred
+            # fingertip back onto it. Independent letter tracks disambiguate the
+            # two semantic classes; carried letters are restored by the compositor.
+            robots = object_free_robot_masks(grippers["robot_masks"], tracks)
+            if not np.array_equal(robots, grippers["robot_masks"]):
+                measurement_producer = dict(
+                    parent=measurement_producer,
+                    object_exclusion=producer_fingerprint(),
+                )
+                grippers = grippers_from_robots(robots, frames.shape[1:3])
+                evidence["centers"] = grippers["centers"]
+                evidence["apertures"] = grippers["apertures"]
+                retries.append(dict(kind="letter_pixels_excluded_from_robot_masks"))
         from .robot_discovery import robot_mask_audit
 
-        from .robot_recovery import reference_geometry
-
-        reference = reference_geometry(frames, evidence, grippers["robot_masks"])
-        mask_audit = robot_mask_audit(grippers["robot_masks"], reference, fps)
-        mask_audit["reference_method"] = reference["reference_method"]
-        from .verification import validate_track_colors
-
-        identity_issues, color_observed = validate_track_colors(
-            frames, proposals, tracks, grippers["robot_masks"]
+        mask_audit = robot_mask_audit(
+            grippers["robot_masks"], evidence, fps, pixel_support=photometry.support
         )
         contact_distances = object_gripper_distances(grippers["masks"], tracks)
         # A completion marker must never certify a partly replaced checkpoint.
@@ -300,6 +307,7 @@ def _run_once(
         progress("automatic_measurements_checkpoint")
     if sam is not None:
         import gc
+
         import torch
 
         del sam
@@ -307,11 +315,11 @@ def _run_once(
         torch.cuda.empty_cache()
     drawer_motion = None
     if task == "drawer" and backend == "sam2":
-        from ..tracking.points import track_points
         from ..tasks.drawer_constraints import (
             discover_drawer_motion,
             drawer_area_motion,
         )
+        from ..tracking.points import track_points
 
         handle_proposals = object_proposals(frames, "saturated", config)
         if cached_points is not None:
@@ -349,20 +357,13 @@ def _run_once(
     bins = []
     deposit_cache = {}
     if task == "workpiece" and backend == "sam2":
-        from ..tasks.workpiece import discover_bins, bin_visit, verify_deposit
+        from ..tasks.workpiece import bin_visit, discover_bins, verify_deposit
 
         bins = discover_bins(frames[0])
         all_robots = (
             np.unpackbits(grippers["robot_masks"], axis=-1, count=frames.shape[2])
             .astype(bool)
             .any(axis=1)
-        )
-    confirmations = None
-    if task == "drawer" and backend == "sam2":
-        from ..tasks.drawer import release_confirmations
-
-        confirmations = release_confirmations(
-            frames, tracks, proposals, contact_distances, fps
         )
     candidates = []
     for side in range(2):
@@ -403,9 +404,6 @@ def _run_once(
                     contact_distance=None
                     if contact_distances is None
                     else contact_distances[k, :, side],
-                    release_confirmation=None
-                    if confirmations is None
-                    else confirmations[k, :, side],
                 )
                 result["evidence_window_frames"] = config.evidence_frames
                 if (
@@ -426,9 +424,6 @@ def _run_once(
                         contact_distance=None
                         if contact_distances is None
                         else contact_distances[k, :, side],
-                        release_confirmation=None
-                        if confirmations is None
-                        else confirmations[k, :, side],
                     )
                     alternative["evidence_window_frames"] = expanded.evidence_frames
                     if (
@@ -493,21 +488,6 @@ def _run_once(
                         result["accepted"] = False
                         result["rejection_reasons"].append(
                             "destination_deposition_not_verified"
-                        )
-                if (
-                    backend == "sam2"
-                    and result["pickup_frame"] is not None
-                    and result["release_frame"] is not None
-                ):
-                    start, stop = result["pickup_frame"], result["release_frame"]
-                    switches = stable_runs(identity_issues[k, start:stop], 3)
-                    result["color_observed_fraction"] = float(
-                        color_observed[k, start:stop].mean()
-                    )
-                    if switches:
-                        result["accepted"] = False
-                        result["rejection_reasons"].append(
-                            "object_identity_changed_during_transport"
                         )
                 history = track["centers"][
                     max(0, frame - config.evidence_frames) : frame
@@ -689,6 +669,7 @@ def _run_once(
     report = dict(
         success=complete,
         phase="interaction_understanding",
+        motion_reference="photometric_opaque_support",
         backend=backend,
         task=task,
         num_robot_arms=arm_count,
@@ -772,60 +753,3 @@ def _run_once(
         write_video(output_dir / filename, annotated(mode), fps)
     progress("complete")
     return report
-
-
-def run(
-    input_path,
-    output_dir,
-    task=None,
-    config=InteractionConfig(),
-    backend="sam2",
-    analysis_width=640,
-    reuse_measurements=None,
-):
-    """Verify once, then repair only the evidence implicated by failed gates."""
-    report = _run_once(
-        input_path,
-        output_dir,
-        task,
-        config,
-        backend,
-        analysis_width,
-        reuse_measurements,
-    )
-    if report["success"] or backend != "sam2":
-        return report
-    debug = Path(output_dir)
-    failed = {key for key, passed in report["validation_gates"].items() if not passed}
-    quality = json.loads((debug / "robot_mask_audit.json").read_text())
-    sides = {i for i, arm in enumerate(quality["arms"]) if not arm["passed"]}
-    if report["task"] == "drawer" and "drawer_open_close" in failed:
-        sides.add(1)
-    object_failure = bool(
-        failed
-        & {
-            "all_objects_identified",
-            "persistent_tracks",
-            "origin_departure",
-            "correct_roles",
-            "balanced_arm_assignments",
-            "drawer_deposition",
-        }
-    )
-    if not sides and not object_failure:
-        return report
-    (debug / "first_attempt_report.json").write_text(json.dumps(report, indent=2))
-    result = _run_once(
-        input_path,
-        output_dir,
-        report["task"],
-        config,
-        backend,
-        analysis_width,
-        debug,
-        retry_objects=object_failure,
-        retry_robot_sides=tuple(sorted(sides)),
-    )
-    result["first_attempt_failed_gates"] = sorted(failed)
-    (debug / "report.json").write_text(json.dumps(result, indent=2))
-    return result

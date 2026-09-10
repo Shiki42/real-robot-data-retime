@@ -1,6 +1,13 @@
 # real-robot-data-retime
 
-已固定的抽屉成片路线：见 [拉抽屉任务](modules/drawer_task/README.md)。该模块独立保存用户认可版本的分析与渲染快照，不受主路线后续迭代影响。
+`main` 的抽屉、字母、工件视频前景分割与双臂合成，统一采用
+`shuyuan/robotseg-tapir-experiment` 中已验收的实现（`826b5a7`）。
+默认入口为 `main.py`，批处理使用 `batch.py`；两者复用同一套代码。
+旧候选路线保存在 [`from-scratch`](https://github.com/Shiki42/real-robot-data-retime/tree/from-scratch)，不再作为主分支的实现。
+迁移范围与验证见[主路线迁移记录](docs/main-pipeline-migration.md)。
+
+[拉抽屉冻结快照](modules/drawer_task/README.md)仅用于精确复现此前认可版本，
+其文件保持不变，日常开发使用上面的统一入口。
 
 Automatically identify dual-arm interactions in a video and edit sequential
 manipulations into overlapping actions. Normal operation requires a video file;
@@ -90,3 +97,21 @@ synthetic terminal hold. Trimming itself does not fabricate unavailable frames.
 
 See [pipeline and verification details](docs/automatic-interaction.md),
 [timing-grid augmentation](docs/uniform-retiming.md), and the tests in `tests/`.
+
+`timeline.scheduler.schedule_sources` supports left-priority waits and task
+precedence gates. `collision.piperx.PiperXClearance` reuses RoboVisualize's FK
+and meshes, using the recorded 0.49 m base spacing and this repository's URDF
+snapshot. The collision integration test needs the RoboVisualize package on
+`PYTHONPATH` and its assets directory in `ROBOVISUALIZE_ASSETS`.
+
+Experimental RobotSeg and BootsTAPIR backends, measured pilot results and
+reproduction commands are documented in [model experiments](docs/model-experiments.md).
+
+Accuracy-first full-frame-rate probes and remaining failures are recorded in
+[accuracy experiments](docs/accuracy-experiments.md).
+
+Photometric-reference corrections and the source-verified parallel preview are
+documented in [photometric verification](docs/photometric-verification.md).
+
+Workpiece and letter scene-ownership refinements are documented in
+[episode refinement](docs/object-episode-iterations.md).
