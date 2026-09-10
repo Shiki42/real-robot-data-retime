@@ -86,6 +86,19 @@ intervals (1.40, 1.23 and 0.50 seconds at 30 FPS). Sources begin at right frames
 New artifacts are on Coder A under
 `/home/coder/share/retime-workpiece-preparation-20260911`.
 
+The regenerated videos passed origin-duplicate and moving-foreground-overlap
+checks with zero detected pixels/observations of either problem. Their source
+clocks were verified against the planned maps and the prior execution suffixes;
+preparation and pickup/final-scene keyframes were visually reviewed.
+
+| Episode | Preparation | Full video |
+| --- | ---: | ---: |
+| 0 | 1.40 s | 22.53 s |
+| 1 | 1.23 s | 22.23 s |
+| 2 | 0.50 s | 22.83 s |
+
+[Preparation verification receipt](workpiece-preparation-verification.json).
+
 ## Shadow-connected object proposals
 
 Episode 2 initially yielded only two proposals: a dark sleeve and an adjacent

@@ -1,0 +1,146 @@
+{
+  "code_commit": "5db80f9265a29d6b552ed1018918008230f2e4f0",
+  "episodes": [
+    {
+      "episode": 0,
+      "source_sha256": "6ba3ebc680e1b310cde385ac48100ea68d239ae71a6e21919739098a42a15dbc",
+      "video_sha256": "ec9e62e6877b66d759e75caa6d1c081e5539f77f50e8f38f7b8dce4b94a4c34a",
+      "duration_seconds": 22.533333333333335,
+      "preparation": {
+        "source_start_frame": 547,
+        "source_end_frame": 582,
+        "output_start_frame": 0,
+        "output_end_frame": 42,
+        "braking": [
+          {
+            "source_frame": 582,
+            "brake_source_start": 574.0,
+            "brake_start_index": 27,
+            "stop_index": 42
+          }
+        ]
+      },
+      "preparation_seconds": 1.4,
+      "execution_clocks_equal_to_prior": true,
+      "uninterrupted_execution_verified": true,
+      "origin_duplicates": 0,
+      "foreground_overlap_pixels": 0,
+      "render_code_producer": "14f1e6e321765eb22cfd324f2829f01ebb0022deedd2da12ca6911b27f0f8836",
+      "visual_review": {
+        "status": "reviewed",
+        "sampled_output_frames": [
+          0,
+          14,
+          28,
+          42,
+          57,
+          149,
+          232,
+          320,
+          488,
+          675
+        ],
+        "checks": [
+          "original right starting pose and approach",
+          "continuous preparation-to-execution join",
+          "four original pickups",
+          "empty final work area"
+        ]
+      }
+    },
+    {
+      "episode": 1,
+      "source_sha256": "933a61f65d8a3fe0308c55b9587dff329f9c4c47e6d0b84f0d09a328c493d56f",
+      "video_sha256": "3f59b6c0772a2482ef31fb7c21978fccf5ada7804136f38317b3308abddc20ca",
+      "duration_seconds": 22.233333333333334,
+      "preparation": {
+        "source_start_frame": 532,
+        "source_end_frame": 562,
+        "output_start_frame": 0,
+        "output_end_frame": 37,
+        "braking": [
+          {
+            "source_frame": 562,
+            "brake_source_start": 554.0,
+            "brake_start_index": 22,
+            "stop_index": 37
+          }
+        ]
+      },
+      "preparation_seconds": 1.2333333333333334,
+      "execution_clocks_equal_to_prior": true,
+      "uninterrupted_execution_verified": true,
+      "origin_duplicates": 0,
+      "foreground_overlap_pixels": 0,
+      "render_code_producer": "14f1e6e321765eb22cfd324f2829f01ebb0022deedd2da12ca6911b27f0f8836",
+      "visual_review": {
+        "status": "reviewed",
+        "sampled_output_frames": [
+          0,
+          12,
+          24,
+          37,
+          52,
+          142,
+          192,
+          328,
+          462,
+          666
+        ],
+        "checks": [
+          "original right starting pose and approach",
+          "continuous preparation-to-execution join",
+          "four original pickups",
+          "empty final work area"
+        ]
+      }
+    },
+    {
+      "episode": 2,
+      "source_sha256": "d93601b523bbc21c6253de97d2503de9eb3aee90fb93414d48fd3689b7677835",
+      "video_sha256": "5d98463baead2a43d4db0fd9c8a0ae2488b2c74adba1369e8bd44028ed69c32c",
+      "duration_seconds": 22.833333333333332,
+      "preparation": {
+        "source_start_frame": 674,
+        "source_end_frame": 677,
+        "output_start_frame": 0,
+        "output_end_frame": 15,
+        "braking": [
+          {
+            "source_frame": 677,
+            "brake_source_start": 674.0,
+            "brake_start_index": 0,
+            "stop_index": 15
+          }
+        ]
+      },
+      "preparation_seconds": 0.5,
+      "execution_clocks_equal_to_prior": true,
+      "uninterrupted_execution_verified": true,
+      "origin_duplicates": 0,
+      "foreground_overlap_pixels": 0,
+      "render_code_producer": "14f1e6e321765eb22cfd324f2829f01ebb0022deedd2da12ca6911b27f0f8836",
+      "visual_review": {
+        "status": "reviewed",
+        "sampled_output_frames": [
+          0,
+          5,
+          10,
+          15,
+          30,
+          123,
+          225,
+          400,
+          481,
+          684
+        ],
+        "checks": [
+          "original right starting pose and approach",
+          "continuous preparation-to-execution join",
+          "four original pickups",
+          "empty final work area"
+        ]
+      }
+    }
+  ]
+}
