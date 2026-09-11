@@ -1,0 +1,564 @@
+{
+  "code_commit": "dc4b4cfb737c7219adcfcd0b25415e6e1508812e",
+  "episodes": [
+    {
+      "episode": 0,
+      "duration_seconds": 21.133333333333333,
+      "output_frames": 634,
+      "pickups": [
+        {
+          "arm": "left",
+          "seconds": 3.566666666666667
+        },
+        {
+          "arm": "right",
+          "seconds": 6.333333333333333
+        },
+        {
+          "arm": "left",
+          "seconds": 9.266666666666667
+        },
+        {
+          "arm": "right",
+          "seconds": 14.866666666666667
+        }
+      ],
+      "waits": {
+        "left": [],
+        "right": [
+          {
+            "start_seconds": 0.0,
+            "end_seconds": 3.566666666666667,
+            "source_frame": 582.0
+          }
+        ]
+      },
+      "protected_executions_uninterrupted": true,
+      "admission_order_verified": true,
+      "overlap_pixel_frames": 0,
+      "origin_audit": {
+        "passed": true,
+        "objects": [
+          {
+            "object_id": 2,
+            "appearance_method": "template_correlation",
+            "robot_id": "left",
+            "clear_origin_observations": 508,
+            "duplicate_observations": 0,
+            "passed": true
+          },
+          {
+            "object_id": 1,
+            "appearance_method": "chromatic_occupancy",
+            "robot_id": "left",
+            "clear_origin_observations": 315,
+            "duplicate_observations": 0,
+            "passed": true
+          },
+          {
+            "object_id": 3,
+            "appearance_method": "template_correlation",
+            "robot_id": "right",
+            "clear_origin_observations": 387,
+            "duplicate_observations": 0,
+            "passed": true
+          },
+          {
+            "object_id": 0,
+            "appearance_method": "template_correlation",
+            "robot_id": "right",
+            "clear_origin_observations": 182,
+            "duplicate_observations": 0,
+            "passed": true
+          }
+        ],
+        "method": "rendered_origin_appearance_against_observed_source_absence"
+      },
+      "source_sha256": "6ba3ebc680e1b310cde385ac48100ea68d239ae71a6e21919739098a42a15dbc",
+      "video_sha256": "b4ffe12339f913d5e3d4ad8aeb1eaaed46d05df7375dd71e2eeb1b3cf02e3907",
+      "render_code_producer": "66ba948d9a3a64baa829edd5be94792fbc19095708052bd26bcef249e58e9ac7",
+      "staging": {
+        "wait_source_frames": {
+          "left": [
+            294
+          ],
+          "right": [
+            582,
+            780
+          ]
+        },
+        "protected_source_intervals": {
+          "left": [
+            [
+              63,
+              208
+            ],
+            [
+              298,
+              519
+            ]
+          ],
+          "right": [
+            [
+              586,
+              754
+            ],
+            [
+              784,
+              1091
+            ]
+          ]
+        },
+        "policy": "admitted_execution_cannot_be_preempted",
+        "right_preposition_source_frame": 582,
+        "right_preposition_trimmed_frames": 35,
+        "smoothing": "independent_approach_clocks",
+        "onset_delay_frames": [
+          0,
+          0
+        ],
+        "admission_gates": [
+          [
+            1,
+            582,
+            0,
+            170
+          ],
+          [
+            0,
+            294,
+            1,
+            660
+          ],
+          [
+            1,
+            780,
+            0,
+            329
+          ]
+        ],
+        "ramps": {
+          "left": [
+            {
+              "source_frame": 294,
+              "brake_source_start": 286.0,
+              "brake_start_index": 223,
+              "stop_index": 238
+            }
+          ],
+          "right": [
+            {
+              "source_frame": 780,
+              "brake_source_start": 772.0,
+              "brake_start_index": 195,
+              "stop_index": 210
+            }
+          ]
+        },
+        "staging_search_attempts": 1
+      },
+      "visual_review": {
+        "status": "reviewed",
+        "reviewer": "Codex",
+        "sampled_output_frames": [
+          0,
+          77,
+          107,
+          137,
+          160,
+          190,
+          220,
+          248,
+          278,
+          308,
+          416,
+          446,
+          476,
+          633
+        ],
+        "checks": [
+          "four pickup transitions",
+          "stationary and carried object ownership",
+          "empty final work area and destination contents"
+        ],
+        "notes": "Original motion blur and source scene color variation remain."
+      }
+    },
+    {
+      "episode": 1,
+      "duration_seconds": 21.0,
+      "output_frames": 630,
+      "pickups": [
+        {
+          "arm": "left",
+          "seconds": 3.5
+        },
+        {
+          "arm": "right",
+          "seconds": 5.166666666666667
+        },
+        {
+          "arm": "left",
+          "seconds": 9.7
+        },
+        {
+          "arm": "right",
+          "seconds": 14.166666666666666
+        }
+      ],
+      "waits": {
+        "left": [],
+        "right": [
+          {
+            "start_seconds": 0.0,
+            "end_seconds": 4.366666666666666,
+            "source_frame": 562.0
+          },
+          {
+            "start_seconds": 9.233333333333333,
+            "end_seconds": 11.5,
+            "source_frame": 696.0
+          }
+        ]
+      },
+      "protected_executions_uninterrupted": true,
+      "admission_order_verified": true,
+      "overlap_pixel_frames": 0,
+      "origin_audit": {
+        "passed": true,
+        "objects": [
+          {
+            "object_id": 2,
+            "appearance_method": "template_correlation",
+            "robot_id": "left",
+            "clear_origin_observations": 453,
+            "duplicate_observations": 0,
+            "passed": true
+          },
+          {
+            "object_id": 1,
+            "appearance_method": "chromatic_occupancy",
+            "robot_id": "left",
+            "clear_origin_observations": 289,
+            "duplicate_observations": 0,
+            "passed": true
+          },
+          {
+            "object_id": 3,
+            "appearance_method": "template_correlation",
+            "robot_id": "right",
+            "clear_origin_observations": 438,
+            "duplicate_observations": 0,
+            "passed": true
+          },
+          {
+            "object_id": 0,
+            "appearance_method": "template_correlation",
+            "robot_id": "right",
+            "clear_origin_observations": 176,
+            "duplicate_observations": 0,
+            "passed": true
+          }
+        ],
+        "method": "rendered_origin_appearance_against_observed_source_absence"
+      },
+      "source_sha256": "933a61f65d8a3fe0308c55b9587dff329f9c4c47e6d0b84f0d09a328c493d56f",
+      "video_sha256": "0f08cdf7eab6ad02a593b74c3a6a6a39fa5757bec4b89df2851bd218387c9384",
+      "render_code_producer": "66ba948d9a3a64baa829edd5be94792fbc19095708052bd26bcef249e58e9ac7",
+      "staging": {
+        "wait_source_frames": {
+          "left": [
+            260
+          ],
+          "right": [
+            562,
+            696
+          ]
+        },
+        "protected_source_intervals": {
+          "left": [
+            [
+              31,
+              222
+            ],
+            [
+              264,
+              490
+            ]
+          ],
+          "right": [
+            [
+              566,
+              679
+            ],
+            [
+              700,
+              975
+            ]
+          ]
+        },
+        "policy": "admitted_execution_cannot_be_preempted",
+        "right_preposition_source_frame": 562,
+        "right_preposition_trimmed_frames": 30,
+        "smoothing": "independent_approach_clocks",
+        "onset_delay_frames": [
+          0,
+          0
+        ],
+        "admission_gates": [
+          [
+            1,
+            562,
+            0,
+            136
+          ],
+          [
+            0,
+            260,
+            1,
+            581
+          ],
+          [
+            1,
+            696,
+            0,
+            310
+          ]
+        ],
+        "ramps": {
+          "left": [
+            {
+              "source_frame": 260,
+              "brake_source_start": 252.0,
+              "brake_start_index": 221,
+              "stop_index": 236
+            }
+          ],
+          "right": [
+            {
+              "source_frame": 696,
+              "brake_source_start": 688.0,
+              "brake_start_index": 131,
+              "stop_index": 146
+            }
+          ]
+        },
+        "staging_search_attempts": 1
+      },
+      "visual_review": {
+        "status": "reviewed",
+        "reviewer": "Codex",
+        "sampled_output_frames": [
+          0,
+          75,
+          105,
+          125,
+          135,
+          155,
+          185,
+          261,
+          291,
+          321,
+          395,
+          425,
+          455,
+          629
+        ],
+        "checks": [
+          "four pickup transitions",
+          "stationary and carried object ownership",
+          "empty final work area and destination contents"
+        ],
+        "notes": "Original motion blur and source scene color variation remain."
+      }
+    },
+    {
+      "episode": 2,
+      "duration_seconds": 22.333333333333332,
+      "output_frames": 670,
+      "pickups": [
+        {
+          "arm": "left",
+          "seconds": 3.6
+        },
+        {
+          "arm": "right",
+          "seconds": 7.0
+        },
+        {
+          "arm": "left",
+          "seconds": 12.833333333333334
+        },
+        {
+          "arm": "right",
+          "seconds": 15.533333333333333
+        }
+      ],
+      "waits": {
+        "left": [],
+        "right": [
+          {
+            "start_seconds": 0.0,
+            "end_seconds": 4.833333333333333,
+            "source_frame": 677.0
+          },
+          {
+            "start_seconds": 9.866666666666667,
+            "end_seconds": 12.966666666666667,
+            "source_frame": 816.0
+          }
+        ]
+      },
+      "protected_executions_uninterrupted": true,
+      "admission_order_verified": true,
+      "overlap_pixel_frames": 0,
+      "origin_audit": {
+        "passed": true,
+        "objects": [
+          {
+            "object_id": 3,
+            "appearance_method": "template_correlation",
+            "robot_id": "left",
+            "clear_origin_observations": 539,
+            "duplicate_observations": 0,
+            "passed": true
+          },
+          {
+            "object_id": 0,
+            "appearance_method": "template_correlation",
+            "robot_id": "left",
+            "clear_origin_observations": 256,
+            "duplicate_observations": 0,
+            "passed": true
+          },
+          {
+            "object_id": 1,
+            "appearance_method": "template_correlation",
+            "robot_id": "right",
+            "clear_origin_observations": 411,
+            "duplicate_observations": 0,
+            "passed": true
+          },
+          {
+            "object_id": 2,
+            "appearance_method": "template_correlation",
+            "robot_id": "right",
+            "clear_origin_observations": 180,
+            "duplicate_observations": 0,
+            "passed": true
+          }
+        ],
+        "method": "rendered_origin_appearance_against_observed_source_absence"
+      },
+      "source_sha256": "d93601b523bbc21c6253de97d2503de9eb3aee90fb93414d48fd3689b7677835",
+      "video_sha256": "d058b88a85696820685e37c7bbfd7b9f2d6309ca6390efdd1c0967ee0f728fcf",
+      "render_code_producer": "66ba948d9a3a64baa829edd5be94792fbc19095708052bd26bcef249e58e9ac7",
+      "staging": {
+        "wait_source_frames": {
+          "left": [
+            272
+          ],
+          "right": [
+            677,
+            816
+          ]
+        },
+        "protected_source_intervals": {
+          "left": [
+            [
+              50,
+              245
+            ],
+            [
+              276,
+              600
+            ]
+          ],
+          "right": [
+            [
+              681,
+              808
+            ],
+            [
+              820,
+              1091
+            ]
+          ]
+        },
+        "policy": "admitted_execution_cannot_be_preempted",
+        "right_preposition_source_frame": 677,
+        "right_preposition_trimmed_frames": 3,
+        "smoothing": "independent_approach_clocks",
+        "onset_delay_frames": [
+          0,
+          0
+        ],
+        "admission_gates": [
+          [
+            1,
+            677,
+            0,
+            158
+          ],
+          [
+            0,
+            272,
+            1,
+            737
+          ],
+          [
+            1,
+            816,
+            0,
+            423
+          ]
+        ],
+        "ramps": {
+          "left": [
+            {
+              "source_frame": 272,
+              "brake_source_start": 264.0,
+              "brake_start_index": 214,
+              "stop_index": 229
+            }
+          ],
+          "right": [
+            {
+              "source_frame": 816,
+              "brake_source_start": 808.0,
+              "brake_start_index": 136,
+              "stop_index": 151
+            }
+          ]
+        },
+        "staging_search_attempts": 11
+      },
+      "visual_review": {
+        "status": "reviewed",
+        "reviewer": "Codex",
+        "sampled_output_frames": [
+          0,
+          78,
+          108,
+          138,
+          180,
+          210,
+          240,
+          355,
+          385,
+          415,
+          436,
+          466,
+          496,
+          669
+        ],
+        "checks": [
+          "four pickup transitions",
+          "stationary and carried object ownership",
+          "empty final work area and destination contents"
+        ],
+        "notes": "Original motion blur and source scene color variation remain."
+      }
+    }
+  ]
+}

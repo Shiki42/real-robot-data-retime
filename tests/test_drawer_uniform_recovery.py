@@ -310,3 +310,20 @@ def test_source_mapping_digest_detects_post_prerequisite_changes():
     right = right.astype(float)
     right[15] += 0.1
     assert source_map_digest(left, right) != digest
+
+
+def test_trajectory_export_accepts_workpiece_stage_metadata(tmp_path):
+    from real_robot_data_retime.staged import export_trajectories
+
+    values = np.zeros((6, 14))
+    clock = np.arange(6)
+    metrics = export_trajectories(
+        tmp_path,
+        (values, values, None, None),
+        clock,
+        clock,
+        30,
+        dict(stages=dict(ramps={})),
+    )
+    assert "action" in metrics
+    assert (tmp_path / "trajectories.parquet").exists()

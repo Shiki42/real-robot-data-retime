@@ -201,3 +201,106 @@ def test_stationary_right_object_cannot_paint_over_left_arm(monkeypatch, tmp_pat
     assert np.max(captured[0][26, 42]) < 30  # Untouched object behind left arm.
     assert captured[1][26, 42, 2] > 180  # Carried right object retains its layer.
     assert np.max(captured[2][26, 42]) < 30  # Deposited object is scene again.
+
+
+def test_deposited_workpiece_track_cannot_repaint_another_origin(monkeypatch, tmp_path):
+    import real_robot_data_retime.compositing.layers as layers
+
+    n, h, w = 20, 64, 96
+    frames = np.full((n, h, w, 3), 120, np.uint8)
+    objects = np.zeros((2, n, h, w), bool)
+    for t in range(n):
+        a = (30, 30) if t < 3 else (10, 45)
+        b = (60, 30) if t < 12 else (84, 45)
+        for k, (x, y) in enumerate([a, b]):
+            frames[t, y : y + 5, x : x + 5] = [20, 30, 230]
+            objects[k, t, y : y + 5, x : x + 5] = True
+        if t >= 7:
+            objects[0, t] = False
+            objects[0, t, 30:35, 60:65] = (
+                True  # A post-deposit tracking identity drift.
+            )
+    monkeypatch.setattr(
+        layers,
+        "discover_bins",
+        lambda frame: [dict(bbox=[0, 40, 22, 24]), dict(bbox=[74, 40, 22, 24])],
+    )
+    captured = []
+    monkeypatch.setattr(
+        layers, "write_video", lambda output, images, fps: captured.extend(images)
+    )
+    events = [
+        dict(
+            object_id=k,
+            robot_id=side,
+            pickup_frame=pickup,
+            grasp_frame=pickup,
+            release_frame=release,
+            approach_start=0,
+        )
+        for k, side, pickup, release in [(0, "left", 3, 7), (1, "right", 12, 16)]
+    ]
+    composite(
+        frames,
+        dict(task="workpiece", fps=30, episodes=events),
+        dict(
+            robots=np.zeros((n, 2, h, w // 8), np.uint8),
+            objects=np.packbits(objects, axis=-1),
+        ),
+        [9],
+        [19],
+        tmp_path / "out.mp4",
+        tmp_path,
+    )
+    assert np.max(np.abs(captured[0][31:34, 61:64].astype(int) - 120)) < 5
+    assert captured[0][47, 12, 2] > 180 and captured[0][47, 86, 2] > 180
+
+
+def test_untouched_workpiece_track_cannot_restore_a_taken_neighbor(
+    monkeypatch, tmp_path
+):
+    import real_robot_data_retime.compositing.layers as layers
+
+    n, h, w = 20, 64, 96
+    frames = np.full((n, h, w, 3), 120, np.uint8)
+    objects = np.zeros((2, n, h, w), bool)
+    for t in range(n):
+        for k, (pickup, x0, xb) in enumerate([(12, 30, 10), (14, 60, 84)]):
+            x, y = (x0, 30) if t < pickup else (xb, 45)
+            frames[t, y : y + 5, x : x + 5] = [20, 30, 230]
+            objects[k, t, y : y + 5, x : x + 5] = True
+    objects[0, 9, 30:35, 60:65] = True
+    monkeypatch.setattr(
+        layers,
+        "discover_bins",
+        lambda frame: [dict(bbox=[0, 40, 22, 24]), dict(bbox=[74, 40, 22, 24])],
+    )
+    captured = []
+    monkeypatch.setattr(
+        layers, "write_video", lambda output, images, fps: captured.extend(images)
+    )
+    events = [
+        dict(
+            object_id=k,
+            robot_id=side,
+            pickup_frame=pickup,
+            grasp_frame=pickup,
+            release_frame=release,
+            approach_start=0,
+        )
+        for k, side, pickup, release in [(0, "left", 12, 16), (1, "right", 14, 18)]
+    ]
+    composite(
+        frames,
+        dict(task="workpiece", fps=30, episodes=events),
+        dict(
+            robots=np.zeros((n, 2, h, w // 8), np.uint8),
+            objects=np.packbits(objects, axis=-1),
+        ),
+        [9],
+        [19],
+        tmp_path / "out.mp4",
+        tmp_path,
+    )
+    assert np.max(np.abs(captured[0][31:34, 61:64].astype(int) - 120)) < 5
+    assert captured[0][32, 32, 2] > 180

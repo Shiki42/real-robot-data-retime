@@ -36,3 +36,26 @@ def test_visual_schedule_checks_carried_object_extent(monkeypatch):
             "objects": np.packbits(objects, axis=-1),
         },
     )
+
+
+def test_carried_track_cannot_import_a_disconnected_stationary_neighbor():
+    from real_robot_data_retime.compositing.ownership import arm_foreground
+
+    robots = np.zeros((16, 2, 40, 64), bool)
+    robots[:, 0, 10:20, :14] = True
+    objects = np.zeros((2, 16, 40, 64), bool)
+    objects[0, 5, 14:18, 12:19] = True
+    objects[0, 5, 14:18, 36:42] = True
+    objects[1, :, 14:18, 36:42] = True
+    events = [
+        dict(object_id=0, robot_id="left", pickup_frame=3, release_frame=8),
+        dict(object_id=1, robot_id="right", pickup_frame=12, release_frame=15),
+    ]
+    result = arm_foreground(robots, objects, events, 0, 5)
+    assert result[14:18, 12:19].all()
+    assert not result[14:18, 36:42].any()
+    assert objects[0, 5, 14:18, 36:42].all()
+    # A genuinely attached component can occlude a neighboring origin.
+    objects[0, 5, 14:16, 12:42] = True
+    attached = arm_foreground(robots, objects, events, 0, 5)
+    assert attached[14:18, 36:42].all()

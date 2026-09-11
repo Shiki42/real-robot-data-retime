@@ -110,6 +110,25 @@ def run(
         audit_support_pixels=photometry.support.sum(axis=(1, 2)),
         ambiguous_pixels=photometry.ambiguous.sum(axis=(1, 2)),
     )
+
+    def audit_robots(robots):
+        from .robot_discovery import robot_mask_audit
+
+        support = photometry.support
+        scene = []
+        audited_geometry = evidence
+        if task == "workpiece":
+            from ..tasks.workpiece import bin_aware_audit_support
+
+            motion, support, scene = bin_aware_audit_support(
+                frames, robots, evidence["masks"], support
+            )
+            audited_geometry = dict(evidence, masks=motion)
+        audit = robot_mask_audit(robots, audited_geometry, fps, pixel_support=support)
+        if scene:
+            audit["stationary_bin_references"] = scene
+        return audit
+
     proposals = task_object_proposals(frames, task, config)
     retries = []
     contact_distances = None
@@ -149,11 +168,8 @@ def run(
                 reuse_measurements, measurement_inputs, proposals
             )
             from .neural_tracks import grippers_from_robots, segment_robots
-            from .robot_discovery import robot_mask_audit
 
-            mask_audit = robot_mask_audit(
-                grippers["robot_masks"], evidence, fps, pixel_support=photometry.support
-            )
+            mask_audit = audit_robots(grippers["robot_masks"])
             failed_sides = [
                 i for i, arm in enumerate(mask_audit["arms"]) if not arm["passed"]
             ]
@@ -252,11 +268,7 @@ def run(
                 evidence["centers"] = grippers["centers"]
                 evidence["apertures"] = grippers["apertures"]
                 retries.append(dict(kind="letter_pixels_excluded_from_robot_masks"))
-        from .robot_discovery import robot_mask_audit
-
-        mask_audit = robot_mask_audit(
-            grippers["robot_masks"], evidence, fps, pixel_support=photometry.support
-        )
+        mask_audit = audit_robots(grippers["robot_masks"])
         contact_distances = object_gripper_distances(grippers["masks"], tracks)
         # A completion marker must never certify a partly replaced checkpoint.
         (output_dir / "measurements.json").unlink(missing_ok=True)

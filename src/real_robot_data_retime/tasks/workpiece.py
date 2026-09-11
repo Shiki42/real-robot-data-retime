@@ -4,7 +4,7 @@ PROFILE = dict(
     expected_objects=4,
     object_kind="dark",
     dependencies=[],
-    priority="left",
+    priority="alternating_pickups",
 )
 
 
@@ -115,3 +115,144 @@ def verify_deposit(frames, robots, pickup, visit, bin_box, fps):
         if pixels >= 12
         else "no_persistent_destination_change",
     )
+
+
+def workpiece_events(events):
+    """Validate and order the two source manipulations belonging to each arm."""
+    own = [
+        sorted(
+            (e for e in events if e["robot_id"] == side),
+            key=lambda e: e["pickup_frame"],
+        )
+        for side in ("left", "right")
+    ]
+    if [len(group) for group in own] != [2, 2]:
+        raise ValueError("workpiece scheduling requires two pickups per arm")
+    return own
+
+
+def alternating_pickups(events):
+    """Return the four source pickup milestones in shared-workspace order."""
+    own = workpiece_events(events)
+    return [
+        (side, own[side][cycle]["pickup_frame"])
+        for cycle in range(2)
+        for side in range(2)
+    ]
+
+
+def pickup_precedence(left, right, milestones):
+    clocks = (left, right)
+    return all(
+        clocks[side] < frame or clocks[previous_side] > previous_frame
+        for (previous_side, previous_frame), (side, frame) in zip(
+            milestones, milestones[1:]
+        )
+    )
+
+
+def dark_object_masks(value, minimum_area, maximum_area):
+    """Separate dark objects joined only by a brighter shadow saddle.
+
+    Normal-size components retain their original support. Oversized workspace
+    components need two independently large dark cores before being divided;
+    nearest-core ownership retains their original object pixels for SAM prompts.
+    """
+    import numpy as np
+    from scipy.ndimage import distance_transform_edt
+
+    from ..interaction.video import components
+
+    h, w = value.shape
+    mask = value < 95
+    divided = []
+    for region, stat, center in components(mask, minimum_area, maximum_area):
+        if not (
+            w * 0.2 < center[0] < w * 0.8
+            and center[1] > h * 0.48
+            and max(stat[2:4]) > w * 0.15
+        ):
+            continue
+        for threshold in np.unique(value[region])[::-1]:
+            cores = [
+                core
+                for core, bounds, _ in components(
+                    region & (value < threshold), minimum_area, maximum_area
+                )
+                if max(bounds[2:4]) <= w * 0.15
+            ]
+            if len(cores) < 2:
+                continue
+            labels = np.zeros((h, w), np.int32)
+            for index, core in enumerate(cores, 1):
+                labels[core] = index
+            nearest = distance_transform_edt(
+                labels == 0, return_distances=False, return_indices=True
+            )
+            owners = labels[tuple(nearest)]
+            divided.extend(
+                region & (owners == index) for index in range(1, len(cores) + 1)
+            )
+            mask[region] = False
+            break
+    return [mask, *divided]
+
+
+def bin_aware_audit_support(frames, robots, motion, support):
+    """Exclude independently observed stationary bin appearance from robot evidence."""
+    import numpy as np
+    from ..background.clean_plate import match_background_colors
+
+    n, h, w = frames.shape[:3]
+    bins = discover_bins(frames[0])
+    if len(bins) != 2:
+        raise ValueError("both destination bins must be observed for scene auditing")
+    result = support.copy()
+    motion = motion.copy()
+    records = []
+    for bin in bins:
+        x, y, bw, bh = map(int, bin["bbox"])
+        # Include the same three-pixel rim used by the scene compositor.
+        x1, y1 = min(w, x + bw + 3), min(h, y + bh + 3)
+        x, y = max(0, x - 3), max(0, y - 3)
+        bw, bh = x1 - x, y1 - y
+        bin_robots = np.array(
+            [
+                np.unpackbits(robots[t], axis=-1, count=w)[:, y:y1, x:x1].any(axis=0)
+                for t in range(n)
+            ]
+        )
+        clear = np.flatnonzero(bin_robots.mean(axis=(1, 2)) < 0.01)
+        if len(clear) < 5:
+            records.append(
+                dict(bbox=[x, y, bw, bh], reference_frames=[], excluded_pixel_frames=0)
+            )
+            continue
+        observed = clear[-5:]
+        common = (~bin_robots & ~bin_robots[observed[-1]]).sum(axis=(1, 2))
+        eligible = np.flatnonzero(common >= 100)
+        indices = np.r_[eligible, observed[-1]]
+        normalized, _ = match_background_colors(
+            frames[indices, y:y1, x:x1], bin_robots[indices]
+        )
+        references = normalized[np.searchsorted(eligible, observed)].astype(float)
+        reference = np.median(references, axis=0)
+        stable = np.max(np.ptp(references, axis=0), axis=-1) <= 12
+        excluded = 0
+        for position, t in enumerate(eligible):
+            stationary = stable & (
+                np.max(np.abs(normalized[position].astype(float) - reference), axis=-1)
+                <= 12
+            )
+            region = result[t, y:y1, x:x1]
+            excluded += int((region & stationary).sum())
+            region[stationary] = False
+            motion[t, y:y1, x:x1][stationary] = 0
+        records.append(
+            dict(
+                bbox=[x, y, bw, bh],
+                reference_frames=observed.tolist(),
+                excluded_pixel_frames=excluded,
+            )
+        )
+    return motion, result, records

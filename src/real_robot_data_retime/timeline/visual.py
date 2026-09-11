@@ -65,8 +65,27 @@ def plan_visual(
     def dependency(i, j):
         return True
 
-    drawer = timeline["task"] == "drawer"
+    workpiece = timeline["task"] == "workpiece"
+    milestones = []
     stages = {}
+    if workpiece:
+        from ..tasks.workpiece import alternating_pickups, pickup_precedence
+        from .workpiece import (
+            workpiece_sources,
+            staging_candidates,
+            admission_allowed,
+            verify_uninterrupted,
+        )
+
+        milestones = alternating_pickups(events)
+        candidates = staging_candidates(events, robots, objects, timeline["fps"])
+
+        def dependency(i, j):
+            return pickup_precedence(
+                sources[0][i], sources[1][j], milestones
+            ) and admission_allowed(sources[0][i], sources[1][j], stages)
+
+    drawer = timeline["task"] == "drawer"
     stop_index = None
     if (
         not np.isfinite([right_delay_seconds, left_delay_seconds]).all()
@@ -275,7 +294,7 @@ def plan_visual(
         sources[0] = np.r_[np.full(left_delay, sources[0][0]), sources[0]]
         stop_index += left_delay
 
-    if not (joints is not None and drawer):
+    if not workpiece and not (joints is not None and drawer):
         for side, seconds in enumerate((left_delay_seconds, right_delay_seconds)):
             count = round(seconds * timeline["fps"])
             sources[side] = np.r_[np.full(count, sources[side][0]), sources[side]]
@@ -293,6 +312,8 @@ def plan_visual(
         )
 
     def may_wait(side, index):
+        if workpiece:
+            return index in workpiece_holds[side]
         if joints is None or not drawer:
             return True
         if side == 0:
@@ -316,11 +337,58 @@ def plan_visual(
             len(sources[1]),
             safe,
             dependency=dependency,
-            left_priority=not drawer,
+            left_priority=not (drawer or workpiece),
             can_wait=may_wait,
         )
 
-    schedule = search() if uniform_position is None else None
+    if workpiece:
+        from heapq import heappop, heappush
+        from .scheduler import NoSafeSchedule
+
+        frontier = [(0, (0, 0, 0))]
+        visited = {(0, 0, 0)}
+        attempts = 0
+        while frontier:
+            _, selection = heappop(frontier)
+            stops = [values[index] for values, index in zip(candidates, selection)]
+            sources, workpiece_holds, stages = workpiece_sources(
+                events, timeline["fps"], stops
+            )
+            for side, seconds in enumerate((left_delay_seconds, right_delay_seconds)):
+                count = round(seconds * timeline["fps"])
+                stages["onset_delay_frames"][side] = count
+                sources[side] = np.r_[np.full(count, sources[side][0]), sources[side]]
+                workpiece_holds[side] = {
+                    index + count for index in workpiece_holds[side]
+                }
+            mask.cache_clear()
+            clear.cache_clear()
+            attempts += 1
+            try:
+                schedule = search()
+                stages["staging_search_attempts"] = attempts
+                break
+            except NoSafeSchedule:
+                for axis in range(3):
+                    neighbor = list(selection)
+                    neighbor[axis] += 1
+                    neighbor = tuple(neighbor)
+                    if (
+                        neighbor[axis] < len(candidates[axis])
+                        and neighbor not in visited
+                    ):
+                        visited.add(neighbor)
+                        distance = sum(
+                            values[0] - values[index]
+                            for values, index in zip(candidates, neighbor)
+                        )
+                        heappush(frontier, (distance, neighbor))
+        else:
+            raise NoSafeSchedule(
+                "no uninterrupted workpiece execution fits the observed staging poses"
+            )
+    else:
+        schedule = search() if uniform_position is None else None
     if joints is not None and drawer:
         smooth_stop = uniform_position is not None or bool(
             np.any((np.diff(schedule.left) == 0) & (schedule.left[:-1] == stop_index))
@@ -521,7 +589,28 @@ def plan_visual(
     left, right = sources[0][schedule.left], sources[1][schedule.right]
     smoothing = dict(transitions=[])
     if not (joints is not None and drawer):
-        left, right, smoothing = smooth_wait_boundaries(left, right, timeline["fps"])
+        if workpiece:
+            stages["right_preparation"]["output_start_frame"] = stages[
+                "onset_delay_frames"
+            ][1]
+            stages["right_preparation"]["output_end_frame"] = int(
+                np.flatnonzero(
+                    right >= stages["right_preparation"]["source_end_frame"]
+                )[0]
+            )
+            verify_uninterrupted(left, right, stages)
+            smoothing = dict(
+                method="independent_approach_clocks",
+                transitions=[
+                    dict(arm=side, **ramp)
+                    for side, ramps in stages["ramps"].items()
+                    for ramp in ramps
+                ],
+            )
+        else:
+            left, right, smoothing = smooth_wait_boundaries(
+                left, right, timeline["fps"]
+            )
 
         @lru_cache(maxsize=4096)
         def support(side, start, end):
@@ -539,6 +628,8 @@ def plan_visual(
                     or (nr >= b and left_frame < withdrawal)
                 ):
                     raise ValueError("smoothed path violates task precedence")
+                if workpiece and not pickup_precedence(nl, nr, milestones):
+                    raise ValueError("smoothed path violates alternating pickup order")
                 cuts = {0.0, 1.0}
                 for start, end in [(left_frame, nl), (right_frame, nr)]:
                     if end > start:
@@ -600,5 +691,13 @@ def plan_visual(
             output_frames=len(left),
             smoothing=smoothing,
             stages=stages,
+            pickup_order=[
+                dict(
+                    arm=("left", "right")[side],
+                    source_frame=frame,
+                    output_frame=int(np.flatnonzero((left, right)[side] >= frame)[0]),
+                )
+                for side, frame in milestones
+            ],
         ),
     )

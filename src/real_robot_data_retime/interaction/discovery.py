@@ -138,7 +138,11 @@ def object_proposals(frames, kind, config):
             dh = np.minimum(dh, 180 - dh)
             masks.append((dh < 12) & (hsv[:, :, 1] > 85) & (hsv[:, :, 2] > 15))
     else:
-        masks = [hsv[:, :, 2] < 95]
+        from ..tasks.workpiece import dark_object_masks
+
+        masks = dark_object_masks(
+            hsv[:, :, 2], config.minimum_object_area, config.maximum_object_area
+        )
     proposals = []
     for mask in masks:
         mask[: int(h * 0.38)] = False

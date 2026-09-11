@@ -15,8 +15,11 @@ robot, object, grasp and release prompts are generated from image evidence.
 
 Supported scene profiles are cube-into-drawer, letter sorting and workpiece
 storage. The drawer profile enforces opening before insertion and withdrawal
-before closing. Letter and workpiece manipulations are independent, with
-left-arm priority when collision constraints require waiting.
+before closing. Letter manipulations use left-arm priority. Workpiece storage
+requires two pickups per arm, alternating left, right, left, right. The first
+left execution cannot be stopped or slowed by the right arm. The second left
+execution may wait before admission for the first right pickup, then runs
+uninterrupted; the second right execution yields until it can enter safely.
 
 ## Install
 
@@ -120,3 +123,19 @@ documented in [photometric verification](docs/photometric-verification.md).
 
 Workpiece and letter scene-ownership refinements are documented in
 [episode refinement](docs/object-episode-iterations.md).
+
+Workpiece video scheduling starts both arms at their original detected approach
+poses on output frame zero. The right preparation is part of the same paired
+schedule as left 1: there is no right-only lead-in and no omitted approach.
+Only an arm approaching a wait brakes and restarts. The first left execution
+retains source speed; admitted executions cannot be preempted by the other arm.
+A very short initial approach uses a shorter brake instead of being stretched
+into a slow approach that would force the left arm to yield. Explicit onset-delay
+arguments remain opt-in; the default inserts no onset delay.
+
+All pickup/transport/place frames are retained in source order. The final paired
+path is checked for original starting poses, simultaneous approach onset, pickup
+precedence, uninterrupted execution and swept projected foreground clearance.
+Reports include `plan.pickup_order` and `plan.stages` with starting poses,
+right preparation boundaries, waiting poses, protected intervals and staging
+search evidence. See [workpiece priority and verification](docs/workpiece-alternating.md).
