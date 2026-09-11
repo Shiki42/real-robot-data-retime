@@ -1,0 +1,1044 @@
+{
+  "producer": "33fc77fb9789a5e91307696eec147f7d0fad718c37b1ec9b44412da775644476",
+  "scope": "Planning ablation only: both 2D rejection sites removed; all other existing checks retained; not rendered or fully collision validated",
+  "results": [
+    {
+      "episode": 0,
+      "passed": true,
+      "seconds": 12.514731340110302,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 322,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 1,
+      "passed": true,
+      "seconds": 11.377244248986244,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 486,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 2,
+      "passed": true,
+      "seconds": 9.295479826629162,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 319,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 3,
+      "passed": true,
+      "seconds": 9.495320215821266,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 342,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 4,
+      "passed": true,
+      "seconds": 8.211842574179173,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 403,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 5,
+      "passed": true,
+      "seconds": 8.029915891587734,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 345,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 6,
+      "passed": true,
+      "seconds": 9.609173022210598,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 383,
+        "attempts": [
+          {
+            "peak_source_frame": 382,
+            "variant": 1,
+            "reason": "held object intersects instantaneous drawer body at output 192"
+          }
+        ]
+      }
+    },
+    {
+      "episode": 7,
+      "passed": true,
+      "seconds": 6.339891999959946,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 318,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 8,
+      "passed": false,
+      "error_type": "NoSafeSchedule",
+      "reason": "no held peak satisfies both sampled variants; see /home/coder/share/drawer-58-no-projection-20260912/work/episode_008/feasibility.json",
+      "seconds": 10.422430239617825,
+      "feasibility": {
+        "passed": false,
+        "attempts": [
+          {
+            "peak_source_frame": 331,
+            "variant": 1,
+            "reason": "braking arm intersects instantaneous drawer body at output 159"
+          },
+          {
+            "peak_source_frame": 332,
+            "variant": 1,
+            "reason": "braking arm intersects instantaneous drawer body at output 160"
+          },
+          {
+            "peak_source_frame": 333,
+            "variant": 1,
+            "reason": "held object intersects instantaneous drawer body at output 160"
+          }
+        ]
+      }
+    },
+    {
+      "episode": 9,
+      "passed": false,
+      "error_type": "NoSafeSchedule",
+      "reason": "no held peak satisfies both sampled variants; see /home/coder/share/drawer-58-no-projection-20260912/work/episode_009/feasibility.json",
+      "seconds": 9.875826597213745,
+      "feasibility": {
+        "passed": false,
+        "attempts": [
+          {
+            "peak_source_frame": 328,
+            "variant": 1,
+            "reason": "braking arm intersects instantaneous drawer body at output 157"
+          },
+          {
+            "peak_source_frame": 329,
+            "variant": 1,
+            "reason": "held object intersects instantaneous drawer body at output 158"
+          }
+        ]
+      }
+    },
+    {
+      "episode": 10,
+      "passed": true,
+      "seconds": 7.524399816989899,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 348,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 11,
+      "passed": false,
+      "error_type": "NoSafeSchedule",
+      "reason": "no held peak satisfies both sampled variants; see /home/coder/share/drawer-58-no-projection-20260912/work/episode_011/feasibility.json",
+      "seconds": 5.008169747889042,
+      "feasibility": {
+        "passed": false,
+        "attempts": [
+          {
+            "peak_source_frame": 364,
+            "variant": 0,
+            "reason": "braking arm intersects instantaneous drawer body at output 121"
+          }
+        ]
+      }
+    },
+    {
+      "episode": 12,
+      "passed": false,
+      "error_type": "NoSafeSchedule",
+      "reason": "no held peak satisfies both sampled variants; see /home/coder/share/drawer-58-no-projection-20260912/work/episode_012/feasibility.json",
+      "seconds": 9.819285735487938,
+      "feasibility": {
+        "passed": false,
+        "attempts": [
+          {
+            "peak_source_frame": 318,
+            "variant": 0,
+            "reason": "held object intersects instantaneous drawer body at output 115"
+          },
+          {
+            "peak_source_frame": 317,
+            "variant": 0,
+            "reason": "held object intersects instantaneous drawer body at output 114"
+          },
+          {
+            "peak_source_frame": 316,
+            "variant": 0,
+            "reason": "braking arm intersects instantaneous drawer body at output 113"
+          }
+        ]
+      }
+    },
+    {
+      "episode": 13,
+      "passed": true,
+      "seconds": 10.389311142265797,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 353,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 14,
+      "passed": false,
+      "error_type": "NoSafeSchedule",
+      "reason": "no held peak satisfies both sampled variants; see /home/coder/share/drawer-58-no-projection-20260912/work/episode_014/feasibility.json",
+      "seconds": 12.312896572053432,
+      "feasibility": {
+        "passed": false,
+        "attempts": [
+          {
+            "peak_source_frame": 312,
+            "variant": 1,
+            "reason": "held object intersects instantaneous drawer body at output 166"
+          },
+          {
+            "peak_source_frame": 311,
+            "variant": 1,
+            "reason": "held object intersects instantaneous drawer body at output 166"
+          },
+          {
+            "peak_source_frame": 310,
+            "variant": 1,
+            "reason": "held object intersects instantaneous drawer body at output 165"
+          }
+        ]
+      }
+    },
+    {
+      "episode": 15,
+      "passed": false,
+      "error_type": "NoSafeSchedule",
+      "reason": "no held peak satisfies both sampled variants; see /home/coder/share/drawer-58-no-projection-20260912/work/episode_015/feasibility.json",
+      "seconds": 9.159613452851772,
+      "feasibility": {
+        "passed": false,
+        "attempts": [
+          {
+            "peak_source_frame": 293,
+            "variant": 1,
+            "reason": "held object intersects instantaneous drawer body at output 159"
+          },
+          {
+            "peak_source_frame": 292,
+            "variant": 1,
+            "reason": "braking arm intersects instantaneous drawer body at output 159"
+          },
+          {
+            "peak_source_frame": 291,
+            "variant": 1,
+            "reason": "braking arm intersects instantaneous drawer body at output 158"
+          }
+        ]
+      }
+    },
+    {
+      "episode": 16,
+      "passed": true,
+      "seconds": 5.408840000629425,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 331,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 17,
+      "passed": true,
+      "seconds": 5.659242980182171,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 313,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 18,
+      "passed": false,
+      "error_type": "ValueError",
+      "reason": "no safe held lift peak before drawer entry",
+      "seconds": 2.961128391325474
+    },
+    {
+      "episode": 19,
+      "passed": true,
+      "seconds": 5.175225630402565,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 272,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 20,
+      "passed": true,
+      "seconds": 5.653695158660412,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 291,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 21,
+      "passed": true,
+      "seconds": 7.356365613639355,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 323,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 22,
+      "passed": true,
+      "seconds": 5.992895729839802,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 348,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 23,
+      "passed": true,
+      "seconds": 5.108996503055096,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 333,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 24,
+      "passed": true,
+      "seconds": 5.1622786819934845,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 377,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 25,
+      "passed": true,
+      "seconds": 4.638415992259979,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 338,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 26,
+      "passed": true,
+      "seconds": 4.61037852615118,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 351,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 27,
+      "passed": true,
+      "seconds": 5.301408909261227,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 306,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 28,
+      "passed": true,
+      "seconds": 4.608003340661526,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 323,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 29,
+      "passed": true,
+      "seconds": 4.588707260787487,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 307,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 30,
+      "passed": true,
+      "seconds": 4.9069226905703545,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 343,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 31,
+      "passed": true,
+      "seconds": 3.3262185156345367,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 322,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 32,
+      "passed": false,
+      "error_type": "ValueError",
+      "reason": "no safe held lift peak before drawer entry",
+      "seconds": 3.0556053146719933
+    },
+    {
+      "episode": 33,
+      "passed": true,
+      "seconds": 4.935247741639614,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 296,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 34,
+      "passed": true,
+      "seconds": 5.343927122652531,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 352,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 35,
+      "passed": true,
+      "seconds": 5.462125837802887,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 300,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 36,
+      "passed": true,
+      "seconds": 6.091465175151825,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 384,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 37,
+      "passed": true,
+      "seconds": 5.621603488922119,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 297,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 38,
+      "passed": true,
+      "seconds": 5.469265915453434,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 322,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 39,
+      "passed": true,
+      "seconds": 4.805102467536926,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 305,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 40,
+      "passed": true,
+      "seconds": 4.672272093594074,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 309,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 41,
+      "passed": true,
+      "seconds": 4.170489825308323,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 279,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 42,
+      "passed": true,
+      "seconds": 3.7027896270155907,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 305,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 43,
+      "passed": true,
+      "seconds": 3.652687758207321,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 305,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 44,
+      "passed": false,
+      "error_type": "ValueError",
+      "reason": "no safe held lift peak before drawer entry",
+      "seconds": 3.4340921491384506
+    },
+    {
+      "episode": 45,
+      "passed": true,
+      "seconds": 5.775061100721359,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 328,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 46,
+      "passed": true,
+      "seconds": 6.924775145947933,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 407,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 47,
+      "passed": true,
+      "seconds": 22.328237652778625,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 438,
+        "attempts": [
+          {
+            "peak_source_frame": 435,
+            "variant": 1,
+            "reason": "held object intersects instantaneous drawer body at output 170"
+          },
+          {
+            "peak_source_frame": 434,
+            "variant": 1,
+            "reason": "held object intersects instantaneous drawer body at output 169"
+          },
+          {
+            "peak_source_frame": 437,
+            "variant": 1,
+            "reason": "held object intersects instantaneous drawer body at output 171"
+          },
+          {
+            "peak_source_frame": 436,
+            "variant": 1,
+            "reason": "held object intersects instantaneous drawer body at output 171"
+          }
+        ]
+      }
+    },
+    {
+      "episode": 48,
+      "passed": false,
+      "error_type": "NoSafeSchedule",
+      "reason": "no held peak satisfies both sampled variants; see /home/coder/share/drawer-58-no-projection-20260912/work/episode_048/feasibility.json",
+      "seconds": 6.387543939054012,
+      "feasibility": {
+        "passed": false,
+        "attempts": [
+          {
+            "peak_source_frame": 370,
+            "variant": 0,
+            "reason": "held object intersects instantaneous drawer body at output 228"
+          }
+        ]
+      }
+    },
+    {
+      "episode": 49,
+      "passed": true,
+      "seconds": 6.5325973853468895,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 377,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 50,
+      "passed": false,
+      "error_type": "NoSafeSchedule",
+      "reason": "no held peak satisfies both sampled variants; see /home/coder/share/drawer-58-no-projection-20260912/work/episode_050/feasibility.json",
+      "seconds": 15.721702255308628,
+      "feasibility": {
+        "passed": false,
+        "attempts": [
+          {
+            "peak_source_frame": 386,
+            "variant": 1,
+            "reason": "held object intersects instantaneous drawer body at output 179"
+          },
+          {
+            "peak_source_frame": 385,
+            "variant": 1,
+            "reason": "held object intersects instantaneous drawer body at output 179"
+          },
+          {
+            "peak_source_frame": 387,
+            "variant": 1,
+            "reason": "held object intersects instantaneous drawer body at output 180"
+          }
+        ]
+      }
+    },
+    {
+      "episode": 51,
+      "passed": false,
+      "error_type": "NoSafeSchedule",
+      "reason": "no held peak satisfies both sampled variants; see /home/coder/share/drawer-58-no-projection-20260912/work/episode_051/feasibility.json",
+      "seconds": 14.681807026267052,
+      "feasibility": {
+        "passed": false,
+        "attempts": [
+          {
+            "peak_source_frame": 376,
+            "variant": 1,
+            "reason": "held object intersects instantaneous drawer body at output 163"
+          },
+          {
+            "peak_source_frame": 375,
+            "variant": 1,
+            "reason": "held object intersects instantaneous drawer body at output 163"
+          },
+          {
+            "peak_source_frame": 374,
+            "variant": 0,
+            "reason": "held object intersects instantaneous drawer body at output 50"
+          },
+          {
+            "peak_source_frame": 377,
+            "variant": 1,
+            "reason": "held object intersects instantaneous drawer body at output 164"
+          }
+        ]
+      }
+    },
+    {
+      "episode": 52,
+      "passed": true,
+      "seconds": 6.839237324893475,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 402,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 53,
+      "passed": true,
+      "seconds": 5.688975542783737,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 413,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 54,
+      "passed": true,
+      "seconds": 5.307926140725613,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 331,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 55,
+      "passed": false,
+      "error_type": "ValueError",
+      "reason": "no safe held lift peak before drawer entry",
+      "seconds": 4.241918601095676
+    },
+    {
+      "episode": 56,
+      "passed": true,
+      "seconds": 7.32756407558918,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 387,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 57,
+      "passed": true,
+      "seconds": 7.302554257214069,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 388,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 58,
+      "passed": true,
+      "seconds": 7.311034165322781,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 359,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 59,
+      "passed": true,
+      "seconds": 5.442626342177391,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 357,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 60,
+      "passed": false,
+      "error_type": "ValueError",
+      "reason": "no settled recorded jaw closure after visual pickup",
+      "seconds": 3.2662068903446198
+    },
+    {
+      "episode": 61,
+      "passed": false,
+      "error_type": "ValueError",
+      "reason": "no safe held lift peak before drawer entry",
+      "seconds": 3.909402474761009
+    },
+    {
+      "episode": 62,
+      "passed": false,
+      "error_type": "ValueError",
+      "reason": "no safe held lift peak before drawer entry",
+      "seconds": 3.971650831401348
+    },
+    {
+      "episode": 63,
+      "passed": false,
+      "error_type": "NoSafeSchedule",
+      "reason": "no held peak satisfies both sampled variants; see /home/coder/share/drawer-58-no-projection-20260912/work/episode_063/feasibility.json",
+      "seconds": 11.3708011880517,
+      "feasibility": {
+        "passed": false,
+        "attempts": [
+          {
+            "peak_source_frame": 356,
+            "variant": 0,
+            "reason": "held object intersects instantaneous drawer body at output 147"
+          },
+          {
+            "peak_source_frame": 355,
+            "variant": 0,
+            "reason": "held object intersects instantaneous drawer body at output 146"
+          },
+          {
+            "peak_source_frame": 357,
+            "variant": 0,
+            "reason": "held object intersects instantaneous drawer body at output 148"
+          },
+          {
+            "peak_source_frame": 359,
+            "variant": 0,
+            "reason": "held object intersects instantaneous drawer body at output 150"
+          },
+          {
+            "peak_source_frame": 358,
+            "variant": 0,
+            "reason": "held object intersects instantaneous drawer body at output 149"
+          },
+          {
+            "peak_source_frame": 360,
+            "variant": 0,
+            "reason": "held object intersects instantaneous drawer body at output 151"
+          }
+        ]
+      }
+    },
+    {
+      "episode": 64,
+      "passed": true,
+      "seconds": 7.353717505931854,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 353,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 65,
+      "passed": true,
+      "seconds": 8.027132846415043,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 438,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 66,
+      "passed": true,
+      "seconds": 5.3723940178751945,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 292,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 67,
+      "passed": true,
+      "seconds": 3.1841420009732246,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 308,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 68,
+      "passed": false,
+      "error_type": "ValueError",
+      "reason": "no safe held lift peak before drawer entry",
+      "seconds": 3.339597411453724
+    },
+    {
+      "episode": 69,
+      "passed": true,
+      "seconds": 5.409652575850487,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 293,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 70,
+      "passed": true,
+      "seconds": 5.163486607372761,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 273,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 71,
+      "passed": true,
+      "seconds": 5.245540328323841,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 285,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 72,
+      "passed": true,
+      "seconds": 6.979336090385914,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 309,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 73,
+      "passed": true,
+      "seconds": 6.808920726180077,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 318,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 74,
+      "passed": true,
+      "seconds": 7.006145775318146,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 301,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 75,
+      "passed": true,
+      "seconds": 4.28847198933363,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 291,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 76,
+      "passed": true,
+      "seconds": 4.672102697193623,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 278,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 77,
+      "passed": true,
+      "seconds": 5.24122392386198,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 282,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 78,
+      "passed": true,
+      "seconds": 4.785159297287464,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 305,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 79,
+      "passed": true,
+      "seconds": 4.603069067001343,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 263,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 80,
+      "passed": true,
+      "seconds": 5.93279679864645,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 366,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 81,
+      "passed": true,
+      "seconds": 3.209505222737789,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 355,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 82,
+      "passed": true,
+      "seconds": 4.387535162270069,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 357,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 83,
+      "passed": true,
+      "seconds": 5.164898440241814,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 289,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 84,
+      "passed": true,
+      "seconds": 4.145540826022625,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 226,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 85,
+      "passed": true,
+      "seconds": 4.090066350996494,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 305,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 86,
+      "passed": true,
+      "seconds": 2.3998342603445053,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 297,
+        "attempts": []
+      }
+    }
+  ]
+}

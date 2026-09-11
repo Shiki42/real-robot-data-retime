@@ -1,5 +1,7 @@
 # 58源恢复实验：诊断检查点（尚未完成）
 
+2026-09-12更新：[移除二维拒绝后的全量实测](no-projection.md)：69源两变体通过，18源仍拒绝。以下为此前诊断记录。
+
 本实验基于 `b3b7ed4`，独立分支 `shuyuan/drawer-58-recovery`，远端工作树
 `/home/coder/share/real-robot-data-retime-drawer-58-recovery`。
 已 fetch 核对 origin/main；本次检查时仍为 b3b7ed4。未改动可用 main 工作树、
