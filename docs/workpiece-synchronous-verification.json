@@ -1,0 +1,151 @@
+{
+  "code_commit": "cc9ef1d97bce49c747285882411da9da2b0aee19",
+  "episodes": [
+    {
+      "episode": 0,
+      "duration_seconds": 21.133333333333333,
+      "source_start_frames": [
+        63.0,
+        547.0
+      ],
+      "first_source_advances": [
+        1.0,
+        1.0
+      ],
+      "both_approaches_start_at_output_frame_zero": true,
+      "left_execution_clock_unchanged": true,
+      "right_clock_after_wait_arrival_unchanged": true,
+      "right_preparation": {
+        "source_start_frame": 547,
+        "source_end_frame": 582,
+        "output_start_frame": 0,
+        "output_end_frame": 42
+      },
+      "uninterrupted_execution_verified": true,
+      "origin_duplicates": 0,
+      "foreground_overlap_pixels": 0,
+      "video_sha256": "b759d7adf0bb13a248ab2799f2c7ab84bacf96f19deabcb9c7272cd53f7d51bc",
+      "source_sha256": "6ba3ebc680e1b310cde385ac48100ea68d239ae71a6e21919739098a42a15dbc",
+      "render_code_producer": "6ed61e856b156ff78b9697e387c08cb973fa4d854d791842c142a7f256dfd26a",
+      "visual_review": {
+        "status": "reviewed",
+        "sampled_output_frames": [
+          0,
+          1,
+          6,
+          15,
+          30,
+          42,
+          107,
+          190,
+          278,
+          446,
+          633
+        ],
+        "checks": [
+          "original paired starting poses",
+          "synchronous source-clock onset without a frozen left prefix",
+          "right approach and wait arrival",
+          "four pickup transitions and final scene"
+        ]
+      }
+    },
+    {
+      "episode": 1,
+      "duration_seconds": 21.0,
+      "source_start_frames": [
+        31.0,
+        532.0
+      ],
+      "first_source_advances": [
+        1.0,
+        1.0
+      ],
+      "both_approaches_start_at_output_frame_zero": true,
+      "left_execution_clock_unchanged": true,
+      "right_clock_after_wait_arrival_unchanged": true,
+      "right_preparation": {
+        "source_start_frame": 532,
+        "source_end_frame": 562,
+        "output_start_frame": 0,
+        "output_end_frame": 37
+      },
+      "uninterrupted_execution_verified": true,
+      "origin_duplicates": 0,
+      "foreground_overlap_pixels": 0,
+      "video_sha256": "52562b2112a75922b274a43b32e7ef8e5acd032e29e5f0302934dc5e6e259542",
+      "source_sha256": "933a61f65d8a3fe0308c55b9587dff329f9c4c47e6d0b84f0d09a328c493d56f",
+      "render_code_producer": "6ed61e856b156ff78b9697e387c08cb973fa4d854d791842c142a7f256dfd26a",
+      "visual_review": {
+        "status": "reviewed",
+        "sampled_output_frames": [
+          0,
+          1,
+          6,
+          15,
+          30,
+          37,
+          105,
+          155,
+          291,
+          425,
+          629
+        ],
+        "checks": [
+          "original paired starting poses",
+          "synchronous source-clock onset without a frozen left prefix",
+          "right approach and wait arrival",
+          "four pickup transitions and final scene"
+        ]
+      }
+    },
+    {
+      "episode": 2,
+      "duration_seconds": 22.333333333333332,
+      "source_start_frames": [
+        50.0,
+        674.0
+      ],
+      "first_source_advances": [
+        1.0,
+        0.9745370370370665
+      ],
+      "both_approaches_start_at_output_frame_zero": true,
+      "left_execution_clock_unchanged": true,
+      "right_clock_after_wait_arrival_unchanged": true,
+      "right_preparation": {
+        "source_start_frame": 674,
+        "source_end_frame": 677,
+        "output_start_frame": 0,
+        "output_end_frame": 6
+      },
+      "uninterrupted_execution_verified": true,
+      "origin_duplicates": 0,
+      "foreground_overlap_pixels": 0,
+      "video_sha256": "350b750dcc496c6db344483c8fd1d25521f9888df032f0d4bc0e8f470d2e803c",
+      "source_sha256": "d93601b523bbc21c6253de97d2503de9eb3aee90fb93414d48fd3689b7677835",
+      "render_code_producer": "6ed61e856b156ff78b9697e387c08cb973fa4d854d791842c142a7f256dfd26a",
+      "visual_review": {
+        "status": "reviewed",
+        "sampled_output_frames": [
+          0,
+          1,
+          6,
+          15,
+          30,
+          108,
+          210,
+          385,
+          466,
+          669
+        ],
+        "checks": [
+          "original paired starting poses",
+          "synchronous source-clock onset without a frozen left prefix",
+          "right approach and wait arrival",
+          "four pickup transitions and final scene"
+        ]
+      }
+    }
+  ]
+}

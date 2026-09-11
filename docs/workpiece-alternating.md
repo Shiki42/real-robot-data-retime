@@ -61,6 +61,21 @@ original source clock exactly, including while right 1 approaches and waits.
 Current artifacts are on Coder A under
 `/home/coder/share/retime-workpiece-synchronous-20260911`.
 
+All three regenerated clips passed the startup and uninterrupted-clock checks.
+They have zero detected origin duplicates and zero moving-foreground overlap
+pixels. Startup, waiting-pose, pickup and final-scene keyframes were visually
+reviewed. The left source clock is identical to the earlier non-preemptive
+reference, and the right clock is identical after its first waiting-pose arrival.
+Only its original initial approach has been restored alongside left 1.
+
+| Episode | Left / right source starts | Right wait arrival | Video duration |
+| --- | --- | ---: | ---: |
+| 0 | 63 / 547 | 1.40 s | 21.13 s |
+| 1 | 31 / 532 | 1.23 s | 21.00 s |
+| 2 | 50 / 674 | 0.20 s | 22.33 s |
+
+[Synchronous-start verification receipt](workpiece-synchronous-verification.json).
+
 ## Superseded preview records
 
 The [prepositioned preview receipt](workpiece-alternating-verification.json) and
