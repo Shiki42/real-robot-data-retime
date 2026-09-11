@@ -1,8 +1,8 @@
 {
   "source": "/home/coder/share/retime-interaction-20260909/drawer-trimmed",
   "raw_source": "/home/coder/share/retime-interaction-20260909/drawer",
-  "output": "/home/coder/share/drawer-uniform-fix-20260911/delivery-final-dataset",
-  "work": "/home/coder/share/drawer-uniform-fix-20260911/delivery-final-work",
+  "output": "/home/coder/share/drawer-uniform-fix-20260911/main-dataset",
+  "work": "/home/coder/share/drawer-uniform-fix-20260911/main-work",
   "urdf": "/home/coder/share/real-robot-data-retime-main/assets/piper_x_description.urdf",
   "mesh_root": "/home/coder/share/robo-visualize/src/robo_visualize/arms/piperx/assets",
   "repo_id": "Shiki42/piperx-put-cube-in-drawer-uniform-174",

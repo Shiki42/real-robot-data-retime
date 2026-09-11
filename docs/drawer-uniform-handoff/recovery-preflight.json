@@ -1,10 +1,10 @@
 {
-  "producer": "746fcf3243f5ddfbc4f8c08526746cff49d912d413b9c5b64aa2770f2e668a7c",
+  "producer": "d1b541afa0d97216ebd3708033e172a4808d29a3e69c9dc289c954253b5871f5",
   "config": {
     "source": "/home/coder/share/retime-interaction-20260909/drawer-trimmed",
     "raw_source": "/home/coder/share/retime-interaction-20260909/drawer",
-    "output": "/home/coder/share/drawer-uniform-fix-20260911/delivery-final-dataset",
-    "work": "/home/coder/share/drawer-uniform-fix-20260911/delivery-final-work",
+    "output": "/home/coder/share/drawer-uniform-fix-20260911/main-dataset",
+    "work": "/home/coder/share/drawer-uniform-fix-20260911/main-work",
     "urdf": "/home/coder/share/real-robot-data-retime-main/assets/piper_x_description.urdf",
     "mesh_root": "/home/coder/share/robo-visualize/src/robo_visualize/arms/piperx/assets",
     "repo_id": "Shiki42/piperx-put-cube-in-drawer-uniform-174",
@@ -117,37 +117,37 @@
     {
       "episode": 0,
       "passed": true,
-      "seconds": 18.752222061157227
+      "seconds": 17.030235052108765
     },
     {
       "episode": 1,
       "passed": true,
-      "seconds": 18.88254451751709
+      "seconds": 17.162623167037964
     },
     {
       "episode": 2,
       "passed": true,
-      "seconds": 14.639384984970093
+      "seconds": 15.052859783172607
     },
     {
       "episode": 3,
       "passed": true,
-      "seconds": 14.479512929916382
+      "seconds": 11.23047423362732
     },
     {
       "episode": 4,
       "passed": true,
-      "seconds": 14.152069330215454
+      "seconds": 13.379576206207275
     },
     {
       "episode": 5,
       "passed": true,
-      "seconds": 17.046062707901
+      "seconds": 12.942520141601562
     },
     {
       "episode": 6,
       "passed": true,
-      "seconds": 15.800035238265991
+      "seconds": 22.52260446548462
     },
     {
       "episode": 7,
@@ -155,15 +155,15 @@
       "error_type": "ValueError",
       "reason": "no safe held lift peak before drawer entry",
       "diagnostic": null,
-      "seconds": 5.298335075378418
+      "seconds": 7.356141090393066
     },
     {
       "episode": 8,
       "passed": false,
       "error_type": "NoSafeSchedule",
-      "reason": "no held peak satisfies both sampled variants; see /home/coder/share/drawer-uniform-fix-20260911/delivery-final-work/episode_008/feasibility.json",
-      "diagnostic": "/home/coder/share/drawer-uniform-fix-20260911/delivery-final-work/episode_008/feasibility.json",
-      "seconds": 9.08981990814209
+      "reason": "no held peak satisfies both sampled variants; see /home/coder/share/drawer-uniform-fix-20260911/main-work/episode_008/feasibility.json",
+      "diagnostic": "/home/coder/share/drawer-uniform-fix-20260911/main-work/episode_008/feasibility.json",
+      "seconds": 10.907796144485474
     },
     {
       "episode": 9,
@@ -171,12 +171,12 @@
       "error_type": "ValueError",
       "reason": "no safe held lift peak before drawer entry",
       "diagnostic": null,
-      "seconds": 4.867599725723267
+      "seconds": 6.593949317932129
     },
     {
       "episode": 10,
       "passed": true,
-      "seconds": 10.358285903930664
+      "seconds": 12.531314373016357
     },
     {
       "episode": 11,
@@ -184,7 +184,7 @@
       "error_type": "ValueError",
       "reason": "no safe held lift peak before drawer entry",
       "diagnostic": null,
-      "seconds": 7.084095239639282
+      "seconds": 6.233838796615601
     },
     {
       "episode": 12,
@@ -192,12 +192,12 @@
       "error_type": "ValueError",
       "reason": "no safe held lift peak before drawer entry",
       "diagnostic": null,
-      "seconds": 6.883269786834717
+      "seconds": 5.891314744949341
     },
     {
       "episode": 13,
       "passed": true,
-      "seconds": 12.67808198928833
+      "seconds": 11.992070436477661
     },
     {
       "episode": 14,
@@ -205,7 +205,7 @@
       "error_type": "ValueError",
       "reason": "no safe held lift peak before drawer entry",
       "diagnostic": null,
-      "seconds": 4.923248767852783
+      "seconds": 4.982740640640259
     },
     {
       "episode": 15,
@@ -213,7 +213,7 @@
       "error_type": "ValueError",
       "reason": "no safe held lift peak before drawer entry",
       "diagnostic": null,
-      "seconds": 4.5724523067474365
+      "seconds": 5.018468379974365
     },
     {
       "episode": 16,
@@ -221,7 +221,7 @@
       "error_type": "ValueError",
       "reason": "no safe held lift peak before drawer entry",
       "diagnostic": null,
-      "seconds": 4.917200326919556
+      "seconds": 7.5911781787872314
     },
     {
       "episode": 17,
@@ -229,7 +229,7 @@
       "error_type": "ValueError",
       "reason": "no safe held lift peak before drawer entry",
       "diagnostic": null,
-      "seconds": 6.204501390457153
+      "seconds": 8.31774091720581
     },
     {
       "episode": 18,
@@ -237,7 +237,7 @@
       "error_type": "ValueError",
       "reason": "no safe held lift peak before drawer entry",
       "diagnostic": null,
-      "seconds": 3.884929656982422
+      "seconds": 6.8202807903289795
     },
     {
       "episode": 19,
@@ -245,17 +245,17 @@
       "error_type": "ValueError",
       "reason": "no safe held lift peak before drawer entry",
       "diagnostic": null,
-      "seconds": 4.766884088516235
+      "seconds": 5.788765907287598
     },
     {
       "episode": 20,
       "passed": true,
-      "seconds": 9.125452280044556
+      "seconds": 11.777534484863281
     },
     {
       "episode": 21,
       "passed": true,
-      "seconds": 11.46117353439331
+      "seconds": 16.69028663635254
     },
     {
       "episode": 22,
@@ -263,7 +263,7 @@
       "error_type": "ValueError",
       "reason": "no safe held lift peak before drawer entry",
       "diagnostic": null,
-      "seconds": 5.165621995925903
+      "seconds": 7.110584020614624
     },
     {
       "episode": 23,
@@ -271,7 +271,7 @@
       "error_type": "ValueError",
       "reason": "no safe held lift peak before drawer entry",
       "diagnostic": null,
-      "seconds": 4.351332902908325
+      "seconds": 7.316689968109131
     },
     {
       "episode": 24,
@@ -279,7 +279,7 @@
       "error_type": "ValueError",
       "reason": "no safe held lift peak before drawer entry",
       "diagnostic": null,
-      "seconds": 4.2876152992248535
+      "seconds": 7.128408193588257
     },
     {
       "episode": 25,
@@ -287,7 +287,7 @@
       "error_type": "ValueError",
       "reason": "no safe held lift peak before drawer entry",
       "diagnostic": null,
-      "seconds": 3.623213052749634
+      "seconds": 5.682230710983276
     },
     {
       "episode": 26,
@@ -295,7 +295,7 @@
       "error_type": "ValueError",
       "reason": "no safe held lift peak before drawer entry",
       "diagnostic": null,
-      "seconds": 4.993868589401245
+      "seconds": 6.314813137054443
     },
     {
       "episode": 27,
@@ -303,7 +303,7 @@
       "error_type": "ValueError",
       "reason": "no safe held lift peak before drawer entry",
       "diagnostic": null,
-      "seconds": 5.088625907897949
+      "seconds": 5.863255023956299
     },
     {
       "episode": 28,
@@ -311,7 +311,7 @@
       "error_type": "ValueError",
       "reason": "no safe held lift peak before drawer entry",
       "diagnostic": null,
-      "seconds": 4.1317620277404785
+      "seconds": 3.3846919536590576
     },
     {
       "episode": 29,
@@ -319,7 +319,7 @@
       "error_type": "ValueError",
       "reason": "no safe held lift peak before drawer entry",
       "diagnostic": null,
-      "seconds": 3.5017573833465576
+      "seconds": 3.4647929668426514
     },
     {
       "episode": 30,
@@ -327,7 +327,7 @@
       "error_type": "ValueError",
       "reason": "no safe held lift peak before drawer entry",
       "diagnostic": null,
-      "seconds": 4.0833001136779785
+      "seconds": 3.33836030960083
     },
     {
       "episode": 31,
@@ -335,7 +335,7 @@
       "error_type": "ValueError",
       "reason": "no safe held lift peak before drawer entry",
       "diagnostic": null,
-      "seconds": 3.9277846813201904
+      "seconds": 2.948939323425293
     },
     {
       "episode": 32,
@@ -343,7 +343,7 @@
       "error_type": "ValueError",
       "reason": "no safe held lift peak before drawer entry",
       "diagnostic": null,
-      "seconds": 3.288339138031006
+      "seconds": 3.1809136867523193
     },
     {
       "episode": 33,
@@ -351,7 +351,7 @@
       "error_type": "ValueError",
       "reason": "no safe held lift peak before drawer entry",
       "diagnostic": null,
-      "seconds": 3.1072745323181152
+      "seconds": 3.1010711193084717
     },
     {
       "episode": 34,
@@ -359,7 +359,7 @@
       "error_type": "ValueError",
       "reason": "no safe held lift peak before drawer entry",
       "diagnostic": null,
-      "seconds": 3.377251386642456
+      "seconds": 3.431741237640381
     },
     {
       "episode": 35,
@@ -367,7 +367,7 @@
       "error_type": "ValueError",
       "reason": "no safe held lift peak before drawer entry",
       "diagnostic": null,
-      "seconds": 3.493497371673584
+      "seconds": 5.31896710395813
     },
     {
       "episode": 36,
@@ -375,7 +375,7 @@
       "error_type": "ValueError",
       "reason": "no safe held lift peak before drawer entry",
       "diagnostic": null,
-      "seconds": 4.941736459732056
+      "seconds": 6.139299154281616
     },
     {
       "episode": 37,
@@ -383,7 +383,7 @@
       "error_type": "ValueError",
       "reason": "no safe held lift peak before drawer entry",
       "diagnostic": null,
-      "seconds": 4.518320083618164
+      "seconds": 5.906420469284058
     },
     {
       "episode": 38,
@@ -391,7 +391,7 @@
       "error_type": "ValueError",
       "reason": "no safe held lift peak before drawer entry",
       "diagnostic": null,
-      "seconds": 5.1308434009552
+      "seconds": 4.947944641113281
     },
     {
       "episode": 39,
@@ -399,7 +399,7 @@
       "error_type": "ValueError",
       "reason": "no safe held lift peak before drawer entry",
       "diagnostic": null,
-      "seconds": 5.894000768661499
+      "seconds": 5.497559309005737
     },
     {
       "episode": 40,
@@ -407,7 +407,7 @@
       "error_type": "ValueError",
       "reason": "no safe held lift peak before drawer entry",
       "diagnostic": null,
-      "seconds": 4.6478002071380615
+      "seconds": 5.0139079093933105
     },
     {
       "episode": 41,
@@ -415,7 +415,7 @@
       "error_type": "ValueError",
       "reason": "no safe held lift peak before drawer entry",
       "diagnostic": null,
-      "seconds": 4.037164688110352
+      "seconds": 4.796036243438721
     },
     {
       "episode": 42,
@@ -423,7 +423,7 @@
       "error_type": "ValueError",
       "reason": "no safe held lift peak before drawer entry",
       "diagnostic": null,
-      "seconds": 4.731372594833374
+      "seconds": 4.898271083831787
     },
     {
       "episode": 43,
@@ -431,7 +431,7 @@
       "error_type": "ValueError",
       "reason": "no safe held lift peak before drawer entry",
       "diagnostic": null,
-      "seconds": 4.389528274536133
+      "seconds": 4.846975326538086
     },
     {
       "episode": 44,
@@ -439,7 +439,7 @@
       "error_type": "ValueError",
       "reason": "no safe held lift peak before drawer entry",
       "diagnostic": null,
-      "seconds": 4.325005769729614
+      "seconds": 6.341203451156616
     },
     {
       "episode": 45,
@@ -447,12 +447,12 @@
       "error_type": "ValueError",
       "reason": "no safe held lift peak before drawer entry",
       "diagnostic": null,
-      "seconds": 8.472527742385864
+      "seconds": 6.950235843658447
     },
     {
       "episode": 46,
       "passed": true,
-      "seconds": 15.102259874343872
+      "seconds": 18.407551050186157
     },
     {
       "episode": 47,
@@ -460,51 +460,51 @@
       "error_type": "ValueError",
       "reason": "no safe held lift peak before drawer entry",
       "diagnostic": null,
-      "seconds": 8.523665189743042
+      "seconds": 9.8752760887146
     },
     {
       "episode": 48,
       "passed": false,
       "error_type": "NoSafeSchedule",
-      "reason": "no held peak satisfies both sampled variants; see /home/coder/share/drawer-uniform-fix-20260911/delivery-final-work/episode_048/feasibility.json",
-      "diagnostic": "/home/coder/share/drawer-uniform-fix-20260911/delivery-final-work/episode_048/feasibility.json",
-      "seconds": 13.212609767913818
+      "reason": "no held peak satisfies both sampled variants; see /home/coder/share/drawer-uniform-fix-20260911/main-work/episode_048/feasibility.json",
+      "diagnostic": "/home/coder/share/drawer-uniform-fix-20260911/main-work/episode_048/feasibility.json",
+      "seconds": 13.875798463821411
     },
     {
       "episode": 49,
       "passed": true,
-      "seconds": 13.979918479919434
+      "seconds": 13.642243385314941
     },
     {
       "episode": 50,
       "passed": false,
       "error_type": "NoSafeSchedule",
-      "reason": "no held peak satisfies both sampled variants; see /home/coder/share/drawer-uniform-fix-20260911/delivery-final-work/episode_050/feasibility.json",
-      "diagnostic": "/home/coder/share/drawer-uniform-fix-20260911/delivery-final-work/episode_050/feasibility.json",
-      "seconds": 30.879218816757202
+      "reason": "no held peak satisfies both sampled variants; see /home/coder/share/drawer-uniform-fix-20260911/main-work/episode_050/feasibility.json",
+      "diagnostic": "/home/coder/share/drawer-uniform-fix-20260911/main-work/episode_050/feasibility.json",
+      "seconds": 28.665300607681274
     },
     {
       "episode": 51,
       "passed": false,
       "error_type": "NoSafeSchedule",
-      "reason": "no held peak satisfies both sampled variants; see /home/coder/share/drawer-uniform-fix-20260911/delivery-final-work/episode_051/feasibility.json",
-      "diagnostic": "/home/coder/share/drawer-uniform-fix-20260911/delivery-final-work/episode_051/feasibility.json",
-      "seconds": 27.682603359222412
+      "reason": "no held peak satisfies both sampled variants; see /home/coder/share/drawer-uniform-fix-20260911/main-work/episode_051/feasibility.json",
+      "diagnostic": "/home/coder/share/drawer-uniform-fix-20260911/main-work/episode_051/feasibility.json",
+      "seconds": 29.02223038673401
     },
     {
       "episode": 52,
       "passed": true,
-      "seconds": 16.813953161239624
+      "seconds": 14.502163410186768
     },
     {
       "episode": 53,
       "passed": true,
-      "seconds": 15.545178413391113
+      "seconds": 8.458555698394775
     },
     {
       "episode": 54,
       "passed": true,
-      "seconds": 18.228469371795654
+      "seconds": 8.391590595245361
     },
     {
       "episode": 55,
@@ -512,27 +512,27 @@
       "error_type": "ValueError",
       "reason": "no safe held lift peak before drawer entry",
       "diagnostic": null,
-      "seconds": 11.278188705444336
+      "seconds": 6.0618064403533936
     },
     {
       "episode": 56,
       "passed": true,
-      "seconds": 23.030717849731445
+      "seconds": 12.434230089187622
     },
     {
       "episode": 57,
       "passed": true,
-      "seconds": 23.637187242507935
+      "seconds": 8.642276763916016
     },
     {
       "episode": 58,
       "passed": true,
-      "seconds": 23.82873296737671
+      "seconds": 8.31360912322998
     },
     {
       "episode": 59,
       "passed": true,
-      "seconds": 21.092986345291138
+      "seconds": 11.333870649337769
     },
     {
       "episode": 60,
@@ -540,7 +540,7 @@
       "error_type": "ValueError",
       "reason": "no settled recorded jaw closure after visual pickup",
       "diagnostic": null,
-      "seconds": 10.52253794670105
+      "seconds": 8.509250164031982
     },
     {
       "episode": 61,
@@ -548,7 +548,7 @@
       "error_type": "ValueError",
       "reason": "no safe held lift peak before drawer entry",
       "diagnostic": null,
-      "seconds": 10.071092128753662
+      "seconds": 8.975378036499023
     },
     {
       "episode": 62,
@@ -556,15 +556,15 @@
       "error_type": "ValueError",
       "reason": "no safe held lift peak before drawer entry",
       "diagnostic": null,
-      "seconds": 12.359527587890625
+      "seconds": 6.900339603424072
     },
     {
       "episode": 63,
       "passed": false,
       "error_type": "NoSafeSchedule",
-      "reason": "no held peak satisfies both sampled variants; see /home/coder/share/drawer-uniform-fix-20260911/delivery-final-work/episode_063/feasibility.json",
-      "diagnostic": "/home/coder/share/drawer-uniform-fix-20260911/delivery-final-work/episode_063/feasibility.json",
-      "seconds": 33.758230209350586
+      "reason": "no held peak satisfies both sampled variants; see /home/coder/share/drawer-uniform-fix-20260911/main-work/episode_063/feasibility.json",
+      "diagnostic": "/home/coder/share/drawer-uniform-fix-20260911/main-work/episode_063/feasibility.json",
+      "seconds": 19.967532634735107
     },
     {
       "episode": 64,
@@ -572,7 +572,7 @@
       "error_type": "ValueError",
       "reason": "no safe held lift peak before drawer entry",
       "diagnostic": null,
-      "seconds": 10.844102382659912
+      "seconds": 5.705625057220459
     },
     {
       "episode": 65,
@@ -580,12 +580,12 @@
       "error_type": "ValueError",
       "reason": "no safe held lift peak before drawer entry",
       "diagnostic": null,
-      "seconds": 12.246561288833618
+      "seconds": 8.405387878417969
     },
     {
       "episode": 66,
       "passed": true,
-      "seconds": 16.170421838760376
+      "seconds": 9.304065942764282
     },
     {
       "episode": 67,
@@ -593,7 +593,7 @@
       "error_type": "ValueError",
       "reason": "no safe held lift peak before drawer entry",
       "diagnostic": null,
-      "seconds": 7.631295204162598
+      "seconds": 6.111959457397461
     },
     {
       "episode": 68,
@@ -601,7 +601,7 @@
       "error_type": "ValueError",
       "reason": "no safe held lift peak before drawer entry",
       "diagnostic": null,
-      "seconds": 7.699831008911133
+      "seconds": 6.340338468551636
     },
     {
       "episode": 69,
@@ -609,12 +609,12 @@
       "error_type": "ValueError",
       "reason": "no safe held lift peak before drawer entry",
       "diagnostic": null,
-      "seconds": 8.811519145965576
+      "seconds": 5.285710334777832
     },
     {
       "episode": 70,
       "passed": true,
-      "seconds": 12.334306955337524
+      "seconds": 9.257378339767456
     },
     {
       "episode": 71,
@@ -622,15 +622,15 @@
       "error_type": "ValueError",
       "reason": "no safe held lift peak before drawer entry",
       "diagnostic": null,
-      "seconds": 7.8873610496521
+      "seconds": 6.318848371505737
     },
     {
       "episode": 72,
       "passed": false,
       "error_type": "NoSafeSchedule",
-      "reason": "no held peak satisfies both sampled variants; see /home/coder/share/drawer-uniform-fix-20260911/delivery-final-work/episode_072/feasibility.json",
-      "diagnostic": "/home/coder/share/drawer-uniform-fix-20260911/delivery-final-work/episode_072/feasibility.json",
-      "seconds": 26.537755489349365
+      "reason": "no held peak satisfies both sampled variants; see /home/coder/share/drawer-uniform-fix-20260911/main-work/episode_072/feasibility.json",
+      "diagnostic": "/home/coder/share/drawer-uniform-fix-20260911/main-work/episode_072/feasibility.json",
+      "seconds": 17.735170602798462
     },
     {
       "episode": 73,
@@ -638,15 +638,15 @@
       "error_type": "ValueError",
       "reason": "no safe held lift peak before drawer entry",
       "diagnostic": null,
-      "seconds": 7.605511665344238
+      "seconds": 6.460025072097778
     },
     {
       "episode": 74,
       "passed": false,
       "error_type": "NoSafeSchedule",
-      "reason": "no held peak satisfies both sampled variants; see /home/coder/share/drawer-uniform-fix-20260911/delivery-final-work/episode_074/feasibility.json",
-      "diagnostic": "/home/coder/share/drawer-uniform-fix-20260911/delivery-final-work/episode_074/feasibility.json",
-      "seconds": 15.535990953445435
+      "reason": "no held peak satisfies both sampled variants; see /home/coder/share/drawer-uniform-fix-20260911/main-work/episode_074/feasibility.json",
+      "diagnostic": "/home/coder/share/drawer-uniform-fix-20260911/main-work/episode_074/feasibility.json",
+      "seconds": 10.16447138786316
     },
     {
       "episode": 75,
@@ -654,7 +654,7 @@
       "error_type": "ValueError",
       "reason": "no safe held lift peak before drawer entry",
       "diagnostic": null,
-      "seconds": 6.7895166873931885
+      "seconds": 4.959190845489502
     },
     {
       "episode": 76,
@@ -662,66 +662,66 @@
       "error_type": "ValueError",
       "reason": "no safe held lift peak before drawer entry",
       "diagnostic": null,
-      "seconds": 9.703272819519043
+      "seconds": 7.638916492462158
     },
     {
       "episode": 77,
       "passed": false,
       "error_type": "NoSafeSchedule",
-      "reason": "no held peak satisfies both sampled variants; see /home/coder/share/drawer-uniform-fix-20260911/delivery-final-work/episode_077/feasibility.json",
-      "diagnostic": "/home/coder/share/drawer-uniform-fix-20260911/delivery-final-work/episode_077/feasibility.json",
-      "seconds": 16.21793484687805
+      "reason": "no held peak satisfies both sampled variants; see /home/coder/share/drawer-uniform-fix-20260911/main-work/episode_077/feasibility.json",
+      "diagnostic": "/home/coder/share/drawer-uniform-fix-20260911/main-work/episode_077/feasibility.json",
+      "seconds": 11.999559879302979
     },
     {
       "episode": 78,
       "passed": false,
       "error_type": "NoSafeSchedule",
-      "reason": "no held peak satisfies both sampled variants; see /home/coder/share/drawer-uniform-fix-20260911/delivery-final-work/episode_078/feasibility.json",
-      "diagnostic": "/home/coder/share/drawer-uniform-fix-20260911/delivery-final-work/episode_078/feasibility.json",
-      "seconds": 15.792062520980835
+      "reason": "no held peak satisfies both sampled variants; see /home/coder/share/drawer-uniform-fix-20260911/main-work/episode_078/feasibility.json",
+      "diagnostic": "/home/coder/share/drawer-uniform-fix-20260911/main-work/episode_078/feasibility.json",
+      "seconds": 11.03850507736206
     },
     {
       "episode": 79,
       "passed": true,
-      "seconds": 12.295016527175903
+      "seconds": 8.843358039855957
     },
     {
       "episode": 80,
       "passed": false,
       "error_type": "NoSafeSchedule",
-      "reason": "no held peak satisfies both sampled variants; see /home/coder/share/drawer-uniform-fix-20260911/delivery-final-work/episode_080/feasibility.json",
-      "diagnostic": "/home/coder/share/drawer-uniform-fix-20260911/delivery-final-work/episode_080/feasibility.json",
-      "seconds": 16.232365608215332
+      "reason": "no held peak satisfies both sampled variants; see /home/coder/share/drawer-uniform-fix-20260911/main-work/episode_080/feasibility.json",
+      "diagnostic": "/home/coder/share/drawer-uniform-fix-20260911/main-work/episode_080/feasibility.json",
+      "seconds": 14.695693969726562
     },
     {
       "episode": 81,
       "passed": true,
-      "seconds": 14.04973578453064
+      "seconds": 10.46815299987793
     },
     {
       "episode": 82,
       "passed": true,
-      "seconds": 13.89798617362976
+      "seconds": 12.397108793258667
     },
     {
       "episode": 83,
       "passed": true,
-      "seconds": 10.685947895050049
+      "seconds": 12.001309394836426
     },
     {
       "episode": 84,
       "passed": true,
-      "seconds": 9.614317655563354
+      "seconds": 8.932307004928589
     },
     {
       "episode": 85,
       "passed": true,
-      "seconds": 10.713900327682495
+      "seconds": 9.645659685134888
     },
     {
       "episode": 86,
       "passed": true,
-      "seconds": 6.920086622238159
+      "seconds": 6.920048475265503
     }
   ]
 }

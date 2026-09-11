@@ -103,13 +103,13 @@ Coder A 仓库仍为 `/home/coder/share/real-robot-data-retime-main`。本次独
 帧数/FPS、原始偏移、A/B/C时序、半区间间隔、源映射摘要及回放边。
 原位检查通过，阶段截图已人工查看；这仍不是完整逐帧画质或真机执行认证。
 见 [验证记录](recovery-validation.json) 和
-[错误源0的拒绝测试](recovery-negative-control.json)。测试为 **164 passed、2 skipped**
+[错误源0的拒绝测试](recovery-negative-control.json)。测试为 **180 passed、2 skipped**
 （启用了已有 RoboVisualize assets）。
 
 Coder A 最新配置：
-`/home/coder/share/drawer-uniform-fix-20260911/delivery-final-config.json`，
+`/home/coder/share/drawer-uniform-fix-20260911/main-config.json`，
 仓库内快照为 [recovery-config.json](recovery-config.json)。该配置修正了源0分析
-路径，使用独立的 `delivery-final-work` / `delivery-final-dataset`。模型尺寸仍是
+路径，使用独立的 `main-work` / `main-dataset`。模型尺寸仍是
 明确标注的未测量估计。**不要继续使用原配置里的错误源0 checkpoint。**
 
 ```bash
@@ -118,18 +118,18 @@ export PYTHONPATH=$PWD/src:/home/coder/share/robo-visualize/src
 export OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2
 export RETIME_PY=/home/coder/share/real-robot-data-retime/.venv/bin/python
 $RETIME_PY -m real_robot_data_retime.uniform_drawer \
-  --config /home/coder/share/drawer-uniform-fix-20260911/delivery-final-config.json \
+  --config /home/coder/share/drawer-uniform-fix-20260911/main-config.json \
   --phase plan --episode 0
 $RETIME_PY -m real_robot_data_retime.uniform_drawer \
-  --config /home/coder/share/drawer-uniform-fix-20260911/delivery-final-config.json \
+  --config /home/coder/share/drawer-uniform-fix-20260911/main-config.json \
   --phase render --episode 0
 ```
 
 修改代码、源映射或 `scene_geometry` 后必须重新 plan，不得改 hash 让旧计划通过。
-上面的数据目录尚不是174集成品；本次8条验证输出另存于 `pilot-final-dataset`。
+上面的数据目录尚不是174集成品；本次8条验证输出另存于 `main-pilot-dataset`。
 本次未对部分目录执行全局 finalize，也未上传 HF。
 
-最终复现代码快照在 `runtime-delivery-final/src`，其 Python 源文件与提交版本
+最终复现代码快照在 `runtime-integrated-main/src`，其 Python 源文件与提交版本
 一致。早期带 `probe`/`search`/`runtime-final2` 等名字的目录仅作诊断，不能混入
 这一轮统计。浏览器预览位于现有本地端口的 `/uniform-recovery/` 路径。
 
@@ -137,3 +137,7 @@ $RETIME_PY -m real_robot_data_retime.uniform_drawer \
 `/Users/shuyuan/Downloads/drawer-uniform-recovery`。
 当前本地预览入口为 `http://127.0.0.1:38766/`；它是诊断预览，不是完整 LeRobot
 数据集。若本地服务停止，可在该目录运行 `python3 serve.py --port 38766`。
+
+修复实现提交为 `4ce2c7e`；其后合入远端最新工件调度，代码合并提交为 `af5e6ac`。
+合并后已重做87集预检，成功/失败状态和58条成功变体的左右时钟均与合并前一致。
+因此这里给出的 `main-config.json` 已使用合并后 producer 的新计划，不需要修改旧 hash。
