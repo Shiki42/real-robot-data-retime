@@ -1,0 +1,3977 @@
+[
+  {
+    "episode": 7,
+    "category": "opening_projection",
+    "peak": 318,
+    "peak_z": 0.21762171042410966,
+    "grasp": 280,
+    "held_end": 356,
+    "near_peak_candidates": [
+      {
+        "frame": 317,
+        "z": 0.21667176766387175,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 318,
+        "z": 0.21762171042410966,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 319,
+        "z": 0.2159098048478026,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      }
+    ],
+    "attempts": [],
+    "holding_error": null
+  },
+  {
+    "episode": 8,
+    "category": "braking_geometry",
+    "peak": 331,
+    "peak_z": 0.19411953520308592,
+    "grasp": 304,
+    "held_end": 365,
+    "near_peak_candidates": [
+      {
+        "frame": 331,
+        "z": 0.19411953520308592,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": true
+        }
+      },
+      {
+        "frame": 332,
+        "z": 0.19366019161181308,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 333,
+        "z": 0.1936360806975101,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      }
+    ],
+    "attempts": [
+      {
+        "peak_source_frame": 331,
+        "variant": 1,
+        "reason": "braking arm intersects instantaneous drawer body at output 159"
+      }
+    ],
+    "holding_error": null
+  },
+  {
+    "episode": 9,
+    "category": "opening_projection",
+    "peak": 329,
+    "peak_z": 0.2083419350055733,
+    "grasp": 299,
+    "held_end": 360,
+    "near_peak_candidates": [
+      {
+        "frame": 328,
+        "z": 0.207756531174915,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 329,
+        "z": 0.2083419350055733,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      }
+    ],
+    "attempts": [],
+    "holding_error": null
+  },
+  {
+    "episode": 11,
+    "category": "opening_projection",
+    "peak": 365,
+    "peak_z": 0.16635748653937238,
+    "grasp": 329,
+    "held_end": 393,
+    "near_peak_candidates": [
+      {
+        "frame": 364,
+        "z": 0.165789098201466,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 365,
+        "z": 0.16635748653937238,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": false,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 366,
+        "z": 0.1649388914689291,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": false,
+          "action_arm": true,
+          "opening_image": false
+        }
+      }
+    ],
+    "attempts": [],
+    "holding_error": null
+  },
+  {
+    "episode": 12,
+    "category": "opening_projection",
+    "peak": 317,
+    "peak_z": 0.1803457776276427,
+    "grasp": 288,
+    "held_end": 349,
+    "near_peak_candidates": [
+      {
+        "frame": 316,
+        "z": 0.18004427516468186,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 317,
+        "z": 0.1803457776276427,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 318,
+        "z": 0.17931960305296407,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      }
+    ],
+    "attempts": [],
+    "holding_error": null
+  },
+  {
+    "episode": 14,
+    "category": "opening_projection",
+    "peak": 312,
+    "peak_z": 0.2006514929020058,
+    "grasp": 287,
+    "held_end": 331,
+    "near_peak_candidates": [
+      {
+        "frame": 310,
+        "z": 0.19953159640234636,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 311,
+        "z": 0.20010365694255292,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 312,
+        "z": 0.2006514929020058,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      }
+    ],
+    "attempts": [],
+    "holding_error": null
+  },
+  {
+    "episode": 15,
+    "category": "opening_projection",
+    "peak": 292,
+    "peak_z": 0.182887916712538,
+    "grasp": 261,
+    "held_end": 312,
+    "near_peak_candidates": [
+      {
+        "frame": 291,
+        "z": 0.1826499084928194,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 292,
+        "z": 0.182887916712538,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 293,
+        "z": 0.18139083606028483,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      }
+    ],
+    "attempts": [],
+    "holding_error": null
+  },
+  {
+    "episode": 16,
+    "category": "opening_projection",
+    "peak": 330,
+    "peak_z": 0.19945268946390873,
+    "grasp": 307,
+    "held_end": 358,
+    "near_peak_candidates": [
+      {
+        "frame": 329,
+        "z": 0.19884476647833155,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 330,
+        "z": 0.19945268946390873,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 331,
+        "z": 0.19835494167969442,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      }
+    ],
+    "attempts": [],
+    "holding_error": null
+  },
+  {
+    "episode": 17,
+    "category": "opening_projection",
+    "peak": 312,
+    "peak_z": 0.19376920027476968,
+    "grasp": 284,
+    "held_end": 329,
+    "near_peak_candidates": [
+      {
+        "frame": 311,
+        "z": 0.19313531732614445,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 312,
+        "z": 0.19376920027476968,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 313,
+        "z": 0.19266628925079998,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      }
+    ],
+    "attempts": [],
+    "holding_error": null
+  },
+  {
+    "episode": 18,
+    "category": "sweep_geometry",
+    "peak": 342,
+    "peak_z": 0.16919992114988258,
+    "grasp": 305,
+    "held_end": 361,
+    "near_peak_candidates": [
+      {
+        "frame": 340,
+        "z": 0.16755635561470691,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": false,
+          "state_arm": true,
+          "action_object": false,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 341,
+        "z": 0.16842912753138978,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": false,
+          "state_arm": true,
+          "action_object": false,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 342,
+        "z": 0.16919992114988258,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": false,
+          "state_arm": true,
+          "action_object": false,
+          "action_arm": true,
+          "opening_image": false
+        }
+      }
+    ],
+    "attempts": [],
+    "holding_error": null
+  },
+  {
+    "episode": 19,
+    "category": "opening_projection",
+    "peak": 274,
+    "peak_z": 0.23171355514004988,
+    "grasp": 240,
+    "held_end": 304,
+    "near_peak_candidates": [
+      {
+        "frame": 271,
+        "z": 0.230998764453469,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 272,
+        "z": 0.23159046823133606,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 273,
+        "z": 0.23094445349811293,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 274,
+        "z": 0.23171355514004988,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 275,
+        "z": 0.2305749725209632,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      }
+    ],
+    "attempts": [],
+    "holding_error": null
+  },
+  {
+    "episode": 22,
+    "category": "opening_projection",
+    "peak": 347,
+    "peak_z": 0.16802472694905118,
+    "grasp": 306,
+    "held_end": 366,
+    "near_peak_candidates": [
+      {
+        "frame": 345,
+        "z": 0.16721098419030148,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 346,
+        "z": 0.1680074782956893,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 347,
+        "z": 0.16802472694905118,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 348,
+        "z": 0.16714955292998715,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      }
+    ],
+    "attempts": [],
+    "holding_error": null
+  },
+  {
+    "episode": 23,
+    "category": "opening_projection",
+    "peak": 332,
+    "peak_z": 0.23062800119351556,
+    "grasp": 303,
+    "held_end": 360,
+    "near_peak_candidates": [
+      {
+        "frame": 331,
+        "z": 0.22965166594136083,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 332,
+        "z": 0.23062800119351556,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 333,
+        "z": 0.229780702040434,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      }
+    ],
+    "attempts": [],
+    "holding_error": null
+  },
+  {
+    "episode": 24,
+    "category": "opening_projection",
+    "peak": 377,
+    "peak_z": 0.22496729646862185,
+    "grasp": 331,
+    "held_end": 399,
+    "near_peak_candidates": [
+      {
+        "frame": 376,
+        "z": 0.22442770071652507,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 377,
+        "z": 0.22496729646862185,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 378,
+        "z": 0.22391625790220626,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      }
+    ],
+    "attempts": [],
+    "holding_error": null
+  },
+  {
+    "episode": 25,
+    "category": "opening_projection",
+    "peak": 337,
+    "peak_z": 0.19163082505417098,
+    "grasp": 289,
+    "held_end": 360,
+    "near_peak_candidates": [
+      {
+        "frame": 336,
+        "z": 0.1905148254105039,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 337,
+        "z": 0.19163082505417098,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 338,
+        "z": 0.1906086813260155,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 339,
+        "z": 0.18992918602315928,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      }
+    ],
+    "attempts": [],
+    "holding_error": null
+  },
+  {
+    "episode": 26,
+    "category": "opening_projection",
+    "peak": 351,
+    "peak_z": 0.23353279080599892,
+    "grasp": 304,
+    "held_end": 384,
+    "near_peak_candidates": [
+      {
+        "frame": 350,
+        "z": 0.23278406565861548,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 351,
+        "z": 0.23353279080599892,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 352,
+        "z": 0.23257401894459445,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      }
+    ],
+    "attempts": [],
+    "holding_error": null
+  },
+  {
+    "episode": 27,
+    "category": "opening_projection",
+    "peak": 305,
+    "peak_z": 0.21561724796601023,
+    "grasp": 268,
+    "held_end": 323,
+    "near_peak_candidates": [
+      {
+        "frame": 304,
+        "z": 0.214882284235897,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 305,
+        "z": 0.21561724796601023,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 306,
+        "z": 0.21472553479485562,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      }
+    ],
+    "attempts": [],
+    "holding_error": null
+  },
+  {
+    "episode": 28,
+    "category": "opening_projection",
+    "peak": 322,
+    "peak_z": 0.19175018231949215,
+    "grasp": 288,
+    "held_end": 349,
+    "near_peak_candidates": [
+      {
+        "frame": 321,
+        "z": 0.1898138789700592,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 322,
+        "z": 0.19175018231949215,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 323,
+        "z": 0.18996750758908632,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      }
+    ],
+    "attempts": [],
+    "holding_error": null
+  },
+  {
+    "episode": 29,
+    "category": "opening_projection",
+    "peak": 307,
+    "peak_z": 0.20302848511697744,
+    "grasp": 258,
+    "held_end": 343,
+    "near_peak_candidates": [
+      {
+        "frame": 306,
+        "z": 0.20245161124158542,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 307,
+        "z": 0.20302848511697744,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 308,
+        "z": 0.20263383829814846,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 309,
+        "z": 0.2013987224204345,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      }
+    ],
+    "attempts": [],
+    "holding_error": null
+  },
+  {
+    "episode": 30,
+    "category": "opening_projection",
+    "peak": 339,
+    "peak_z": 0.18264865849041578,
+    "grasp": 288,
+    "held_end": 368,
+    "near_peak_candidates": [
+      {
+        "frame": 339,
+        "z": 0.18264865849041578,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 340,
+        "z": 0.18199462568748415,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 341,
+        "z": 0.18200189937572403,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 342,
+        "z": 0.18108835706453713,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 343,
+        "z": 0.18110561619351984,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      }
+    ],
+    "attempts": [],
+    "holding_error": null
+  },
+  {
+    "episode": 31,
+    "category": "opening_projection",
+    "peak": 320,
+    "peak_z": 0.21539398071363844,
+    "grasp": 287,
+    "held_end": 344,
+    "near_peak_candidates": [
+      {
+        "frame": 318,
+        "z": 0.21375270391079254,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 319,
+        "z": 0.21523701693940195,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 320,
+        "z": 0.21539398071363844,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 321,
+        "z": 0.21536823371436187,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 322,
+        "z": 0.2145743418527984,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 323,
+        "z": 0.21360959514675254,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      }
+    ],
+    "attempts": [],
+    "holding_error": null
+  },
+  {
+    "episode": 32,
+    "category": "sweep_geometry",
+    "peak": 309,
+    "peak_z": 0.19153524272743117,
+    "grasp": 291,
+    "held_end": 326,
+    "near_peak_candidates": [
+      {
+        "frame": 309,
+        "z": 0.19153524272743117,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": false,
+          "state_arm": true,
+          "action_object": false,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 310,
+        "z": 0.19110736074854234,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": false,
+          "state_arm": true,
+          "action_object": false,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 311,
+        "z": 0.1907391780214664,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": false,
+          "state_arm": true,
+          "action_object": false,
+          "action_arm": true,
+          "opening_image": false
+        }
+      }
+    ],
+    "attempts": [],
+    "holding_error": null
+  },
+  {
+    "episode": 33,
+    "category": "opening_projection",
+    "peak": 297,
+    "peak_z": 0.19433660465265756,
+    "grasp": 259,
+    "held_end": 384,
+    "near_peak_candidates": [
+      {
+        "frame": 295,
+        "z": 0.1925151177258731,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 296,
+        "z": 0.1936460020289241,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 297,
+        "z": 0.19433660465265756,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 298,
+        "z": 0.19388958717925703,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      }
+    ],
+    "attempts": [],
+    "holding_error": null
+  },
+  {
+    "episode": 34,
+    "category": "opening_projection",
+    "peak": 351,
+    "peak_z": 0.20086630420782547,
+    "grasp": 307,
+    "held_end": 377,
+    "near_peak_candidates": [
+      {
+        "frame": 350,
+        "z": 0.19972865712166127,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 351,
+        "z": 0.20086630420782547,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 352,
+        "z": 0.200757920050217,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 353,
+        "z": 0.20065078583878992,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      }
+    ],
+    "attempts": [],
+    "holding_error": null
+  },
+  {
+    "episode": 35,
+    "category": "opening_projection",
+    "peak": 299,
+    "peak_z": 0.23136349493895594,
+    "grasp": 258,
+    "held_end": 320,
+    "near_peak_candidates": [
+      {
+        "frame": 296,
+        "z": 0.22943789755449284,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 297,
+        "z": 0.230057312280538,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 298,
+        "z": 0.23053016446490793,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 299,
+        "z": 0.23136349493895594,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 300,
+        "z": 0.23077073464097886,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 301,
+        "z": 0.23050117196981715,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 302,
+        "z": 0.22951318712273522,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      }
+    ],
+    "attempts": [],
+    "holding_error": null
+  },
+  {
+    "episode": 36,
+    "category": "opening_projection",
+    "peak": 384,
+    "peak_z": 0.21023412758121468,
+    "grasp": 335,
+    "held_end": 412,
+    "near_peak_candidates": [
+      {
+        "frame": 382,
+        "z": 0.20907453112969648,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 383,
+        "z": 0.21001075756681686,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 384,
+        "z": 0.21023412758121468,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      }
+    ],
+    "attempts": [],
+    "holding_error": null
+  },
+  {
+    "episode": 37,
+    "category": "opening_projection",
+    "peak": 297,
+    "peak_z": 0.249677091985116,
+    "grasp": 268,
+    "held_end": 326,
+    "near_peak_candidates": [
+      {
+        "frame": 296,
+        "z": 0.2482094145180882,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 297,
+        "z": 0.249677091985116,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 298,
+        "z": 0.24918923797096335,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      }
+    ],
+    "attempts": [],
+    "holding_error": null
+  },
+  {
+    "episode": 38,
+    "category": "opening_projection",
+    "peak": 322,
+    "peak_z": 0.21669036779082784,
+    "grasp": 280,
+    "held_end": 346,
+    "near_peak_candidates": [
+      {
+        "frame": 321,
+        "z": 0.2162151066584085,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 322,
+        "z": 0.21669036779082784,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 323,
+        "z": 0.21567786042067327,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      }
+    ],
+    "attempts": [],
+    "holding_error": null
+  },
+  {
+    "episode": 39,
+    "category": "opening_projection",
+    "peak": 304,
+    "peak_z": 0.18929061652889378,
+    "grasp": 274,
+    "held_end": 329,
+    "near_peak_candidates": [
+      {
+        "frame": 303,
+        "z": 0.18833484493896196,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 304,
+        "z": 0.18929061652889378,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 305,
+        "z": 0.1883832576816032,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 306,
+        "z": 0.18813667924513083,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      }
+    ],
+    "attempts": [],
+    "holding_error": null
+  },
+  {
+    "episode": 40,
+    "category": "opening_projection",
+    "peak": 310,
+    "peak_z": 0.17075890943483382,
+    "grasp": 259,
+    "held_end": 342,
+    "near_peak_candidates": [
+      {
+        "frame": 308,
+        "z": 0.16912919296665216,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 309,
+        "z": 0.16977819160088597,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 310,
+        "z": 0.17075890943483382,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 311,
+        "z": 0.17048554423865925,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 312,
+        "z": 0.1705299112145945,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      }
+    ],
+    "attempts": [],
+    "holding_error": null
+  },
+  {
+    "episode": 41,
+    "category": "opening_projection",
+    "peak": 279,
+    "peak_z": 0.20462807204619618,
+    "grasp": 238,
+    "held_end": 299,
+    "near_peak_candidates": [
+      {
+        "frame": 278,
+        "z": 0.2033430075305359,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 279,
+        "z": 0.20462807204619618,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      }
+    ],
+    "attempts": [],
+    "holding_error": null
+  },
+  {
+    "episode": 42,
+    "category": "opening_projection",
+    "peak": 300,
+    "peak_z": 0.19170135612638886,
+    "grasp": 265,
+    "held_end": 325,
+    "near_peak_candidates": [
+      {
+        "frame": 298,
+        "z": 0.19100662161404353,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 299,
+        "z": 0.1912903995349186,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 300,
+        "z": 0.19170135612638886,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 301,
+        "z": 0.1916146908057661,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 302,
+        "z": 0.19082597576646432,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 303,
+        "z": 0.1897435739133198,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 304,
+        "z": 0.18983357901076497,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 305,
+        "z": 0.19092375963687322,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      }
+    ],
+    "attempts": [],
+    "holding_error": null
+  },
+  {
+    "episode": 43,
+    "category": "opening_projection",
+    "peak": 304,
+    "peak_z": 0.21523518960442858,
+    "grasp": 263,
+    "held_end": 335,
+    "near_peak_candidates": [
+      {
+        "frame": 303,
+        "z": 0.21504900072084632,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 304,
+        "z": 0.21523518960442858,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 305,
+        "z": 0.21436948347310306,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      }
+    ],
+    "attempts": [],
+    "holding_error": null
+  },
+  {
+    "episode": 44,
+    "category": "sweep_geometry",
+    "peak": 337,
+    "peak_z": 0.1487548216663605,
+    "grasp": 291,
+    "held_end": 361,
+    "near_peak_candidates": [
+      {
+        "frame": 336,
+        "z": 0.1480240821173088,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": false,
+          "state_arm": true,
+          "action_object": false,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 337,
+        "z": 0.1487548216663605,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": false,
+          "state_arm": true,
+          "action_object": false,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 338,
+        "z": 0.14874117000015868,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": false,
+          "state_arm": true,
+          "action_object": false,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 339,
+        "z": 0.14856494234731443,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": false,
+          "state_arm": true,
+          "action_object": false,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 340,
+        "z": 0.14806628262261212,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": false,
+          "state_arm": true,
+          "action_object": false,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 341,
+        "z": 0.14735200973886795,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": false,
+          "state_arm": true,
+          "action_object": false,
+          "action_arm": true,
+          "opening_image": false
+        }
+      }
+    ],
+    "attempts": [],
+    "holding_error": null
+  },
+  {
+    "episode": 45,
+    "category": "opening_projection",
+    "peak": 327,
+    "peak_z": 0.24032557671673843,
+    "grasp": 285,
+    "held_end": 351,
+    "near_peak_candidates": [
+      {
+        "frame": 326,
+        "z": 0.23876319722633393,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 327,
+        "z": 0.24032557671673843,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 328,
+        "z": 0.23996181675052305,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      }
+    ],
+    "attempts": [],
+    "holding_error": null
+  },
+  {
+    "episode": 47,
+    "category": "opening_projection",
+    "peak": 436,
+    "peak_z": 0.19261840557541804,
+    "grasp": 394,
+    "held_end": 502,
+    "near_peak_candidates": [
+      {
+        "frame": 434,
+        "z": 0.19070302729294367,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 435,
+        "z": 0.19182097329041276,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 436,
+        "z": 0.19261840557541804,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 437,
+        "z": 0.19254875916989594,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 438,
+        "z": 0.19150669137142917,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      }
+    ],
+    "attempts": [],
+    "holding_error": null
+  },
+  {
+    "episode": 48,
+    "category": "braking_geometry",
+    "peak": 370,
+    "peak_z": 0.1637641511658483,
+    "grasp": 324,
+    "held_end": 438,
+    "near_peak_candidates": [
+      {
+        "frame": 367,
+        "z": 0.1620077993078422,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": false,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": true
+        }
+      },
+      {
+        "frame": 368,
+        "z": 0.16313077703292778,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": false,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": true
+        }
+      },
+      {
+        "frame": 369,
+        "z": 0.16352741854610958,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": false,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": true
+        }
+      },
+      {
+        "frame": 370,
+        "z": 0.1637641511658483,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": true
+        }
+      },
+      {
+        "frame": 371,
+        "z": 0.16247164899136687,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": false,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": true
+        }
+      },
+      {
+        "frame": 372,
+        "z": 0.16235440633768905,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": false,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": true
+        }
+      },
+      {
+        "frame": 373,
+        "z": 0.16216109630954736,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": false,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": true
+        }
+      },
+      {
+        "frame": 374,
+        "z": 0.16293081645431173,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": false,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": true
+        }
+      },
+      {
+        "frame": 375,
+        "z": 0.16210904356960937,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": false,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": true
+        }
+      }
+    ],
+    "attempts": [
+      {
+        "peak_source_frame": 370,
+        "variant": 0,
+        "reason": "held object intersects instantaneous drawer body at output 228"
+      }
+    ],
+    "holding_error": null
+  },
+  {
+    "episode": 50,
+    "category": "braking_geometry",
+    "peak": 386,
+    "peak_z": 0.17101102174066957,
+    "grasp": 343,
+    "held_end": 456,
+    "near_peak_candidates": [
+      {
+        "frame": 385,
+        "z": 0.17012122354209464,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": true
+        }
+      },
+      {
+        "frame": 386,
+        "z": 0.17101102174066957,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": true
+        }
+      },
+      {
+        "frame": 387,
+        "z": 0.1700509303342051,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": true
+        }
+      }
+    ],
+    "attempts": [
+      {
+        "peak_source_frame": 386,
+        "variant": 1,
+        "reason": "held object intersects instantaneous drawer body at output 179"
+      },
+      {
+        "peak_source_frame": 385,
+        "variant": 1,
+        "reason": "held object intersects instantaneous drawer body at output 179"
+      },
+      {
+        "peak_source_frame": 387,
+        "variant": 1,
+        "reason": "held object intersects instantaneous drawer body at output 180"
+      }
+    ],
+    "holding_error": null
+  },
+  {
+    "episode": 51,
+    "category": "braking_geometry",
+    "peak": 375,
+    "peak_z": 0.18102657773641373,
+    "grasp": 344,
+    "held_end": 431,
+    "near_peak_candidates": [
+      {
+        "frame": 374,
+        "z": 0.17992941001125223,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": true
+        }
+      },
+      {
+        "frame": 375,
+        "z": 0.18102657773641373,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": true
+        }
+      },
+      {
+        "frame": 376,
+        "z": 0.18069522018555959,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": true
+        }
+      },
+      {
+        "frame": 377,
+        "z": 0.1790489328161818,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": true
+        }
+      }
+    ],
+    "attempts": [
+      {
+        "peak_source_frame": 376,
+        "variant": 1,
+        "reason": "held object intersects instantaneous drawer body at output 163"
+      },
+      {
+        "peak_source_frame": 375,
+        "variant": 1,
+        "reason": "held object intersects instantaneous drawer body at output 163"
+      },
+      {
+        "peak_source_frame": 374,
+        "variant": 0,
+        "reason": "held object intersects instantaneous drawer body at output 50"
+      },
+      {
+        "peak_source_frame": 377,
+        "variant": 1,
+        "reason": "held object intersects instantaneous drawer body at output 164"
+      }
+    ],
+    "holding_error": null
+  },
+  {
+    "episode": 55,
+    "category": "sweep_geometry",
+    "peak": 393,
+    "peak_z": 0.159648997993369,
+    "grasp": 344,
+    "held_end": 433,
+    "near_peak_candidates": [
+      {
+        "frame": 379,
+        "z": 0.15816791049508272,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": false,
+          "state_arm": true,
+          "action_object": false,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 380,
+        "z": 0.15893615066911013,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": false,
+          "state_arm": true,
+          "action_object": false,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 381,
+        "z": 0.15904387214615243,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": false,
+          "state_arm": true,
+          "action_object": false,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 382,
+        "z": 0.15843862246828735,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": false,
+          "state_arm": true,
+          "action_object": false,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 383,
+        "z": 0.15765450359568306,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": false,
+          "state_arm": true,
+          "action_object": false,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 386,
+        "z": 0.15769637319654706,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": false,
+          "state_arm": true,
+          "action_object": false,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 387,
+        "z": 0.15801365313204094,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": false,
+          "state_arm": true,
+          "action_object": false,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 388,
+        "z": 0.15879182018750798,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": false,
+          "state_arm": true,
+          "action_object": false,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 389,
+        "z": 0.15944521964879466,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": false,
+          "state_arm": true,
+          "action_object": false,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 390,
+        "z": 0.15947521877229004,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": false,
+          "state_arm": true,
+          "action_object": false,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 391,
+        "z": 0.15964031546599602,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": false,
+          "state_arm": true,
+          "action_object": false,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 392,
+        "z": 0.158998700005259,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": false,
+          "state_arm": true,
+          "action_object": false,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 393,
+        "z": 0.159648997993369,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": false,
+          "state_arm": true,
+          "action_object": false,
+          "action_arm": true,
+          "opening_image": false
+        }
+      }
+    ],
+    "attempts": [],
+    "holding_error": null
+  },
+  {
+    "episode": 60,
+    "category": "holding_boundary",
+    "peak": null,
+    "peak_z": null,
+    "grasp": null,
+    "held_end": null,
+    "near_peak_candidates": [],
+    "attempts": [],
+    "holding_error": "no settled recorded jaw closure after visual pickup"
+  },
+  {
+    "episode": 61,
+    "category": "sweep_geometry",
+    "peak": 378,
+    "peak_z": 0.1626179597873276,
+    "grasp": 344,
+    "held_end": 436,
+    "near_peak_candidates": [
+      {
+        "frame": 376,
+        "z": 0.1609435100852296,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": false,
+          "state_arm": true,
+          "action_object": false,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 377,
+        "z": 0.1617685950318285,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": false,
+          "state_arm": true,
+          "action_object": false,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 378,
+        "z": 0.1626179597873276,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": false,
+          "state_arm": true,
+          "action_object": false,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 379,
+        "z": 0.16202215302884282,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": false,
+          "state_arm": true,
+          "action_object": false,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 380,
+        "z": 0.16132006807770966,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": false,
+          "state_arm": true,
+          "action_object": false,
+          "action_arm": true,
+          "opening_image": false
+        }
+      }
+    ],
+    "attempts": [],
+    "holding_error": null
+  },
+  {
+    "episode": 62,
+    "category": "sweep_geometry",
+    "peak": 363,
+    "peak_z": 0.16771532280355858,
+    "grasp": 321,
+    "held_end": 429,
+    "near_peak_candidates": [
+      {
+        "frame": 359,
+        "z": 0.1660656754490133,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": false,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": true
+        }
+      },
+      {
+        "frame": 360,
+        "z": 0.16641883695542284,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": false,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": true
+        }
+      },
+      {
+        "frame": 361,
+        "z": 0.16737966825652087,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": false,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": true
+        }
+      },
+      {
+        "frame": 362,
+        "z": 0.16732073056843189,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": false,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": true
+        }
+      },
+      {
+        "frame": 363,
+        "z": 0.16771532280355858,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": false,
+          "state_arm": true,
+          "action_object": false,
+          "action_arm": true,
+          "opening_image": true
+        }
+      },
+      {
+        "frame": 364,
+        "z": 0.16713136327842737,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": false,
+          "state_arm": true,
+          "action_object": false,
+          "action_arm": true,
+          "opening_image": true
+        }
+      },
+      {
+        "frame": 365,
+        "z": 0.16638207222722998,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": false,
+          "state_arm": true,
+          "action_object": false,
+          "action_arm": true,
+          "opening_image": true
+        }
+      }
+    ],
+    "attempts": [],
+    "holding_error": null
+  },
+  {
+    "episode": 63,
+    "category": "braking_geometry",
+    "peak": 357,
+    "peak_z": 0.17312629548199118,
+    "grasp": 310,
+    "held_end": 404,
+    "near_peak_candidates": [
+      {
+        "frame": 355,
+        "z": 0.17131686624429163,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": true
+        }
+      },
+      {
+        "frame": 356,
+        "z": 0.17251196030203153,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": true
+        }
+      },
+      {
+        "frame": 357,
+        "z": 0.17312629548199118,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": true
+        }
+      },
+      {
+        "frame": 358,
+        "z": 0.17283214762405374,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": true
+        }
+      },
+      {
+        "frame": 359,
+        "z": 0.17225986031291582,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": true
+        }
+      },
+      {
+        "frame": 360,
+        "z": 0.1713844513917235,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": true
+        }
+      }
+    ],
+    "attempts": [
+      {
+        "peak_source_frame": 356,
+        "variant": 0,
+        "reason": "held object intersects instantaneous drawer body at output 147"
+      },
+      {
+        "peak_source_frame": 355,
+        "variant": 0,
+        "reason": "held object intersects instantaneous drawer body at output 146"
+      },
+      {
+        "peak_source_frame": 357,
+        "variant": 0,
+        "reason": "held object intersects instantaneous drawer body at output 148"
+      },
+      {
+        "peak_source_frame": 359,
+        "variant": 0,
+        "reason": "held object intersects instantaneous drawer body at output 150"
+      },
+      {
+        "peak_source_frame": 358,
+        "variant": 0,
+        "reason": "held object intersects instantaneous drawer body at output 149"
+      },
+      {
+        "peak_source_frame": 360,
+        "variant": 0,
+        "reason": "held object intersects instantaneous drawer body at output 151"
+      }
+    ],
+    "holding_error": null
+  },
+  {
+    "episode": 64,
+    "category": "opening_projection",
+    "peak": 354,
+    "peak_z": 0.17379335392333653,
+    "grasp": 298,
+    "held_end": 405,
+    "near_peak_candidates": [
+      {
+        "frame": 353,
+        "z": 0.17240647522008817,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 354,
+        "z": 0.17379335392333653,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 355,
+        "z": 0.17310596600344733,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      }
+    ],
+    "attempts": [],
+    "holding_error": null
+  },
+  {
+    "episode": 65,
+    "category": "opening_projection",
+    "peak": 439,
+    "peak_z": 0.16473609682299,
+    "grasp": 400,
+    "held_end": 487,
+    "near_peak_candidates": [
+      {
+        "frame": 438,
+        "z": 0.1642654004908355,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 439,
+        "z": 0.16473609682299,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": false,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 440,
+        "z": 0.16464006818633212,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": false,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 441,
+        "z": 0.16344160531614335,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": false,
+          "state_arm": true,
+          "action_object": false,
+          "action_arm": true,
+          "opening_image": false
+        }
+      }
+    ],
+    "attempts": [],
+    "holding_error": null
+  },
+  {
+    "episode": 67,
+    "category": "opening_projection",
+    "peak": 306,
+    "peak_z": 0.17754398606780847,
+    "grasp": 256,
+    "held_end": 318,
+    "near_peak_candidates": [
+      {
+        "frame": 287,
+        "z": 0.17568382396174118,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 288,
+        "z": 0.1766033863329054,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 289,
+        "z": 0.1770455207567931,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 291,
+        "z": 0.17596641825214498,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 304,
+        "z": 0.17622190951558186,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 305,
+        "z": 0.1768639972562466,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 306,
+        "z": 0.17754398606780847,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 307,
+        "z": 0.17728106874442967,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 308,
+        "z": 0.17587425686523975,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      }
+    ],
+    "attempts": [],
+    "holding_error": null
+  },
+  {
+    "episode": 68,
+    "category": "sweep_geometry",
+    "peak": 292,
+    "peak_z": 0.15877274398186264,
+    "grasp": 243,
+    "held_end": 319,
+    "near_peak_candidates": [
+      {
+        "frame": 291,
+        "z": 0.1585964474986102,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": false,
+          "state_arm": true,
+          "action_object": false,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 292,
+        "z": 0.15877274398186264,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": false,
+          "state_arm": true,
+          "action_object": false,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 293,
+        "z": 0.15789477283634573,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": false,
+          "state_arm": true,
+          "action_object": false,
+          "action_arm": true,
+          "opening_image": false
+        }
+      }
+    ],
+    "attempts": [],
+    "holding_error": null
+  },
+  {
+    "episode": 69,
+    "category": "opening_projection",
+    "peak": 291,
+    "peak_z": 0.24339381136496957,
+    "grasp": 241,
+    "held_end": 319,
+    "near_peak_candidates": [
+      {
+        "frame": 289,
+        "z": 0.24269097700450523,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 290,
+        "z": 0.24274657254794718,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 291,
+        "z": 0.24339381136496957,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 292,
+        "z": 0.242468836683889,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 293,
+        "z": 0.24163570103773424,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      }
+    ],
+    "attempts": [],
+    "holding_error": null
+  },
+  {
+    "episode": 71,
+    "category": "opening_projection",
+    "peak": 284,
+    "peak_z": 0.1907685788601904,
+    "grasp": 246,
+    "held_end": 316,
+    "near_peak_candidates": [
+      {
+        "frame": 283,
+        "z": 0.1905860912407304,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 284,
+        "z": 0.1907685788601904,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 285,
+        "z": 0.18898174135731932,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      }
+    ],
+    "attempts": [],
+    "holding_error": null
+  },
+  {
+    "episode": 72,
+    "category": "moving_projection",
+    "peak": 309,
+    "peak_z": 0.1971152188056607,
+    "grasp": 250,
+    "held_end": 339,
+    "near_peak_candidates": [
+      {
+        "frame": 308,
+        "z": 0.196049243710896,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": true
+        }
+      },
+      {
+        "frame": 309,
+        "z": 0.1971152188056607,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": true
+        }
+      },
+      {
+        "frame": 310,
+        "z": 0.1971056278092308,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": true
+        }
+      },
+      {
+        "frame": 311,
+        "z": 0.19669881818918528,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": true
+        }
+      },
+      {
+        "frame": 312,
+        "z": 0.19569205318668395,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": true
+        }
+      }
+    ],
+    "attempts": [
+      {
+        "peak_source_frame": 309,
+        "variant": 0,
+        "reason": "no safe schedule preserving source trajectories and priority"
+      },
+      {
+        "peak_source_frame": 310,
+        "variant": 0,
+        "reason": "no safe schedule preserving source trajectories and priority"
+      },
+      {
+        "peak_source_frame": 308,
+        "variant": 0,
+        "reason": "no safe schedule preserving source trajectories and priority"
+      },
+      {
+        "peak_source_frame": 312,
+        "variant": 0,
+        "reason": "no safe schedule preserving source trajectories and priority"
+      },
+      {
+        "peak_source_frame": 311,
+        "variant": 0,
+        "reason": "no safe schedule preserving source trajectories and priority"
+      }
+    ],
+    "holding_error": null
+  },
+  {
+    "episode": 73,
+    "category": "opening_projection",
+    "peak": 317,
+    "peak_z": 0.18728310126898196,
+    "grasp": 271,
+    "held_end": 373,
+    "near_peak_candidates": [
+      {
+        "frame": 316,
+        "z": 0.18580834591432782,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 317,
+        "z": 0.18728310126898196,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 318,
+        "z": 0.18633404655930869,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      }
+    ],
+    "attempts": [],
+    "holding_error": null
+  },
+  {
+    "episode": 74,
+    "category": "moving_projection",
+    "peak": 300,
+    "peak_z": 0.19746717731879537,
+    "grasp": 262,
+    "held_end": 348,
+    "near_peak_candidates": [
+      {
+        "frame": 299,
+        "z": 0.19695667260922262,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": true
+        }
+      },
+      {
+        "frame": 300,
+        "z": 0.19746717731879537,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 301,
+        "z": 0.19719512968397962,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      }
+    ],
+    "attempts": [
+      {
+        "peak_source_frame": 299,
+        "variant": 0,
+        "reason": "no safe schedule preserving source trajectories and priority"
+      }
+    ],
+    "holding_error": null
+  },
+  {
+    "episode": 75,
+    "category": "opening_projection",
+    "peak": 291,
+    "peak_z": 0.20480324733594152,
+    "grasp": 254,
+    "held_end": 312,
+    "near_peak_candidates": [
+      {
+        "frame": 290,
+        "z": 0.20413015919918048,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 291,
+        "z": 0.20480324733594152,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 292,
+        "z": 0.20428379137403851,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      }
+    ],
+    "attempts": [],
+    "holding_error": null
+  },
+  {
+    "episode": 76,
+    "category": "opening_projection",
+    "peak": 276,
+    "peak_z": 0.2258540694448122,
+    "grasp": 240,
+    "held_end": 298,
+    "near_peak_candidates": [
+      {
+        "frame": 273,
+        "z": 0.2247625291689429,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 274,
+        "z": 0.22524966797679452,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 275,
+        "z": 0.2256521090092391,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 276,
+        "z": 0.2258540694448122,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 278,
+        "z": 0.22452397997561097,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      }
+    ],
+    "attempts": [],
+    "holding_error": null
+  },
+  {
+    "episode": 77,
+    "category": "moving_projection",
+    "peak": 280,
+    "peak_z": 0.21981539061328037,
+    "grasp": 237,
+    "held_end": 305,
+    "near_peak_candidates": [
+      {
+        "frame": 279,
+        "z": 0.21880605039058842,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": true
+        }
+      },
+      {
+        "frame": 280,
+        "z": 0.21981539061328037,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": true
+        }
+      },
+      {
+        "frame": 281,
+        "z": 0.2195095496504815,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      },
+      {
+        "frame": 282,
+        "z": 0.21812219137844713,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": false
+        }
+      }
+    ],
+    "attempts": [
+      {
+        "peak_source_frame": 279,
+        "variant": 0,
+        "reason": "no safe schedule preserving source trajectories and priority"
+      },
+      {
+        "peak_source_frame": 280,
+        "variant": 0,
+        "reason": "no safe schedule preserving source trajectories and priority"
+      }
+    ],
+    "holding_error": null
+  },
+  {
+    "episode": 78,
+    "category": "moving_projection",
+    "peak": 307,
+    "peak_z": 0.17223629136952445,
+    "grasp": 257,
+    "held_end": 325,
+    "near_peak_candidates": [
+      {
+        "frame": 305,
+        "z": 0.17033531781788785,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": true
+        }
+      },
+      {
+        "frame": 306,
+        "z": 0.17118567532422502,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": true
+        }
+      },
+      {
+        "frame": 307,
+        "z": 0.17223629136952445,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": true
+        }
+      },
+      {
+        "frame": 308,
+        "z": 0.17136758279153608,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": false,
+          "action_arm": true,
+          "opening_image": true
+        }
+      }
+    ],
+    "attempts": [
+      {
+        "peak_source_frame": 305,
+        "variant": 0,
+        "reason": "no safe schedule preserving source trajectories and priority"
+      },
+      {
+        "peak_source_frame": 306,
+        "variant": 0,
+        "reason": "no safe schedule preserving source trajectories and priority"
+      },
+      {
+        "peak_source_frame": 307,
+        "variant": 0,
+        "reason": "no safe schedule preserving source trajectories and priority"
+      }
+    ],
+    "holding_error": null
+  },
+  {
+    "episode": 80,
+    "category": "moving_projection",
+    "peak": 365,
+    "peak_z": 0.1858524219434646,
+    "grasp": 328,
+    "held_end": 398,
+    "near_peak_candidates": [
+      {
+        "frame": 363,
+        "z": 0.18499620513190634,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": true
+        }
+      },
+      {
+        "frame": 364,
+        "z": 0.18563063395233126,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": true
+        }
+      },
+      {
+        "frame": 365,
+        "z": 0.1858524219434646,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": true
+        }
+      },
+      {
+        "frame": 366,
+        "z": 0.1847272270349622,
+        "checks": {
+          "ramp_support": true,
+          "aperture": true,
+          "state_object": true,
+          "state_arm": true,
+          "action_object": true,
+          "action_arm": true,
+          "opening_image": true
+        }
+      }
+    ],
+    "attempts": [
+      {
+        "peak_source_frame": 366,
+        "variant": 0,
+        "reason": "no safe schedule preserving source trajectories and priority"
+      },
+      {
+        "peak_source_frame": 365,
+        "variant": 0,
+        "reason": "no safe schedule preserving source trajectories and priority"
+      },
+      {
+        "peak_source_frame": 364,
+        "variant": 0,
+        "reason": "no safe schedule preserving source trajectories and priority"
+      },
+      {
+        "peak_source_frame": 363,
+        "variant": 0,
+        "reason": "no safe schedule preserving source trajectories and priority"
+      }
+    ],
+    "holding_error": null
+  }
+]

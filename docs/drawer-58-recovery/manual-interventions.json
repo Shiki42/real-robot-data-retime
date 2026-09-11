@@ -1,0 +1,35 @@
+{
+  "limit": 5,
+  "used": 1,
+  "entries": [
+    {
+      "source_episode": 60,
+      "field": "episodes[0].approach_start",
+      "old": 323,
+      "new": 196,
+      "reason": "Last stationary interval was already at the cube; visual stop incorrectly discarded the approach and pre-closure aperture. State/action show first sustained left motion at edge 196 after idle, visible approach through frames 240-290, closure 315-320, visual pickup 332.",
+      "evidence": [
+        "source60-grasp.jpg",
+        "raw and trimmed episode 060 state/action"
+      ],
+      "source_timeline_sha256": "0b8ead41fd43d28d987c91da13a3ba8fa4f392524a1810099dbb0e4cc6f1243b",
+      "unchanged": [
+        "source video",
+        "source telemetry",
+        "pickup 332",
+        "release 462",
+        "object identity",
+        "segmentation",
+        "scene geometry"
+      ],
+      "validation": {
+        "error": "no safe held lift peak before drawer entry",
+        "grasp": 332,
+        "held_end": 436,
+        "aperture": 35.70000076293945,
+        "recorded_peak_height": 0.15964519489355514
+      },
+      "status": "holding boundary repaired; planning still rejected; no rendered success"
+    }
+  ]
+}

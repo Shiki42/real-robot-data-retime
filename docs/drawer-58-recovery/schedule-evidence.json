@@ -1,0 +1,3332 @@
+[
+  {
+    "episode": 72,
+    "peak": 309,
+    "open": 171,
+    "close": 435,
+    "withdrawal": 366,
+    "reachable": 140,
+    "frontier": [
+      {
+        "source": [
+          304.8144158024691,
+          122.0
+        ],
+        "edges": [
+          {
+            "next": [
+              305.641975308642,
+              123.0
+            ],
+            "can_wait": true,
+            "dependency": true,
+            "safe": false,
+            "clear": [
+              true,
+              true,
+              true,
+              false
+            ]
+          },
+          {
+            "next": [
+              305.641975308642,
+              122.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": false,
+            "clear": [
+              true,
+              false,
+              true,
+              false
+            ]
+          },
+          {
+            "next": [
+              304.8144158024691,
+              123.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          }
+        ]
+      },
+      {
+        "source": [
+          303.92096,
+          121.0
+        ],
+        "edges": [
+          {
+            "next": [
+              304.8144158024691,
+              122.0
+            ],
+            "can_wait": true,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              304.8144158024691,
+              121.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              303.92096,
+              122.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          }
+        ]
+      },
+      {
+        "source": [
+          302.9764227160494,
+          120.0
+        ],
+        "edges": [
+          {
+            "next": [
+              303.92096,
+              121.0
+            ],
+            "can_wait": true,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              303.92096,
+              120.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              302.9764227160494,
+              121.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          }
+        ]
+      },
+      {
+        "source": [
+          301.9970409876543,
+          119.0
+        ],
+        "edges": [
+          {
+            "next": [
+              302.9764227160494,
+              120.0
+            ],
+            "can_wait": true,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              302.9764227160494,
+              119.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              301.9970409876543,
+              120.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "episode": 72,
+    "peak": 310,
+    "open": 171,
+    "close": 435,
+    "withdrawal": 366,
+    "reachable": 139,
+    "frontier": [
+      {
+        "source": [
+          303.9764227160494,
+          120.0
+        ],
+        "edges": [
+          {
+            "next": [
+              304.92096,
+              121.0
+            ],
+            "can_wait": true,
+            "dependency": true,
+            "safe": false,
+            "clear": [
+              true,
+              true,
+              true,
+              false
+            ]
+          },
+          {
+            "next": [
+              304.92096,
+              120.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": false,
+            "clear": [
+              true,
+              false,
+              true,
+              false
+            ]
+          },
+          {
+            "next": [
+              303.9764227160494,
+              121.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          }
+        ]
+      },
+      {
+        "source": [
+          302.9970409876543,
+          119.0
+        ],
+        "edges": [
+          {
+            "next": [
+              303.9764227160494,
+              120.0
+            ],
+            "can_wait": true,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              303.9764227160494,
+              119.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              302.9970409876543,
+              120.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          }
+        ]
+      },
+      {
+        "source": [
+          302.0,
+          118.0
+        ],
+        "edges": [
+          {
+            "next": [
+              302.9970409876543,
+              119.0
+            ],
+            "can_wait": true,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              302.9970409876543,
+              118.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              302.0,
+              119.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          }
+        ]
+      },
+      {
+        "source": [
+          301.0,
+          117.0
+        ],
+        "edges": [
+          {
+            "next": [
+              302.0,
+              118.0
+            ],
+            "can_wait": true,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              302.0,
+              117.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              301.0,
+              118.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "episode": 72,
+    "peak": 308,
+    "open": 171,
+    "close": 435,
+    "withdrawal": 366,
+    "reachable": 140,
+    "frontier": [
+      {
+        "source": [
+          304.641975308642,
+          122.0
+        ],
+        "edges": [
+          {
+            "next": [
+              305.39072,
+              123.0
+            ],
+            "can_wait": true,
+            "dependency": true,
+            "safe": false,
+            "clear": [
+              true,
+              true,
+              true,
+              false
+            ]
+          },
+          {
+            "next": [
+              305.39072,
+              122.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": false,
+            "clear": [
+              true,
+              false,
+              true,
+              false
+            ]
+          },
+          {
+            "next": [
+              304.641975308642,
+              123.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          }
+        ]
+      },
+      {
+        "source": [
+          303.8144158024691,
+          121.0
+        ],
+        "edges": [
+          {
+            "next": [
+              304.641975308642,
+              122.0
+            ],
+            "can_wait": true,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              304.641975308642,
+              121.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              303.8144158024691,
+              122.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          }
+        ]
+      },
+      {
+        "source": [
+          302.92096,
+          120.0
+        ],
+        "edges": [
+          {
+            "next": [
+              303.8144158024691,
+              121.0
+            ],
+            "can_wait": true,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              303.8144158024691,
+              120.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              302.92096,
+              121.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          }
+        ]
+      },
+      {
+        "source": [
+          301.9764227160494,
+          119.0
+        ],
+        "edges": [
+          {
+            "next": [
+              302.92096,
+              120.0
+            ],
+            "can_wait": true,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              302.92096,
+              119.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              301.9764227160494,
+              120.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "episode": 72,
+    "peak": 312,
+    "open": 171,
+    "close": 435,
+    "withdrawal": 366,
+    "reachable": 139,
+    "frontier": [
+      {
+        "source": [
+          304.0,
+          119.0
+        ],
+        "edges": [
+          {
+            "next": [
+              304.9970409876543,
+              120.0
+            ],
+            "can_wait": true,
+            "dependency": true,
+            "safe": false,
+            "clear": [
+              true,
+              false,
+              true,
+              false
+            ]
+          },
+          {
+            "next": [
+              304.9970409876543,
+              119.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": false,
+            "clear": [
+              true,
+              false,
+              true,
+              false
+            ]
+          },
+          {
+            "next": [
+              304.0,
+              120.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          }
+        ]
+      },
+      {
+        "source": [
+          303.0,
+          118.0
+        ],
+        "edges": [
+          {
+            "next": [
+              304.0,
+              119.0
+            ],
+            "can_wait": true,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              304.0,
+              118.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              303.0,
+              119.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          }
+        ]
+      },
+      {
+        "source": [
+          302.0,
+          117.0
+        ],
+        "edges": [
+          {
+            "next": [
+              303.0,
+              118.0
+            ],
+            "can_wait": true,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              303.0,
+              117.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              302.0,
+              118.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          }
+        ]
+      },
+      {
+        "source": [
+          301.0,
+          116.0
+        ],
+        "edges": [
+          {
+            "next": [
+              302.0,
+              117.0
+            ],
+            "can_wait": true,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              302.0,
+              116.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              301.0,
+              117.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "episode": 72,
+    "peak": 311,
+    "open": 171,
+    "close": 435,
+    "withdrawal": 366,
+    "reachable": 139,
+    "frontier": [
+      {
+        "source": [
+          303.9970409876543,
+          120.0
+        ],
+        "edges": [
+          {
+            "next": [
+              304.9764227160494,
+              121.0
+            ],
+            "can_wait": true,
+            "dependency": true,
+            "safe": false,
+            "clear": [
+              true,
+              true,
+              true,
+              false
+            ]
+          },
+          {
+            "next": [
+              304.9764227160494,
+              120.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": false,
+            "clear": [
+              true,
+              false,
+              true,
+              false
+            ]
+          },
+          {
+            "next": [
+              303.9970409876543,
+              121.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          }
+        ]
+      },
+      {
+        "source": [
+          303.0,
+          119.0
+        ],
+        "edges": [
+          {
+            "next": [
+              303.9970409876543,
+              120.0
+            ],
+            "can_wait": true,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              303.9970409876543,
+              119.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              303.0,
+              120.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          }
+        ]
+      },
+      {
+        "source": [
+          302.0,
+          118.0
+        ],
+        "edges": [
+          {
+            "next": [
+              303.0,
+              119.0
+            ],
+            "can_wait": true,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              303.0,
+              118.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              302.0,
+              119.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          }
+        ]
+      },
+      {
+        "source": [
+          301.0,
+          117.0
+        ],
+        "edges": [
+          {
+            "next": [
+              302.0,
+              118.0
+            ],
+            "can_wait": true,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              302.0,
+              117.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              301.0,
+              118.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "episode": 74,
+    "peak": 299,
+    "open": 141,
+    "close": 393,
+    "withdrawal": 381,
+    "reachable": 135,
+    "frontier": [
+      {
+        "source": [
+          295.641975308642,
+          111.0
+        ],
+        "edges": [
+          {
+            "next": [
+              296.39072,
+              112.0
+            ],
+            "can_wait": true,
+            "dependency": true,
+            "safe": false,
+            "clear": [
+              true,
+              false,
+              true,
+              false
+            ]
+          },
+          {
+            "next": [
+              296.39072,
+              111.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": false,
+            "clear": [
+              true,
+              false,
+              true,
+              false
+            ]
+          },
+          {
+            "next": [
+              295.641975308642,
+              112.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          }
+        ]
+      },
+      {
+        "source": [
+          294.8144158024691,
+          110.0
+        ],
+        "edges": [
+          {
+            "next": [
+              295.641975308642,
+              111.0
+            ],
+            "can_wait": true,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              295.641975308642,
+              110.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              294.8144158024691,
+              111.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          }
+        ]
+      },
+      {
+        "source": [
+          293.92096,
+          109.0
+        ],
+        "edges": [
+          {
+            "next": [
+              294.8144158024691,
+              110.0
+            ],
+            "can_wait": true,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              294.8144158024691,
+              109.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              293.92096,
+              110.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          }
+        ]
+      },
+      {
+        "source": [
+          292.9764227160494,
+          108.0
+        ],
+        "edges": [
+          {
+            "next": [
+              293.92096,
+              109.0
+            ],
+            "can_wait": true,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              293.92096,
+              108.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              292.9764227160494,
+              109.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "episode": 77,
+    "peak": 279,
+    "open": 159,
+    "close": 363,
+    "withdrawal": 333,
+    "reachable": 120,
+    "frontier": [
+      {
+        "source": [
+          273.92096,
+          116.0
+        ],
+        "edges": [
+          {
+            "next": [
+              274.8144158024691,
+              117.0
+            ],
+            "can_wait": true,
+            "dependency": true,
+            "safe": false,
+            "clear": [
+              true,
+              false,
+              false,
+              true
+            ]
+          },
+          {
+            "next": [
+              274.8144158024691,
+              116.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              273.92096,
+              117.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": false,
+            "clear": [
+              true,
+              false,
+              false,
+              true
+            ]
+          }
+        ]
+      },
+      {
+        "source": [
+          272.9764227160494,
+          115.0
+        ],
+        "edges": [
+          {
+            "next": [
+              273.92096,
+              116.0
+            ],
+            "can_wait": true,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              273.92096,
+              115.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              272.9764227160494,
+              116.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          }
+        ]
+      },
+      {
+        "source": [
+          271.9970409876543,
+          114.0
+        ],
+        "edges": [
+          {
+            "next": [
+              272.9764227160494,
+              115.0
+            ],
+            "can_wait": true,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              272.9764227160494,
+              114.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              271.9970409876543,
+              115.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          }
+        ]
+      },
+      {
+        "source": [
+          271.0,
+          113.0
+        ],
+        "edges": [
+          {
+            "next": [
+              271.9970409876543,
+              114.0
+            ],
+            "can_wait": true,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              271.9970409876543,
+              113.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              271.0,
+              114.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "episode": 77,
+    "peak": 280,
+    "open": 159,
+    "close": 363,
+    "withdrawal": 333,
+    "reachable": 120,
+    "frontier": [
+      {
+        "source": [
+          273.9764227160494,
+          116.0
+        ],
+        "edges": [
+          {
+            "next": [
+              274.92096,
+              117.0
+            ],
+            "can_wait": true,
+            "dependency": true,
+            "safe": false,
+            "clear": [
+              true,
+              false,
+              false,
+              true
+            ]
+          },
+          {
+            "next": [
+              274.92096,
+              116.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              273.9764227160494,
+              117.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": false,
+            "clear": [
+              true,
+              false,
+              false,
+              true
+            ]
+          }
+        ]
+      },
+      {
+        "source": [
+          272.9970409876543,
+          115.0
+        ],
+        "edges": [
+          {
+            "next": [
+              273.9764227160494,
+              116.0
+            ],
+            "can_wait": true,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              273.9764227160494,
+              115.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              272.9970409876543,
+              116.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          }
+        ]
+      },
+      {
+        "source": [
+          272.0,
+          114.0
+        ],
+        "edges": [
+          {
+            "next": [
+              272.9970409876543,
+              115.0
+            ],
+            "can_wait": true,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              272.9970409876543,
+              114.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              272.0,
+              115.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          }
+        ]
+      },
+      {
+        "source": [
+          271.0,
+          113.0
+        ],
+        "edges": [
+          {
+            "next": [
+              272.0,
+              114.0
+            ],
+            "can_wait": true,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              272.0,
+              113.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              271.0,
+              114.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "episode": 78,
+    "peak": 305,
+    "open": 147,
+    "close": 399,
+    "withdrawal": 357,
+    "reachable": 161,
+    "frontier": [
+      {
+        "source": [
+          299.92096,
+          131.0
+        ],
+        "edges": [
+          {
+            "next": [
+              300.8144158024691,
+              132.0
+            ],
+            "can_wait": true,
+            "dependency": true,
+            "safe": false,
+            "clear": [
+              true,
+              false,
+              true,
+              false
+            ]
+          },
+          {
+            "next": [
+              300.8144158024691,
+              131.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": false,
+            "clear": [
+              true,
+              false,
+              true,
+              false
+            ]
+          },
+          {
+            "next": [
+              299.92096,
+              132.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          }
+        ]
+      },
+      {
+        "source": [
+          298.9764227160494,
+          130.0
+        ],
+        "edges": [
+          {
+            "next": [
+              299.92096,
+              131.0
+            ],
+            "can_wait": true,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              299.92096,
+              130.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              298.9764227160494,
+              131.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          }
+        ]
+      },
+      {
+        "source": [
+          297.9970409876543,
+          129.0
+        ],
+        "edges": [
+          {
+            "next": [
+              298.9764227160494,
+              130.0
+            ],
+            "can_wait": true,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              298.9764227160494,
+              129.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              297.9970409876543,
+              130.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          }
+        ]
+      },
+      {
+        "source": [
+          297.0,
+          128.0
+        ],
+        "edges": [
+          {
+            "next": [
+              297.9970409876543,
+              129.0
+            ],
+            "can_wait": true,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              297.9970409876543,
+              128.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              297.0,
+              129.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "episode": 78,
+    "peak": 306,
+    "open": 147,
+    "close": 399,
+    "withdrawal": 357,
+    "reachable": 161,
+    "frontier": [
+      {
+        "source": [
+          299.9764227160494,
+          130.0
+        ],
+        "edges": [
+          {
+            "next": [
+              300.92096,
+              131.0
+            ],
+            "can_wait": true,
+            "dependency": true,
+            "safe": false,
+            "clear": [
+              true,
+              false,
+              true,
+              false
+            ]
+          },
+          {
+            "next": [
+              300.92096,
+              130.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": false,
+            "clear": [
+              true,
+              false,
+              true,
+              false
+            ]
+          },
+          {
+            "next": [
+              299.9764227160494,
+              131.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          }
+        ]
+      },
+      {
+        "source": [
+          298.9970409876543,
+          129.0
+        ],
+        "edges": [
+          {
+            "next": [
+              299.9764227160494,
+              130.0
+            ],
+            "can_wait": true,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              299.9764227160494,
+              129.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              298.9970409876543,
+              130.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          }
+        ]
+      },
+      {
+        "source": [
+          298.0,
+          128.0
+        ],
+        "edges": [
+          {
+            "next": [
+              298.9970409876543,
+              129.0
+            ],
+            "can_wait": true,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              298.9970409876543,
+              128.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              298.0,
+              129.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          }
+        ]
+      },
+      {
+        "source": [
+          297.0,
+          127.0
+        ],
+        "edges": [
+          {
+            "next": [
+              298.0,
+              128.0
+            ],
+            "can_wait": true,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              298.0,
+              127.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              297.0,
+              128.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "episode": 78,
+    "peak": 307,
+    "open": 147,
+    "close": 399,
+    "withdrawal": 357,
+    "reachable": 161,
+    "frontier": [
+      {
+        "source": [
+          299.9970409876543,
+          130.0
+        ],
+        "edges": [
+          {
+            "next": [
+              300.9764227160494,
+              131.0
+            ],
+            "can_wait": true,
+            "dependency": true,
+            "safe": false,
+            "clear": [
+              true,
+              false,
+              true,
+              false
+            ]
+          },
+          {
+            "next": [
+              300.9764227160494,
+              130.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": false,
+            "clear": [
+              true,
+              false,
+              true,
+              false
+            ]
+          },
+          {
+            "next": [
+              299.9970409876543,
+              131.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          }
+        ]
+      },
+      {
+        "source": [
+          299.0,
+          129.0
+        ],
+        "edges": [
+          {
+            "next": [
+              299.9970409876543,
+              130.0
+            ],
+            "can_wait": true,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              299.9970409876543,
+              129.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              299.0,
+              130.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          }
+        ]
+      },
+      {
+        "source": [
+          298.0,
+          128.0
+        ],
+        "edges": [
+          {
+            "next": [
+              299.0,
+              129.0
+            ],
+            "can_wait": true,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              299.0,
+              128.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              298.0,
+              129.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          }
+        ]
+      },
+      {
+        "source": [
+          297.0,
+          127.0
+        ],
+        "edges": [
+          {
+            "next": [
+              298.0,
+              128.0
+            ],
+            "can_wait": true,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              298.0,
+              127.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              297.0,
+              128.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "episode": 80,
+    "peak": 366,
+    "open": 196,
+    "close": 444,
+    "withdrawal": 425,
+    "reachable": 143,
+    "frontier": [
+      {
+        "source": [
+          349.0,
+          142.0
+        ],
+        "edges": [
+          {
+            "next": [
+              350.0,
+              143.0
+            ],
+            "can_wait": true,
+            "dependency": true,
+            "safe": false,
+            "clear": [
+              true,
+              false,
+              true,
+              false
+            ]
+          },
+          {
+            "next": [
+              350.0,
+              142.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": false,
+            "clear": [
+              true,
+              false,
+              true,
+              false
+            ]
+          },
+          {
+            "next": [
+              349.0,
+              143.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          }
+        ]
+      },
+      {
+        "source": [
+          348.0,
+          141.0
+        ],
+        "edges": [
+          {
+            "next": [
+              349.0,
+              142.0
+            ],
+            "can_wait": true,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              349.0,
+              141.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              348.0,
+              142.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          }
+        ]
+      },
+      {
+        "source": [
+          347.0,
+          140.0
+        ],
+        "edges": [
+          {
+            "next": [
+              348.0,
+              141.0
+            ],
+            "can_wait": true,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              348.0,
+              140.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              347.0,
+              141.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          }
+        ]
+      },
+      {
+        "source": [
+          346.0,
+          139.0
+        ],
+        "edges": [
+          {
+            "next": [
+              347.0,
+              140.0
+            ],
+            "can_wait": true,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              347.0,
+              139.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              346.0,
+              140.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "episode": 80,
+    "peak": 365,
+    "open": 196,
+    "close": 444,
+    "withdrawal": 425,
+    "reachable": 143,
+    "frontier": [
+      {
+        "source": [
+          349.0,
+          142.0
+        ],
+        "edges": [
+          {
+            "next": [
+              350.0,
+              143.0
+            ],
+            "can_wait": true,
+            "dependency": true,
+            "safe": false,
+            "clear": [
+              true,
+              false,
+              true,
+              false
+            ]
+          },
+          {
+            "next": [
+              350.0,
+              142.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": false,
+            "clear": [
+              true,
+              false,
+              true,
+              false
+            ]
+          },
+          {
+            "next": [
+              349.0,
+              143.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          }
+        ]
+      },
+      {
+        "source": [
+          348.0,
+          141.0
+        ],
+        "edges": [
+          {
+            "next": [
+              349.0,
+              142.0
+            ],
+            "can_wait": true,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              349.0,
+              141.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              348.0,
+              142.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          }
+        ]
+      },
+      {
+        "source": [
+          347.0,
+          140.0
+        ],
+        "edges": [
+          {
+            "next": [
+              348.0,
+              141.0
+            ],
+            "can_wait": true,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              348.0,
+              140.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              347.0,
+              141.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          }
+        ]
+      },
+      {
+        "source": [
+          346.0,
+          139.0
+        ],
+        "edges": [
+          {
+            "next": [
+              347.0,
+              140.0
+            ],
+            "can_wait": true,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              347.0,
+              139.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              346.0,
+              140.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "episode": 80,
+    "peak": 364,
+    "open": 196,
+    "close": 444,
+    "withdrawal": 425,
+    "reachable": 144,
+    "frontier": [
+      {
+        "source": [
+          349.0,
+          143.0
+        ],
+        "edges": [
+          {
+            "next": [
+              350.0,
+              144.0
+            ],
+            "can_wait": true,
+            "dependency": true,
+            "safe": false,
+            "clear": [
+              true,
+              false,
+              true,
+              false
+            ]
+          },
+          {
+            "next": [
+              350.0,
+              143.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": false,
+            "clear": [
+              true,
+              false,
+              true,
+              false
+            ]
+          },
+          {
+            "next": [
+              349.0,
+              144.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          }
+        ]
+      },
+      {
+        "source": [
+          348.0,
+          142.0
+        ],
+        "edges": [
+          {
+            "next": [
+              349.0,
+              143.0
+            ],
+            "can_wait": true,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              349.0,
+              142.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              348.0,
+              143.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          }
+        ]
+      },
+      {
+        "source": [
+          347.0,
+          141.0
+        ],
+        "edges": [
+          {
+            "next": [
+              348.0,
+              142.0
+            ],
+            "can_wait": true,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              348.0,
+              141.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              347.0,
+              142.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          }
+        ]
+      },
+      {
+        "source": [
+          346.0,
+          140.0
+        ],
+        "edges": [
+          {
+            "next": [
+              347.0,
+              141.0
+            ],
+            "can_wait": true,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              347.0,
+              140.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              346.0,
+              141.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "episode": 80,
+    "peak": 363,
+    "open": 196,
+    "close": 444,
+    "withdrawal": 425,
+    "reachable": 144,
+    "frontier": [
+      {
+        "source": [
+          349.0,
+          143.0
+        ],
+        "edges": [
+          {
+            "next": [
+              350.0,
+              144.0
+            ],
+            "can_wait": true,
+            "dependency": true,
+            "safe": false,
+            "clear": [
+              true,
+              false,
+              true,
+              false
+            ]
+          },
+          {
+            "next": [
+              350.0,
+              143.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": false,
+            "clear": [
+              true,
+              false,
+              true,
+              false
+            ]
+          },
+          {
+            "next": [
+              349.0,
+              144.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          }
+        ]
+      },
+      {
+        "source": [
+          348.0,
+          142.0
+        ],
+        "edges": [
+          {
+            "next": [
+              349.0,
+              143.0
+            ],
+            "can_wait": true,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              349.0,
+              142.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              348.0,
+              143.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          }
+        ]
+      },
+      {
+        "source": [
+          347.0,
+          141.0
+        ],
+        "edges": [
+          {
+            "next": [
+              348.0,
+              142.0
+            ],
+            "can_wait": true,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              348.0,
+              141.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              347.0,
+              142.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          }
+        ]
+      },
+      {
+        "source": [
+          346.0,
+          140.0
+        ],
+        "edges": [
+          {
+            "next": [
+              347.0,
+              141.0
+            ],
+            "can_wait": true,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              347.0,
+              140.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          },
+          {
+            "next": [
+              346.0,
+              141.0
+            ],
+            "can_wait": false,
+            "dependency": true,
+            "safe": true,
+            "clear": [
+              true,
+              true,
+              true,
+              true
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]
