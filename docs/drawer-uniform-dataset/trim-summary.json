@@ -1,0 +1,1058 @@
+{
+  "source_episodes": 87,
+  "raw_frames": 54463,
+  "trimmed_frames": 53796,
+  "head_removed": 667,
+  "head_removed_seconds": 22.233333333333334,
+  "tail_removed": 0,
+  "episodes_with_head_removed": 77,
+  "episodes": [
+    {
+      "episode": 0,
+      "head_removed": 0,
+      "tail_removed": 0,
+      "frames": 634,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 634,
+        "left_wrist": 634,
+        "right_wrist": 634
+      }
+    },
+    {
+      "episode": 1,
+      "head_removed": 8,
+      "tail_removed": 0,
+      "frames": 850,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 850,
+        "left_wrist": 850,
+        "right_wrist": 850
+      }
+    },
+    {
+      "episode": 2,
+      "head_removed": 17,
+      "tail_removed": 0,
+      "frames": 698,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 698,
+        "left_wrist": 698,
+        "right_wrist": 698
+      }
+    },
+    {
+      "episode": 3,
+      "head_removed": 14,
+      "tail_removed": 0,
+      "frames": 791,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 791,
+        "left_wrist": 791,
+        "right_wrist": 791
+      }
+    },
+    {
+      "episode": 4,
+      "head_removed": 7,
+      "tail_removed": 0,
+      "frames": 666,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 666,
+        "left_wrist": 666,
+        "right_wrist": 666
+      }
+    },
+    {
+      "episode": 5,
+      "head_removed": 32,
+      "tail_removed": 0,
+      "frames": 643,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 643,
+        "left_wrist": 643,
+        "right_wrist": 643
+      }
+    },
+    {
+      "episode": 6,
+      "head_removed": 7,
+      "tail_removed": 0,
+      "frames": 731,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 731,
+        "left_wrist": 731,
+        "right_wrist": 731
+      }
+    },
+    {
+      "episode": 7,
+      "head_removed": 0,
+      "tail_removed": 0,
+      "frames": 608,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 608,
+        "left_wrist": 608,
+        "right_wrist": 608
+      }
+    },
+    {
+      "episode": 8,
+      "head_removed": 4,
+      "tail_removed": 0,
+      "frames": 614,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 614,
+        "left_wrist": 614,
+        "right_wrist": 614
+      }
+    },
+    {
+      "episode": 9,
+      "head_removed": 27,
+      "tail_removed": 0,
+      "frames": 606,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 606,
+        "left_wrist": 606,
+        "right_wrist": 606
+      }
+    },
+    {
+      "episode": 10,
+      "head_removed": 18,
+      "tail_removed": 0,
+      "frames": 614,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 614,
+        "left_wrist": 614,
+        "right_wrist": 614
+      }
+    },
+    {
+      "episode": 11,
+      "head_removed": 11,
+      "tail_removed": 0,
+      "frames": 594,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 594,
+        "left_wrist": 594,
+        "right_wrist": 594
+      }
+    },
+    {
+      "episode": 12,
+      "head_removed": 5,
+      "tail_removed": 0,
+      "frames": 568,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 568,
+        "left_wrist": 568,
+        "right_wrist": 568
+      }
+    },
+    {
+      "episode": 13,
+      "head_removed": 4,
+      "tail_removed": 0,
+      "frames": 694,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 694,
+        "left_wrist": 694,
+        "right_wrist": 694
+      }
+    },
+    {
+      "episode": 14,
+      "head_removed": 17,
+      "tail_removed": 0,
+      "frames": 489,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 489,
+        "left_wrist": 489,
+        "right_wrist": 489
+      }
+    },
+    {
+      "episode": 15,
+      "head_removed": 18,
+      "tail_removed": 0,
+      "frames": 498,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 498,
+        "left_wrist": 498,
+        "right_wrist": 498
+      }
+    },
+    {
+      "episode": 16,
+      "head_removed": 4,
+      "tail_removed": 0,
+      "frames": 537,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 537,
+        "left_wrist": 537,
+        "right_wrist": 537
+      }
+    },
+    {
+      "episode": 17,
+      "head_removed": 6,
+      "tail_removed": 0,
+      "frames": 591,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 591,
+        "left_wrist": 591,
+        "right_wrist": 591
+      }
+    },
+    {
+      "episode": 18,
+      "head_removed": 16,
+      "tail_removed": 0,
+      "frames": 583,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 583,
+        "left_wrist": 583,
+        "right_wrist": 583
+      }
+    },
+    {
+      "episode": 19,
+      "head_removed": 15,
+      "tail_removed": 0,
+      "frames": 547,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 547,
+        "left_wrist": 547,
+        "right_wrist": 547
+      }
+    },
+    {
+      "episode": 20,
+      "head_removed": 0,
+      "tail_removed": 0,
+      "frames": 524,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 524,
+        "left_wrist": 524,
+        "right_wrist": 524
+      }
+    },
+    {
+      "episode": 21,
+      "head_removed": 1,
+      "tail_removed": 0,
+      "frames": 769,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 769,
+        "left_wrist": 769,
+        "right_wrist": 769
+      }
+    },
+    {
+      "episode": 22,
+      "head_removed": 0,
+      "tail_removed": 0,
+      "frames": 577,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 577,
+        "left_wrist": 577,
+        "right_wrist": 577
+      }
+    },
+    {
+      "episode": 23,
+      "head_removed": 1,
+      "tail_removed": 0,
+      "frames": 575,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 575,
+        "left_wrist": 575,
+        "right_wrist": 575
+      }
+    },
+    {
+      "episode": 24,
+      "head_removed": 11,
+      "tail_removed": 0,
+      "frames": 627,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 627,
+        "left_wrist": 627,
+        "right_wrist": 627
+      }
+    },
+    {
+      "episode": 25,
+      "head_removed": 0,
+      "tail_removed": 0,
+      "frames": 527,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 527,
+        "left_wrist": 527,
+        "right_wrist": 527
+      }
+    },
+    {
+      "episode": 26,
+      "head_removed": 5,
+      "tail_removed": 0,
+      "frames": 590,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 590,
+        "left_wrist": 590,
+        "right_wrist": 590
+      }
+    },
+    {
+      "episode": 27,
+      "head_removed": 2,
+      "tail_removed": 0,
+      "frames": 511,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 511,
+        "left_wrist": 511,
+        "right_wrist": 511
+      }
+    },
+    {
+      "episode": 28,
+      "head_removed": 5,
+      "tail_removed": 0,
+      "frames": 557,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 557,
+        "left_wrist": 557,
+        "right_wrist": 557
+      }
+    },
+    {
+      "episode": 29,
+      "head_removed": 6,
+      "tail_removed": 0,
+      "frames": 514,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 514,
+        "left_wrist": 514,
+        "right_wrist": 514
+      }
+    },
+    {
+      "episode": 30,
+      "head_removed": 9,
+      "tail_removed": 0,
+      "frames": 553,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 553,
+        "left_wrist": 553,
+        "right_wrist": 553
+      }
+    },
+    {
+      "episode": 31,
+      "head_removed": 2,
+      "tail_removed": 0,
+      "frames": 546,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 546,
+        "left_wrist": 546,
+        "right_wrist": 546
+      }
+    },
+    {
+      "episode": 32,
+      "head_removed": 10,
+      "tail_removed": 0,
+      "frames": 530,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 530,
+        "left_wrist": 530,
+        "right_wrist": 530
+      }
+    },
+    {
+      "episode": 33,
+      "head_removed": 2,
+      "tail_removed": 0,
+      "frames": 545,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 545,
+        "left_wrist": 545,
+        "right_wrist": 545
+      }
+    },
+    {
+      "episode": 34,
+      "head_removed": 0,
+      "tail_removed": 0,
+      "frames": 607,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 607,
+        "left_wrist": 607,
+        "right_wrist": 607
+      }
+    },
+    {
+      "episode": 35,
+      "head_removed": 2,
+      "tail_removed": 0,
+      "frames": 601,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 601,
+        "left_wrist": 601,
+        "right_wrist": 601
+      }
+    },
+    {
+      "episode": 36,
+      "head_removed": 1,
+      "tail_removed": 0,
+      "frames": 694,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 694,
+        "left_wrist": 694,
+        "right_wrist": 694
+      }
+    },
+    {
+      "episode": 37,
+      "head_removed": 2,
+      "tail_removed": 0,
+      "frames": 573,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 573,
+        "left_wrist": 573,
+        "right_wrist": 573
+      }
+    },
+    {
+      "episode": 38,
+      "head_removed": 1,
+      "tail_removed": 0,
+      "frames": 540,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 540,
+        "left_wrist": 540,
+        "right_wrist": 540
+      }
+    },
+    {
+      "episode": 39,
+      "head_removed": 8,
+      "tail_removed": 0,
+      "frames": 587,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 587,
+        "left_wrist": 587,
+        "right_wrist": 587
+      }
+    },
+    {
+      "episode": 40,
+      "head_removed": 10,
+      "tail_removed": 0,
+      "frames": 565,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 565,
+        "left_wrist": 565,
+        "right_wrist": 565
+      }
+    },
+    {
+      "episode": 41,
+      "head_removed": 6,
+      "tail_removed": 0,
+      "frames": 500,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 500,
+        "left_wrist": 500,
+        "right_wrist": 500
+      }
+    },
+    {
+      "episode": 42,
+      "head_removed": 2,
+      "tail_removed": 0,
+      "frames": 539,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 539,
+        "left_wrist": 539,
+        "right_wrist": 539
+      }
+    },
+    {
+      "episode": 43,
+      "head_removed": 5,
+      "tail_removed": 0,
+      "frames": 556,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 556,
+        "left_wrist": 556,
+        "right_wrist": 556
+      }
+    },
+    {
+      "episode": 44,
+      "head_removed": 9,
+      "tail_removed": 0,
+      "frames": 569,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 569,
+        "left_wrist": 569,
+        "right_wrist": 569
+      }
+    },
+    {
+      "episode": 45,
+      "head_removed": 18,
+      "tail_removed": 0,
+      "frames": 683,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 683,
+        "left_wrist": 683,
+        "right_wrist": 683
+      }
+    },
+    {
+      "episode": 46,
+      "head_removed": 6,
+      "tail_removed": 0,
+      "frames": 769,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 769,
+        "left_wrist": 769,
+        "right_wrist": 769
+      }
+    },
+    {
+      "episode": 47,
+      "head_removed": 2,
+      "tail_removed": 0,
+      "frames": 799,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 799,
+        "left_wrist": 799,
+        "right_wrist": 799
+      }
+    },
+    {
+      "episode": 48,
+      "head_removed": 3,
+      "tail_removed": 0,
+      "frames": 791,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 791,
+        "left_wrist": 791,
+        "right_wrist": 791
+      }
+    },
+    {
+      "episode": 49,
+      "head_removed": 7,
+      "tail_removed": 0,
+      "frames": 654,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 654,
+        "left_wrist": 654,
+        "right_wrist": 654
+      }
+    },
+    {
+      "episode": 50,
+      "head_removed": 8,
+      "tail_removed": 0,
+      "frames": 770,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 770,
+        "left_wrist": 770,
+        "right_wrist": 770
+      }
+    },
+    {
+      "episode": 51,
+      "head_removed": 4,
+      "tail_removed": 0,
+      "frames": 704,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 704,
+        "left_wrist": 704,
+        "right_wrist": 704
+      }
+    },
+    {
+      "episode": 52,
+      "head_removed": 4,
+      "tail_removed": 0,
+      "frames": 776,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 776,
+        "left_wrist": 776,
+        "right_wrist": 776
+      }
+    },
+    {
+      "episode": 53,
+      "head_removed": 9,
+      "tail_removed": 0,
+      "frames": 712,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 712,
+        "left_wrist": 712,
+        "right_wrist": 712
+      }
+    },
+    {
+      "episode": 54,
+      "head_removed": 5,
+      "tail_removed": 0,
+      "frames": 606,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 606,
+        "left_wrist": 606,
+        "right_wrist": 606
+      }
+    },
+    {
+      "episode": 55,
+      "head_removed": 10,
+      "tail_removed": 0,
+      "frames": 729,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 729,
+        "left_wrist": 729,
+        "right_wrist": 729
+      }
+    },
+    {
+      "episode": 56,
+      "head_removed": 5,
+      "tail_removed": 0,
+      "frames": 735,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 735,
+        "left_wrist": 735,
+        "right_wrist": 735
+      }
+    },
+    {
+      "episode": 57,
+      "head_removed": 9,
+      "tail_removed": 0,
+      "frames": 706,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 706,
+        "left_wrist": 706,
+        "right_wrist": 706
+      }
+    },
+    {
+      "episode": 58,
+      "head_removed": 8,
+      "tail_removed": 0,
+      "frames": 703,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 703,
+        "left_wrist": 703,
+        "right_wrist": 703
+      }
+    },
+    {
+      "episode": 59,
+      "head_removed": 5,
+      "tail_removed": 0,
+      "frames": 653,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 653,
+        "left_wrist": 653,
+        "right_wrist": 653
+      }
+    },
+    {
+      "episode": 60,
+      "head_removed": 10,
+      "tail_removed": 0,
+      "frames": 665,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 665,
+        "left_wrist": 665,
+        "right_wrist": 665
+      }
+    },
+    {
+      "episode": 61,
+      "head_removed": 9,
+      "tail_removed": 0,
+      "frames": 674,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 674,
+        "left_wrist": 674,
+        "right_wrist": 674
+      }
+    },
+    {
+      "episode": 62,
+      "head_removed": 6,
+      "tail_removed": 0,
+      "frames": 772,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 772,
+        "left_wrist": 772,
+        "right_wrist": 772
+      }
+    },
+    {
+      "episode": 63,
+      "head_removed": 19,
+      "tail_removed": 0,
+      "frames": 639,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 639,
+        "left_wrist": 639,
+        "right_wrist": 639
+      }
+    },
+    {
+      "episode": 64,
+      "head_removed": 8,
+      "tail_removed": 0,
+      "frames": 645,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 645,
+        "left_wrist": 645,
+        "right_wrist": 645
+      }
+    },
+    {
+      "episode": 65,
+      "head_removed": 2,
+      "tail_removed": 0,
+      "frames": 759,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 759,
+        "left_wrist": 759,
+        "right_wrist": 759
+      }
+    },
+    {
+      "episode": 66,
+      "head_removed": 8,
+      "tail_removed": 0,
+      "frames": 499,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 499,
+        "left_wrist": 499,
+        "right_wrist": 499
+      }
+    },
+    {
+      "episode": 67,
+      "head_removed": 0,
+      "tail_removed": 0,
+      "frames": 553,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 553,
+        "left_wrist": 553,
+        "right_wrist": 553
+      }
+    },
+    {
+      "episode": 68,
+      "head_removed": 14,
+      "tail_removed": 0,
+      "frames": 611,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 611,
+        "left_wrist": 611,
+        "right_wrist": 611
+      }
+    },
+    {
+      "episode": 69,
+      "head_removed": 9,
+      "tail_removed": 0,
+      "frames": 586,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 586,
+        "left_wrist": 586,
+        "right_wrist": 586
+      }
+    },
+    {
+      "episode": 70,
+      "head_removed": 9,
+      "tail_removed": 0,
+      "frames": 495,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 495,
+        "left_wrist": 495,
+        "right_wrist": 495
+      }
+    },
+    {
+      "episode": 71,
+      "head_removed": 11,
+      "tail_removed": 0,
+      "frames": 546,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 546,
+        "left_wrist": 546,
+        "right_wrist": 546
+      }
+    },
+    {
+      "episode": 72,
+      "head_removed": 10,
+      "tail_removed": 0,
+      "frames": 597,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 597,
+        "left_wrist": 597,
+        "right_wrist": 597
+      }
+    },
+    {
+      "episode": 73,
+      "head_removed": 12,
+      "tail_removed": 0,
+      "frames": 594,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 594,
+        "left_wrist": 594,
+        "right_wrist": 594
+      }
+    },
+    {
+      "episode": 74,
+      "head_removed": 11,
+      "tail_removed": 0,
+      "frames": 675,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 675,
+        "left_wrist": 675,
+        "right_wrist": 675
+      }
+    },
+    {
+      "episode": 75,
+      "head_removed": 6,
+      "tail_removed": 0,
+      "frames": 504,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 504,
+        "left_wrist": 504,
+        "right_wrist": 504
+      }
+    },
+    {
+      "episode": 76,
+      "head_removed": 14,
+      "tail_removed": 0,
+      "frames": 635,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 635,
+        "left_wrist": 635,
+        "right_wrist": 635
+      }
+    },
+    {
+      "episode": 77,
+      "head_removed": 0,
+      "tail_removed": 0,
+      "frames": 620,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 620,
+        "left_wrist": 620,
+        "right_wrist": 620
+      }
+    },
+    {
+      "episode": 78,
+      "head_removed": 17,
+      "tail_removed": 0,
+      "frames": 553,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 553,
+        "left_wrist": 553,
+        "right_wrist": 553
+      }
+    },
+    {
+      "episode": 79,
+      "head_removed": 10,
+      "tail_removed": 0,
+      "frames": 479,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 479,
+        "left_wrist": 479,
+        "right_wrist": 479
+      }
+    },
+    {
+      "episode": 80,
+      "head_removed": 15,
+      "tail_removed": 0,
+      "frames": 579,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 579,
+        "left_wrist": 579,
+        "right_wrist": 579
+      }
+    },
+    {
+      "episode": 81,
+      "head_removed": 3,
+      "tail_removed": 0,
+      "frames": 606,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 606,
+        "left_wrist": 606,
+        "right_wrist": 606
+      }
+    },
+    {
+      "episode": 82,
+      "head_removed": 15,
+      "tail_removed": 0,
+      "frames": 590,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 590,
+        "left_wrist": 590,
+        "right_wrist": 590
+      }
+    },
+    {
+      "episode": 83,
+      "head_removed": 0,
+      "tail_removed": 0,
+      "frames": 625,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 625,
+        "left_wrist": 625,
+        "right_wrist": 625
+      }
+    },
+    {
+      "episode": 84,
+      "head_removed": 0,
+      "tail_removed": 0,
+      "frames": 458,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 458,
+        "left_wrist": 458,
+        "right_wrist": 458
+      }
+    },
+    {
+      "episode": 85,
+      "head_removed": 5,
+      "tail_removed": 0,
+      "frames": 611,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 611,
+        "left_wrist": 611,
+        "right_wrist": 611
+      }
+    },
+    {
+      "episode": 86,
+      "head_removed": 11,
+      "tail_removed": 0,
+      "frames": 604,
+      "numeric_exact": true,
+      "decoded_camera_frames": {
+        "top": 604,
+        "left_wrist": 604,
+        "right_wrist": 604
+      }
+    }
+  ],
+  "source": "/home/coder/share/retime-interaction-20260909/drawer",
+  "reused_trim": "/home/coder/share/retime-interaction-20260909/drawer-trimmed",
+  "workflow": "real_robot_data_retime.trim.analyze_dataset; original action thresholds .1 deg/s and .1 mm/s; head-only intervals verified against existing trim"
+}

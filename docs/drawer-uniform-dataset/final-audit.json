@@ -1,0 +1,19 @@
+{
+  "passed": true,
+  "source_episodes": 87,
+  "episodes": 174,
+  "frames": 97769,
+  "fps": 30,
+  "duration_seconds": 3258.9666666666667,
+  "camera_videos": 522,
+  "parquet_files": 174,
+  "producer": "f2cebb43cfa5e497c3f70c3b88b201938abee4275d601753d56cf3ab93e25d31",
+  "code_commit": "a29cc6b",
+  "trim_head_removed": 667,
+  "trim_tail_removed": 0,
+  "manual_source_count": 3,
+  "visual_scope": "All174 outputs reviewed at lift, end of wait, postrelease and final frames; not exhaustive every-frame certification. Minor segmentation seams, exposure differences and missing-depth ordering remain limitations.",
+  "unknown_depth_order": "existing stable_right_foreground",
+  "overlap_pixel_frames": 17944718,
+  "depth_valid_overlap_pixel_frames": 15513402
+}

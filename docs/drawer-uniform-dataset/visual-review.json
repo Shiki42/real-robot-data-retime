@@ -1,0 +1,872 @@
+[
+  {
+    "source": 0,
+    "outputs": [
+      0,
+      87
+    ],
+    "passed": true,
+    "scope": "Viewed both variants at lift arrival, end of wait, after release and final frame. Object removed from origin, cube visible in drawer after deposit, drawer closed at end; sampled-stage review, not every-frame certification.",
+    "contact_sheet": "review/source-000.jpg"
+  },
+  {
+    "source": 1,
+    "outputs": [
+      1,
+      88
+    ],
+    "passed": true,
+    "scope": "Viewed both variants at lift arrival, end of wait, after release and final frame. Object removed from origin, cube visible in drawer after deposit, drawer closed at end; sampled-stage review, not every-frame certification.",
+    "contact_sheet": "review/source-001.jpg"
+  },
+  {
+    "source": 2,
+    "outputs": [
+      2,
+      89
+    ],
+    "passed": true,
+    "scope": "Viewed both variants at lift arrival, end of wait, after release and final frame. Object removed from origin, cube visible in drawer after deposit, drawer closed at end; sampled-stage review, not every-frame certification.",
+    "contact_sheet": "review/source-002.jpg"
+  },
+  {
+    "source": 3,
+    "outputs": [
+      3,
+      90
+    ],
+    "passed": true,
+    "scope": "Viewed both variants at lift arrival, end of wait, after release and final frame. Object removed from origin, cube visible in drawer after deposit, drawer closed at end; sampled-stage review, not every-frame certification.",
+    "contact_sheet": "review/source-003.jpg"
+  },
+  {
+    "source": 4,
+    "outputs": [
+      4,
+      91
+    ],
+    "passed": true,
+    "scope": "Viewed both variants at lift arrival, end of wait, after release and final frame. Object removed from origin, cube visible in drawer after deposit, drawer closed at end; sampled-stage review, not every-frame certification.",
+    "contact_sheet": "review/source-004.jpg"
+  },
+  {
+    "source": 5,
+    "outputs": [
+      5,
+      92
+    ],
+    "passed": true,
+    "scope": "Viewed both variants at lift arrival, end of wait, after release and final frame. Object removed from origin, cube visible in drawer after deposit, drawer closed at end; sampled-stage review, not every-frame certification.",
+    "contact_sheet": "review/source-005.jpg"
+  },
+  {
+    "source": 6,
+    "outputs": [
+      6,
+      93
+    ],
+    "passed": true,
+    "scope": "Viewed both variants at lift arrival, end of wait, after release and final frame. Object removed from origin, cube visible in drawer after deposit, drawer closed at end; sampled-stage review, not every-frame certification.",
+    "contact_sheet": "review/source-006.jpg"
+  },
+  {
+    "source": 7,
+    "outputs": [
+      7,
+      94
+    ],
+    "passed": true,
+    "scope": "Viewed both variants at lift arrival, end of wait, after release and final frame. Object removed from origin, cube visible in drawer after deposit, drawer closed at end; sampled-stage review, not every-frame certification.",
+    "contact_sheet": "review/source-007.jpg"
+  },
+  {
+    "source": 8,
+    "outputs": [
+      8,
+      95
+    ],
+    "passed": true,
+    "scope": "Both variants reviewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-008.jpg"
+  },
+  {
+    "source": 9,
+    "outputs": [
+      9,
+      96
+    ],
+    "passed": true,
+    "scope": "Both variants reviewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-009.jpg"
+  },
+  {
+    "source": 10,
+    "outputs": [
+      10,
+      97
+    ],
+    "passed": true,
+    "scope": "Both variants reviewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-010.jpg"
+  },
+  {
+    "source": 11,
+    "outputs": [
+      11,
+      98
+    ],
+    "passed": true,
+    "scope": "Both variants reviewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-011.jpg"
+  },
+  {
+    "source": 12,
+    "outputs": [
+      12,
+      99
+    ],
+    "passed": true,
+    "scope": "Both variants reviewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-012.jpg"
+  },
+  {
+    "source": 13,
+    "outputs": [
+      13,
+      100
+    ],
+    "passed": true,
+    "scope": "Both variants reviewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-013.jpg"
+  },
+  {
+    "source": 14,
+    "outputs": [
+      14,
+      101
+    ],
+    "passed": true,
+    "scope": "Both variants reviewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-014.jpg"
+  },
+  {
+    "source": 15,
+    "outputs": [
+      15,
+      102
+    ],
+    "passed": true,
+    "scope": "Both variants reviewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-015.jpg"
+  },
+  {
+    "source": 16,
+    "outputs": [
+      16,
+      103
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-016.jpg"
+  },
+  {
+    "source": 17,
+    "outputs": [
+      17,
+      104
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-017.jpg"
+  },
+  {
+    "source": 18,
+    "outputs": [
+      18,
+      105
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-018.jpg"
+  },
+  {
+    "source": 19,
+    "outputs": [
+      19,
+      106
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-019.jpg"
+  },
+  {
+    "source": 20,
+    "outputs": [
+      20,
+      107
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-020.jpg"
+  },
+  {
+    "source": 21,
+    "outputs": [
+      21,
+      108
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-021.jpg"
+  },
+  {
+    "source": 22,
+    "outputs": [
+      22,
+      109
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-022.jpg"
+  },
+  {
+    "source": 23,
+    "outputs": [
+      23,
+      110
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-023.jpg"
+  },
+  {
+    "source": 24,
+    "outputs": [
+      24,
+      111
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-024.jpg"
+  },
+  {
+    "source": 25,
+    "outputs": [
+      25,
+      112
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-025.jpg"
+  },
+  {
+    "source": 26,
+    "outputs": [
+      26,
+      113
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-026.jpg"
+  },
+  {
+    "source": 27,
+    "outputs": [
+      27,
+      114
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-027.jpg"
+  },
+  {
+    "source": 28,
+    "outputs": [
+      28,
+      115
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-028.jpg"
+  },
+  {
+    "source": 29,
+    "outputs": [
+      29,
+      116
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-029.jpg"
+  },
+  {
+    "source": 30,
+    "outputs": [
+      30,
+      117
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-030.jpg"
+  },
+  {
+    "source": 31,
+    "outputs": [
+      31,
+      118
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-031.jpg"
+  },
+  {
+    "source": 32,
+    "outputs": [
+      32,
+      119
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-032.jpg"
+  },
+  {
+    "source": 33,
+    "outputs": [
+      33,
+      120
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-033.jpg"
+  },
+  {
+    "source": 34,
+    "outputs": [
+      34,
+      121
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-034.jpg"
+  },
+  {
+    "source": 35,
+    "outputs": [
+      35,
+      122
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review. Re-generated from recorded source-specific corrections; minor compositing edge seams remain possible.",
+    "contact_sheet": "review/source-035.jpg"
+  },
+  {
+    "source": 36,
+    "outputs": [
+      36,
+      123
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-036.jpg"
+  },
+  {
+    "source": 37,
+    "outputs": [
+      37,
+      124
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-037.jpg"
+  },
+  {
+    "source": 38,
+    "outputs": [
+      38,
+      125
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-038.jpg"
+  },
+  {
+    "source": 39,
+    "outputs": [
+      39,
+      126
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-039.jpg"
+  },
+  {
+    "source": 40,
+    "outputs": [
+      40,
+      127
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-040.jpg"
+  },
+  {
+    "source": 41,
+    "outputs": [
+      41,
+      128
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-041.jpg"
+  },
+  {
+    "source": 42,
+    "outputs": [
+      42,
+      129
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-042.jpg"
+  },
+  {
+    "source": 43,
+    "outputs": [
+      43,
+      130
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-043.jpg"
+  },
+  {
+    "source": 44,
+    "outputs": [
+      44,
+      131
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-044.jpg"
+  },
+  {
+    "source": 45,
+    "outputs": [
+      45,
+      132
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-045.jpg"
+  },
+  {
+    "source": 46,
+    "outputs": [
+      46,
+      133
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-046.jpg"
+  },
+  {
+    "source": 47,
+    "outputs": [
+      47,
+      134
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-047.jpg"
+  },
+  {
+    "source": 48,
+    "outputs": [
+      48,
+      135
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-048.jpg"
+  },
+  {
+    "source": 49,
+    "outputs": [
+      49,
+      136
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-049.jpg"
+  },
+  {
+    "source": 50,
+    "outputs": [
+      50,
+      137
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-050.jpg"
+  },
+  {
+    "source": 51,
+    "outputs": [
+      51,
+      138
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-051.jpg"
+  },
+  {
+    "source": 52,
+    "outputs": [
+      52,
+      139
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-052.jpg"
+  },
+  {
+    "source": 53,
+    "outputs": [
+      53,
+      140
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-053.jpg"
+  },
+  {
+    "source": 54,
+    "outputs": [
+      54,
+      141
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-054.jpg"
+  },
+  {
+    "source": 55,
+    "outputs": [
+      55,
+      142
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-055.jpg"
+  },
+  {
+    "source": 56,
+    "outputs": [
+      56,
+      143
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-056.jpg"
+  },
+  {
+    "source": 57,
+    "outputs": [
+      57,
+      144
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-057.jpg"
+  },
+  {
+    "source": 58,
+    "outputs": [
+      58,
+      145
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-058.jpg"
+  },
+  {
+    "source": 59,
+    "outputs": [
+      59,
+      146
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-059.jpg"
+  },
+  {
+    "source": 60,
+    "outputs": [
+      60,
+      147
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-060.jpg"
+  },
+  {
+    "source": 61,
+    "outputs": [
+      61,
+      148
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review. Re-generated from recorded source-specific corrections; minor compositing edge seams remain possible.",
+    "contact_sheet": "review/source-061.jpg"
+  },
+  {
+    "source": 62,
+    "outputs": [
+      62,
+      149
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-062.jpg"
+  },
+  {
+    "source": 63,
+    "outputs": [
+      63,
+      150
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-063.jpg"
+  },
+  {
+    "source": 64,
+    "outputs": [
+      64,
+      151
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-064.jpg"
+  },
+  {
+    "source": 65,
+    "outputs": [
+      65,
+      152
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-065.jpg"
+  },
+  {
+    "source": 66,
+    "outputs": [
+      66,
+      153
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-066.jpg"
+  },
+  {
+    "source": 67,
+    "outputs": [
+      67,
+      154
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-067.jpg"
+  },
+  {
+    "source": 68,
+    "outputs": [
+      68,
+      155
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-068.jpg"
+  },
+  {
+    "source": 69,
+    "outputs": [
+      69,
+      156
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-069.jpg"
+  },
+  {
+    "source": 70,
+    "outputs": [
+      70,
+      157
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-070.jpg"
+  },
+  {
+    "source": 71,
+    "outputs": [
+      71,
+      158
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-071.jpg"
+  },
+  {
+    "source": 72,
+    "outputs": [
+      72,
+      159
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-072.jpg"
+  },
+  {
+    "source": 73,
+    "outputs": [
+      73,
+      160
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-073.jpg"
+  },
+  {
+    "source": 74,
+    "outputs": [
+      74,
+      161
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-074.jpg"
+  },
+  {
+    "source": 75,
+    "outputs": [
+      75,
+      162
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-075.jpg"
+  },
+  {
+    "source": 76,
+    "outputs": [
+      76,
+      163
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-076.jpg"
+  },
+  {
+    "source": 77,
+    "outputs": [
+      77,
+      164
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-077.jpg"
+  },
+  {
+    "source": 78,
+    "outputs": [
+      78,
+      165
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-078.jpg"
+  },
+  {
+    "source": 79,
+    "outputs": [
+      79,
+      166
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-079.jpg"
+  },
+  {
+    "source": 80,
+    "outputs": [
+      80,
+      167
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-080.jpg"
+  },
+  {
+    "source": 81,
+    "outputs": [
+      81,
+      168
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-081.jpg"
+  },
+  {
+    "source": 82,
+    "outputs": [
+      82,
+      169
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-082.jpg"
+  },
+  {
+    "source": 83,
+    "outputs": [
+      83,
+      170
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-083.jpg"
+  },
+  {
+    "source": 84,
+    "outputs": [
+      84,
+      171
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-084.jpg"
+  },
+  {
+    "source": 85,
+    "outputs": [
+      85,
+      172
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-085.jpg"
+  },
+  {
+    "source": 86,
+    "outputs": [
+      86,
+      173
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift, end of wait, after release and final frame; cube deposited and drawer closes. Sampled-stage review.",
+    "contact_sheet": "review/source-086.jpg"
+  }
+]

@@ -1,0 +1,131 @@
+{
+  "limit": 5,
+  "used": 3,
+  "entries": [
+    {
+      "source_episode": 60,
+      "field": "episodes[0].approach_start",
+      "old": 323,
+      "new": 196,
+      "reason": "Last stationary interval was already at the cube; visual stop incorrectly discarded the approach and pre-closure aperture. State/action show first sustained left motion at edge 196 after idle, visible approach through frames 240-290, closure 315-320, visual pickup 332.",
+      "evidence": [
+        "source60-grasp.jpg",
+        "raw and trimmed episode 060 state/action"
+      ],
+      "source_timeline_sha256": "0b8ead41fd43d28d987c91da13a3ba8fa4f392524a1810099dbb0e4cc6f1243b",
+      "unchanged": [
+        "source video",
+        "source telemetry",
+        "pickup 332",
+        "release 462",
+        "object identity",
+        "segmentation",
+        "scene geometry"
+      ],
+      "validation": {
+        "passed": true,
+        "outputs": [
+          60,
+          147
+        ],
+        "numeric_and_three_cameras": true,
+        "sampled_stage_visual_review": true
+      },
+      "status": "accepted"
+    },
+    {
+      "source_episode": 35,
+      "field": "drawer_motion.close_start",
+      "old": 343,
+      "new": 535,
+      "reason": "Original video at 343 shows gripper adjustment while drawer remains open; frames350-535 show open drawer and repeated right-hand adjustments. Frame535 conservatively marks final closing approach before visible inward slide around546-600. Old gate clipped open-scene reconstruction at342 while left arm still occluded the cabinet.",
+      "evidence": [
+        "source35-closing.jpg",
+        "source35-closing-late.jpg",
+        "source35-end.jpg",
+        "source35-issue.jpg"
+      ],
+      "source_timeline_sha256": "2de16584c9c84861c08603af85218d061c4c92d8f7e0c87d368bdc89d05c7acd",
+      "unchanged": [
+        "pickup",
+        "release",
+        "A/B definitions and timing",
+        "source videos",
+        "Action/State",
+        "segmentation",
+        "scene geometry"
+      ],
+      "status": "accepted",
+      "validation": {
+        "passed": true,
+        "outputs": [
+          35,
+          122
+        ],
+        "numeric_and_three_cameras": true,
+        "sampled_stage_visual_review": true
+      }
+    },
+    {
+      "source_episode": 61,
+      "reason": "Right robot mask owns a fixed patch of drawer floor and later the deposited cube; earlier right source times are mixed with a held left source, causing a duplicate cube.",
+      "change": {
+        "arm": "right",
+        "frames_half_open": [
+          204,
+          498
+        ],
+        "registered_resolution": [
+          640,
+          362
+        ],
+        "polygon_xy": [
+          [
+            376,
+            199
+          ],
+          [
+            474,
+            174
+          ],
+          [
+            554,
+            250
+          ],
+          [
+            428,
+            298
+          ]
+        ],
+        "operation": "exclude observed drawer floor from right robot ownership; original masks used elsewhere",
+        "removed_pixel_frames": 3490101
+      },
+      "evidence": [
+        "source61-roi.jpg: registered source frames204,300,376,469,480,497 show this rectangle as empty floor or placed cube, not right robot",
+        "source61-evidence.jpg",
+        "trace61.py",
+        "source61-grid.jpg: polygon follows drawer floor and stays above/right of the actual right-gripper silhouette"
+      ],
+      "source_segmentation_sha256": "91d47958998d76119fd47fe45b092aeaaa42c7c5cf6c5ea69d503231c566a587",
+      "unchanged": [
+        "all source RGB/depth",
+        "all Action/State",
+        "left mask",
+        "object masks",
+        "stage boundaries",
+        "geometry and collision checks"
+      ],
+      "status": "accepted",
+      "validation": {
+        "passed": true,
+        "outputs": [
+          61,
+          148
+        ],
+        "numeric_and_three_cameras": true,
+        "sampled_stage_visual_review": true
+      }
+    }
+  ],
+  "abandoned_diagnostics": "Mask dilation and generic scene/ownership probes remain under their separate probe directories and are not part of this dataset or producer."
+}

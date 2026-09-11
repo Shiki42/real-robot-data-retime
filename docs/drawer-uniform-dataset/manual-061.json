@@ -1,0 +1,51 @@
+{
+  "source_episode": 61,
+  "reason": "Right robot mask owns a fixed patch of drawer floor and later the deposited cube; earlier right source times are mixed with a held left source, causing a duplicate cube.",
+  "change": {
+    "arm": "right",
+    "frames_half_open": [
+      204,
+      498
+    ],
+    "registered_resolution": [
+      640,
+      362
+    ],
+    "polygon_xy": [
+      [
+        376,
+        199
+      ],
+      [
+        474,
+        174
+      ],
+      [
+        554,
+        250
+      ],
+      [
+        428,
+        298
+      ]
+    ],
+    "operation": "exclude observed drawer floor from right robot ownership; original masks used elsewhere",
+    "removed_pixel_frames": 3490101
+  },
+  "evidence": [
+    "source61-roi.jpg: registered source frames204,300,376,469,480,497 show this rectangle as empty floor or placed cube, not right robot",
+    "source61-evidence.jpg",
+    "trace61.py",
+    "source61-grid.jpg: polygon follows drawer floor and stays above/right of the actual right-gripper silhouette"
+  ],
+  "source_segmentation_sha256": "91d47958998d76119fd47fe45b092aeaaa42c7c5cf6c5ea69d503231c566a587",
+  "unchanged": [
+    "all source RGB/depth",
+    "all Action/State",
+    "left mask",
+    "object masks",
+    "stage boundaries",
+    "geometry and collision checks"
+  ],
+  "status": "pending plan/render/visual validation"
+}

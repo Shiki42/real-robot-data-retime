@@ -1,0 +1,24 @@
+{
+  "source_episode": 35,
+  "field": "drawer_motion.close_start",
+  "old": 343,
+  "new": 535,
+  "reason": "Original video at 343 shows gripper adjustment while drawer remains open; frames350-535 show open drawer and repeated right-hand adjustments. Frame535 conservatively marks final closing approach before visible inward slide around546-600. Old gate clipped open-scene reconstruction at342 while left arm still occluded the cabinet.",
+  "evidence": [
+    "source35-closing.jpg",
+    "source35-closing-late.jpg",
+    "source35-end.jpg",
+    "source35-issue.jpg"
+  ],
+  "source_timeline_sha256": "2de16584c9c84861c08603af85218d061c4c92d8f7e0c87d368bdc89d05c7acd",
+  "unchanged": [
+    "pickup",
+    "release",
+    "A/B definitions and timing",
+    "source videos",
+    "Action/State",
+    "segmentation",
+    "scene geometry"
+  ],
+  "status": "pending plan/render/visual review"
+}
