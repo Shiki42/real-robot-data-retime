@@ -75,3 +75,25 @@ def validate_stage_schedule(left, right, stages):
         insertion_start_frame=int(np.flatnonzero(left > peak)[0]) - 1,
         passed=True,
     )
+
+
+def validate_open_phase_motion(state, action, right, opening, closing):
+    """Only bounded measured AND commanded stillness may be removed after B."""
+    clock = np.unique(np.asarray(right))
+    tolerance = np.array([0.3] * 6 + [0.5])
+    for start, stop in zip(clock[:-1], clock[1:]):
+        if stop - start <= 1 or stop <= opening or start >= closing:
+            continue
+        for values in (state, action):
+            interval = np.asarray(values)[
+                int(np.floor(start)) : int(np.ceil(stop)) + 1, 7:
+            ]
+            if np.any(np.ptp(interval, axis=0) > tolerance + 1e-9):
+                raise ValueError(
+                    "right-arm post-opening motion was removed from source clock"
+                )
+    return dict(
+        passed=True,
+        opening_source_frame=int(opening),
+        closing_source_frame=int(closing),
+    )

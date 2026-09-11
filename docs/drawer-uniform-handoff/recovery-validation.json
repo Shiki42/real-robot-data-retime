@@ -1,0 +1,374 @@
+{
+  "producer": "746fcf3243f5ddfbc4f8c08526746cff49d912d413b9c5b64aa2770f2e668a7c",
+  "results": [
+    {
+      "source_episode": 0,
+      "output_episode": 0,
+      "frames": 751,
+      "peak_source_frame": 322,
+      "peak_height_m": 0.23399543757483177,
+      "uniform_position": 0.0,
+      "stage": {
+        "left_start_frame": 0,
+        "right_start_frame": 173,
+        "lift_peak_frame": 173,
+        "drawer_open_frame": 332,
+        "insertion_start_frame": 332,
+        "passed": true
+      },
+      "source_pair_replayed_edges": 0,
+      "cameras": {
+        "top": {
+          "frames": 751,
+          "fps": 30
+        },
+        "left_wrist": {
+          "frames": 751,
+          "fps": 30
+        },
+        "right_wrist": {
+          "frames": 751,
+          "fps": 30
+        }
+      },
+      "numeric_exact": true,
+      "origin_audit": {
+        "passed": true,
+        "objects": [
+          {
+            "object_id": 1,
+            "appearance_method": "chromatic_occupancy",
+            "robot_id": "left",
+            "clear_origin_observations": 591,
+            "duplicate_observations": 0,
+            "passed": true
+          }
+        ],
+        "method": "rendered_origin_appearance_against_observed_source_absence"
+      }
+    },
+    {
+      "source_episode": 0,
+      "output_episode": 87,
+      "frames": 585,
+      "peak_source_frame": 322,
+      "peak_height_m": 0.23399543757483177,
+      "uniform_position": 0.5,
+      "stage": {
+        "left_start_frame": 0,
+        "right_start_frame": 7,
+        "lift_peak_frame": 173,
+        "drawer_open_frame": 166,
+        "insertion_start_frame": 173,
+        "passed": true
+      },
+      "source_pair_replayed_edges": 0,
+      "cameras": {
+        "top": {
+          "frames": 585,
+          "fps": 30
+        },
+        "left_wrist": {
+          "frames": 585,
+          "fps": 30
+        },
+        "right_wrist": {
+          "frames": 585,
+          "fps": 30
+        }
+      },
+      "numeric_exact": true,
+      "origin_audit": {
+        "passed": true,
+        "objects": [
+          {
+            "object_id": 1,
+            "appearance_method": "chromatic_occupancy",
+            "robot_id": "left",
+            "clear_origin_observations": 425,
+            "duplicate_observations": 0,
+            "passed": true
+          }
+        ],
+        "method": "rendered_origin_appearance_against_observed_source_absence"
+      }
+    },
+    {
+      "source_episode": 5,
+      "output_episode": 5,
+      "frames": 744,
+      "peak_source_frame": 345,
+      "peak_height_m": 0.20350281624777805,
+      "uniform_position": 0.028735632183908046,
+      "stage": {
+        "left_start_frame": 0,
+        "right_start_frame": 130,
+        "lift_peak_frame": 141,
+        "drawer_open_frame": 382,
+        "insertion_start_frame": 382,
+        "passed": true
+      },
+      "source_pair_replayed_edges": 0,
+      "cameras": {
+        "top": {
+          "frames": 744,
+          "fps": 30
+        },
+        "left_wrist": {
+          "frames": 744,
+          "fps": 30
+        },
+        "right_wrist": {
+          "frames": 744,
+          "fps": 30
+        }
+      },
+      "numeric_exact": true,
+      "origin_audit": {
+        "passed": true,
+        "objects": [
+          {
+            "object_id": 0,
+            "appearance_method": "chromatic_occupancy",
+            "robot_id": "left",
+            "clear_origin_observations": 625,
+            "duplicate_observations": 0,
+            "passed": true
+          }
+        ],
+        "method": "rendered_origin_appearance_against_observed_source_absence"
+      }
+    },
+    {
+      "source_episode": 5,
+      "output_episode": 92,
+      "frames": 614,
+      "peak_source_frame": 345,
+      "peak_height_m": 0.20350281624777805,
+      "uniform_position": 0.5287356321839081,
+      "stage": {
+        "left_start_frame": 67,
+        "right_start_frame": 0,
+        "lift_peak_frame": 208,
+        "drawer_open_frame": 252,
+        "insertion_start_frame": 252,
+        "passed": true
+      },
+      "source_pair_replayed_edges": 0,
+      "cameras": {
+        "top": {
+          "frames": 614,
+          "fps": 30
+        },
+        "left_wrist": {
+          "frames": 614,
+          "fps": 30
+        },
+        "right_wrist": {
+          "frames": 614,
+          "fps": 30
+        }
+      },
+      "numeric_exact": true,
+      "origin_audit": {
+        "passed": true,
+        "objects": [
+          {
+            "object_id": 0,
+            "appearance_method": "chromatic_occupancy",
+            "robot_id": "left",
+            "clear_origin_observations": 428,
+            "duplicate_observations": 0,
+            "passed": true
+          }
+        ],
+        "method": "rendered_origin_appearance_against_observed_source_absence"
+      }
+    },
+    {
+      "source_episode": 6,
+      "output_episode": 6,
+      "frames": 756,
+      "peak_source_frame": 383,
+      "peak_height_m": 0.23074738937649936,
+      "uniform_position": 0.034482758620689655,
+      "stage": {
+        "left_start_frame": 0,
+        "right_start_frame": 129,
+        "lift_peak_frame": 142,
+        "drawer_open_frame": 375,
+        "insertion_start_frame": 403,
+        "passed": true
+      },
+      "source_pair_replayed_edges": 29,
+      "cameras": {
+        "top": {
+          "frames": 756,
+          "fps": 30
+        },
+        "left_wrist": {
+          "frames": 756,
+          "fps": 30
+        },
+        "right_wrist": {
+          "frames": 756,
+          "fps": 30
+        }
+      },
+      "numeric_exact": true,
+      "origin_audit": {
+        "passed": true,
+        "objects": [
+          {
+            "object_id": 0,
+            "appearance_method": "chromatic_occupancy",
+            "robot_id": "left",
+            "clear_origin_observations": 609,
+            "duplicate_observations": 0,
+            "passed": true
+          }
+        ],
+        "method": "rendered_origin_appearance_against_observed_source_absence"
+      }
+    },
+    {
+      "source_episode": 6,
+      "output_episode": 93,
+      "frames": 627,
+      "peak_source_frame": 383,
+      "peak_height_m": 0.23074738937649936,
+      "uniform_position": 0.5344827586206896,
+      "stage": {
+        "left_start_frame": 65,
+        "right_start_frame": 0,
+        "lift_peak_frame": 207,
+        "drawer_open_frame": 246,
+        "insertion_start_frame": 274,
+        "passed": true
+      },
+      "source_pair_replayed_edges": 29,
+      "cameras": {
+        "top": {
+          "frames": 627,
+          "fps": 30
+        },
+        "left_wrist": {
+          "frames": 627,
+          "fps": 30
+        },
+        "right_wrist": {
+          "frames": 627,
+          "fps": 30
+        }
+      },
+      "numeric_exact": true,
+      "origin_audit": {
+        "passed": true,
+        "objects": [
+          {
+            "object_id": 0,
+            "appearance_method": "chromatic_occupancy",
+            "robot_id": "left",
+            "clear_origin_observations": 415,
+            "duplicate_observations": 0,
+            "passed": true
+          }
+        ],
+        "method": "rendered_origin_appearance_against_observed_source_absence"
+      }
+    },
+    {
+      "source_episode": 10,
+      "output_episode": 10,
+      "frames": 600,
+      "peak_source_frame": 347,
+      "peak_height_m": 0.2055689159498587,
+      "uniform_position": 0.05747126436781609,
+      "stage": {
+        "left_start_frame": 0,
+        "right_start_frame": 133,
+        "lift_peak_frame": 152,
+        "drawer_open_frame": 316,
+        "insertion_start_frame": 316,
+        "passed": true
+      },
+      "source_pair_replayed_edges": 0,
+      "cameras": {
+        "top": {
+          "frames": 600,
+          "fps": 30
+        },
+        "left_wrist": {
+          "frames": 600,
+          "fps": 30
+        },
+        "right_wrist": {
+          "frames": 600,
+          "fps": 30
+        }
+      },
+      "numeric_exact": true,
+      "origin_audit": {
+        "passed": true,
+        "objects": [
+          {
+            "object_id": 0,
+            "appearance_method": "chromatic_occupancy",
+            "robot_id": "left",
+            "clear_origin_observations": 456,
+            "duplicate_observations": 0,
+            "passed": true
+          }
+        ],
+        "method": "rendered_origin_appearance_against_observed_source_absence"
+      }
+    },
+    {
+      "source_episode": 10,
+      "output_episode": 97,
+      "frames": 467,
+      "peak_source_frame": 347,
+      "peak_height_m": 0.2055689159498587,
+      "uniform_position": 0.5574712643678161,
+      "stage": {
+        "left_start_frame": 35,
+        "right_start_frame": 0,
+        "lift_peak_frame": 187,
+        "drawer_open_frame": 183,
+        "insertion_start_frame": 187,
+        "passed": true
+      },
+      "source_pair_replayed_edges": 0,
+      "cameras": {
+        "top": {
+          "frames": 467,
+          "fps": 30
+        },
+        "left_wrist": {
+          "frames": 467,
+          "fps": 30
+        },
+        "right_wrist": {
+          "frames": 467,
+          "fps": 30
+        }
+      },
+      "numeric_exact": true,
+      "origin_audit": {
+        "passed": true,
+        "objects": [
+          {
+            "object_id": 0,
+            "appearance_method": "chromatic_occupancy",
+            "robot_id": "left",
+            "clear_origin_observations": 288,
+            "duplicate_observations": 0,
+            "passed": true
+          }
+        ],
+        "method": "rendered_origin_appearance_against_observed_source_absence"
+      }
+    }
+  ],
+  "scope": "numeric identity, camera frame metadata, stage constraints, source replay and stage contact sheets"
+}

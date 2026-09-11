@@ -3,15 +3,15 @@
 import numpy as np
 from functools import lru_cache
 from .scheduler import schedule_sources
+from .planner import original_pair_edge
 from .smooth import (
     lift_clock,
     select_lift_peak,
     sample_rows,
     smooth_wait_boundaries,
-    held_grasp_interval,
 )
 from ..background.clean_plate import dilate
-from ..compositing.ownership import arm_foreground
+from ..compositing.ownership import arm_foreground, exclude_placed_objects
 from ..tasks.drawer_constraints import (
     discover_insertion_gate,
     precedence_gate,
@@ -29,15 +29,26 @@ def plan_visual(
     right_delay_seconds=0,
     left_delay_seconds=0,
     uniform_position=None,
+    uniform_lift=None,
+    wait_source_frame=None,
+    scene_geometry=None,
 ):
+    if uniform_position is None and (
+        uniform_lift is not None or wait_source_frame is not None
+    ):
+        raise ValueError("wait candidate context requires uniform sampling")
     if uniform_position is not None and (
         timeline["task"] != "drawer" or joints is None
     ):
         raise ValueError("uniform staging requires drawer joint data")
+    if scene_geometry is not None and (joints is None or timeline["task"] != "drawer"):
+        raise ValueError("metric scene geometry requires drawer joint data")
     n, h, w = frames.shape[:3]
     robots = np.unpackbits(segmentation["robots"], axis=-1, count=w).astype(bool)
     objects = np.unpackbits(segmentation["objects"], axis=-1, count=w).astype(bool)
     events = timeline["episodes"]
+    if timeline["task"] == "drawer":
+        exclude_placed_objects(robots, objects, events)
     sources = []
     for side in ["left", "right"]:
         own = [e for e in events if e["robot_id"] == side]
@@ -64,6 +75,15 @@ def plan_visual(
         raise ValueError("onset delays must be finite and nonnegative")
     if drawer:
         (event,) = events
+        from ..interaction.origin_identity import detached_origin
+
+        identity = detached_origin(
+            robots, objects, event["object_id"], event["pickup_frame"], timeline["fps"]
+        )
+        if not identity["verified"]:
+            raise ValueError(
+                "drawer target is robot-attached at origin; reselect interaction evidence"
+            )
         motion = timeline["drawer_motion"]
         a, b = motion["open_frame"], motion["close_start"]
         if uniform_position is None:
@@ -90,9 +110,10 @@ def plan_visual(
 
         if joints is not None and drawer:
             from ..collision.piperx import PiperXClearance
-            from ..collision.drawer import drawer_sweep, outside_box
+            from ..collision.drawer import drawer_sweep, outside_box, DrawerGeometry
             from pathlib import Path
 
+            geometry = DrawerGeometry.from_mapping(scene_geometry)
             state, action, urdf, mesh_root = joints
             state, action = np.asarray(state, float), np.asarray(action, float)
             if (
@@ -101,34 +122,93 @@ def plan_visual(
                 or not np.isfinite([state, action]).all()
             ):
                 raise ValueError("joint rows must match source video")
-            checker = PiperXClearance(
-                state[:, :7], state[:, 7:], Path(urdf), Path(mesh_root), margin_m=0.005
-            )
-            tcp = np.array([[pose[4] for pose in arm] for arm in checker.poses])
-            volume = drawer_sweep(tcp[1], motion["pull_start"], a)
-            grasp = event["grasp_frame"]
-            aperture = max(state[grasp, 6], action[grasp, 6]) + 0.5
             if uniform_position is not None:
-                grasp, held_end, aperture = held_grasp_interval(
-                    state, action, event, timeline["fps"]
+                from .drawer_wait import prepare_uniform_lift
+
+                prepared = (
+                    uniform_lift
+                    if uniform_lift is not None
+                    else prepare_uniform_lift(
+                        state,
+                        action,
+                        event,
+                        motion,
+                        robots,
+                        objects,
+                        events,
+                        urdf,
+                        mesh_root,
+                        timeline["fps"],
+                        uniform_position,
+                        scene_geometry=scene_geometry,
+                    )
                 )
+                if (
+                    scene_geometry is not None
+                    and geometry.to_dict() != prepared.geometry.to_dict()
+                ):
+                    raise ValueError(
+                        "prepared geometry differs from requested parameters"
+                    )
+                geometry = prepared.geometry
+                checker, tcp, volume = prepared.checker, prepared.tcp, prepared.volume
+                grasp, held_end, aperture = (
+                    prepared.grasp,
+                    prepared.held_end,
+                    prepared.aperture,
+                )
+                eligible = prepared.eligible
                 candidate_start, candidate_end = grasp, held_end - 1
-            else:
-                candidate_start, candidate_end = event["pickup_frame"], gate
-            eligible = np.zeros(n, bool)
-            for t in range(candidate_start, candidate_end + 1):
-                eligible[t] = (
-                    max(state[t, 6], action[t, 6]) <= aperture
-                    and outside_box(tcp[0, t], volume)
-                    and checker.arm_clears_volume(0, t, volume, margin=0.005)
+                sources[1] = prepared.right_sources.copy()
+                right_quiet = prepared.right_quiet
+                gate = (
+                    prepared.candidates[0]
+                    if wait_source_frame is None
+                    else int(wait_source_frame)
                 )
-            gate, stages = select_lift_peak(tcp[0], eligible, grasp, candidate_end)
+                if gate not in prepared.candidates:
+                    raise ValueError("wait pose is not an admissible candidate")
+                stages = dict(
+                    peak_source_frame=gate,
+                    tcp_height_m=float(tcp[0, gate, 2]),
+                    maximum_safe_height_m=float(tcp[0, eligible, 2].max()),
+                    recorded_peak_height_m=prepared.recorded_peak_height,
+                    height_band_m=0.002,
+                )
+            else:
+                checker = PiperXClearance(
+                    state[:, :7],
+                    state[:, 7:],
+                    Path(urdf),
+                    Path(mesh_root),
+                    margin_m=0.005,
+                )
+                tcp = np.array([[pose[4] for pose in arm] for arm in checker.poses])
+                volume = drawer_sweep(
+                    tcp[1], motion["pull_start"], a, **geometry.box_kwargs
+                )
+                grasp = event["grasp_frame"]
+                aperture = max(state[grasp, 6], action[grasp, 6]) + 0.5
+                candidate_start, candidate_end = event["pickup_frame"], gate
+                eligible = np.zeros(n, bool)
+                for t in range(candidate_start, candidate_end + 1):
+                    eligible[t] = (
+                        max(state[t, 6], action[t, 6]) <= aperture
+                        and outside_box(
+                            tcp[0, t], volume, radius=geometry.held_object_radius_m
+                        )
+                        and checker.arm_clears_volume(0, t, volume, margin=0.005)
+                    )
+                gate, stages = select_lift_peak(tcp[0], eligible, grasp, candidate_end)
             if uniform_position is not None:
+                stages["post_open_motion_preserved"] = True
+                stages["origin_identity"] = identity
                 stages["recorded_grasp_frame"] = grasp
                 stages["recorded_reopening_frame"] = held_end
+            stages["scene_geometry"] = geometry.to_dict()
             stages["holding_aperture_limit_mm"] = float(aperture)
             stages["wait_geometry"] = (
-                "arm_mesh_and_35mm_held_object_clear_of_drawer_sweep"
+                "arm_mesh_and_configured_held_object_clear_of_drawer_sweep"
             )
             if uniform_position is not None:
                 from .uniform import stage_delays
@@ -178,6 +258,14 @@ def plan_visual(
                 return False
             if sources[1][nj] >= b and sources[0][i] < withdrawal:
                 return False
+        if uniform_position is not None and original_pair_edge(
+            float(sources[0][i]),
+            float(sources[1][j]),
+            float(sources[0][ni]),
+            float(sources[1][nj]),
+            range(gate + round(round(timeline["fps"] * 0.3) / 2), n - 1),
+        ):
+            return True
         return clear(i, j) and clear(ni, nj) and clear(i, nj) and clear(ni, j)
 
     left_delay = (
@@ -192,6 +280,36 @@ def plan_visual(
             count = round(seconds * timeline["fps"])
             sources[side] = np.r_[np.full(count, sources[side][0]), sources[side]]
 
+    right_ramp_protected = set()
+    right_ramp_sources = set()
+    right_ramp_report = None
+    if uniform_position is not None:
+        original_right = prepared.right_sources
+        opening_index = int(np.flatnonzero(original_right == a)[0])
+        eligible_right_stops = set(
+            original_right[
+                opening_index + round(round(timeline["fps"] * 0.5) / 2) :
+            ].tolist()
+        )
+
+    def may_wait(side, index):
+        if joints is None or not drawer:
+            return True
+        if side == 0:
+            return index in (stop_index, len(sources[0]) - 1)
+        if index == len(sources[1]) - 1:
+            return True
+        source = sources[1][index]
+        if uniform_position is None:
+            return source == a
+        if index in right_ramp_protected:
+            return False
+        return (
+            a <= source < b
+            and source == int(source)
+            and (right_quiet[int(source)] or source in eligible_right_stops)
+        )
+
     def search():
         return schedule_sources(
             len(sources[0]),
@@ -199,12 +317,7 @@ def plan_visual(
             safe,
             dependency=dependency,
             left_priority=not drawer,
-            can_wait=lambda side, i: (
-                joints is None
-                or not drawer
-                or (side == 1 and (sources[1][i] == a or i == len(sources[1]) - 1))
-                or (side == 0 and i in (stop_index, len(sources[0]) - 1))
-            ),
+            can_wait=may_wait,
         )
 
     schedule = search() if uniform_position is None else None
@@ -218,7 +331,9 @@ def plan_visual(
                 sources[0][0], sources[0][-1], gate, timeline["fps"]
             )
             begin = int(np.floor(ramps["brake_source_start"]))
-            if begin < candidate_start or not eligible[begin : gate + 1].all():
+            if uniform_position is None and (
+                begin < candidate_start or not eligible[begin : gate + 1].all()
+            ):
                 raise ValueError("0.5 second braking path leaves safe held interval")
             # Recheck the interpolated braking poses, not only recorded endpoints.
             samples = np.linspace(
@@ -226,15 +341,29 @@ def plan_visual(
                 gate,
                 max(2, int(np.ceil((gate - ramps["brake_source_start"]) * 4)) + 1),
             )
-            for row in np.concatenate(
-                [sample_rows(values[:, :7], samples) for values in (state, action)]
-            ):
-                pose = checker._pose(row, 0)
-                if not (
-                    outside_box(pose[4], volume)
-                    and checker.pose_clears_volume(pose, volume, margin=0.005)
+            if uniform_position is None:
+                for source_time, row in zip(
+                    np.tile(samples, 2),
+                    np.concatenate(
+                        [
+                            sample_rows(values[:, :7], samples)
+                            for values in (state, action)
+                        ]
+                    ),
                 ):
-                    raise ValueError("interpolated braking pose enters drawer sweep")
+                    pose = checker._pose(row, 0)
+                    if not (
+                        (
+                            source_time < event["pickup_frame"]
+                            or outside_box(
+                                pose[4], volume, radius=geometry.held_object_radius_m
+                            )
+                        )
+                        and checker.pose_clears_volume(pose, volume, margin=0.005)
+                    ):
+                        raise ValueError(
+                            "interpolated braking pose enters drawer sweep"
+                        )
             end = int(ramps["restart_source_end"])
             if (
                 end
@@ -251,6 +380,75 @@ def plan_visual(
             clear.cache_clear()
             schedule = search()
             stages.update(ramps)
+            if uniform_position is not None:
+                # B is already complete before these right-arm ramps begin.
+                # Discover collision waits, ease only the post-B right path,
+                # then replan against the same masks and precedence gates.
+                while True:
+                    waits = schedule.right[:-1][np.diff(schedule.right) == 0]
+                    needed = {
+                        int(sources[1][i])
+                        for i in waits
+                        if sources[1][i] < b and not right_quiet[int(sources[1][i])]
+                    }
+                    new = needed - right_ramp_sources
+                    if not new:
+                        break
+                    right_ramp_sources |= new
+                    stop_positions = [
+                        int(np.flatnonzero(original_right == t)[0]) - opening_index
+                        for t in sorted(right_ramp_sources)
+                    ]
+                    suffix = original_right[opening_index:]
+                    eased, _, right_ramp_report = smooth_wait_boundaries(
+                        suffix, suffix, timeline["fps"], stop_indices=stop_positions
+                    )
+                    prefix = (
+                        round(right_delay_seconds * timeline["fps"]) + opening_index
+                    )
+                    sources[1] = np.r_[
+                        np.zeros(round(right_delay_seconds * timeline["fps"])),
+                        original_right[:opening_index],
+                        eased,
+                    ]
+                    right_ramp_protected = set()
+                    for phase in right_ramp_report["transitions"]:
+                        right_ramp_protected.update(
+                            range(
+                                prefix + phase["brake_start_output_frame"] + 1,
+                                prefix + phase["restart_end_output_frame"],
+                            )
+                        )
+                        right_ramp_protected.discard(
+                            prefix + phase["stop_output_frame"]
+                        )
+                    mask.cache_clear()
+                    clear.cache_clear()
+                    schedule = search()
+                if right_ramp_report is not None:
+                    phases = []
+                    for phase in right_ramp_report["transitions"]:
+                        stop_clock = prefix + phase["stop_output_frame"]
+                        stops = np.flatnonzero(schedule.right == stop_clock)
+                        phases.append(
+                            dict(
+                                brake_start_output_frame=int(
+                                    np.flatnonzero(
+                                        schedule.right
+                                        == prefix + phase["brake_start_output_frame"]
+                                    )[0]
+                                ),
+                                stop_output_frame=int(stops[0]),
+                                restart_start_output_frame=int(stops[-1]),
+                                restart_end_output_frame=int(
+                                    np.flatnonzero(
+                                        schedule.right
+                                        == prefix + phase["restart_end_output_frame"]
+                                    )[0]
+                                ),
+                            )
+                        )
+                    stages["right_post_open_smoothing"] = phases
         stages["left_delay_seconds"] = left_delay_seconds
         stages["right_delay_seconds"] = right_delay_seconds
         stages["stop_output_frames"] = np.flatnonzero(
@@ -264,6 +462,55 @@ def plan_visual(
             stages["restart_start_output_frame"] = stages["stop_output_frames"][-1]
             stages["restart_end_output_frame"] = int(
                 np.flatnonzero(clock == stages["restart_source_end"])[0]
+            )
+        if uniform_position is not None:
+            replay = []
+            for k, (i, j, ni, nj) in enumerate(
+                zip(
+                    schedule.left[:-1],
+                    schedule.right[:-1],
+                    schedule.left[1:],
+                    schedule.right[1:],
+                )
+            ):
+                if not (
+                    clear(i, j) and clear(ni, nj) and clear(i, nj) and clear(ni, j)
+                ):
+                    if not original_pair_edge(
+                        float(sources[0][i]),
+                        float(sources[1][j]),
+                        float(sources[0][ni]),
+                        float(sources[1][nj]),
+                        range(gate + round(round(timeline["fps"] * 0.3) / 2), n - 1),
+                    ):
+                        raise ValueError(
+                            "unrecorded projected overlap entered uniform schedule"
+                        )
+                    replay.append(dict(output_edge=k, source_edge=int(sources[0][i])))
+            stages["recorded_pair_replay"] = dict(
+                policy="unit_speed_original_pairs_only_no_source_hold",
+                edges=replay,
+            )
+            from .drawer_braking import audit_braking
+            from .uniform import validate_open_phase_motion
+
+            stages["post_open_motion_validation"] = validate_open_phase_motion(
+                state, action, sources[1][schedule.right], a, b
+            )
+
+            stages["braking_geometry"] = audit_braking(
+                checker,
+                state,
+                action,
+                tcp,
+                volume,
+                motion,
+                event,
+                sources[0][schedule.left],
+                sources[1][schedule.right],
+                stages["brake_start_output_frame"],
+                stages["restart_start_output_frame"],
+                geometry=geometry,
             )
         stages["held_output_intervals"] = int(
             np.sum((np.diff(schedule.left) == 0) & (schedule.left[:-1] == stop_index))
@@ -340,7 +587,9 @@ def plan_visual(
         right,
         dict(
             collision_scope=(
-                "projected silhouettes plus metric wait/brake clearance"
+                "projected new pairs, exact recorded paired replay, metric wait/brake clearance"
+                if uniform_position is not None
+                else "projected silhouettes plus metric wait/brake clearance"
                 if joints is not None and drawer
                 else "projected silhouettes plus state/action swept meshes"
                 if joints is not None

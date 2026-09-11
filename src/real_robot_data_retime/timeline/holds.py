@@ -78,3 +78,15 @@ def compress_static_spans(
                 kept[start + guard : stop - guard] = False
             start = stop
     return np.flatnonzero(kept)
+
+
+def stationary_pose_mask(state, action, fps, *, seconds=0.2):
+    """Interior samples of bounded measured/commanded quiet intervals."""
+    values = np.c_[np.asarray(state), np.asarray(action)]
+    width = max(3, round(fps * seconds))
+    limit = np.tile([0.3] * 6 + [0.5], 2)
+    quiet = np.zeros(len(values), bool)
+    for start in range(len(values) - width + 1):
+        if np.all(np.ptp(values[start : start + width], axis=0) <= limit):
+            quiet[start + width // 2] = True
+    return quiet

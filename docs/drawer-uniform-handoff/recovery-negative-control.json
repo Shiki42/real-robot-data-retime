@@ -1,0 +1,5 @@
+{
+  "passed": true,
+  "expected_rejection": "drawer target is robot-attached at origin; reselect interaction evidence",
+  "source_episode": 0
+}

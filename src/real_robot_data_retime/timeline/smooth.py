@@ -98,7 +98,9 @@ def select_lift_peak(tcp, eligible, pickup, gate, *, height_band_m=0.002):
     )
 
 
-def smooth_wait_boundaries(left, right, fps, *, brake_seconds=0.5, restart_seconds=0.3):
+def smooth_wait_boundaries(
+    left, right, fps, *, brake_seconds=0.5, restart_seconds=0.3, stop_indices=None
+):
     """Retime a paired path at every change between moving and waiting.
 
     Both clocks share one path parameter: this does not independently drag an
@@ -118,7 +120,21 @@ def smooth_wait_boundaries(left, right, fps, *, brake_seconds=0.5, restart_secon
     if fps <= 0 or min(down, up) < 2:
         raise ValueError("invalid smooth waiting duration")
     moving = np.diff(points, axis=0) > 0
-    corners = np.flatnonzero(np.any(moving[:-1] != moving[1:], axis=1)) + 1
+    if stop_indices is None:
+        corners = np.flatnonzero(np.any(moving[:-1] != moving[1:], axis=1)) + 1
+    else:
+        requested = np.asarray(stop_indices, float)
+        if (
+            requested.ndim != 1
+            or not np.isfinite(requested).all()
+            or np.any(requested != np.floor(requested))
+        ):
+            raise ValueError("stop indices must be finite integer path vertices")
+        if np.any(requested <= 0) or np.any(requested >= len(points) - 1):
+            raise ValueError("stop indices must be interior path vertices")
+        corners = np.unique(requested.astype(int))
+    if np.any(corners <= 0) or np.any(corners >= len(points) - 1):
+        raise ValueError("stop indices must be interior path vertices")
     if not len(corners):
         return (
             points[:, 0],
@@ -185,13 +201,30 @@ def held_grasp_interval(state, action, event, fps):
     start, stop = event["pickup_frame"], event["release_frame"]
     window = max(3, round(fps * 0.1))
     opened = float(aperture[event["approach_start"] : stop + 1].max())
-    for grasp in range(start, stop - window + 1):
-        values = aperture[grasp : grasp + window]
+    settled = []
+    floor = np.inf
+    for frame in range(start, stop - window + 1):
+        values = aperture[frame : frame + window]
+        # Stop at the first sustained reopening. Do not cross an empty grasp
+        # and quietly relabel a later grasp as the selected object's pickup.
+        if np.isfinite(floor) and values.min() > floor + 2:
+            break
         if np.ptp(values) <= 0.5 and values.max() < opened - 2:
-            limit = float(values.max() + 0.5)
-            reopening = np.flatnonzero(aperture[grasp + window : stop + 1] > limit)
-            end = grasp + window + int(reopening[0]) if len(reopening) else stop
-            if end - grasp < window:
-                raise ValueError("recorded grasp has no settled holding interval")
-            return grasp, end, limit
-    raise ValueError("no settled recorded jaw closure after visual pickup")
+            level = float(values.max())
+            settled.append((frame, level))
+            floor = min(floor, level)
+    if not settled:
+        raise ValueError("no settled recorded jaw closure after visual pickup")
+    if floor <= 2:
+        raise ValueError("settled closure is empty, not evidence of holding the target")
+    limit = float(floor + 0.5)
+    grasp = next(frame for frame, level in settled if level <= limit)
+    reopening = [
+        frame
+        for frame in range(grasp + window, stop - window + 2)
+        if np.min(aperture[frame : frame + window]) > limit
+    ]
+    end = reopening[0] if reopening else stop
+    if end - grasp < window:
+        raise ValueError("recorded grasp has no settled holding interval")
+    return grasp, int(end), limit

@@ -1,0 +1,727 @@
+{
+  "producer": "746fcf3243f5ddfbc4f8c08526746cff49d912d413b9c5b64aa2770f2e668a7c",
+  "config": {
+    "source": "/home/coder/share/retime-interaction-20260909/drawer-trimmed",
+    "raw_source": "/home/coder/share/retime-interaction-20260909/drawer",
+    "output": "/home/coder/share/drawer-uniform-fix-20260911/delivery-final-dataset",
+    "work": "/home/coder/share/drawer-uniform-fix-20260911/delivery-final-work",
+    "urdf": "/home/coder/share/real-robot-data-retime-main/assets/piper_x_description.urdf",
+    "mesh_root": "/home/coder/share/robo-visualize/src/robo_visualize/arms/piperx/assets",
+    "repo_id": "Shiki42/piperx-put-cube-in-drawer-uniform-174",
+    "source_provenance": {
+      "repo_id": "Travor278/piperx-put-cube-in-drawer-20260908-87ep",
+      "revision": "58bbbd720f6e78d162b8f4bc7077759d34c5162f"
+    },
+    "analyses": {
+      "0": "/home/coder/share/drawer-uniform-fix-20260911/analysis/episode_000",
+      "1": "/home/coder/share/retime-interaction-20260909/release-earliest/episode_001",
+      "2": "/home/coder/share/retime-interaction-20260909/release-current/episode_002",
+      "3": "/home/coder/share/retime-interaction-20260909/release-current/episode_003",
+      "4": "/home/coder/share/retime-interaction-20260909/final-analysis/episode_004",
+      "5": "/home/coder/share/retime-interaction-20260909/release-current/episode_005",
+      "6": "/home/coder/share/retime-interaction-20260909/release-current/episode_006",
+      "7": "/home/coder/share/retime-interaction-20260909/release-current/episode_007",
+      "8": "/home/coder/share/retime-interaction-20260909/release-current/episode_008",
+      "9": "/home/coder/share/retime-interaction-20260909/release-current/episode_009",
+      "10": "/home/coder/share/retime-interaction-20260909/release-current/episode_010",
+      "11": "/home/coder/share/retime-interaction-20260909/release-current/episode_011",
+      "12": "/home/coder/share/retime-interaction-20260909/release-current/episode_012",
+      "13": "/home/coder/share/retime-interaction-20260909/release-current/episode_013",
+      "14": "/home/coder/share/retime-interaction-20260909/release-current/episode_014",
+      "15": "/home/coder/share/retime-interaction-20260909/release-current/episode_015",
+      "16": "/home/coder/share/retime-interaction-20260909/release-current/episode_016",
+      "17": "/home/coder/share/retime-interaction-20260909/release-current/episode_017",
+      "18": "/home/coder/share/retime-interaction-20260909/release-current/episode_018",
+      "19": "/home/coder/share/retime-interaction-20260909/release-current/episode_019",
+      "20": "/home/coder/share/retime-interaction-20260909/release-current/episode_020",
+      "21": "/home/coder/share/retime-interaction-20260909/release-current/episode_021",
+      "22": "/home/coder/share/retime-interaction-20260909/release-current/episode_022",
+      "23": "/home/coder/share/retime-interaction-20260909/release-current/episode_023",
+      "24": "/home/coder/share/retime-interaction-20260909/release-current/episode_024",
+      "25": "/home/coder/share/retime-interaction-20260909/release-current/episode_025",
+      "26": "/home/coder/share/retime-interaction-20260909/release-current/episode_026",
+      "27": "/home/coder/share/retime-interaction-20260909/release-current/episode_027",
+      "28": "/home/coder/share/retime-interaction-20260909/release-current/episode_028",
+      "29": "/home/coder/share/retime-interaction-20260909/release-current/episode_029",
+      "30": "/home/coder/share/retime-interaction-20260909/release-current/episode_030",
+      "31": "/home/coder/share/retime-interaction-20260909/release-current/episode_031",
+      "32": "/home/coder/share/retime-interaction-20260909/release-current/episode_032",
+      "33": "/home/coder/share/retime-interaction-20260909/release-surface/episode_033",
+      "34": "/home/coder/share/retime-interaction-20260909/release-current/episode_034",
+      "35": "/home/coder/share/retime-interaction-20260909/release-current/episode_035",
+      "36": "/home/coder/share/retime-interaction-20260909/release-current/episode_036",
+      "37": "/home/coder/share/retime-interaction-20260909/release-current/episode_037",
+      "38": "/home/coder/share/retime-interaction-20260909/release-current/episode_038",
+      "39": "/home/coder/share/retime-interaction-20260909/release-current/episode_039",
+      "40": "/home/coder/share/retime-interaction-20260909/release-current/episode_040",
+      "41": "/home/coder/share/retime-interaction-20260909/release-current/episode_041",
+      "42": "/home/coder/share/retime-interaction-20260909/release-current/episode_042",
+      "43": "/home/coder/share/retime-interaction-20260909/release-current/episode_043",
+      "44": "/home/coder/share/retime-interaction-20260909/release-current/episode_044",
+      "45": "/home/coder/share/retime-interaction-20260909/final-analysis/episode_045",
+      "46": "/home/coder/share/retime-interaction-20260909/release-current/episode_046",
+      "47": "/home/coder/share/retime-interaction-20260909/release-current/episode_047",
+      "48": "/home/coder/share/retime-interaction-20260909/release-current/episode_048",
+      "49": "/home/coder/share/retime-interaction-20260909/release-hardware/episode_049",
+      "50": "/home/coder/share/retime-interaction-20260909/release-current/episode_050",
+      "51": "/home/coder/share/retime-interaction-20260909/release-current/episode_051",
+      "52": "/home/coder/share/retime-interaction-20260909/release-current/episode_052",
+      "53": "/home/coder/share/retime-interaction-20260909/release-current/episode_053",
+      "54": "/home/coder/share/retime-interaction-20260909/release-current/episode_054",
+      "55": "/home/coder/share/retime-interaction-20260909/release-current/episode_055",
+      "56": "/home/coder/share/retime-interaction-20260909/release-current/episode_056",
+      "57": "/home/coder/share/retime-interaction-20260909/release-current/episode_057",
+      "58": "/home/coder/share/retime-interaction-20260909/release-current/episode_058",
+      "59": "/home/coder/share/retime-interaction-20260909/release-current/episode_059",
+      "60": "/home/coder/share/retime-interaction-20260909/release-current/episode_060",
+      "61": "/home/coder/share/retime-interaction-20260909/release-current/episode_061",
+      "62": "/home/coder/share/retime-interaction-20260909/release-current/episode_062",
+      "63": "/home/coder/share/retime-interaction-20260909/release-current/episode_063",
+      "64": "/home/coder/share/retime-interaction-20260909/release-current/episode_064",
+      "65": "/home/coder/share/retime-interaction-20260909/release-current/episode_065",
+      "66": "/home/coder/share/retime-interaction-20260909/release-current/episode_066",
+      "67": "/home/coder/share/retime-interaction-20260909/release-current/episode_067",
+      "68": "/home/coder/share/retime-interaction-20260909/release-current/episode_068",
+      "69": "/home/coder/share/retime-interaction-20260909/release-current/episode_069",
+      "70": "/home/coder/share/retime-interaction-20260909/release-current/episode_070",
+      "71": "/home/coder/share/retime-interaction-20260909/release-current/episode_071",
+      "72": "/home/coder/share/retime-interaction-20260909/release-current/episode_072",
+      "73": "/home/coder/share/retime-interaction-20260909/release-current/episode_073",
+      "74": "/home/coder/share/retime-interaction-20260909/release-current/episode_074",
+      "75": "/home/coder/share/retime-interaction-20260909/release-current/episode_075",
+      "76": "/home/coder/share/retime-interaction-20260909/release-current/episode_076",
+      "77": "/home/coder/share/retime-interaction-20260909/release-current/episode_077",
+      "78": "/home/coder/share/retime-interaction-20260909/release-current/episode_078",
+      "79": "/home/coder/share/retime-interaction-20260909/release-current/episode_079",
+      "80": "/home/coder/share/retime-interaction-20260909/release-current/episode_080",
+      "81": "/home/coder/share/retime-interaction-20260909/release-current/episode_081",
+      "82": "/home/coder/share/retime-interaction-20260909/release-current/episode_082",
+      "83": "/home/coder/share/retime-interaction-20260909/release-current/episode_083",
+      "84": "/home/coder/share/retime-interaction-20260909/release-current/episode_084",
+      "85": "/home/coder/share/retime-interaction-20260909/release-current/episode_085",
+      "86": "/home/coder/share/retime-interaction-20260909/release-current/episode_086"
+    },
+    "scene_geometry": {
+      "drawer_width_m": 0.24,
+      "drawer_depth_m": 0.2,
+      "drawer_height_m": 0.07,
+      "held_object_radius_m": 0.035
+    },
+    "scene_geometry_note": "Unmeasured conservative parameters inherited from the original implementation."
+  },
+  "source_episodes": 87,
+  "completed": 87,
+  "passed": 29,
+  "scope": "planning only, not visual acceptance",
+  "results": [
+    {
+      "episode": 0,
+      "passed": true,
+      "seconds": 18.752222061157227
+    },
+    {
+      "episode": 1,
+      "passed": true,
+      "seconds": 18.88254451751709
+    },
+    {
+      "episode": 2,
+      "passed": true,
+      "seconds": 14.639384984970093
+    },
+    {
+      "episode": 3,
+      "passed": true,
+      "seconds": 14.479512929916382
+    },
+    {
+      "episode": 4,
+      "passed": true,
+      "seconds": 14.152069330215454
+    },
+    {
+      "episode": 5,
+      "passed": true,
+      "seconds": 17.046062707901
+    },
+    {
+      "episode": 6,
+      "passed": true,
+      "seconds": 15.800035238265991
+    },
+    {
+      "episode": 7,
+      "passed": false,
+      "error_type": "ValueError",
+      "reason": "no safe held lift peak before drawer entry",
+      "diagnostic": null,
+      "seconds": 5.298335075378418
+    },
+    {
+      "episode": 8,
+      "passed": false,
+      "error_type": "NoSafeSchedule",
+      "reason": "no held peak satisfies both sampled variants; see /home/coder/share/drawer-uniform-fix-20260911/delivery-final-work/episode_008/feasibility.json",
+      "diagnostic": "/home/coder/share/drawer-uniform-fix-20260911/delivery-final-work/episode_008/feasibility.json",
+      "seconds": 9.08981990814209
+    },
+    {
+      "episode": 9,
+      "passed": false,
+      "error_type": "ValueError",
+      "reason": "no safe held lift peak before drawer entry",
+      "diagnostic": null,
+      "seconds": 4.867599725723267
+    },
+    {
+      "episode": 10,
+      "passed": true,
+      "seconds": 10.358285903930664
+    },
+    {
+      "episode": 11,
+      "passed": false,
+      "error_type": "ValueError",
+      "reason": "no safe held lift peak before drawer entry",
+      "diagnostic": null,
+      "seconds": 7.084095239639282
+    },
+    {
+      "episode": 12,
+      "passed": false,
+      "error_type": "ValueError",
+      "reason": "no safe held lift peak before drawer entry",
+      "diagnostic": null,
+      "seconds": 6.883269786834717
+    },
+    {
+      "episode": 13,
+      "passed": true,
+      "seconds": 12.67808198928833
+    },
+    {
+      "episode": 14,
+      "passed": false,
+      "error_type": "ValueError",
+      "reason": "no safe held lift peak before drawer entry",
+      "diagnostic": null,
+      "seconds": 4.923248767852783
+    },
+    {
+      "episode": 15,
+      "passed": false,
+      "error_type": "ValueError",
+      "reason": "no safe held lift peak before drawer entry",
+      "diagnostic": null,
+      "seconds": 4.5724523067474365
+    },
+    {
+      "episode": 16,
+      "passed": false,
+      "error_type": "ValueError",
+      "reason": "no safe held lift peak before drawer entry",
+      "diagnostic": null,
+      "seconds": 4.917200326919556
+    },
+    {
+      "episode": 17,
+      "passed": false,
+      "error_type": "ValueError",
+      "reason": "no safe held lift peak before drawer entry",
+      "diagnostic": null,
+      "seconds": 6.204501390457153
+    },
+    {
+      "episode": 18,
+      "passed": false,
+      "error_type": "ValueError",
+      "reason": "no safe held lift peak before drawer entry",
+      "diagnostic": null,
+      "seconds": 3.884929656982422
+    },
+    {
+      "episode": 19,
+      "passed": false,
+      "error_type": "ValueError",
+      "reason": "no safe held lift peak before drawer entry",
+      "diagnostic": null,
+      "seconds": 4.766884088516235
+    },
+    {
+      "episode": 20,
+      "passed": true,
+      "seconds": 9.125452280044556
+    },
+    {
+      "episode": 21,
+      "passed": true,
+      "seconds": 11.46117353439331
+    },
+    {
+      "episode": 22,
+      "passed": false,
+      "error_type": "ValueError",
+      "reason": "no safe held lift peak before drawer entry",
+      "diagnostic": null,
+      "seconds": 5.165621995925903
+    },
+    {
+      "episode": 23,
+      "passed": false,
+      "error_type": "ValueError",
+      "reason": "no safe held lift peak before drawer entry",
+      "diagnostic": null,
+      "seconds": 4.351332902908325
+    },
+    {
+      "episode": 24,
+      "passed": false,
+      "error_type": "ValueError",
+      "reason": "no safe held lift peak before drawer entry",
+      "diagnostic": null,
+      "seconds": 4.2876152992248535
+    },
+    {
+      "episode": 25,
+      "passed": false,
+      "error_type": "ValueError",
+      "reason": "no safe held lift peak before drawer entry",
+      "diagnostic": null,
+      "seconds": 3.623213052749634
+    },
+    {
+      "episode": 26,
+      "passed": false,
+      "error_type": "ValueError",
+      "reason": "no safe held lift peak before drawer entry",
+      "diagnostic": null,
+      "seconds": 4.993868589401245
+    },
+    {
+      "episode": 27,
+      "passed": false,
+      "error_type": "ValueError",
+      "reason": "no safe held lift peak before drawer entry",
+      "diagnostic": null,
+      "seconds": 5.088625907897949
+    },
+    {
+      "episode": 28,
+      "passed": false,
+      "error_type": "ValueError",
+      "reason": "no safe held lift peak before drawer entry",
+      "diagnostic": null,
+      "seconds": 4.1317620277404785
+    },
+    {
+      "episode": 29,
+      "passed": false,
+      "error_type": "ValueError",
+      "reason": "no safe held lift peak before drawer entry",
+      "diagnostic": null,
+      "seconds": 3.5017573833465576
+    },
+    {
+      "episode": 30,
+      "passed": false,
+      "error_type": "ValueError",
+      "reason": "no safe held lift peak before drawer entry",
+      "diagnostic": null,
+      "seconds": 4.0833001136779785
+    },
+    {
+      "episode": 31,
+      "passed": false,
+      "error_type": "ValueError",
+      "reason": "no safe held lift peak before drawer entry",
+      "diagnostic": null,
+      "seconds": 3.9277846813201904
+    },
+    {
+      "episode": 32,
+      "passed": false,
+      "error_type": "ValueError",
+      "reason": "no safe held lift peak before drawer entry",
+      "diagnostic": null,
+      "seconds": 3.288339138031006
+    },
+    {
+      "episode": 33,
+      "passed": false,
+      "error_type": "ValueError",
+      "reason": "no safe held lift peak before drawer entry",
+      "diagnostic": null,
+      "seconds": 3.1072745323181152
+    },
+    {
+      "episode": 34,
+      "passed": false,
+      "error_type": "ValueError",
+      "reason": "no safe held lift peak before drawer entry",
+      "diagnostic": null,
+      "seconds": 3.377251386642456
+    },
+    {
+      "episode": 35,
+      "passed": false,
+      "error_type": "ValueError",
+      "reason": "no safe held lift peak before drawer entry",
+      "diagnostic": null,
+      "seconds": 3.493497371673584
+    },
+    {
+      "episode": 36,
+      "passed": false,
+      "error_type": "ValueError",
+      "reason": "no safe held lift peak before drawer entry",
+      "diagnostic": null,
+      "seconds": 4.941736459732056
+    },
+    {
+      "episode": 37,
+      "passed": false,
+      "error_type": "ValueError",
+      "reason": "no safe held lift peak before drawer entry",
+      "diagnostic": null,
+      "seconds": 4.518320083618164
+    },
+    {
+      "episode": 38,
+      "passed": false,
+      "error_type": "ValueError",
+      "reason": "no safe held lift peak before drawer entry",
+      "diagnostic": null,
+      "seconds": 5.1308434009552
+    },
+    {
+      "episode": 39,
+      "passed": false,
+      "error_type": "ValueError",
+      "reason": "no safe held lift peak before drawer entry",
+      "diagnostic": null,
+      "seconds": 5.894000768661499
+    },
+    {
+      "episode": 40,
+      "passed": false,
+      "error_type": "ValueError",
+      "reason": "no safe held lift peak before drawer entry",
+      "diagnostic": null,
+      "seconds": 4.6478002071380615
+    },
+    {
+      "episode": 41,
+      "passed": false,
+      "error_type": "ValueError",
+      "reason": "no safe held lift peak before drawer entry",
+      "diagnostic": null,
+      "seconds": 4.037164688110352
+    },
+    {
+      "episode": 42,
+      "passed": false,
+      "error_type": "ValueError",
+      "reason": "no safe held lift peak before drawer entry",
+      "diagnostic": null,
+      "seconds": 4.731372594833374
+    },
+    {
+      "episode": 43,
+      "passed": false,
+      "error_type": "ValueError",
+      "reason": "no safe held lift peak before drawer entry",
+      "diagnostic": null,
+      "seconds": 4.389528274536133
+    },
+    {
+      "episode": 44,
+      "passed": false,
+      "error_type": "ValueError",
+      "reason": "no safe held lift peak before drawer entry",
+      "diagnostic": null,
+      "seconds": 4.325005769729614
+    },
+    {
+      "episode": 45,
+      "passed": false,
+      "error_type": "ValueError",
+      "reason": "no safe held lift peak before drawer entry",
+      "diagnostic": null,
+      "seconds": 8.472527742385864
+    },
+    {
+      "episode": 46,
+      "passed": true,
+      "seconds": 15.102259874343872
+    },
+    {
+      "episode": 47,
+      "passed": false,
+      "error_type": "ValueError",
+      "reason": "no safe held lift peak before drawer entry",
+      "diagnostic": null,
+      "seconds": 8.523665189743042
+    },
+    {
+      "episode": 48,
+      "passed": false,
+      "error_type": "NoSafeSchedule",
+      "reason": "no held peak satisfies both sampled variants; see /home/coder/share/drawer-uniform-fix-20260911/delivery-final-work/episode_048/feasibility.json",
+      "diagnostic": "/home/coder/share/drawer-uniform-fix-20260911/delivery-final-work/episode_048/feasibility.json",
+      "seconds": 13.212609767913818
+    },
+    {
+      "episode": 49,
+      "passed": true,
+      "seconds": 13.979918479919434
+    },
+    {
+      "episode": 50,
+      "passed": false,
+      "error_type": "NoSafeSchedule",
+      "reason": "no held peak satisfies both sampled variants; see /home/coder/share/drawer-uniform-fix-20260911/delivery-final-work/episode_050/feasibility.json",
+      "diagnostic": "/home/coder/share/drawer-uniform-fix-20260911/delivery-final-work/episode_050/feasibility.json",
+      "seconds": 30.879218816757202
+    },
+    {
+      "episode": 51,
+      "passed": false,
+      "error_type": "NoSafeSchedule",
+      "reason": "no held peak satisfies both sampled variants; see /home/coder/share/drawer-uniform-fix-20260911/delivery-final-work/episode_051/feasibility.json",
+      "diagnostic": "/home/coder/share/drawer-uniform-fix-20260911/delivery-final-work/episode_051/feasibility.json",
+      "seconds": 27.682603359222412
+    },
+    {
+      "episode": 52,
+      "passed": true,
+      "seconds": 16.813953161239624
+    },
+    {
+      "episode": 53,
+      "passed": true,
+      "seconds": 15.545178413391113
+    },
+    {
+      "episode": 54,
+      "passed": true,
+      "seconds": 18.228469371795654
+    },
+    {
+      "episode": 55,
+      "passed": false,
+      "error_type": "ValueError",
+      "reason": "no safe held lift peak before drawer entry",
+      "diagnostic": null,
+      "seconds": 11.278188705444336
+    },
+    {
+      "episode": 56,
+      "passed": true,
+      "seconds": 23.030717849731445
+    },
+    {
+      "episode": 57,
+      "passed": true,
+      "seconds": 23.637187242507935
+    },
+    {
+      "episode": 58,
+      "passed": true,
+      "seconds": 23.82873296737671
+    },
+    {
+      "episode": 59,
+      "passed": true,
+      "seconds": 21.092986345291138
+    },
+    {
+      "episode": 60,
+      "passed": false,
+      "error_type": "ValueError",
+      "reason": "no settled recorded jaw closure after visual pickup",
+      "diagnostic": null,
+      "seconds": 10.52253794670105
+    },
+    {
+      "episode": 61,
+      "passed": false,
+      "error_type": "ValueError",
+      "reason": "no safe held lift peak before drawer entry",
+      "diagnostic": null,
+      "seconds": 10.071092128753662
+    },
+    {
+      "episode": 62,
+      "passed": false,
+      "error_type": "ValueError",
+      "reason": "no safe held lift peak before drawer entry",
+      "diagnostic": null,
+      "seconds": 12.359527587890625
+    },
+    {
+      "episode": 63,
+      "passed": false,
+      "error_type": "NoSafeSchedule",
+      "reason": "no held peak satisfies both sampled variants; see /home/coder/share/drawer-uniform-fix-20260911/delivery-final-work/episode_063/feasibility.json",
+      "diagnostic": "/home/coder/share/drawer-uniform-fix-20260911/delivery-final-work/episode_063/feasibility.json",
+      "seconds": 33.758230209350586
+    },
+    {
+      "episode": 64,
+      "passed": false,
+      "error_type": "ValueError",
+      "reason": "no safe held lift peak before drawer entry",
+      "diagnostic": null,
+      "seconds": 10.844102382659912
+    },
+    {
+      "episode": 65,
+      "passed": false,
+      "error_type": "ValueError",
+      "reason": "no safe held lift peak before drawer entry",
+      "diagnostic": null,
+      "seconds": 12.246561288833618
+    },
+    {
+      "episode": 66,
+      "passed": true,
+      "seconds": 16.170421838760376
+    },
+    {
+      "episode": 67,
+      "passed": false,
+      "error_type": "ValueError",
+      "reason": "no safe held lift peak before drawer entry",
+      "diagnostic": null,
+      "seconds": 7.631295204162598
+    },
+    {
+      "episode": 68,
+      "passed": false,
+      "error_type": "ValueError",
+      "reason": "no safe held lift peak before drawer entry",
+      "diagnostic": null,
+      "seconds": 7.699831008911133
+    },
+    {
+      "episode": 69,
+      "passed": false,
+      "error_type": "ValueError",
+      "reason": "no safe held lift peak before drawer entry",
+      "diagnostic": null,
+      "seconds": 8.811519145965576
+    },
+    {
+      "episode": 70,
+      "passed": true,
+      "seconds": 12.334306955337524
+    },
+    {
+      "episode": 71,
+      "passed": false,
+      "error_type": "ValueError",
+      "reason": "no safe held lift peak before drawer entry",
+      "diagnostic": null,
+      "seconds": 7.8873610496521
+    },
+    {
+      "episode": 72,
+      "passed": false,
+      "error_type": "NoSafeSchedule",
+      "reason": "no held peak satisfies both sampled variants; see /home/coder/share/drawer-uniform-fix-20260911/delivery-final-work/episode_072/feasibility.json",
+      "diagnostic": "/home/coder/share/drawer-uniform-fix-20260911/delivery-final-work/episode_072/feasibility.json",
+      "seconds": 26.537755489349365
+    },
+    {
+      "episode": 73,
+      "passed": false,
+      "error_type": "ValueError",
+      "reason": "no safe held lift peak before drawer entry",
+      "diagnostic": null,
+      "seconds": 7.605511665344238
+    },
+    {
+      "episode": 74,
+      "passed": false,
+      "error_type": "NoSafeSchedule",
+      "reason": "no held peak satisfies both sampled variants; see /home/coder/share/drawer-uniform-fix-20260911/delivery-final-work/episode_074/feasibility.json",
+      "diagnostic": "/home/coder/share/drawer-uniform-fix-20260911/delivery-final-work/episode_074/feasibility.json",
+      "seconds": 15.535990953445435
+    },
+    {
+      "episode": 75,
+      "passed": false,
+      "error_type": "ValueError",
+      "reason": "no safe held lift peak before drawer entry",
+      "diagnostic": null,
+      "seconds": 6.7895166873931885
+    },
+    {
+      "episode": 76,
+      "passed": false,
+      "error_type": "ValueError",
+      "reason": "no safe held lift peak before drawer entry",
+      "diagnostic": null,
+      "seconds": 9.703272819519043
+    },
+    {
+      "episode": 77,
+      "passed": false,
+      "error_type": "NoSafeSchedule",
+      "reason": "no held peak satisfies both sampled variants; see /home/coder/share/drawer-uniform-fix-20260911/delivery-final-work/episode_077/feasibility.json",
+      "diagnostic": "/home/coder/share/drawer-uniform-fix-20260911/delivery-final-work/episode_077/feasibility.json",
+      "seconds": 16.21793484687805
+    },
+    {
+      "episode": 78,
+      "passed": false,
+      "error_type": "NoSafeSchedule",
+      "reason": "no held peak satisfies both sampled variants; see /home/coder/share/drawer-uniform-fix-20260911/delivery-final-work/episode_078/feasibility.json",
+      "diagnostic": "/home/coder/share/drawer-uniform-fix-20260911/delivery-final-work/episode_078/feasibility.json",
+      "seconds": 15.792062520980835
+    },
+    {
+      "episode": 79,
+      "passed": true,
+      "seconds": 12.295016527175903
+    },
+    {
+      "episode": 80,
+      "passed": false,
+      "error_type": "NoSafeSchedule",
+      "reason": "no held peak satisfies both sampled variants; see /home/coder/share/drawer-uniform-fix-20260911/delivery-final-work/episode_080/feasibility.json",
+      "diagnostic": "/home/coder/share/drawer-uniform-fix-20260911/delivery-final-work/episode_080/feasibility.json",
+      "seconds": 16.232365608215332
+    },
+    {
+      "episode": 81,
+      "passed": true,
+      "seconds": 14.04973578453064
+    },
+    {
+      "episode": 82,
+      "passed": true,
+      "seconds": 13.89798617362976
+    },
+    {
+      "episode": 83,
+      "passed": true,
+      "seconds": 10.685947895050049
+    },
+    {
+      "episode": 84,
+      "passed": true,
+      "seconds": 9.614317655563354
+    },
+    {
+      "episode": 85,
+      "passed": true,
+      "seconds": 10.713900327682495
+    },
+    {
+      "episode": 86,
+      "passed": true,
+      "seconds": 6.920086622238159
+    }
+  ]
+}

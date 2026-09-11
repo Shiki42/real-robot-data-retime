@@ -17,7 +17,12 @@ from ..interaction.video import components, write_video
 from ..tasks.workpiece import discover_bins
 from .verification import OriginAudit
 from .interpolation import FlowFrames
-from .ownership import arm_foreground, is_carried
+from .ownership import (
+    arm_foreground,
+    is_carried,
+    complete_drawer_origins,
+    exclude_placed_objects,
+)
 
 
 def drawer_region(frames, open_frame):
@@ -74,12 +79,12 @@ def composite(
     if robots.shape != (n, 2, h, w) or objects.shape[1:] != (n, h, w):
         raise ValueError("segmentation must match registered video dimensions")
     if timeline["task"] == "drawer":
-        for event in timeline["episodes"]:
-            side = ["left", "right"].index(event["robot_id"])
-            release = event["release_frame"]
-            # Enforce scene ownership before both patch exclusion and layering;
-            # a stale SAM arm mask must not erase a placed cube from scene donors.
-            robots[release:, side] &= ~objects[event["object_id"], release:]
+        exclude_placed_objects(robots, objects, timeline["episodes"])
+    origin_completion = (
+        complete_drawer_origins(frames[0], robots, objects, timeline["episodes"])
+        if timeline["task"] == "drawer"
+        else []
+    )
     entry = np.zeros((2, h, w), bool)
     entry[0, int(h * 0.4) :, : max(1, round(w * 0.08))] = True
     entry[1, int(h * 0.4) :, round(w * 0.92) :] = True
@@ -320,6 +325,7 @@ def composite(
     report = dict(
         output=str(output),
         output_frames=len(left),
+        origin_completion=origin_completion,
         interpolated_right_frames=int(np.sum(right != np.floor(right))),
         interpolated_left_frames=int(np.sum(left != np.floor(left))),
         interpolation_method="bidirectional_DIS_flow" if fractional else "none",

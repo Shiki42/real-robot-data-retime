@@ -65,7 +65,7 @@ class OriginAudit:
                 expected = self.color_count(source_frames[t][roi], item["color"])
                 rendered = self.color_count(frame[roi], item["color"])
                 absent = expected < max(2, item["color_reference"] * 0.1)
-                duplicate = rendered > max(3, item["color_reference"] * 0.35)
+                duplicate = rendered - expected > max(3, item["color_reference"] * 0.05)
             else:
                 expected = cv2.cvtColor(source_frames[t][roi], cv2.COLOR_BGR2GRAY)
                 rendered = cv2.cvtColor(frame[roi], cv2.COLOR_BGR2GRAY)

@@ -20,19 +20,45 @@ per onset, and at most one frame error in the pair difference).
 
 Each variant uses the same 0.5 s braking / 0.3 s restart clock at A's peak,
 including when no peak dwell is needed, so A's duration cannot depend on the
-sampled partner delay. The right clock uses the main staged drawer implementation: opening to the
-verified open frame, an open-pose wait, then the original closing suffix.
-Post-opening gripper adjustments are not added to B to enlarge its interval.
+sampled partner delay. B still ends at the original opening frame. Post-opening
+right-arm motions are retained; only bounded measured/commanded stillness is
+compressed. Necessary right-arm waits after B use the shared smooth clock,
+with the B prefix protected from retiming. They do not enlarge B's duration.
 
-The measured jaw closure/reopening interval constrains peak selection. A late
-visual attachment confirmation does not exclude an earlier held height peak,
-and a post-release empty-jaw closure cannot become a candidate holding pose.
+The first closure is examined through its stable low-aperture plateau, rather
+than accepting an intermediate plateau while the jaw is still closing. Empty
+closures and robot-attached origin fragments are rejected. Candidate waiting
+poses remain within 2 mm of the recorded held-height maximum; lower grasp poses
+are not substitutes for A. One candidate must pass BOTH sampled variants before
+any complete-plan marker is written. Candidate failures are recorded in
+`feasibility.json`.
 
 The sampled clocks are fixed. A geometry failure never changes the sample's
 phase or substitutes a different source episode. The sampler retains the main staged planner's projected-silhouette check
-and its metric held-peak/braking clearance checks. Its model retains the
-repository's assumed 0.49 m base spacing and inferred drawer box. These are
-model checks, not calibrated physical collision certification.
+and its metric held-peak/braking clearance checks. The braking audit uses the
+closed/pulling drawer at the actual right source time, not its entire future
+sweep. An opened drawer's empty interior is not treated as a solid obstacle.
+Existing C-stage overlaps may be replayed only as original paired, unit-speed
+source edges; no mismatched or prolonged replay is admitted. The replay ledger
+makes these distinct from newly synthesized clear pairs.
+
+The model retains the assumed 0.49 m base spacing. `scene_geometry` exposes the
+remaining proxy dimensions, in metres:
+
+```json
+{
+  "drawer_width_m": 0.24,
+  "drawer_depth_m": 0.20,
+  "drawer_height_m": 0.07,
+  "held_object_radius_m": 0.035
+}
+```
+
+These defaults are inherited estimates, not measured scene dimensions. A supplied
+mapping must contain all four positive finite values. The object radius is an
+envelope around the model TCP, so object size and grasp offset both matter.
+Changed dimensions invalidate existing plans. These are model checks, not
+calibrated physical collision certification.
 
 ## Execution
 
@@ -51,7 +77,10 @@ Planning stores both source clocks, phase values, rounded delays, actual stage
 output frames and producer fingerprints. Rendering reuses the main foreground
 compositor and shared LeRobot telemetry/wrist-video exporter. Output episode
 IDs are `i` and `i+N`; every receipt records its original source episode.
-Finalization requires all `2N` receipts. A folder with only pilot episodes is
+The source mapping itself is checksummed. Finalization rejects stale producers,
+changed mappings or geometry, explicit failed visual reviews, missing object
+identity/motion evidence, and invalid recorded-pair replay. Finalization requires
+all `2N` receipts. A folder with only pilot episodes is
 not a complete dataset and must not be used as one.
 
 ## Initial 87-episode run
@@ -69,3 +98,6 @@ was reanalyzed with the current pipeline. Interaction verification alone does
 not establish that both sampled timelines pass geometry checks. Per-episode
 logs retain failed source edges. Pilot source-clock, telemetry and RGB frame
 checks are separate from completing and visually reviewing the full dataset.
+
+See [the recovery report](drawer-uniform-handoff/recovery.md) for the diagnosed
+failure chain, verified pilots, current preflight and corrected run config.

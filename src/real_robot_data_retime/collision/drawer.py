@@ -3,6 +3,48 @@
 import numpy as np
 
 
+from dataclasses import dataclass, asdict
+from numbers import Real
+
+
+@dataclass(frozen=True)
+class DrawerGeometry:
+    drawer_width_m: float = 0.24
+    drawer_depth_m: float = 0.20
+    drawer_height_m: float = 0.07
+    held_object_radius_m: float = 0.035
+
+    def __post_init__(self):
+        values = list(asdict(self).values())
+        if (
+            any(isinstance(v, bool) or not isinstance(v, Real) for v in values)
+            or not np.isfinite(values).all()
+            or min(values) <= 0
+        ):
+            raise ValueError("drawer geometry must contain positive finite metres")
+
+    @classmethod
+    def from_mapping(cls, values=None):
+        if values is None:
+            return cls()
+        if not isinstance(values, dict) or set(values) != set(cls.__dataclass_fields__):
+            raise ValueError(
+                "scene_geometry requires drawer_width_m, drawer_depth_m, drawer_height_m and held_object_radius_m"
+            )
+        return cls(**values)
+
+    @property
+    def box_kwargs(self):
+        return dict(
+            half_width=self.drawer_width_m / 2,
+            depth=self.drawer_depth_m,
+            half_height=self.drawer_height_m / 2,
+        )
+
+    def to_dict(self):
+        return asdict(self)
+
+
 def drawer_sweep(
     handle_positions,
     pull_start,

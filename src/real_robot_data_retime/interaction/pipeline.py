@@ -514,6 +514,21 @@ def run(
                         **result,
                     )
                 )
+    if task == "drawer" and backend == "sam2":
+        from .origin_identity import detached_origin
+
+        origin_robots = np.unpackbits(
+            grippers["robot_masks"][: max(3, round(fps * 0.5))],
+            axis=-1,
+            count=frames.shape[2],
+        ).astype(bool)
+        origin_objects = np.unpackbits(
+            np.array(
+                [track["packed_masks"][: max(3, round(fps * 0.5))] for track in tracks]
+            ),
+            axis=-1,
+            count=frames.shape[2],
+        ).astype(bool)
     selected = []
     visibility_masks = {}
     for c in sorted(candidates, key=lambda x: x["score"], reverse=True):
@@ -579,6 +594,15 @@ def run(
             )
             c["visibility_evidence"] = visibility
             c["track_confidence"] = visibility["evidence_confidence"]
+        if task == "drawer" and backend == "sam2":
+            identity = detached_origin(
+                origin_robots, origin_objects, c["object_id"], c["pickup_frame"], fps
+            )
+            c["origin_identity"] = identity
+            if not identity["verified"]:
+                c["accepted"] = False
+                c["rejection_reasons"].append("object_origin_is_robot_attached")
+                continue
         selected.append(c)
     from ..timeline.hypotheses import choose_episodes
 
@@ -645,6 +669,11 @@ def run(
             json.dumps(mask_audit, indent=2)
         )
     if task == "drawer":
+        gates["detached_object_origin"] = (
+            bool(selected) and all(c["origin_identity"]["verified"] for c in selected)
+            if backend == "sam2"
+            else False
+        )
         gates["drawer_open_close"] = (
             drawer_motion is not None and drawer_motion["confidence"] >= 0.5
         )

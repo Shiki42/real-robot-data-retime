@@ -1,6 +1,7 @@
 """Two uniformly spaced prerequisite timings per source drawer episode."""
 
 import argparse
+import hashlib
 import json
 from pathlib import Path
 import numpy as np
@@ -13,6 +14,9 @@ from .interaction.measurements import inputs_fingerprint, producer_fingerprint
 from .model_experiment import sha256
 from .staged import load_joints
 from .timeline.visual import plan_visual
+from .timeline.drawer_wait import prepare_uniform_lift
+from .timeline.scheduler import NoSafeSchedule
+from .collision.drawer import DrawerGeometry
 from .timeline.smooth import sample_rows
 from .timeline.uniform import uniform_samples, validate_stage_schedule
 from .trim import source_episodes, read_episode
@@ -28,6 +32,15 @@ def write_json(path, data):
     temporary = path.with_suffix(".tmp.json")
     temporary.write_text(json.dumps(data, indent=2, allow_nan=False) + "\n")
     temporary.replace(path)
+
+
+def source_map_digest(left, right):
+    digest = hashlib.sha256()
+    for name, values in (("left", left), ("right", right)):
+        array = np.asarray(values, dtype="<f8")
+        digest.update(f"{name}:{array.shape}".encode())
+        digest.update(array.tobytes())
+    return digest.hexdigest()
 
 
 def source_inputs(config, index):
@@ -76,17 +89,79 @@ def plan_episode(config, index):
             != manifest["inputs"]
         ):
             raise ValueError("analysis frame geometry or registration differs")
+        positions = uniform_samples(index, info["total_episodes"])
+        width = int(segmentation["frame_shape"][1])
+        robots = np.unpackbits(segmentation["robots"], axis=-1, count=width).astype(
+            bool
+        )
+        objects = np.unpackbits(segmentation["objects"], axis=-1, count=width).astype(
+            bool
+        )
+        from .compositing.ownership import exclude_placed_objects
+
+        exclude_placed_objects(robots, objects, timeline["episodes"])
+        from .interaction.origin_identity import detached_origin
+
+        event = timeline["episodes"][0]
+        if not detached_origin(
+            robots, objects, event["object_id"], event["pickup_frame"], fps
+        )["verified"]:
+            raise ValueError(
+                "drawer target is robot-attached at origin; reselect interaction evidence"
+            )
+        prepared = prepare_uniform_lift(
+            joints[0],
+            joints[1],
+            event,
+            timeline["drawer_motion"],
+            robots,
+            objects,
+            timeline["episodes"],
+            joints[2],
+            joints[3],
+            fps,
+            positions[0],
+            scene_geometry=config.get("scene_geometry"),
+        )
+        attempts = []
+        for peak in prepared.candidates:
+            plans = []
+            for variant, position in enumerate(positions):
+                try:
+                    plans.append(
+                        plan_visual(
+                            timeline,
+                            frames,
+                            tracks,
+                            segmentation,
+                            joints=joints,
+                            uniform_position=position,
+                            uniform_lift=prepared,
+                            wait_source_frame=peak,
+                        )
+                    )
+                except NoSafeSchedule as error:
+                    attempts.append(
+                        dict(peak_source_frame=peak, variant=variant, reason=str(error))
+                    )
+                    break
+            if len(plans) == 2:
+                break
+        else:
+            write_json(
+                output / "feasibility.json", dict(passed=False, attempts=attempts)
+            )
+            raise NoSafeSchedule(
+                f"no held peak satisfies both sampled variants; see {output / 'feasibility.json'}"
+            )
+        write_json(
+            output / "feasibility.json",
+            dict(passed=True, selected_peak=peak, attempts=attempts),
+        )
         results = []
-        for variant, position in enumerate(
-            uniform_samples(index, info["total_episodes"])
-        ):
-            left, right, plan = plan_visual(
-                timeline,
-                frames,
-                tracks,
-                segmentation,
-                joints=joints,
-                uniform_position=position,
+        for variant, (left, right, plan) in enumerate(plans):
+            plan["wait_candidate_search"] = dict(
+                selected_peak=peak, rejected_candidates=attempts
             )
             plan["stage_validation"] = validate_stage_schedule(
                 left, right, plan["stages"]
@@ -99,6 +174,7 @@ def plan_episode(config, index):
             plan["joint_data_sha256"] = sha256(table_path)
             plan["analysis_report_sha256"] = sha256(analysis / "report.json")
             plan["producer"] = producer_fingerprint()
+            plan["source_map_digest"] = source_map_digest(left, right)
             np.savez_compressed(
                 output / f"mapping_{variant}.npz", left=left, right=right
             )
@@ -141,6 +217,11 @@ def render_episode(config, index):
             "source_sha256"
         ] != sha256(video):
             raise ValueError("source or implementation changed since planning")
+        if (
+            plan["stages"]["scene_geometry"]
+            != DrawerGeometry.from_mapping(config.get("scene_geometry")).to_dict()
+        ):
+            raise ValueError("scene geometry changed since planning")
         table_path = source / info["data_path"].format(
             chunk_index=0, file_index=row["episode_index"]
         )
@@ -150,6 +231,8 @@ def render_episode(config, index):
             raise ValueError("analysis changed since planning")
         with np.load(work / f"mapping_{variant}.npz") as maps:
             left, right = maps["left"], maps["right"]
+        if source_map_digest(left, right) != plan["source_map_digest"]:
+            raise ValueError("source mapping changed after planning")
         validate_stage_schedule(left, right, plan["stages"])
         receipt_path = output / f"meta/retime_receipts/episode_{ep:03d}.json"
         receipt_path.unlink(missing_ok=True)
@@ -193,12 +276,39 @@ def finalize_dataset(config):
     count = read_json(source / "meta/info.json")["total_episodes"]
     rows = source_episodes(source)
     info = read_json(source / "meta/info.json")
+    producer = producer_fingerprint()
     for index in range(count):
         original = read_episode(source, info, rows[index])
         pair = []
         for variant in range(2):
             ep = index + count * variant
             receipt = read_json(output / f"meta/retime_receipts/episode_{ep:03d}.json")
+            if receipt.get("visual_review", {}).get("passed") is False:
+                raise ValueError(f"output {ep}: explicitly rejected by visual review")
+            if receipt["plan"]["producer"] != producer:
+                raise ValueError(
+                    f"output {ep}: stale producer; replan and render with current code"
+                )
+            stages = receipt["plan"]["stages"]
+            if (
+                stages["scene_geometry"]
+                != DrawerGeometry.from_mapping(config.get("scene_geometry")).to_dict()
+            ):
+                raise ValueError("receipt scene geometry differs from current config")
+            if (
+                not stages["origin_identity"]["verified"]
+                or not stages["post_open_motion_validation"]["passed"]
+            ):
+                raise ValueError(f"output {ep}: failed target/motion evidence")
+            if (
+                abs(stages["tcp_height_m"] - stages["recorded_peak_height_m"])
+                > 0.002 + 1e-9
+            ):
+                raise ValueError(
+                    f"output {ep}: waiting pose is not in the recorded lift peak band"
+                )
+            if not receipt["compositing"]["automatic_origin_audit"]["passed"]:
+                raise ValueError(f"output {ep}: failed rendered origin audit")
             if (
                 receipt["source_episode_index"] != index
                 or receipt["plan"]["variant"] != variant
@@ -207,6 +317,27 @@ def finalize_dataset(config):
             with np.load(
                 output / f"meta/retime_source_indices/episode_{ep:03d}.npz"
             ) as maps:
+                if (
+                    source_map_digest(maps["left"], maps["right"])
+                    != receipt["plan"]["source_map_digest"]
+                ):
+                    raise ValueError(
+                        "exported source mapping differs from validated plan"
+                    )
+                from .timeline.planner import original_pair_edge
+
+                for replay in stages["recorded_pair_replay"]["edges"]:
+                    k = replay["output_edge"]
+                    if not original_pair_edge(
+                        maps["left"][k],
+                        maps["right"][k],
+                        maps["left"][k + 1],
+                        maps["right"][k + 1],
+                        {replay["source_edge"]},
+                    ):
+                        raise ValueError(
+                            "recorded pair replay changed source pairing or speed"
+                        )
                 validate_stage_schedule(
                     maps["left"], maps["right"], receipt["plan"]["stages"]
                 )
@@ -242,6 +373,11 @@ def finalize_dataset(config):
             ):
                 raise ValueError("sample position differs from global uniform grid")
             pair.append(receipt["plan"]["stages"]["uniform"])
+        if (
+            pair[0]["a_frames"] != pair[1]["a_frames"]
+            or pair[0]["b_frames"] != pair[1]["b_frames"]
+        ):
+            raise ValueError("prerequisite durations differ between variants")
         if not np.isclose(pair[1]["position"] - pair[0]["position"], 0.5):
             raise ValueError("incorrect pair spacing")
     result = finalize(
@@ -260,7 +396,7 @@ def finalize_dataset(config):
             frame_rounding="nearest frame; at most 0.5 frame per onset",
             dependency="C starts only after A and B complete",
             producer=producer_fingerprint(),
-            collision_scope="projected silhouettes plus metric held peak/braking clearance",
+            collision_scope="projected new pairs, exact original paired replay, metric held peak/braking clearance",
             source_config=config,
         ),
     )
