@@ -56,3 +56,19 @@ class AlignedDepth:
             archive.close()
         self.archives.clear()
         self.cache.clear()
+
+
+def source_depth(raw_source, index, trim, transforms, shape):
+    """Open raw metric depth using the same trim and registration as RGB."""
+    import json
+    from ..trim import read_episode, source_episodes
+
+    raw_source = Path(raw_source)
+    info = json.loads((raw_source / "meta/info.json").read_text())
+    table = read_episode(raw_source, info, source_episodes(raw_source)[index])
+    return AlignedDepth(
+        raw_source,
+        table["observation.depth.top"].to_pylist()[trim["start"] : trim["stop"]],
+        transforms,
+        shape,
+    )

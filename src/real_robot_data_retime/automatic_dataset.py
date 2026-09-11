@@ -13,7 +13,7 @@ from .interaction.pipeline import run
 from .edit import native_render_inputs
 from .timeline.planner import plan_joints
 from .compositing.layers import composite
-from .compositing.depth import AlignedDepth
+from .compositing.depth import source_depth
 from .trim import source_episodes, read_episode, image_statistics, aggregate_stats
 from .stats import feature_statistics
 from .video import remap_video
@@ -239,14 +239,7 @@ def render_main(
         native, masks, transforms = native_render_inputs(
             video, tracks["registration"], segmentation
         )
-    raw_info = json.loads((raw_source / "meta/info.json").read_text())
-    raw = read_episode(raw_source, raw_info, source_episodes(raw_source)[index])
-    depth = AlignedDepth(
-        raw_source,
-        raw["observation.depth.top"].to_pylist()[trim["start"] : trim["stop"]],
-        transforms,
-        native.shape[1:3],
-    )
+    depth = source_depth(raw_source, index, trim, transforms, native.shape[1:3])
     main = output / f"videos/observation.images.top/chunk-000/file-{episode:03d}.mp4"
     try:
         render = composite(

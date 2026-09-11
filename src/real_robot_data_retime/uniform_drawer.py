@@ -9,6 +9,7 @@ import pyarrow.parquet as pq
 
 from .automatic_dataset import check_output_location, write_retimed_episode, finalize
 from .compositing.layers import composite
+from .compositing.depth import source_depth
 from .edit import registered_frames, native_render_inputs
 from .interaction.measurements import inputs_fingerprint, producer_fingerprint
 from .model_experiment import sha256
@@ -207,7 +208,7 @@ def render_episode(config, index):
         np.load(analysis / "tracks.npz") as tracks,
         np.load(analysis / "segmentation.npz") as segmentation,
     ):
-        native, masks, _ = native_render_inputs(
+        native, masks, transforms = native_render_inputs(
             video, tracks["registration"], segmentation
         )
     for variant in range(2):
@@ -239,7 +240,15 @@ def render_episode(config, index):
         debug = work / f"variant_{variant}"
         debug.mkdir(parents=True, exist_ok=True)
         main = output / f"videos/observation.images.top/chunk-000/file-{ep:03d}.mp4"
-        rendered = composite(native, timeline, masks, left, right, main, debug)
+        depth = source_depth(
+            config["raw_source"], index, trim, transforms, native.shape[1:3]
+        )
+        try:
+            rendered = composite(
+                native, timeline, masks, left, right, main, debug, depth=depth
+            )
+        finally:
+            depth.close()
         if not rendered["automatic_origin_audit"]["passed"]:
             raise ValueError(f"output {ep}: rendered source-origin check failed")
         rendered["output"] = str(main.relative_to(output))
@@ -396,7 +405,8 @@ def finalize_dataset(config):
             frame_rounding="nearest frame; at most 0.5 frame per onset",
             dependency="C starts only after A and B complete",
             producer=producer_fingerprint(),
-            collision_scope="projected new pairs, exact original paired replay, metric held peak/braking clearance",
+            collision_scope="arm mesh versus drawer proxy at held peak and during braking/waiting; no held-object sphere or projected-overlap rejection",
+            compositing_scope="registered raw metric depth; existing stable-right ordering where depth is missing",
             source_config=config,
         ),
     )
