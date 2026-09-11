@@ -24,7 +24,8 @@ left-arm ramp and right-arm opening behavior. Its episode-0 source clocks remain
 byte-identical to the accepted 536-frame preview.
 
 Workpiece video scheduling instead uses independent approach clocks and fixed
-staging poses. Waiting by one arm cannot retime an admitted execution by the
+staging poses. Both original approaches start together, including the full right
+preparation; no separate preparation prefix delays the left arm. Waiting by one arm cannot retime an admitted execution by the
 other arm. The first left execution and every admitted pickup/transport/place
 interval retain source speed. See [workpiece priority](workpiece-alternating.md).
 

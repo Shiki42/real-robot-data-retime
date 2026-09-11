@@ -27,8 +27,12 @@ def approach_clock(start, end, stops, fps):
             if braking:
                 holds.append(len(clock) - 1)
             continue
+        # A short initial approach must not be stretched into a slow crawl.
+        # Start at source speed and shorten only its own stopping ramp.
+        brake_duration = min(down, max(2, 2 * distance)) if segment == 0 else down
+        brake_distance = round(brake_duration / 2)
         nominal = (round(up / 2) if accelerating else 0) + (
-            round(down / 2) if braking else 0
+            brake_distance if braking else 0
         )
         plateau = max(0, int(np.floor(distance - nominal)))
         rate = distance / (nominal + plateau)
@@ -42,7 +46,8 @@ def approach_clock(start, end, stops, fps):
             source_begin = a + local[-1]
             local.extend(
                 (
-                    local[-1] + rate * speed_ramp(down, round(down / 2), False)[1:]
+                    local[-1]
+                    + rate * speed_ramp(brake_duration, brake_distance, False)[1:]
                 ).tolist()
             )
         local[-1] = distance
@@ -54,6 +59,7 @@ def approach_clock(start, end, stops, fps):
                     source_frame=b,
                     brake_source_start=source_begin,
                     brake_start_index=begin,
+                    brake_intervals=brake_duration,
                     stop_index=holds[-1],
                 )
             )
@@ -120,7 +126,7 @@ def workpiece_sources(events, fps, stops):
         left1["approach_start"], left2["retract_end"], [left_stop], fps
     )
     right, rh, rt = approach_clock(
-        right_stop1,
+        right1["approach_start"],
         right2["retract_end"],
         [right_stop1, right_stop2],
         fps,
@@ -142,7 +148,8 @@ def workpiece_sources(events, fps, stops):
             source_start_frame=right1["approach_start"],
             source_end_frame=right_stop1,
         ),
-        preparation_output_frames=0,
+        start_policy="synchronous_original_approaches",
+        initial_source_frames=[left1["approach_start"], right1["approach_start"]],
         smoothing="independent_approach_clocks",
         onset_delay_frames=[0, 0],
         admission_gates=[
@@ -154,7 +161,7 @@ def workpiece_sources(events, fps, stops):
     )
     return (
         [left, right],
-        [set(lh) | {len(left) - 1}, set(rh) | {0, len(right) - 1}],
+        [set(lh) | {len(left) - 1}, set(rh) | {len(right) - 1}],
         stages,
     )
 
@@ -167,28 +174,16 @@ def admission_allowed(left, right, stages):
     )
 
 
-def prepend_right_preparation(left, right, stages, fps):
-    """Show the original approach before starting the non-preemptive executions."""
-    preparation = stages["right_preparation"]
-    start, stop = preparation["source_start_frame"], preparation["source_end_frame"]
-    clock, _, ramps = approach_clock(start, stop, [stop], fps)
-    if right[0] != stop:
-        raise ValueError(
-            "right preparation must join the execution at its waiting pose"
-        )
-    count = len(clock) - 1
-    stages["preparation_output_frames"] = count
-    preparation["output_start_frame"] = 0
-    preparation["output_end_frame"] = count
-    preparation["braking"] = ramps
-    return np.r_[np.full(count, left[0]), left], np.r_[clock[:-1], right]
-
-
 def verify_uninterrupted(left, right, stages):
     for index, (side, clock) in enumerate([("left", left), ("right", right)]):
-        clock = clock[
-            stages["preparation_output_frames"] + stages["onset_delay_frames"][index] :
-        ]
+        clock = clock[stages["onset_delay_frames"][index] :]
+        if clock[0] != stages["initial_source_frames"][index]:
+            raise ValueError("an arm's original approach was omitted")
+        has_approach = (
+            index == 0 or clock[0] < stages["right_preparation"]["source_end_frame"]
+        )
+        if has_approach and not clock[1] > clock[0]:
+            raise ValueError("an arm was delayed instead of starting its approach")
         for start, end in stages["protected_source_intervals"][side]:
             selected = (
                 (clock[:-1] >= start - 1e-9)

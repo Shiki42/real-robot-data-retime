@@ -5,7 +5,7 @@ from real_robot_data_retime.tasks.workpiece import alternating_pickups
 from real_robot_data_retime.timeline.visual import plan_visual
 from real_robot_data_retime.timeline.workpiece import (
     approach_clock,
-    prepend_right_preparation,
+    verify_uninterrupted,
 )
 
 
@@ -54,13 +54,11 @@ def test_execution_owner_cannot_be_slowed_by_the_other_arm():
     ]
     assert np.all(np.diff([x["output_frame"] for x in report["pickup_order"]]) > 0)
     # Right's entry and any waits have no effect on the complete first left action.
-    preparation = report["stages"]["preparation_output_frames"]
-    assert preparation > 0 and right[0] == 100
-    assert right[preparation] == report["stages"]["wait_source_frames"]["right"][0]
-    assert np.all(left[: preparation + 1] == 0)
-    assert np.all(np.diff(right[: preparation + 1]) > 0)
+    assert left[0] == 0 and right[0] == 100
+    assert left[1] > left[0] and right[1] > right[0]
+    assert report["stages"]["right_preparation"]["output_start_frame"] == 0
     assert np.max(np.diff(right)) <= 1.000000001
-    np.testing.assert_array_equal(left[preparation : preparation + 41], np.arange(41))
+    np.testing.assert_array_equal(left[:41], np.arange(41))
     assert np.any((np.diff(left) == 0) & (left[:-1] < 65) & (right[:-1] >= 125))
     for clock, start, end in [(left, 65, 95), (right, 125, 175), (right, 225, 259)]:
         active = (clock[:-1] >= start) & (clock[:-1] < end) & (clock[1:] <= end)
@@ -84,31 +82,34 @@ def test_incomplete_workpiece_fails_explicitly():
         alternating_pickups([dict(robot_id="left", pickup_frame=5)])
 
 
-def test_short_right_preparation_is_shown_without_changing_execution_clocks():
-    left = np.arange(50, 70, dtype=float)
-    right = np.r_[np.full(5, 677.0), np.arange(678, 693)]
-    stages = dict(right_preparation=dict(source_start_frame=674, source_end_frame=677))
-    output_left, output_right = prepend_right_preparation(left, right, stages, 30)
-    count = stages["preparation_output_frames"]
-    assert count == 15
-    assert output_right[0] == 674 and output_right[count] == 677
-    assert np.all(np.diff(output_right[: count + 1]) > 0)
-    assert np.max(np.diff(output_right)) <= 1.000000001
-    assert np.all(output_left[: count + 1] == 50)
-    np.testing.assert_array_equal(output_left[count:], left)
-    np.testing.assert_array_equal(output_right[count:], right)
+def test_short_initial_approach_keeps_its_start_and_uses_a_shorter_brake():
+    clock, holds, ramps = approach_clock(674, 800, [677], 30)
+    assert clock[0] == 674 and clock[1] - clock[0] > 0.9
+    assert holds[0] == 6 and clock[holds[0]] == 677
+    assert ramps[0]["brake_intervals"] == 6
+    assert np.all(np.diff(clock) > 0) and np.max(np.diff(clock)) <= 1.000000001
+    active = (clock[:-1] >= 681) & (clock[1:] <= 800)
+    np.testing.assert_allclose(np.diff(clock)[active], 1, atol=1e-9)
 
 
-def test_no_preparation_motion_does_not_add_synthetic_frames():
-    stages = dict(right_preparation=dict(source_start_frame=10, source_end_frame=10))
-    left, right = np.arange(20), np.arange(10, 30)
-    actual_left, actual_right = prepend_right_preparation(left, right, stages, 30)
-    assert stages["preparation_output_frames"] == 0
-    np.testing.assert_array_equal(actual_left, left)
-    np.testing.assert_array_equal(actual_right, right)
+def startup_stages():
+    return dict(
+        onset_delay_frames=[0, 0],
+        initial_source_frames=[10, 100],
+        right_preparation=dict(source_end_frame=105),
+        protected_source_intervals=dict(left=[[10, 30]], right=[[110, 120]]),
+    )
 
 
-def test_preparation_cannot_join_a_different_source_pose():
-    stages = dict(right_preparation=dict(source_start_frame=10, source_end_frame=20))
-    with pytest.raises(ValueError, match="join the execution"):
-        prepend_right_preparation(np.arange(5), np.arange(21, 26), stages, 30)
+@pytest.mark.parametrize("side", [0, 1])
+def test_verifier_rejects_an_inserted_startup_wait(side):
+    clocks = [np.arange(10, 31), np.arange(100, 121)]
+    verify_uninterrupted(*clocks, startup_stages())
+    clocks[side] = np.r_[clocks[side][0], clocks[side][:-1]]
+    with pytest.raises(ValueError, match="delayed instead of starting"):
+        verify_uninterrupted(*clocks, startup_stages())
+
+
+def test_verifier_rejects_a_trimmed_right_approach():
+    with pytest.raises(ValueError, match="original approach was omitted"):
+        verify_uninterrupted(np.arange(10, 31), np.arange(101, 122), startup_stages())

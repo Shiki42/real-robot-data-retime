@@ -124,15 +124,18 @@ documented in [photometric verification](docs/photometric-verification.md).
 Workpiece and letter scene-ownership refinements are documented in
 [episode refinement](docs/object-episode-iterations.md).
 
-Workpiece video scheduling uses independent approach clocks: only the arm
-preparing to wait brakes and restarts. An admitted execution advances at one
-source frame per output frame, including while the other arm waits. The first
-right arm's recorded approach from its original starting pose to the waiting
-pose is shown as a preparation lead-in, while the left arm has not yet started.
-The four admitted executions then use their unchanged independent clocks. No
-right preparation frames are omitted; pickup/transport/place frames are retained
-in source order. The final paired path is checked again for
+Workpiece video scheduling starts both arms at their original detected approach
+poses on output frame zero. The right preparation is part of the same paired
+schedule as left 1: there is no right-only lead-in and no omitted approach.
+Only an arm approaching a wait brakes and restarts. The first left execution
+retains source speed; admitted executions cannot be preempted by the other arm.
+A very short initial approach uses a shorter brake instead of being stretched
+into a slow approach that would force the left arm to yield. Explicit onset-delay
+arguments remain opt-in; the default inserts no onset delay.
+
+All pickup/transport/place frames are retained in source order. The final paired
+path is checked for original starting poses, simultaneous approach onset, pickup
 precedence, uninterrupted execution and swept projected foreground clearance.
-Reports include `plan.pickup_order` and `plan.stages` with waiting poses,
-protected source intervals and staging-search evidence. See
-[workpiece priority and verification](docs/workpiece-alternating.md).
+Reports include `plan.pickup_order` and `plan.stages` with starting poses,
+right preparation boundaries, waiting poses, protected intervals and staging
+search evidence. See [workpiece priority and verification](docs/workpiece-alternating.md).

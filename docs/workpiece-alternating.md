@@ -1,103 +1,73 @@
-# Alternating workpiece pickups
+# Alternating workpiece pickups with synchronous starts
 
-Workpiece storage has two pickups per arm. The video pipeline enforces this
-priority contract:
+Both arms start their recorded approaches on the first output interval. The
+right preparation runs concurrently with left 1; it is not cropped and is not
+prepended while the left arm is held still. Default onset delays are zero.
 
-1. The first left execution cannot stop or slow because of either right action.
-2. The second left execution can wait before admission for the first right pickup.
-3. Once admitted, the second left execution continues through completion; the
-   second right action waits as needed. Admission order is left 1, right 1,
-   left 2, right 2.
+The priority contract is:
 
-The four verified source interactions define pickup, release and approach
-boundaries. First-action protection extends through release; the following
-recorded approach belongs to the next action. A held staging pose separates
-each pair of actions. Independent source clocks use the existing 0.5 s braking
-and 0.3 s restart curves only around these approach holds. The paired-clock
-smoother is not used for workpiece video editing, so another arm's wait does not
-slow the admitted arm. After its restart finishes, each admitted execution must
-advance exactly one source frame per output frame through its protected end.
+1. Left 1 cannot stop or slow because of either right action.
+2. Left 2 can wait before admission for right 1.
+3. Once admitted, left 2 continues through completion; right 2 yields as needed.
+   Admission order is left 1, right 1, left 2, right 2.
 
-Staging candidates are checked against the preceding manipulation's carried
-foreground sweep. The planner searches nearer poses first and backs off only
-when no complete uninterrupted paired path exists. It checks every swept edge,
-not just the waiting poses. The right arm's original approach to the first
-waiting pose is shown as a preparation lead-in with a smooth stop. During this
-lead-in, the left arm stays at its initial pose and has not begun its first
-execution. The main schedule joins at the identical pair of source poses, so
-all four pickup/transport/place clocks remain unchanged after the lead-in.
-`plan.stages.right_preparation` records the source and output boundaries;
-`preparation_output_frames` is the main schedule's output offset. Waiting locations, entry
-gates, protected intervals and search attempts are recorded under `plan.stages`.
+The verified source interactions define pickup, release and approach boundaries.
+First-action protection extends through release; the following recorded approach
+belongs to the next action. Independent clocks brake only when approaching a
+staging hold and restart before admission. After restarting, an admitted action
+advances exactly one source frame per output frame through its protected end.
+The paired-clock smoother is not used, so waiting by one arm cannot slow the other.
 
-The final clocks must pass pickup precedence, uninterrupted-execution and swept
-projected-clearance checks. This is image-space video validation, not a
-calibrated robot-control collision guarantee. Missing interactions fail explicitly.
+The planner includes the entire first right approach when searching the paired
+path. It searches nearer staging poses first, backs off when required, and checks
+every swept edge. Only staging points and completed trajectories permit holds;
+a nonzero initial right approach cannot be frozen at its starting pose. There is
+no initial left hold, preparation prefix, or prepositioned right starting frame.
+Explicit user-requested onset delays are reported separately.
+
+Braking normally uses 0.5 seconds and restart uses 0.3 seconds. If the first
+approach has less source distance than a full brake requires, its brake duration
+is shortened to twice that distance in frame intervals. This preserves an initial
+source speed of 1x and a smooth stop without stretching the entire short approach.
+For Episode 2, the three-frame approach uses a six-interval (0.20 s) brake rather
+than the previous fifteen-interval brake. Left 1 remains unchanged.
+
+`plan.stages.start_policy` is `synchronous_original_approaches`.
+`initial_source_frames` identifies the original poses. `right_preparation` records
+the source interval and its actual output start/end, which overlap left 1.
+`onset_delay_frames` contains only explicitly requested delays. Waiting poses,
+admission gates, protected intervals and search attempts are also recorded.
+
+The final output must pass original-start, immediate-approach-onset, pickup-order,
+uninterrupted-execution and swept projected-clearance checks. These are main-view
+image-space checks, not a calibrated robot-control collision guarantee. Missing
+interactions or an infeasible safe schedule fail explicitly.
 
 ## Validation
 
-- 161 tests passed, 4 optional tests skipped on Coder A.
-- Preparation tests cover the original starting pose, continuous source coverage,
-  a very short approach, an exact execution-clock suffix and invalid join rejection.
-- A slow-right shared-space regression checks that left 1 retains its original
-  clock, left 2 can wait before entry, and admitted left/right motions cannot stop.
-- Independent ramp tests verify source joins and maximum clock rate.
-- Object-ownership regressions reject both pre-pickup neighboring-object drift
-  and post-deposit tracks that would restore a taken workpiece at its old origin.
+- 162 tests passed, 4 optional tests skipped on Coder A.
+- A slow-right scene verifies both original starts, left 1 at unchanged source
+  speed, left 2 yielding before admission, and uninterrupted admitted motions.
+- Tests reject either arm being frozen at startup and a cropped right approach.
+- A short-approach test checks the six-interval brake, source continuity, maximum
+  clock rate and preserved subsequent source speed.
+- Object-ownership regressions cover neighboring-object drift before pickup,
+  after release and in disconnected carried-mask components.
 
-Private analysis, source clocks, renders and verification artifacts are under
-`/home/coder/share/retime-workpiece-alternating-20260911` on Coder A.
-`final_v2_episode_0`, `final_v2_episode_1` and `final_v2_episode_2` are the final exports;
-previous candidate outputs are retained separately as diagnostics.
+All three pilot plans start at source pairs (63, 547), (31, 532), and (50, 674).
+Both source clocks advance on the first output interval. Left 1 matches its
+original source clock exactly, including while right 1 approaches and waits.
 
-The previously reviewed clips without the preparation lead-in passed
-uninterrupted-clock, admission-order, projected-overlap and
-source-origin checks. All three have zero detected origin duplicates and zero
-moving-foreground overlap pixels. Fourteen frames per episode, including every
-pickup before/at/after and the final scene, were visually reviewed.
+Current artifacts are on Coder A under
+`/home/coder/share/retime-workpiece-synchronous-20260911`.
 
-| Episode | Duration | Left 1 | Right 1 | Left 2 | Right 2 |
-| --- | ---: | ---: | ---: | ---: | ---: |
-| 0 | 21.13 s | 3.57 s | 6.33 s | 9.27 s | 14.87 s |
-| 1 | 21.00 s | 3.50 s | 5.17 s | 9.70 s | 14.17 s |
-| 2 | 22.33 s | 3.60 s | 7.00 s | 12.83 s | 15.53 s |
+## Superseded preview records
 
-The complete receipt is [recorded here](workpiece-alternating-verification.json).
-
-## Restored right preparation
-
-The default main-view output now includes the right arm moving from the first
-interaction's detected `approach_start` to its staging pose. It no longer starts
-at the staging pose. This restores the visible recorded preparation movement;
-initial source-video inactivity before `approach_start` remains trimmed.
-
-A separate lead-in is used so preparation cannot slow an already executing left
-arm. Only the right clock moves during preparation. It brakes using the existing
-0.5 second ramp, reaches the exact prior waiting pose, and joins the original
-four-action schedule without a source jump. Very short approaches use the
-existing scaled ramp instead of dropping source frames. The complete output,
-including this new prefix, undergoes swept silhouette validation.
-
-All three source-clock suffixes were compared with the previously reviewed
-exports and are exactly equal. The preparation adds 42, 37 and 15 output frame
-intervals (1.40, 1.23 and 0.50 seconds at 30 FPS). Sources begin at right frames
-547, 532 and 674, respectively, and reach waiting frames 582, 562 and 677.
-
-New artifacts are on Coder A under
-`/home/coder/share/retime-workpiece-preparation-20260911`.
-
-The regenerated videos passed origin-duplicate and moving-foreground-overlap
-checks with zero detected pixels/observations of either problem. Their source
-clocks were verified against the planned maps and the prior execution suffixes;
-preparation and pickup/final-scene keyframes were visually reviewed.
-
-| Episode | Preparation | Full video |
-| --- | ---: | ---: |
-| 0 | 1.40 s | 22.53 s |
-| 1 | 1.23 s | 22.23 s |
-| 2 | 0.50 s | 22.83 s |
-
-[Preparation verification receipt](workpiece-preparation-verification.json).
+The [prepositioned preview receipt](workpiece-alternating-verification.json) and
+[serial preparation receipt](workpiece-preparation-verification.json) are retained
+as historical evidence. Neither describes the current startup policy. The current
+implementation has removed the serial preparation prefix instead of keeping it
+as an alternate mode.
 
 ## Shadow-connected object proposals
 
