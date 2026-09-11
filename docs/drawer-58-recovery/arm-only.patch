@@ -1,0 +1,44 @@
+--- a/src/real_robot_data_retime/timeline/drawer_wait.py
++++ b/src/real_robot_data_retime/timeline/drawer_wait.py
+@@ -12,21 +12 @@
+-    # Both half-interval variants must use one peak and one A duration. The first
+-    # half has the earliest right clock when A completes; the other is a subset.
+-    base = round(position if position < 0.5 else position - 0.5, 12)
+-    brake = round(fps * 0.5)
+-    added = brake - round(brake / 2)
+-
+-    @lru_cache(None)
+-    def opening_support(start):
+-        return dilate(robots[start : opening + 1, 1].any(axis=0), 2)
+-
+-    allowed = np.asarray(eligible, bool).copy()
+-    for frame in np.flatnonzero(allowed):
+-        duration = frame - left_start + added
+-        # Include a frame of quantization uncertainty and the incoming edge.
+-        right_start = max(0, int(np.floor(base * (duration + opening))) - 1)
+-        if right_start > opening:
+-            continue
+-        held = dilate(arm_foreground(robots, objects, events, 0, int(frame)), 2)
+-        if np.any(held & opening_support(right_start)):
+-            allowed[frame] = False
+-    return allowed
++    return np.asarray(eligible, bool).copy()
+@@ -75,3 +55 @@
+-            outside_box(tcp[0, t], volume, radius=geometry.held_object_radius_m)
+-            and checker.arm_clears_volume(0, t, volume, margin=0.005)
+-            and outside_box(commanded[4], volume, radius=geometry.held_object_radius_m)
++            checker.arm_clears_volume(0, t, volume, margin=0.005)
+--- a/src/real_robot_data_retime/timeline/visual.py
++++ b/src/real_robot_data_retime/timeline/visual.py
+@@ -270 +270 @@
+-        return not np.any(mask(0, i) & mask(1, j))
++        return True  # Diagnostic ablation: no projected-intersection rejection.
+--- a/src/real_robot_data_retime/timeline/drawer_braking.py
++++ b/src/real_robot_data_retime/timeline/drawer_braking.py
+@@ -90,6 +89,0 @@
+-                if left_source >= event["pickup_frame"] and not outside_box(
+-                    current[4], body, radius=geometry.held_object_radius_m + slack
+-                ):
+-                    raise NoSafeSchedule(
+-                        f"held object intersects instantaneous drawer body at output {output}"
+-                    )
