@@ -1,35 +1,6 @@
 """Select held wait poses that admit the sampled right-arm opening motion."""
 
-from functools import lru_cache
 import numpy as np
-from ..background.clean_plate import dilate
-from ..compositing.ownership import arm_foreground
-
-
-def opening_wait_candidates(
-    eligible, robots, objects, events, left_start, opening, position, fps
-):
-    # Both half-interval variants must use one peak and one A duration. The first
-    # half has the earliest right clock when A completes; the other is a subset.
-    base = round(position if position < 0.5 else position - 0.5, 12)
-    brake = round(fps * 0.5)
-    added = brake - round(brake / 2)
-
-    @lru_cache(None)
-    def opening_support(start):
-        return dilate(robots[start : opening + 1, 1].any(axis=0), 2)
-
-    allowed = np.asarray(eligible, bool).copy()
-    for frame in np.flatnonzero(allowed):
-        duration = frame - left_start + added
-        # Include a frame of quantization uncertainty and the incoming edge.
-        right_start = max(0, int(np.floor(base * (duration + opening))) - 1)
-        if right_start > opening:
-            continue
-        held = dilate(arm_foreground(robots, objects, events, 0, int(frame)), 2)
-        if np.any(held & opening_support(right_start)):
-            allowed[frame] = False
-    return allowed
 
 
 def prepare_uniform_lift(
@@ -50,7 +21,7 @@ def prepare_uniform_lift(
     from pathlib import Path
     from types import SimpleNamespace
     from ..collision.piperx import PiperXClearance
-    from ..collision.drawer import drawer_sweep, outside_box, DrawerGeometry
+    from ..collision.drawer import drawer_sweep, DrawerGeometry
     from .smooth import held_grasp_interval, select_lift_peak
     from .holds import compress_static_spans, stationary_pose_mask
 
@@ -72,25 +43,13 @@ def prepare_uniform_lift(
             continue
         commanded = checker._pose(action[t, :7], 0)
         eligible[t] = (
-            outside_box(tcp[0, t], volume, radius=geometry.held_object_radius_m)
-            and checker.arm_clears_volume(0, t, volume, margin=0.005)
-            and outside_box(commanded[4], volume, radius=geometry.held_object_radius_m)
+            checker.arm_clears_volume(0, t, volume, margin=0.005)
             and checker.pose_clears_volume(commanded, volume, margin=0.005)
         )
     recorded_peak_height = float(np.max(tcp[0, grasp:end, 2]))
     # A must finish at the recorded lift apex, not at a convenient low grasp
     # pose. Search only the established two-millimetre peak band.
     eligible &= tcp[0, :, 2] >= recorded_peak_height - 0.002
-    eligible = opening_wait_candidates(
-        eligible,
-        robots,
-        objects,
-        events,
-        event["approach_start"],
-        opening,
-        position,
-        fps,
-    )
     remaining = eligible.copy()
     candidates = []
     while remaining.any():

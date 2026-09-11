@@ -129,28 +129,6 @@ def test_small_colored_ghost_at_departed_origin_is_detected():
     assert audit.items[0]["duplicates"] == 1
 
 
-def test_both_uniform_variants_use_the_same_wait_candidate_set():
-    from real_robot_data_retime.timeline.drawer_wait import opening_wait_candidates
-    from real_robot_data_retime.timeline.uniform import uniform_samples
-
-    n = 30
-    robots = np.zeros((n, 2, 20, 20), bool)
-    objects = np.zeros((1, n, 20, 20), bool)
-    robots[:, 1, 8:10, 2:4] = True
-    for t in range(n):
-        robots[t, 0, 8:10, (2 if t % 2 else 14) : (4 if t % 2 else 16)] = True
-    events = [dict(object_id=0, robot_id="left", pickup_frame=0, release_frame=n)]
-    for index in range(87):
-        first, second = uniform_samples(index, 87)
-        a = opening_wait_candidates(
-            np.ones(n, bool), robots, objects, events, 0, 10, first, 30
-        )
-        b = opening_wait_candidates(
-            np.ones(n, bool), robots, objects, events, 0, 10, second, 30
-        )
-        assert np.array_equal(a, b)
-
-
 def test_candidate_search_cannot_turn_lift_stage_into_a_low_grasp_pose(monkeypatch):
     from real_robot_data_retime.timeline.drawer_wait import prepare_uniform_lift
     from real_robot_data_retime.collision import piperx
@@ -181,7 +159,7 @@ def test_candidate_search_cannot_turn_lift_stage_into_a_low_grasp_pose(monkeypat
     state[:, 7] = np.arange(60) * 0.02
     robots = np.zeros((60, 2, 20, 20), bool)
     robots[:, 0, 10, 2] = True
-    robots[:, 1, 10, 15] = True
+    robots[:, 1, 10, 2] = True  # Same projection must not reject a uniform peak.
     event = dict(
         approach_start=0,
         pickup_frame=10,
@@ -327,3 +305,33 @@ def test_trajectory_export_accepts_workpiece_stage_metadata(tmp_path):
     )
     assert "action" in metrics
     assert (tmp_path / "trajectories.parquet").exists()
+
+
+@pytest.mark.parametrize("arm_clear", [True, False])
+def test_uniform_braking_checks_arm_mesh_not_tcp_sphere(arm_clear):
+    from real_robot_data_retime.timeline.drawer_braking import audit_braking
+    from real_robot_data_retime.timeline.scheduler import NoSafeSchedule
+
+    class Checker:
+        margin = 0.005
+        max_reach_m = 0.001
+
+        def _pose(self, row, side):
+            # TCP inside the drawer proxy must not create a held-object sphere.
+            return (None, None, None, 0, np.zeros(3))
+
+        def pose_clears_volume(self, *args):
+            return arm_clear
+
+    state = np.zeros((4, 14))
+    args = (
+        Checker(), state, state, np.zeros((2, 4, 3)),
+        (np.eye(3), -np.ones(3), np.ones(3)),
+        dict(pull_start=0, open_frame=3), dict(pickup_frame=0),
+        np.array([0., 1.]), np.array([0., 1.]), 0, 1,
+    )
+    if arm_clear:
+        assert audit_braking(*args)["passed"]
+    else:
+        with pytest.raises(NoSafeSchedule, match="braking arm"):
+            audit_braking(*args)

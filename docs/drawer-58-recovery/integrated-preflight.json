@@ -1,0 +1,888 @@
+{
+  "producer": "11a7b31ca84d04f6570f4d2427fced646f1e7de2bac4b676cb918437befcaeb4",
+  "scope": "Planning only: no 2D or held-sphere rejection; drawer width .178m depth .20m height .07m; existing arm mesh checks retained; manual source60 boundary retained; not rendered",
+  "results": [
+    {
+      "episode": 0,
+      "passed": true,
+      "seconds": 6.262793220579624,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 322,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 1,
+      "passed": true,
+      "seconds": 6.195806503295898,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 486,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 2,
+      "passed": true,
+      "seconds": 5.595762014389038,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 319,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 3,
+      "passed": true,
+      "seconds": 4.703020267188549,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 342,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 4,
+      "passed": true,
+      "seconds": 4.386251412332058,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 403,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 5,
+      "passed": true,
+      "seconds": 4.232623301446438,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 345,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 6,
+      "passed": true,
+      "seconds": 4.807419545948505,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 382,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 7,
+      "passed": true,
+      "seconds": 4.55826585739851,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 318,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 8,
+      "passed": true,
+      "seconds": 4.592803709208965,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 331,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 9,
+      "passed": true,
+      "seconds": 3.9024694561958313,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 328,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 10,
+      "passed": true,
+      "seconds": 3.9428769052028656,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 348,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 11,
+      "passed": true,
+      "seconds": 4.203203655779362,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 366,
+        "attempts": [
+          {
+            "peak_source_frame": 365,
+            "variant": 0,
+            "reason": "braking arm intersects instantaneous drawer body at output 122"
+          }
+        ]
+      }
+    },
+    {
+      "episode": 12,
+      "passed": true,
+      "seconds": 3.1477727815508842,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 318,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 13,
+      "passed": true,
+      "seconds": 3.276889644563198,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 353,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 14,
+      "passed": true,
+      "seconds": 2.99923787266016,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 312,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 15,
+      "passed": true,
+      "seconds": 2.534561462700367,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 293,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 16,
+      "passed": true,
+      "seconds": 2.501670725643635,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 331,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 17,
+      "passed": true,
+      "seconds": 2.7729850485920906,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 313,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 18,
+      "passed": true,
+      "seconds": 3.439989537000656,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 341,
+        "attempts": [
+          {
+            "peak_source_frame": 340,
+            "variant": 0,
+            "reason": "braking arm intersects instantaneous drawer body at output 130"
+          }
+        ]
+      }
+    },
+    {
+      "episode": 19,
+      "passed": true,
+      "seconds": 3.1317314952611923,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 272,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 20,
+      "passed": true,
+      "seconds": 3.1039227917790413,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 291,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 21,
+      "passed": true,
+      "seconds": 4.117717988789082,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 323,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 22,
+      "passed": true,
+      "seconds": 3.7368144392967224,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 348,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 23,
+      "passed": true,
+      "seconds": 3.717217355966568,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 333,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 24,
+      "passed": true,
+      "seconds": 3.7166847586631775,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 377,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 25,
+      "passed": true,
+      "seconds": 3.3787802681326866,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 338,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 26,
+      "passed": true,
+      "seconds": 3.484037809073925,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 351,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 27,
+      "passed": true,
+      "seconds": 3.5552380979061127,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 306,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 28,
+      "passed": true,
+      "seconds": 3.4794050976634026,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 323,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 29,
+      "passed": true,
+      "seconds": 3.391991525888443,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 307,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 30,
+      "passed": true,
+      "seconds": 4.109110653400421,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 343,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 31,
+      "passed": true,
+      "seconds": 4.0192408710718155,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 322,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 32,
+      "passed": true,
+      "seconds": 4.058332674205303,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 310,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 33,
+      "passed": true,
+      "seconds": 3.4008597433567047,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 296,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 34,
+      "passed": true,
+      "seconds": 3.4866271167993546,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 352,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 35,
+      "passed": true,
+      "seconds": 3.6531086191534996,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 300,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 36,
+      "passed": true,
+      "seconds": 4.177487850189209,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 384,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 37,
+      "passed": true,
+      "seconds": 3.9905880987644196,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 297,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 38,
+      "passed": true,
+      "seconds": 3.8206163346767426,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 322,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 39,
+      "passed": true,
+      "seconds": 3.3637933880090714,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 305,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 40,
+      "passed": true,
+      "seconds": 3.325160063803196,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 309,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 41,
+      "passed": true,
+      "seconds": 3.200216993689537,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 279,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 42,
+      "passed": true,
+      "seconds": 3.403143733739853,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 305,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 43,
+      "passed": true,
+      "seconds": 3.344720132648945,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 305,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 44,
+      "passed": true,
+      "seconds": 3.3864067792892456,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 340,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 45,
+      "passed": true,
+      "seconds": 5.244839705526829,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 328,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 46,
+      "passed": true,
+      "seconds": 5.272624604403973,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 408,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 47,
+      "passed": true,
+      "seconds": 5.359131969511509,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 435,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 48,
+      "passed": true,
+      "seconds": 4.731146104633808,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 371,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 49,
+      "passed": true,
+      "seconds": 4.326909132301807,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 377,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 50,
+      "passed": true,
+      "seconds": 4.608256459236145,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 386,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 51,
+      "passed": true,
+      "seconds": 3.673025332391262,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 376,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 52,
+      "passed": true,
+      "seconds": 4.076892636716366,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 402,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 53,
+      "passed": true,
+      "seconds": 4.000252924859524,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 413,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 54,
+      "passed": true,
+      "seconds": 3.1464567855000496,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 331,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 55,
+      "passed": true,
+      "seconds": 3.712307371199131,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 390,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 56,
+      "passed": true,
+      "seconds": 3.7381166890263557,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 387,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 57,
+      "passed": true,
+      "seconds": 3.9530929550528526,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 388,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 58,
+      "passed": true,
+      "seconds": 3.7659428641200066,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 359,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 59,
+      "passed": true,
+      "seconds": 3.704882986843586,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 357,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 60,
+      "passed": true,
+      "seconds": 3.5997463688254356,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 377,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 61,
+      "passed": true,
+      "seconds": 3.166857033967972,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 376,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 62,
+      "passed": true,
+      "seconds": 3.2854824364185333,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 362,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 63,
+      "passed": true,
+      "seconds": 3.6158453300595284,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 356,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 64,
+      "passed": true,
+      "seconds": 3.3966764137148857,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 353,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 65,
+      "passed": true,
+      "seconds": 3.4107553735375404,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 438,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 66,
+      "passed": true,
+      "seconds": 2.5801909044384956,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 292,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 67,
+      "passed": true,
+      "seconds": 2.5798580795526505,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 308,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 68,
+      "passed": true,
+      "seconds": 2.5734904259443283,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 292,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 69,
+      "passed": true,
+      "seconds": 3.712702549993992,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 293,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 70,
+      "passed": true,
+      "seconds": 3.311431407928467,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 273,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 71,
+      "passed": true,
+      "seconds": 3.2815143167972565,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 285,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 72,
+      "passed": true,
+      "seconds": 4.204993821680546,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 309,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 73,
+      "passed": true,
+      "seconds": 4.105562254786491,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 318,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 74,
+      "passed": true,
+      "seconds": 4.127191089093685,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 301,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 75,
+      "passed": true,
+      "seconds": 3.291817344725132,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 291,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 76,
+      "passed": true,
+      "seconds": 3.3381502479314804,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 278,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 77,
+      "passed": true,
+      "seconds": 3.4309580475091934,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 282,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 78,
+      "passed": true,
+      "seconds": 2.5765550807118416,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 305,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 79,
+      "passed": true,
+      "seconds": 2.5468817055225372,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 263,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 80,
+      "passed": true,
+      "seconds": 2.664027526974678,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 366,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 81,
+      "passed": true,
+      "seconds": 4.243641227483749,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 355,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 82,
+      "passed": true,
+      "seconds": 4.139120504260063,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 357,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 83,
+      "passed": true,
+      "seconds": 3.9650088995695114,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 289,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 84,
+      "passed": true,
+      "seconds": 3.041022725403309,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 226,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 85,
+      "passed": true,
+      "seconds": 3.2310559302568436,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 305,
+        "attempts": []
+      }
+    },
+    {
+      "episode": 86,
+      "passed": true,
+      "seconds": 3.0410445481538773,
+      "feasibility": {
+        "passed": true,
+        "selected_peak": 297,
+        "attempts": []
+      }
+    }
+  ]
+}

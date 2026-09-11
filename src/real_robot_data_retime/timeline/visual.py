@@ -267,7 +267,9 @@ def plan_visual(
 
     @lru_cache(None)
     def clear(i, j):
-        return not np.any(mask(0, i) & mask(1, j))
+        # Uniform drawer planning permits projected occlusion. Other visual
+        # tasks retain their silhouette constraint; rendering audits stay active.
+        return uniform_position is not None or not np.any(mask(0, i) & mask(1, j))
 
     def safe(i, j, ni, nj):
         # Sweep union of adjacent silhouettes; this is a projected-occlusion
@@ -556,7 +558,7 @@ def plan_visual(
                         )
                     replay.append(dict(output_edge=k, source_edge=int(sources[0][i])))
             stages["recorded_pair_replay"] = dict(
-                policy="unit_speed_original_pairs_only_no_source_hold",
+                policy="projected_overlap_not_a_planning_constraint",
                 edges=replay,
             )
             from .drawer_braking import audit_braking

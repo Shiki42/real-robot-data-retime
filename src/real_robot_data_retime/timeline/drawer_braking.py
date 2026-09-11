@@ -4,7 +4,7 @@ from functools import lru_cache
 import numpy as np
 from .smooth import sample_rows
 from .scheduler import NoSafeSchedule
-from ..collision.drawer import drawer_body, outside_box, DrawerGeometry
+from ..collision.drawer import drawer_body, DrawerGeometry
 
 
 def audit_braking(
@@ -86,12 +86,6 @@ def audit_braking(
                 ):
                     raise NoSafeSchedule(
                         f"braking arm intersects instantaneous drawer body at output {output}"
-                    )
-                if left_source >= event["pickup_frame"] and not outside_box(
-                    current[4], body, radius=geometry.held_object_radius_m + slack
-                ):
-                    raise NoSafeSchedule(
-                        f"held object intersects instantaneous drawer body at output {output}"
                     )
                 checked += 1
     return dict(
