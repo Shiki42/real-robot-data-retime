@@ -140,3 +140,17 @@ python scripts/render_interaction_checkpoint.py \
 
 `report.json` includes source hashes, verification results, smoothing transitions
 and `plan.pickup_order`. `source_mapping.npz` contains both final source clocks.
+
+## Wider waiting poses
+
+Waiting candidates reserve an additional 2% of image width around the preceding
+execution's swept foreground (13 pixels at 640-pixel analysis width), beyond the
+existing two-pixel foreground dilation. This changes staging clearance only;
+all moving transitions still pass the original swept-clearance checks. The
+margin is recorded as `waiting_clearance_width_fraction`. Source paths are not
+translated: an earlier recorded pose is selected when needed. A pose already
+outside the expanded sweep may remain unchanged. Synchronous startup and
+non-preemptive execution are preserved.
+
+The 0.5 s braking and 0.3 s restart surround the waiting pose; the actual hold
+has zero source-clock speed. A short first approach uses a shorter brake.

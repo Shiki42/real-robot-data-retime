@@ -66,6 +66,9 @@ def approach_clock(start, end, stops, fps):
     return np.asarray(clock), holds, transitions
 
 
+WAIT_CLEARANCE_WIDTH_FRACTION = 0.02
+
+
 def staging_candidates(events, robots, objects, fps):
     own = workpiece_events(events)
     down_distance, up_distance = (
@@ -80,6 +83,10 @@ def staging_candidates(events, robots, objects, fps):
         sweep = np.zeros(robots.shape[-2:], bool)
         for t in range(first, last + 1):
             sweep |= mask(owner, t)
+        # Reserve additional image-space distance only at waiting poses.
+        sweep = dilate(
+            sweep, max(1, round(robots.shape[-1] * WAIT_CLEARANCE_WIDTH_FRACTION))
+        )
         candidates = [
             t for t in range(end, begin - 1, -1) if not np.any(mask(side, t) & sweep)
         ]
@@ -144,6 +151,7 @@ def workpiece_sources(events, fps, stops):
             ],
         ),
         policy="admitted_execution_cannot_be_preempted",
+        waiting_clearance_width_fraction=WAIT_CLEARANCE_WIDTH_FRACTION,
         right_preparation=dict(
             source_start_frame=right1["approach_start"],
             source_end_frame=right_stop1,
