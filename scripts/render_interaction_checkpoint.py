@@ -28,7 +28,10 @@ def render_checkpoint(
     right_delay_seconds=0,
     left_delay_seconds=0,
     fixed_workspace=False,
+    diagnostic_nominal_workspace=False,
 ):
+    if fixed_workspace and diagnostic_nominal_workspace:
+        raise ValueError("choose validated planning or nominal diagnostic, not both")
     progress = json.loads((analysis / "progress.json").read_text())
     if progress["stage"] != "complete":
         raise ValueError("interaction checkpoint is unfinished")
@@ -56,7 +59,7 @@ def render_checkpoint(
         joints = (
             load_joints(joint_data, urdf, mesh_root, timeline) if joint_data else None
         )
-        if fixed_workspace:
+        if fixed_workspace or diagnostic_nominal_workspace:
             if joints is None or timeline["task"] != "workpiece":
                 raise ValueError("fixed EE workspace requires workpiece joints")
             if right_delay_seconds or left_delay_seconds:
@@ -65,7 +68,14 @@ def render_checkpoint(
                 plan_workspace,
             )
 
-            left, right, plan = plan_workspace(timeline, joints)
+            if diagnostic_nominal_workspace:
+                from real_robot_data_retime.timeline.workspace_diagnostic import (
+                    nominal_plan,
+                )
+
+                left, right, plan = nominal_plan(timeline, joints)
+            else:
+                left, right, plan = plan_workspace(timeline, joints)
         else:
             left, right, plan = plan_visual(
                 timeline,
@@ -90,7 +100,8 @@ def render_checkpoint(
             right,
             output / "parallel.mp4",
             output,
-            allow_projected_link_overlap=fixed_workspace,
+            allow_projected_link_overlap=fixed_workspace
+            or diagnostic_nominal_workspace,
         )
     passed = bool(rendered["automatic_origin_audit"]["passed"])
     result = {
@@ -102,9 +113,13 @@ def render_checkpoint(
         "plan": plan,
         "compositing": rendered,
         "source_fps": fps,
-        "automatic_checks_passed": passed,
+        "automatic_checks_passed": passed and not diagnostic_nominal_workspace,
+        "source_origin_checks_passed": passed,
+        "diagnostic_only": diagnostic_nominal_workspace,
         "validated_for_compositing": False,
-        "status": "rendered_pending_visual_review"
+        "status": "diagnostic_nominal_not_clearance_validated"
+        if diagnostic_nominal_workspace
+        else "rendered_pending_visual_review"
         if passed
         else "failed_automatic_verification",
     }
@@ -118,7 +133,9 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     for name in ("input", "analysis", "output"):
         parser.add_argument("--" + name, type=Path, required=True)
-    parser.add_argument("--fixed-workspace", action="store_true")
+    mode = parser.add_mutually_exclusive_group()
+    mode.add_argument("--fixed-workspace", action="store_true")
+    mode.add_argument("--diagnostic-nominal-workspace", action="store_true")
     parser.add_argument("--joint-data", type=Path)
     parser.add_argument("--urdf", type=Path)
     parser.add_argument("--mesh-root", type=Path)
@@ -130,6 +147,7 @@ def main():
         args.analysis,
         args.output,
         fixed_workspace=args.fixed_workspace,
+        diagnostic_nominal_workspace=args.diagnostic_nominal_workspace,
         joint_data=args.joint_data,
         urdf=args.urdf,
         mesh_root=args.mesh_root,
@@ -137,7 +155,11 @@ def main():
         left_delay_seconds=args.left_delay_seconds,
     )
     print(json.dumps(result, indent=2))
-    if not result["automatic_checks_passed"]:
+    if not (
+        result["source_origin_checks_passed"]
+        if args.diagnostic_nominal_workspace
+        else result["automatic_checks_passed"]
+    ):
         raise SystemExit(1)
 
 

@@ -95,3 +95,23 @@ user decision. See [the 1.55 cm proof](workpiece-clearance155-infeasibility.json
 
 Earlier 2 cm audit results above are retained as historical evidence. Current
 artifacts: `/home/coder/share/retime-workpiece-clearance155-20260912` on Coder A.
+
+## Explicit rejected-candidate visual diagnostics
+
+`render_interaction_checkpoint.py --diagnostic-nominal-workspace` renders the
+nominal three-centimetre backdated timing without clearance repair. This option
+is mutually exclusive with `--fixed-workspace`, preserves video/checkpoint source
+verification, and always sets `diagnostic_only: true`,
+`automatic_checks_passed: false`, and a diagnostic-not-validated status. Normal
+validated planning is unchanged. Successful CLI completion in diagnostic mode
+means the diagnostic artifact was generated, not that clearance passed.
+
+`annotate_workspace_violations.py --render /path/to/diagnostic --urdf ...
+--mesh-root ...` computes measured-state cross-arm URDF distance at 120 Hz for a
+30 FPS clip. The annotated video displays output time, current-frame distance,
+minimum sampled distance to the next frame, the closest link pair and a red
+violation timeline. It labels the video DIAGNOSTIC ONLY / NOT ACCEPTED throughout.
+Zero means model mesh intersection, not a measured penetration depth. Intervals
+are sampled observations, not continuous safe certificates between samples.
+
+Artifacts are under `/home/coder/share/retime-workpiece-violations-20260912`.
