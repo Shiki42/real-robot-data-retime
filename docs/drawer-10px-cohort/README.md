@@ -43,8 +43,9 @@ review labels, not a claim that a training loader already consumes them.
 Leading/interior clock plateaus retain one departure sample; terminal plateaus
 retain the arrival sample. Positive source-clock movement, including arbitrarily
 slow ramps, remains supervised. Original stationary poses with advancing source
-clocks are not classified as inserted idle. Explicit synthetic terminal holds
-are excluded. Totals: left 17,437 frames; right 14,591 frames.
+clocks are not classified as inserted idle. Left holding at the lift peak before drawer opening is a required task wait and remains supervised. Explicit synthetic terminal holds
+are excluded. Totals: left 8,885 frames; right 14,591 frames.
+This correction restores 8,552 left-arm frames across 92 outputs; right-arm masks and all other left-arm intervals are unchanged.
 
 Deploy `web/review/idle-timeline.js` and `.css` alongside the review's index.html
 and idle-masks.json. Existing browser localStorage keys and notes are unchanged.

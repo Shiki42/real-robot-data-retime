@@ -32,6 +32,12 @@ def clock_idle_mask(clock):
     return idle
 
 
+def required_open_wait(left, right, stages):
+    """Holding at the lift peak before the drawer is open is supervised."""
+    return ((np.asarray(left) == stages['peak_source_frame'])
+            & (np.asarray(right) < stages['open_source_frame']))
+
+
 def export(dataset, manifest, output):
     dataset, output = Path(dataset), Path(output)
     review = json.loads(Path(manifest).read_text())
@@ -47,14 +53,19 @@ def export(dataset, manifest, output):
             raise ValueError(f'Video and numeric source IDs differ: {ep}')
         record = dict(output=ep, source=row['source'], frames=len(table))
         with np.load(dataset / f'meta/retime_source_indices/episode_{ep:03d}.npz') as maps:
+            required_wait = required_open_wait(maps['left'], maps['right'], receipt['plan']['stages'])
+            record['left_required_open_wait'] = [[span.start, span.end] for span in boolean_ranges(required_wait)]
             for arm in ['left', 'right']:
                 clock = table[f'retime.{arm}_source_frame'].to_numpy()
                 if not np.array_equal(clock, maps[arm]):
                     raise ValueError(f'Stored source clock differs from receipt map: {ep}/{arm}')
                 idle = clock_idle_mask(clock) | table['retime.synthetic_hold'].to_numpy()
+                if arm == 'left':
+                    idle[required_wait] = False
                 record[arm] = [[span.start, span.end] for span in boolean_ranges(idle)]
         records.append(record)
-    result = dict(schema_version=1, policy='retiming_inserted_waits',
+    result = dict(schema_version=1, policy='retiming_waits_except_required_drawer_open_wait',
+                  supervised_wait='Left arm holding at the lift peak until the right arm opens the drawer remains supervised (loss=1).',
                   training_status='not_connected_to_training', fps=review['fps'],
                   interval_convention='[start, end), zero-based output frames',
                   mask_semantics='idle=true means exclude that arm from action loss; left action[0:7], right action[7:14]',

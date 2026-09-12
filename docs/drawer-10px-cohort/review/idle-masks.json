@@ -1,6 +1,7 @@
 {
   "schema_version": 1,
-  "policy": "retiming_inserted_waits",
+  "policy": "retiming_waits_except_required_drawer_open_wait",
+  "supervised_wait": "Left arm holding at the lift peak until the right arm opens the drawer remains supervised (loss=1).",
   "training_status": "not_connected_to_training",
   "fps": 30,
   "interval_convention": "[start, end), zero-based output frames",
@@ -11,12 +12,13 @@
       "output": 0,
       "source": 3,
       "frames": 698,
-      "left": [
+      "left_required_open_wait": [
         [
           37,
           244
         ]
       ],
+      "left": [],
       "right": [
         [
           0,
@@ -36,11 +38,13 @@
       "output": 1,
       "source": 4,
       "frames": 739,
-      "left": [
+      "left_required_open_wait": [
         [
           109,
           368
-        ],
+        ]
+      ],
+      "left": [
         [
           636,
           739
@@ -57,11 +61,13 @@
       "output": 2,
       "source": 5,
       "frames": 715,
-      "left": [
+      "left_required_open_wait": [
         [
           141,
           388
-        ],
+        ]
+      ],
+      "left": [
         [
           691,
           715
@@ -78,12 +84,13 @@
       "output": 3,
       "source": 6,
       "frames": 734,
-      "left": [
+      "left_required_open_wait": [
         [
           141,
           380
         ]
       ],
+      "left": [],
       "right": [
         [
           0,
@@ -103,12 +110,13 @@
       "output": 4,
       "source": 7,
       "frames": 613,
-      "left": [
+      "left_required_open_wait": [
         [
           146,
           318
         ]
       ],
+      "left": [],
       "right": [
         [
           0,
@@ -124,12 +132,13 @@
       "output": 5,
       "source": 8,
       "frames": 597,
-      "left": [
+      "left_required_open_wait": [
         [
           121,
           309
         ]
       ],
+      "left": [],
       "right": [
         [
           0,
@@ -145,12 +154,13 @@
       "output": 6,
       "source": 9,
       "frames": 583,
-      "left": [
+      "left_required_open_wait": [
         [
           132,
           300
         ]
       ],
+      "left": [],
       "right": [
         [
           0,
@@ -170,12 +180,13 @@
       "output": 7,
       "source": 10,
       "frames": 592,
-      "left": [
+      "left_required_open_wait": [
         [
           153,
           321
         ]
       ],
+      "left": [],
       "right": [
         [
           0,
@@ -191,11 +202,13 @@
       "output": 8,
       "source": 11,
       "frames": 598,
-      "left": [
+      "left_required_open_wait": [
         [
           138,
           335
-        ],
+        ]
+      ],
+      "left": [
         [
           568,
           598
@@ -212,12 +225,13 @@
       "output": 9,
       "source": 12,
       "frames": 562,
-      "left": [
+      "left_required_open_wait": [
         [
           130,
           307
         ]
       ],
+      "left": [],
       "right": [
         [
           0,
@@ -237,11 +251,13 @@
       "output": 10,
       "source": 13,
       "frames": 714,
-      "left": [
+      "left_required_open_wait": [
         [
           155,
           336
-        ],
+        ]
+      ],
+      "left": [
         [
           682,
           714
@@ -258,11 +274,13 @@
       "output": 11,
       "source": 14,
       "frames": 474,
-      "left": [
+      "left_required_open_wait": [
         [
           135,
           290
-        ],
+        ]
+      ],
+      "left": [
         [
           472,
           474
@@ -279,12 +297,13 @@
       "output": 12,
       "source": 15,
       "frames": 484,
-      "left": [
+      "left_required_open_wait": [
         [
           108,
           274
         ]
       ],
+      "left": [],
       "right": [
         [
           0,
@@ -304,12 +323,13 @@
       "output": 13,
       "source": 16,
       "frames": 526,
-      "left": [
+      "left_required_open_wait": [
         [
           161,
           315
         ]
       ],
+      "left": [],
       "right": [
         [
           0,
@@ -325,11 +345,13 @@
       "output": 14,
       "source": 17,
       "frames": 582,
-      "left": [
+      "left_required_open_wait": [
         [
           127,
           285
-        ],
+        ]
+      ],
+      "left": [
         [
           568,
           582
@@ -346,12 +368,13 @@
       "output": 15,
       "source": 18,
       "frames": 558,
-      "left": [
+      "left_required_open_wait": [
         [
           146,
           311
         ]
       ],
+      "left": [],
       "right": [
         [
           0,
@@ -367,12 +390,13 @@
       "output": 16,
       "source": 19,
       "frames": 536,
-      "left": [
+      "left_required_open_wait": [
         [
           123,
           256
         ]
       ],
+      "left": [],
       "right": [
         [
           0,
@@ -388,11 +412,13 @@
       "output": 17,
       "source": 20,
       "frames": 516,
-      "left": [
+      "left_required_open_wait": [
         [
           128,
           272
-        ],
+        ]
+      ],
+      "left": [
         [
           510,
           516
@@ -409,11 +435,13 @@
       "output": 18,
       "source": 22,
       "frames": 584,
-      "left": [
+      "left_required_open_wait": [
         [
           180,
           329
-        ],
+        ]
+      ],
+      "left": [
         [
           563,
           584
@@ -430,12 +458,13 @@
       "output": 19,
       "source": 23,
       "frames": 457,
-      "left": [
+      "left_required_open_wait": [
         [
           80,
           210
         ]
       ],
+      "left": [],
       "right": [
         [
           0,
@@ -451,12 +480,13 @@
       "output": 20,
       "source": 24,
       "frames": 589,
-      "left": [
+      "left_required_open_wait": [
         [
           173,
           334
         ]
       ],
+      "left": [],
       "right": [
         [
           0,
@@ -472,12 +502,13 @@
       "output": 21,
       "source": 25,
       "frames": 502,
-      "left": [
+      "left_required_open_wait": [
         [
           176,
           308
         ]
       ],
+      "left": [],
       "right": [
         [
           0,
@@ -493,12 +524,13 @@
       "output": 22,
       "source": 26,
       "frames": 550,
-      "left": [
+      "left_required_open_wait": [
         [
           176,
           306
         ]
       ],
+      "left": [],
       "right": [
         [
           0,
@@ -518,12 +550,13 @@
       "output": 23,
       "source": 27,
       "frames": 479,
-      "left": [
+      "left_required_open_wait": [
         [
           165,
           269
         ]
       ],
+      "left": [],
       "right": [
         [
           0,
@@ -539,12 +572,13 @@
       "output": 24,
       "source": 29,
       "frames": 473,
-      "left": [
+      "left_required_open_wait": [
         [
           164,
           261
         ]
       ],
+      "left": [],
       "right": [
         [
           0,
@@ -560,12 +594,13 @@
       "output": 25,
       "source": 30,
       "frames": 507,
-      "left": [
+      "left_required_open_wait": [
         [
           192,
           292
         ]
       ],
+      "left": [],
       "right": [
         [
           0,
@@ -581,11 +616,13 @@
       "output": 26,
       "source": 31,
       "frames": 507,
-      "left": [
+      "left_required_open_wait": [
         [
           142,
           268
-        ],
+        ]
+      ],
+      "left": [
         [
           497,
           507
@@ -602,11 +639,13 @@
       "output": 27,
       "source": 32,
       "frames": 594,
-      "left": [
+      "left_required_open_wait": [
         [
           132,
           246
-        ],
+        ]
+      ],
+      "left": [
         [
           471,
           594
@@ -623,12 +662,13 @@
       "output": 28,
       "source": 33,
       "frames": 500,
-      "left": [
+      "left_required_open_wait": [
         [
           144,
           246
         ]
       ],
+      "left": [],
       "right": [
         [
           0,
@@ -648,11 +688,13 @@
       "output": 29,
       "source": 34,
       "frames": 563,
-      "left": [
+      "left_required_open_wait": [
         [
           192,
           300
-        ],
+        ]
+      ],
+      "left": [
         [
           560,
           563
@@ -669,12 +711,13 @@
       "output": 30,
       "source": 37,
       "frames": 530,
-      "left": [
+      "left_required_open_wait": [
         [
           143,
           249
         ]
       ],
+      "left": [],
       "right": [
         [
           0,
@@ -690,12 +733,13 @@
       "output": 31,
       "source": 38,
       "frames": 486,
-      "left": [
+      "left_required_open_wait": [
         [
           151,
           263
         ]
       ],
+      "left": [],
       "right": [
         [
           0,
@@ -711,12 +755,13 @@
       "output": 32,
       "source": 39,
       "frames": 539,
-      "left": [
+      "left_required_open_wait": [
         [
           167,
           252
         ]
       ],
+      "left": [],
       "right": [
         [
           0,
@@ -732,12 +777,13 @@
       "output": 33,
       "source": 40,
       "frames": 511,
-      "left": [
+      "left_required_open_wait": [
         [
           143,
           250
         ]
       ],
+      "left": [],
       "right": [
         [
           0,
@@ -757,11 +803,13 @@
       "output": 34,
       "source": 41,
       "frames": 446,
-      "left": [
+      "left_required_open_wait": [
         [
           136,
           218
-        ],
+        ]
+      ],
+      "left": [
         [
           444,
           446
@@ -778,12 +826,13 @@
       "output": 35,
       "source": 42,
       "frames": 480,
-      "left": [
+      "left_required_open_wait": [
         [
           149,
           241
         ]
       ],
+      "left": [],
       "right": [
         [
           0,
@@ -799,12 +848,13 @@
       "output": 36,
       "source": 43,
       "frames": 491,
-      "left": [
+      "left_required_open_wait": [
         [
           153,
           235
         ]
       ],
+      "left": [],
       "right": [
         [
           0,
@@ -820,12 +870,13 @@
       "output": 37,
       "source": 44,
       "frames": 499,
-      "left": [
+      "left_required_open_wait": [
         [
           174,
           265
         ]
       ],
+      "left": [],
       "right": [
         [
           0,
@@ -841,12 +892,13 @@
       "output": 38,
       "source": 46,
       "frames": 593,
-      "left": [
+      "left_required_open_wait": [
         [
           117,
           227
         ]
       ],
+      "left": [],
       "right": [
         [
           0,
@@ -866,14 +918,16 @@
       "output": 39,
       "source": 47,
       "frames": 558,
+      "left_required_open_wait": [
+        [
+          60,
+          189
+        ]
+      ],
       "left": [
         [
           0,
           9
-        ],
-        [
-          60,
-          189
         ]
       ],
       "right": [
@@ -891,12 +945,13 @@
       "output": 40,
       "source": 48,
       "frames": 693,
-      "left": [
+      "left_required_open_wait": [
         [
           172,
           268
         ]
       ],
+      "left": [],
       "right": [
         [
           0,
@@ -916,12 +971,13 @@
       "output": 41,
       "source": 49,
       "frames": 558,
-      "left": [
+      "left_required_open_wait": [
         [
           189,
           276
         ]
       ],
+      "left": [],
       "right": [
         [
           0,
@@ -941,14 +997,16 @@
       "output": 42,
       "source": 50,
       "frames": 581,
+      "left_required_open_wait": [
+        [
+          66,
+          192
+        ]
+      ],
       "left": [
         [
           0,
           11
-        ],
-        [
-          66,
-          192
         ]
       ],
       "right": [
@@ -966,14 +1024,16 @@
       "output": 43,
       "source": 51,
       "frames": 513,
+      "left_required_open_wait": [
+        [
+          62,
+          180
+        ]
+      ],
       "left": [
         [
           0,
           17
-        ],
-        [
-          62,
-          180
         ]
       ],
       "right": [
@@ -991,14 +1051,16 @@
       "output": 44,
       "source": 52,
       "frames": 574,
+      "left_required_open_wait": [
+        [
+          71,
+          195
+        ]
+      ],
       "left": [
         [
           0,
           15
-        ],
-        [
-          71,
-          195
         ]
       ],
       "right": [
@@ -1016,12 +1078,13 @@
       "output": 45,
       "source": 53,
       "frames": 588,
-      "left": [
+      "left_required_open_wait": [
         [
           168,
           284
         ]
       ],
+      "left": [],
       "right": [
         [
           0,
@@ -1041,12 +1104,13 @@
       "output": 46,
       "source": 54,
       "frames": 530,
-      "left": [
+      "left_required_open_wait": [
         [
           168,
           250
         ]
       ],
+      "left": [],
       "right": [
         [
           0,
@@ -1066,14 +1130,16 @@
       "output": 47,
       "source": 55,
       "frames": 548,
+      "left_required_open_wait": [
+        [
+          79,
+          204
+        ]
+      ],
       "left": [
         [
           0,
           20
-        ],
-        [
-          79,
-          204
         ]
       ],
       "right": [
@@ -1091,14 +1157,16 @@
       "output": 48,
       "source": 56,
       "frames": 563,
+      "left_required_open_wait": [
+        [
+          88,
+          210
+        ]
+      ],
       "left": [
         [
           0,
           12
-        ],
-        [
-          88,
-          210
         ]
       ],
       "right": [
@@ -1116,12 +1184,13 @@
       "output": 49,
       "source": 57,
       "frames": 576,
-      "left": [
+      "left_required_open_wait": [
         [
           165,
           253
         ]
       ],
+      "left": [],
       "right": [
         [
           0,
@@ -1137,12 +1206,13 @@
       "output": 50,
       "source": 58,
       "frames": 607,
-      "left": [
+      "left_required_open_wait": [
         [
           160,
           258
         ]
       ],
+      "left": [],
       "right": [
         [
           0,
@@ -1162,12 +1232,13 @@
       "output": 51,
       "source": 59,
       "frames": 557,
-      "left": [
+      "left_required_open_wait": [
         [
           159,
           256
         ]
       ],
+      "left": [],
       "right": [
         [
           0,
@@ -1187,12 +1258,13 @@
       "output": 52,
       "source": 60,
       "frames": 556,
-      "left": [
+      "left_required_open_wait": [
         [
           188,
           263
         ]
       ],
+      "left": [],
       "right": [
         [
           0,
@@ -1212,12 +1284,13 @@
       "output": 53,
       "source": 61,
       "frames": 561,
-      "left": [
+      "left_required_open_wait": [
         [
           186,
           258
         ]
       ],
+      "left": [],
       "right": [
         [
           0,
@@ -1237,14 +1310,16 @@
       "output": 54,
       "source": 62,
       "frames": 616,
+      "left_required_open_wait": [
+        [
+          89,
+          201
+        ]
+      ],
       "left": [
         [
           0,
           33
-        ],
-        [
-          89,
-          201
         ]
       ],
       "right": [
@@ -1258,12 +1333,13 @@
       "output": 55,
       "source": 63,
       "frames": 529,
-      "left": [
+      "left_required_open_wait": [
         [
           162,
           241
         ]
       ],
+      "left": [],
       "right": [
         [
           0,
@@ -1283,12 +1359,13 @@
       "output": 56,
       "source": 64,
       "frames": 526,
-      "left": [
+      "left_required_open_wait": [
         [
           162,
           229
         ]
       ],
+      "left": [],
       "right": [
         [
           0,
@@ -1308,14 +1385,16 @@
       "output": 57,
       "source": 65,
       "frames": 611,
+      "left_required_open_wait": [
+        [
+          123,
+          285
+        ]
+      ],
       "left": [
         [
           0,
           72
-        ],
-        [
-          123,
-          285
         ]
       ],
       "right": [
@@ -1333,12 +1412,13 @@
       "output": 58,
       "source": 66,
       "frames": 404,
-      "left": [
+      "left_required_open_wait": [
         [
           120,
           192
         ]
       ],
+      "left": [],
       "right": [
         [
           0,
@@ -1358,12 +1438,13 @@
       "output": 59,
       "source": 68,
       "frames": 513,
-      "left": [
+      "left_required_open_wait": [
         [
           145,
           189
         ]
       ],
+      "left": [],
       "right": [
         [
           0,
@@ -1379,11 +1460,13 @@
       "output": 60,
       "source": 69,
       "frames": 506,
-      "left": [
+      "left_required_open_wait": [
         [
           136,
           191
-        ],
+        ]
+      ],
+      "left": [
         [
           489,
           506
@@ -1400,12 +1483,13 @@
       "output": 61,
       "source": 70,
       "frames": 395,
-      "left": [
+      "left_required_open_wait": [
         [
           132,
           168
         ]
       ],
+      "left": [],
       "right": [
         [
           0,
@@ -1421,11 +1505,13 @@
       "output": 62,
       "source": 71,
       "frames": 454,
-      "left": [
+      "left_required_open_wait": [
         [
           130,
           172
-        ],
+        ]
+      ],
+      "left": [
         [
           438,
           454
@@ -1442,12 +1528,13 @@
       "output": 63,
       "source": 72,
       "frames": 484,
-      "left": [
+      "left_required_open_wait": [
         [
           150,
           191
         ]
       ],
+      "left": [],
       "right": [
         [
           0,
@@ -1463,12 +1550,13 @@
       "output": 64,
       "source": 73,
       "frames": 469,
-      "left": [
+      "left_required_open_wait": [
         [
           157,
           188
         ]
       ],
+      "left": [],
       "right": [
         [
           0,
@@ -1488,12 +1576,13 @@
       "output": 65,
       "source": 74,
       "frames": 546,
-      "left": [
+      "left_required_open_wait": [
         [
           146,
           167
         ]
       ],
+      "left": [],
       "right": [
         [
           0,
@@ -1505,12 +1594,13 @@
       "output": 66,
       "source": 75,
       "frames": 393,
-      "left": [
+      "left_required_open_wait": [
         [
           141,
           175
         ]
       ],
+      "left": [],
       "right": [
         [
           0,
@@ -1526,14 +1616,16 @@
       "output": 67,
       "source": 76,
       "frames": 506,
+      "left_required_open_wait": [
+        [
+          90,
+          144
+        ]
+      ],
       "left": [
         [
           0,
           25
-        ],
-        [
-          90,
-          144
         ]
       ],
       "right": [
@@ -1547,12 +1639,13 @@
       "output": 68,
       "source": 77,
       "frames": 508,
-      "left": [
+      "left_required_open_wait": [
         [
           134,
           165
         ]
       ],
+      "left": [],
       "right": [
         [
           0,
@@ -1568,12 +1661,13 @@
       "output": 69,
       "source": 78,
       "frames": 431,
-      "left": [
+      "left_required_open_wait": [
         [
           172,
           178
         ]
       ],
+      "left": [],
       "right": [
         [
           0,
@@ -1589,12 +1683,13 @@
       "output": 70,
       "source": 79,
       "frames": 372,
-      "left": [
+      "left_required_open_wait": [
         [
           133,
           151
         ]
       ],
+      "left": [],
       "right": [
         [
           0,
@@ -1610,11 +1705,13 @@
       "output": 71,
       "source": 80,
       "frames": 436,
-      "left": [
+      "left_required_open_wait": [
         [
           164,
           196
-        ],
+        ]
+      ],
+      "left": [
         [
           414,
           436
@@ -1626,14 +1723,16 @@
       "output": 72,
       "source": 81,
       "frames": 512,
+      "left_required_open_wait": [
+        [
+          164,
+          215
+        ]
+      ],
       "left": [
         [
           0,
           24
-        ],
-        [
-          164,
-          215
         ],
         [
           471,
@@ -1646,6 +1745,7 @@
       "output": 73,
       "source": 82,
       "frames": 503,
+      "left_required_open_wait": [],
       "left": [
         [
           444,
@@ -1663,11 +1763,13 @@
       "output": 74,
       "source": 83,
       "frames": 535,
-      "left": [
+      "left_required_open_wait": [
         [
           151,
           161
-        ],
+        ]
+      ],
+      "left": [
         [
           502,
           535
@@ -1684,6 +1786,7 @@
       "output": 75,
       "source": 84,
       "frames": 389,
+      "left_required_open_wait": [],
       "left": [],
       "right": [
         [
@@ -1704,12 +1807,13 @@
       "output": 76,
       "source": 85,
       "frames": 476,
-      "left": [
+      "left_required_open_wait": [
         [
           157,
           165
         ]
       ],
+      "left": [],
       "right": [
         [
           433,
@@ -1721,14 +1825,16 @@
       "output": 77,
       "source": 86,
       "frames": 468,
+      "left_required_open_wait": [
+        [
+          146,
+          156
+        ]
+      ],
       "left": [
         [
           0,
           6
-        ],
-        [
-          146,
-          156
         ]
       ],
       "right": [
@@ -1742,14 +1848,16 @@
       "output": 78,
       "source": 3,
       "frames": 661,
+      "left_required_open_wait": [
+        [
+          122,
+          207
+        ]
+      ],
       "left": [
         [
           0,
           85
-        ],
-        [
-          122,
-          207
         ]
       ],
       "right": [
@@ -1767,14 +1875,16 @@
       "output": 79,
       "source": 4,
       "frames": 632,
+      "left_required_open_wait": [
+        [
+          187,
+          261
+        ]
+      ],
       "left": [
         [
           0,
           78
-        ],
-        [
-          187,
-          261
         ],
         [
           529,
@@ -1787,14 +1897,16 @@
       "output": 80,
       "source": 5,
       "frames": 579,
+      "left_required_open_wait": [
+        [
+          202,
+          252
+        ]
+      ],
       "left": [
         [
           0,
           61
-        ],
-        [
-          202,
-          252
         ],
         [
           555,
@@ -1807,14 +1919,16 @@
       "output": 81,
       "source": 6,
       "frames": 600,
+      "left_required_open_wait": [
+        [
+          201,
+          246
+        ]
+      ],
       "left": [
         [
           0,
           60
-        ],
-        [
-          201,
-          246
         ]
       ],
       "right": [
@@ -1832,14 +1946,16 @@
       "output": 82,
       "source": 7,
       "frames": 475,
+      "left_required_open_wait": [
+        [
+          171,
+          180
+        ]
+      ],
       "left": [
         [
           0,
           25
-        ],
-        [
-          171,
-          180
         ]
       ],
       "right": [
@@ -1853,14 +1969,16 @@
       "output": 83,
       "source": 8,
       "frames": 486,
+      "left_required_open_wait": [
+        [
+          170,
+          198
+        ]
+      ],
       "left": [
         [
           0,
           49
-        ],
-        [
-          170,
-          198
         ]
       ],
       "right": [
@@ -1874,14 +1992,16 @@
       "output": 84,
       "source": 9,
       "frames": 463,
+      "left_required_open_wait": [
+        [
+          168,
+          180
+        ]
+      ],
       "left": [
         [
           0,
           36
-        ],
-        [
-          168,
-          180
         ]
       ],
       "right": [
@@ -1899,6 +2019,7 @@
       "output": 85,
       "source": 10,
       "frames": 454,
+      "left_required_open_wait": [],
       "left": [
         [
           0,
@@ -1916,14 +2037,16 @@
       "output": 86,
       "source": 11,
       "frames": 478,
+      "left_required_open_wait": [
+        [
+          195,
+          215
+        ]
+      ],
       "left": [
         [
           0,
           57
-        ],
-        [
-          195,
-          215
         ],
         [
           448,
@@ -1936,14 +2059,16 @@
       "output": 87,
       "source": 12,
       "frames": 451,
+      "left_required_open_wait": [
+        [
+          182,
+          196
+        ]
+      ],
       "left": [
         [
           0,
           52
-        ],
-        [
-          182,
-          196
         ]
       ],
       "right": [
@@ -1961,14 +2086,16 @@
       "output": 88,
       "source": 13,
       "frames": 582,
+      "left_required_open_wait": [
+        [
+          203,
+          204
+        ]
+      ],
       "left": [
         [
           0,
           48
-        ],
-        [
-          203,
-          204
         ],
         [
           550,
@@ -1981,6 +2108,7 @@
       "output": 89,
       "source": 14,
       "frames": 361,
+      "left_required_open_wait": [],
       "left": [
         [
           0,
@@ -1997,14 +2125,16 @@
       "output": 90,
       "source": 15,
       "frames": 399,
+      "left_required_open_wait": [
+        [
+          171,
+          189
+        ]
+      ],
       "left": [
         [
           0,
           63
-        ],
-        [
-          171,
-          189
         ]
       ],
       "right": [
@@ -2022,6 +2152,7 @@
       "output": 91,
       "source": 16,
       "frames": 412,
+      "left_required_open_wait": [],
       "left": [
         [
           0,
@@ -2043,14 +2174,16 @@
       "output": 92,
       "source": 17,
       "frames": 483,
+      "left_required_open_wait": [
+        [
+          185,
+          186
+        ]
+      ],
       "left": [
         [
           0,
           58
-        ],
-        [
-          185,
-          186
         ],
         [
           469,
@@ -2063,6 +2196,7 @@
       "output": 93,
       "source": 18,
       "frames": 452,
+      "left_required_open_wait": [],
       "left": [
         [
           0,
@@ -2080,6 +2214,7 @@
       "output": 94,
       "source": 19,
       "frames": 452,
+      "left_required_open_wait": [],
       "left": [
         [
           0,
@@ -2101,6 +2236,7 @@
       "output": 95,
       "source": 20,
       "frames": 424,
+      "left_required_open_wait": [],
       "left": [
         [
           0,
@@ -2118,6 +2254,7 @@
       "output": 96,
       "source": 22,
       "frames": 463,
+      "left_required_open_wait": [],
       "left": [
         [
           0,
@@ -2135,14 +2272,16 @@
       "output": 97,
       "source": 23,
       "frames": 406,
+      "left_required_open_wait": [
+        [
+          149,
+          159
+        ]
+      ],
       "left": [
         [
           0,
           69
-        ],
-        [
-          149,
-          159
         ]
       ],
       "right": [
@@ -2156,6 +2295,7 @@
       "output": 98,
       "source": 24,
       "frames": 496,
+      "left_required_open_wait": [],
       "left": [
         [
           0,
@@ -2177,6 +2317,7 @@
       "output": 99,
       "source": 25,
       "frames": 420,
+      "left_required_open_wait": [],
       "left": [
         [
           0,
@@ -2198,6 +2339,7 @@
       "output": 100,
       "source": 26,
       "frames": 472,
+      "left_required_open_wait": [],
       "left": [
         [
           0,
@@ -2219,6 +2361,7 @@
       "output": 101,
       "source": 27,
       "frames": 414,
+      "left_required_open_wait": [],
       "left": [
         [
           0,
@@ -2240,6 +2383,7 @@
       "output": 102,
       "source": 29,
       "frames": 413,
+      "left_required_open_wait": [],
       "left": [
         [
           0,
@@ -2261,6 +2405,7 @@
       "output": 103,
       "source": 30,
       "frames": 445,
+      "left_required_open_wait": [],
       "left": [
         [
           0,
@@ -2282,6 +2427,7 @@
       "output": 104,
       "source": 31,
       "frames": 443,
+      "left_required_open_wait": [],
       "left": [
         [
           0,
@@ -2299,6 +2445,7 @@
       "output": 105,
       "source": 32,
       "frames": 513,
+      "left_required_open_wait": [],
       "left": [
         [
           0,
@@ -2315,6 +2462,7 @@
       "output": 106,
       "source": 33,
       "frames": 458,
+      "left_required_open_wait": [],
       "left": [
         [
           0,
@@ -2336,6 +2484,7 @@
       "output": 107,
       "source": 34,
       "frames": 513,
+      "left_required_open_wait": [],
       "left": [
         [
           0,
@@ -2357,6 +2506,7 @@
       "output": 108,
       "source": 37,
       "frames": 494,
+      "left_required_open_wait": [],
       "left": [
         [
           0,
@@ -2378,6 +2528,7 @@
       "output": 109,
       "source": 38,
       "frames": 452,
+      "left_required_open_wait": [],
       "left": [
         [
           0,
@@ -2399,6 +2550,7 @@
       "output": 110,
       "source": 39,
       "frames": 511,
+      "left_required_open_wait": [],
       "left": [
         [
           0,
@@ -2420,6 +2572,7 @@
       "output": 111,
       "source": 40,
       "frames": 487,
+      "left_required_open_wait": [],
       "left": [
         [
           0,
@@ -2441,6 +2594,7 @@
       "output": 112,
       "source": 41,
       "frames": 426,
+      "left_required_open_wait": [],
       "left": [
         [
           0,
@@ -2458,6 +2612,7 @@
       "output": 113,
       "source": 42,
       "frames": 464,
+      "left_required_open_wait": [],
       "left": [
         [
           0,
@@ -2479,6 +2634,7 @@
       "output": 114,
       "source": 43,
       "frames": 480,
+      "left_required_open_wait": [],
       "left": [
         [
           0,
@@ -2500,6 +2656,7 @@
       "output": 115,
       "source": 44,
       "frames": 490,
+      "left_required_open_wait": [],
       "left": [
         [
           0,
@@ -2521,6 +2678,7 @@
       "output": 116,
       "source": 46,
       "frames": 589,
+      "left_required_open_wait": [],
       "left": [
         [
           0,
@@ -2542,14 +2700,16 @@
       "output": 117,
       "source": 47,
       "frames": 558,
+      "left_required_open_wait": [
+        [
+          180,
+          189
+        ]
+      ],
       "left": [
         [
           0,
           129
-        ],
-        [
-          180,
-          189
         ]
       ],
       "right": [
@@ -2567,6 +2727,7 @@
       "output": 118,
       "source": 48,
       "frames": 698,
+      "left_required_open_wait": [],
       "left": [
         [
           0,
@@ -2588,6 +2749,7 @@
       "output": 119,
       "source": 49,
       "frames": 568,
+      "left_required_open_wait": [],
       "left": [
         [
           0,
@@ -2609,14 +2771,16 @@
       "output": 120,
       "source": 50,
       "frames": 581,
+      "left_required_open_wait": [
+        [
+          190,
+          192
+        ]
+      ],
       "left": [
         [
           0,
           135
-        ],
-        [
-          190,
-          192
         ]
       ],
       "right": [
@@ -2634,14 +2798,16 @@
       "output": 121,
       "source": 51,
       "frames": 513,
+      "left_required_open_wait": [
+        [
+          175,
+          180
+        ]
+      ],
       "left": [
         [
           0,
           130
-        ],
-        [
-          175,
-          180
         ]
       ],
       "right": [
@@ -2659,6 +2825,7 @@
       "output": 122,
       "source": 52,
       "frames": 575,
+      "left_required_open_wait": [],
       "left": [
         [
           0,
@@ -2680,6 +2847,7 @@
       "output": 123,
       "source": 53,
       "frames": 619,
+      "left_required_open_wait": [],
       "left": [
         [
           0,
@@ -2701,6 +2869,7 @@
       "output": 124,
       "source": 54,
       "frames": 561,
+      "left_required_open_wait": [],
       "left": [
         [
           0,
@@ -2722,6 +2891,7 @@
       "output": 125,
       "source": 55,
       "frames": 555,
+      "left_required_open_wait": [],
       "left": [
         [
           0,
@@ -2743,6 +2913,7 @@
       "output": 126,
       "source": 56,
       "frames": 584,
+      "left_required_open_wait": [],
       "left": [
         [
           0,
@@ -2764,6 +2935,7 @@
       "output": 127,
       "source": 57,
       "frames": 623,
+      "left_required_open_wait": [],
       "left": [
         [
           0,
@@ -2785,6 +2957,7 @@
       "output": 128,
       "source": 58,
       "frames": 660,
+      "left_required_open_wait": [],
       "left": [
         [
           0,
@@ -2806,6 +2979,7 @@
       "output": 129,
       "source": 59,
       "frames": 616,
+      "left_required_open_wait": [],
       "left": [
         [
           0,
@@ -2827,6 +3001,7 @@
       "output": 130,
       "source": 60,
       "frames": 622,
+      "left_required_open_wait": [],
       "left": [
         [
           0,
@@ -2848,6 +3023,7 @@
       "output": 131,
       "source": 61,
       "frames": 630,
+      "left_required_open_wait": [],
       "left": [
         [
           0,
@@ -2869,6 +3045,7 @@
       "output": 132,
       "source": 62,
       "frames": 632,
+      "left_required_open_wait": [],
       "left": [
         [
           0,
@@ -2886,6 +3063,7 @@
       "output": 133,
       "source": 63,
       "frames": 605,
+      "left_required_open_wait": [],
       "left": [
         [
           0,
@@ -2907,6 +3085,7 @@
       "output": 134,
       "source": 64,
       "frames": 604,
+      "left_required_open_wait": [],
       "left": [
         [
           0,
@@ -2928,6 +3107,7 @@
       "output": 135,
       "source": 65,
       "frames": 617,
+      "left_required_open_wait": [],
       "left": [
         [
           0,
@@ -2949,6 +3129,7 @@
       "output": 136,
       "source": 66,
       "frames": 478,
+      "left_required_open_wait": [],
       "left": [
         [
           0,
@@ -2970,6 +3151,7 @@
       "output": 137,
       "source": 68,
       "frames": 591,
+      "left_required_open_wait": [],
       "left": [
         [
           0,
@@ -2991,6 +3173,7 @@
       "output": 138,
       "source": 69,
       "frames": 572,
+      "left_required_open_wait": [],
       "left": [
         [
           0,
@@ -3012,6 +3195,7 @@
       "output": 139,
       "source": 70,
       "frames": 473,
+      "left_required_open_wait": [],
       "left": [
         [
           0,
@@ -3033,6 +3217,7 @@
       "output": 140,
       "source": 71,
       "frames": 523,
+      "left_required_open_wait": [],
       "left": [
         [
           0,
@@ -3054,6 +3239,7 @@
       "output": 141,
       "source": 72,
       "frames": 583,
+      "left_required_open_wait": [],
       "left": [
         [
           0,
@@ -3075,6 +3261,7 @@
       "output": 142,
       "source": 73,
       "frames": 571,
+      "left_required_open_wait": [],
       "left": [
         [
           0,
@@ -3096,6 +3283,7 @@
       "output": 143,
       "source": 74,
       "frames": 642,
+      "left_required_open_wait": [],
       "left": [
         [
           0,
@@ -3117,6 +3305,7 @@
       "output": 144,
       "source": 75,
       "frames": 498,
+      "left_required_open_wait": [],
       "left": [
         [
           0,
@@ -3138,6 +3327,7 @@
       "output": 145,
       "source": 76,
       "frames": 556,
+      "left_required_open_wait": [],
       "left": [
         [
           0,
@@ -3159,6 +3349,7 @@
       "output": 146,
       "source": 77,
       "frames": 617,
+      "left_required_open_wait": [],
       "left": [
         [
           0,
@@ -3180,6 +3371,7 @@
       "output": 147,
       "source": 78,
       "frames": 554,
+      "left_required_open_wait": [],
       "left": [
         [
           0,
@@ -3201,6 +3393,7 @@
       "output": 148,
       "source": 79,
       "frames": 481,
+      "left_required_open_wait": [],
       "left": [
         [
           0,
@@ -3222,6 +3415,7 @@
       "output": 149,
       "source": 80,
       "frames": 562,
+      "left_required_open_wait": [],
       "left": [
         [
           0,
@@ -3243,6 +3437,7 @@
       "output": 150,
       "source": 81,
       "frames": 597,
+      "left_required_open_wait": [],
       "left": [
         [
           0,
@@ -3264,6 +3459,7 @@
       "output": 151,
       "source": 82,
       "frames": 594,
+      "left_required_open_wait": [],
       "left": [
         [
           0,
@@ -3285,6 +3481,7 @@
       "output": 152,
       "source": 83,
       "frames": 640,
+      "left_required_open_wait": [],
       "left": [
         [
           0,
@@ -3306,6 +3503,7 @@
       "output": 153,
       "source": 84,
       "frames": 460,
+      "left_required_open_wait": [],
       "left": [
         [
           0,
@@ -3327,6 +3525,7 @@
       "output": 154,
       "source": 85,
       "frames": 629,
+      "left_required_open_wait": [],
       "left": [
         [
           0,
@@ -3348,6 +3547,7 @@
       "output": 155,
       "source": 86,
       "frames": 606,
+      "left_required_open_wait": [],
       "left": [
         [
           0,
