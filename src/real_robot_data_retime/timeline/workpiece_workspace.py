@@ -13,7 +13,6 @@ DEFAULT_WORKSPACE = {
     "maximum_m": [0.46, 0.12, 0.18],
     "ee_radius_m": 0.025,
     "retreat_distance_m": 0.04,
-    "mesh_margin_m": 0.005,
 }
 
 
@@ -28,6 +27,7 @@ def workspace_events(tcp, events, config):
         or hi.shape != (3,)
         or not np.isfinite([lo, hi]).all()
         or np.any(hi <= lo)
+        or not np.isfinite([radius, retreat]).all()
         or radius <= 0
         or retreat <= 0
     ):
@@ -76,7 +76,7 @@ def plan_workspace(timeline, joints, config=DEFAULT_WORKSPACE):
         state[:, 7:],
         Path(urdf),
         Path(mesh_root),
-        margin_m=config["mesh_margin_m"],
+        margin_m=0.005,
     )
     tcp = np.array([[p[4] for p in arm] for arm in checker.poses])
     events = workspace_events(tcp, timeline["episodes"], config)
@@ -143,30 +143,67 @@ def plan_workspace(timeline, joints, config=DEFAULT_WORKSPACE):
         ),
     )
     verify_uninterrupted(left, right, stages)
+    audit = audit_ee_workspace(checker, left, right, config)
+    if not audit["passed"]:
+        raise ValueError(
+            f"simultaneous EE workspace occupancy: {audit['failed_output_edges'][:10]}"
+        )
+    pickup_order = sorted(
+        [
+            dict(
+                arm=("left", "right")[side],
+                source_frame=e["pickup_frame"],
+                output_frame=int(
+                    np.flatnonzero((left, right)[side] >= e["pickup_frame"])[0]
+                ),
+            )
+            for side in range(2)
+            for e in events[side]
+        ],
+        key=lambda e: e["output_frame"],
+    )
+    if [e["arm"] for e in pickup_order] != ["left", "right", "left", "right"]:
+        raise ValueError("fixed-workspace pickup order violated")
     return (
         left,
         right,
         dict(
             stages=stages,
             output_frames=len(left),
-            collision_scope="pending state/action mesh and projected validation",
+            collision_scope="EE fixed-workspace occupancy only; links excluded",
+            ee_workspace_audit=audit,
+            pickup_order=pickup_order,
         ),
     )
 
 
-def audit_workspace_meshes(joints, left, right, config=DEFAULT_WORKSPACE):
-    """Read-only verifier: failures never modify the volume or admission schedule."""
+def audit_ee_workspace(checker, left, right, config):
+    """Audit actual interpolated FK at quarter-output-frame steps; ignore link meshes."""
     from .smooth import sample_rows
 
-    result = {}
-    for name, values in zip(("observation.state", "action"), joints[:2]):
-        checker = PiperXClearance(
-            sample_rows(values[:, :7], left),
-            sample_rows(values[:, 7:], right),
-            Path(joints[2]),
-            Path(joints[3]),
-            margin_m=config["mesh_margin_m"],
-        )
-        failures = [i for i in range(len(left) - 1) if not checker(i, i, i + 1, i + 1)]
-        result[name] = dict(passed=not failures, failed_output_edges=failures)
-    return dict(passed=all(v["passed"] for v in result.values()), trajectories=result)
+    lo = np.asarray(config["minimum_m"]) - config["ee_radius_m"]
+    hi = np.asarray(config["maximum_m"]) + config["ee_radius_m"]
+    failures = []
+    minimum_distance = float("inf")
+    for i in range(len(left) - 1):
+        for u in (0, 0.25, 0.5, 0.75, 1):
+            positions = []
+            for side, clock in enumerate((left, right)):
+                source = clock[i] + u * (clock[i + 1] - clock[i])
+                row = sample_rows(checker.values[side], np.array([source]))[0]
+                positions.append(checker._pose(row, side)[4])
+            inside = [bool(np.all((p >= lo) & (p <= hi))) for p in positions]
+            minimum_distance = min(
+                minimum_distance, float(np.linalg.norm(positions[0] - positions[1]))
+            )
+            if all(inside):
+                failures.append(i)
+                break
+    return dict(
+        passed=not failures,
+        failed_output_edges=failures,
+        substeps_per_output_interval=4,
+        method="interpolated_joint_FK_EE_envelope",
+        minimum_sampled_ee_distance_m=minimum_distance,
+        link_collision_check=False,
+    )

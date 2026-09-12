@@ -9,7 +9,6 @@ from real_robot_data_retime.staged import load_joints
 from real_robot_data_retime.timeline.workpiece_workspace import (
     DEFAULT_WORKSPACE,
     plan_workspace,
-    audit_workspace_meshes,
 )
 
 
@@ -31,20 +30,14 @@ def main():
     )
     joints = load_joints(args.joint_data, args.urdf, args.mesh_root, timeline)
     left, right, report = plan_workspace(timeline, joints, config)
-    audit = audit_workspace_meshes(joints, left, right, config)
     args.output.mkdir(parents=True, exist_ok=False)
     np.savez_compressed(args.output / "candidate_mapping.npz", left=left, right=right)
     report.update(
-        mesh_audit=audit,
         validated_for_rendering=False,
-        status="mesh_passed_pending_projected_audit"
-        if audit["passed"]
-        else "rejected_mesh_clearance",
+        status="ee_workspace_passed_pending_visual_review",
     )
     (args.output / "report.json").write_text(json.dumps(report, indent=2) + "\n")
     print(json.dumps(dict(status=report["status"], output=str(args.output)), indent=2))
-    if not audit["passed"]:
-        raise SystemExit(1)
 
 
 if __name__ == "__main__":

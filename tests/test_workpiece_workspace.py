@@ -54,3 +54,38 @@ def test_invalid_workspace_and_missing_withdrawal_fail():
     tcp[0, 15:46, 1] = 0
     with pytest.raises(ValueError, match="withdrawal"):
         workspace_events(tcp, events, DEFAULT_WORKSPACE)
+
+
+def test_ee_audit_does_not_call_link_collision_checker():
+    from real_robot_data_retime.timeline.workpiece_workspace import audit_ee_workspace
+
+    class FK:
+        values = (
+            np.tile([0.35, 0.2, 0.05, 0, 0, 0, 0], (3, 1)),
+            np.tile([0.35, -0.2, 0.05, 0, 0, 0, 0], (3, 1)),
+        )
+
+        def _pose(self, row, side):
+            return (None, None, None, None, row[:3])
+
+        def __call__(self, *args):
+            raise AssertionError("link collision must not be consulted")
+
+    audit = audit_ee_workspace(FK(), np.arange(3), np.arange(3), DEFAULT_WORKSPACE)
+    assert audit["passed"] and not audit["link_collision_check"]
+
+
+def test_ee_audit_detects_between_frame_workspace_occupancy():
+    from real_robot_data_retime.timeline.workpiece_workspace import audit_ee_workspace
+
+    class FK:
+        values = (
+            np.array([[0.35, -0.2, 0.05, 0, 0, 0, 0], [0.35, 0.2, 0.05, 0, 0, 0, 0]]),
+            np.array([[0.35, 0.2, 0.05, 0, 0, 0, 0], [0.35, -0.2, 0.05, 0, 0, 0, 0]]),
+        )
+
+        def _pose(self, row, side):
+            return (None, None, None, None, row[:3])
+
+    audit = audit_ee_workspace(FK(), np.arange(2), np.arange(2), DEFAULT_WORKSPACE)
+    assert not audit["passed"] and audit["failed_output_edges"] == [0]

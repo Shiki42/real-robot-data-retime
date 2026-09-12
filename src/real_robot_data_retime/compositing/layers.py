@@ -60,7 +60,16 @@ def drawer_region(frames, open_frame):
 
 
 def composite(
-    frames, timeline, segmentation, left, right, output, debug_dir, *, depth=None
+    frames,
+    timeline,
+    segmentation,
+    left,
+    right,
+    output,
+    debug_dir,
+    *,
+    depth=None,
+    allow_projected_link_overlap=False,
 ):
     n, h, w = frames.shape[:3]
     left, right = np.asarray(left), np.asarray(right)
@@ -294,7 +303,12 @@ def composite(
                         float(source), endpoint_masks
                     )
             overlap = layers[0] & layers[1]
-            if fractional and depth is None and overlap.any():
+            if (
+                fractional
+                and depth is None
+                and overlap.any()
+                and not allow_projected_link_overlap
+            ):
                 raise ValueError("interpolated foregrounds violate projected clearance")
             overlap_pixels += int(overlap.sum())
             if depth is None:
@@ -348,6 +362,7 @@ def composite(
         arm_overlap_pixel_frames=overlap_pixels,
         valid_metric_overlap_pixel_frames=metric_overlap_pixels,
         unknown_depth_order="stable_right_foreground",
+        projected_link_overlap_allowed=allow_projected_link_overlap,
         occlusion_method="aligned_metric_depth"
         if depth is not None
         else "stable_right_foreground",

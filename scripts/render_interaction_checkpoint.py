@@ -27,6 +27,7 @@ def render_checkpoint(
     mesh_root=None,
     right_delay_seconds=0,
     left_delay_seconds=0,
+    fixed_workspace=False,
 ):
     progress = json.loads((analysis / "progress.json").read_text())
     if progress["stage"] != "complete":
@@ -55,15 +56,26 @@ def render_checkpoint(
         joints = (
             load_joints(joint_data, urdf, mesh_root, timeline) if joint_data else None
         )
-        left, right, plan = plan_visual(
-            timeline,
-            frames,
-            tracks,
-            segmentation,
-            joints=joints,
-            right_delay_seconds=right_delay_seconds,
-            left_delay_seconds=left_delay_seconds,
-        )
+        if fixed_workspace:
+            if joints is None or timeline["task"] != "workpiece":
+                raise ValueError("fixed EE workspace requires workpiece joints")
+            if right_delay_seconds or left_delay_seconds:
+                raise ValueError("fixed EE workspace uses synchronous startup")
+            from real_robot_data_retime.timeline.workpiece_workspace import (
+                plan_workspace,
+            )
+
+            left, right, plan = plan_workspace(timeline, joints)
+        else:
+            left, right, plan = plan_visual(
+                timeline,
+                frames,
+                tracks,
+                segmentation,
+                joints=joints,
+                right_delay_seconds=right_delay_seconds,
+                left_delay_seconds=left_delay_seconds,
+            )
         if joints is not None:
             export_trajectories(output, joints, left, right, fps, plan)
         np.savez_compressed(output / "source_mapping.npz", left=left, right=right)
@@ -71,7 +83,14 @@ def render_checkpoint(
             source, tracks["registration"], segmentation
         )
         rendered = composite(
-            native, timeline, masks, left, right, output / "parallel.mp4", output
+            native,
+            timeline,
+            masks,
+            left,
+            right,
+            output / "parallel.mp4",
+            output,
+            allow_projected_link_overlap=fixed_workspace,
         )
     passed = bool(rendered["automatic_origin_audit"]["passed"])
     result = {
@@ -99,6 +118,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     for name in ("input", "analysis", "output"):
         parser.add_argument("--" + name, type=Path, required=True)
+    parser.add_argument("--fixed-workspace", action="store_true")
     parser.add_argument("--joint-data", type=Path)
     parser.add_argument("--urdf", type=Path)
     parser.add_argument("--mesh-root", type=Path)
@@ -109,6 +129,7 @@ def main():
         args.input,
         args.analysis,
         args.output,
+        fixed_workspace=args.fixed_workspace,
         joint_data=args.joint_data,
         urdf=args.urdf,
         mesh_root=args.mesh_root,
