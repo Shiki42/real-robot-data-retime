@@ -1,0 +1,10 @@
+{
+  "episodes": 156,
+  "sources": 78,
+  "restored_outputs": 38,
+  "frames": 83187,
+  "review_bytes": 86013340,
+  "archive_sha256": "8d5c261281ca5b834dd58b475ba3bc7e451d2203c8cfd03c6515474e83944a09",
+  "dataset": "/home/coder/share/drawer-10px-cohort-20260912/dataset",
+  "review_archive": "/home/coder/share/drawer-10px-cohort-20260912/local-review-package/review.tar"
+}
