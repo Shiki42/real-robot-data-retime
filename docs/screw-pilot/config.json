@@ -1,0 +1,334 @@
+{
+  "source_repo": "Shiki42/piperx-screw-0910-25ep-raw",
+  "source_revision": "824b6382ef4858213e6ea42ea61104110d911448",
+  "episode_index": 1,
+  "camera": "observation.images.right_environment_1",
+  "coupled_intervals": [
+    [
+      300,
+      435
+    ],
+    [
+      760,
+      895
+    ],
+    [
+      1250,
+      1370
+    ],
+    [
+      1770,
+      1985
+    ],
+    [
+      2340,
+      2460
+    ]
+  ],
+  "positions": [
+    0.15,
+    0.5,
+    0.85
+  ],
+  "boundary_method": "pilot visual review with gripper release and left-arm motion onset; inclusive raw episode frames; third guard includes completed right withdrawal before storage",
+  "workspace_split_x": 330,
+  "collision_policy": "independent pickup workspaces assumed disjoint as specified by user; no new metric collision claim",
+  "left_scene_boxes": [
+    [
+      245,
+      160,
+      175,
+      130
+    ]
+  ],
+  "right_segmentation_prompts": [
+    {
+      "source_frame": 330,
+      "bbox": [
+        350,
+        75,
+        290,
+        325
+      ],
+      "positive_points": [
+        [
+          475,
+          170
+        ],
+        [
+          575,
+          270
+        ],
+        [
+          510,
+          310
+        ]
+      ],
+      "negative_points": [
+        [
+          150,
+          350
+        ]
+      ]
+    },
+    {
+      "source_frame": 810,
+      "bbox": [
+        325,
+        175,
+        315,
+        305
+      ],
+      "positive_points": [
+        [
+          460,
+          290
+        ],
+        [
+          575,
+          355
+        ],
+        [
+          480,
+          425
+        ]
+      ],
+      "negative_points": [
+        [
+          150,
+          350
+        ]
+      ]
+    },
+    {
+      "source_frame": 1300,
+      "bbox": [
+        320,
+        80,
+        320,
+        390
+      ],
+      "positive_points": [
+        [
+          465,
+          200
+        ],
+        [
+          545,
+          280
+        ],
+        [
+          460,
+          390
+        ]
+      ],
+      "negative_points": [
+        [
+          150,
+          350
+        ]
+      ]
+    },
+    {
+      "source_frame": 1810,
+      "bbox": [
+        325,
+        175,
+        315,
+        305
+      ],
+      "positive_points": [
+        [
+          465,
+          310
+        ],
+        [
+          580,
+          400
+        ],
+        [
+          500,
+          460
+        ]
+      ],
+      "negative_points": [
+        [
+          150,
+          350
+        ]
+      ]
+    },
+    {
+      "source_frame": 2380,
+      "bbox": [
+        320,
+        0,
+        320,
+        340
+      ],
+      "positive_points": [
+        [
+          460,
+          80
+        ],
+        [
+          580,
+          175
+        ],
+        [
+          450,
+          230
+        ]
+      ],
+      "negative_points": [
+        [
+          150,
+          350
+        ]
+      ]
+    }
+  ],
+  "prompt_method": "automatic left prompts in rounds 1-2; reviewed manual left prompts in rounds 3-5 and right prompts in every round; all recorded explicitly",
+  "left_segmentation_prompts": [
+    null,
+    null,
+    {
+      "source_frame": 1050,
+      "bbox": [
+        0,
+        140,
+        310,
+        270
+      ],
+      "positive_points": [
+        [
+          80,
+          200
+        ],
+        [
+          160,
+          205
+        ],
+        [
+          190,
+          290
+        ],
+        [
+          205,
+          340
+        ]
+      ],
+      "negative_points": [
+        [
+          360,
+          210
+        ],
+        [
+          600,
+          400
+        ]
+      ]
+    },
+    {
+      "source_frame": 1510,
+      "bbox": [
+        0,
+        5,
+        250,
+        330
+      ],
+      "positive_points": [
+        [
+          70,
+          90
+        ],
+        [
+          130,
+          140
+        ],
+        [
+          110,
+          235
+        ],
+        [
+          150,
+          285
+        ]
+      ],
+      "negative_points": [
+        [
+          360,
+          210
+        ],
+        [
+          600,
+          400
+        ]
+      ]
+    },
+    {
+      "source_frame": 2130,
+      "bbox": [
+        0,
+        60,
+        180,
+        315
+      ],
+      "positive_points": [
+        [
+          40,
+          210
+        ],
+        [
+          50,
+          275
+        ],
+        [
+          95,
+          330
+        ]
+      ],
+      "negative_points": [
+        [
+          360,
+          210
+        ],
+        [
+          600,
+          400
+        ]
+      ]
+    }
+  ],
+  "segmentation_overrides": [
+    {
+      "cycle": 4,
+      "side": 1,
+      "start": 1985,
+      "stop": 2200,
+      "source_frame": 1985,
+      "bbox": [
+        430,
+        70,
+        210,
+        390
+      ],
+      "positive_points": [
+        [
+          570,
+          185
+        ],
+        [
+          570,
+          370
+        ]
+      ],
+      "negative_points": [
+        [
+          270,
+          400
+        ]
+      ]
+    }
+  ]
+}

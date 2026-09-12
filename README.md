@@ -139,3 +139,13 @@ precedence, uninterrupted execution and swept projected foreground clearance.
 Reports include `plan.pickup_order` and `plan.stages` with starting poses,
 right preparation boundaries, waiting poses, protected intervals and staging
 search evidence. See [workpiece priority and verification](docs/workpiece-alternating.md).
+
+## Five-round screw insertion pilot
+
+The [screw pilot](docs/screw-pilot/README.md) adds five independent timing stages
+separated by untouched synchronized insertion windows. Left storage plus the
+next sleeve pickup remains one continuous stage. Its dedicated dataset entry
+point exports main/wrist videos and matching action/state, with a local
+frame-by-frame preview. Reviewed episode boundaries and segmentation prompts
+are explicit in the pilot config; automatic discovery across all screw episodes
+is not claimed.

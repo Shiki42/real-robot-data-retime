@@ -1,0 +1,259 @@
+{
+  "source_repo": "Shiki42/piperx-screw-0910-25ep-raw",
+  "source_revision": "824b6382ef4858213e6ea42ea61104110d911448",
+  "episode_index": 1,
+  "cases": [
+    {
+      "name": "screw-15",
+      "frames": 3281,
+      "seconds": 109.36666666666666,
+      "validation": {
+        "passed": true,
+        "frames": {
+          "parallel.mp4": 3281,
+          "left_wrist.mp4": 3281,
+          "right_wrist.mp4": 3281,
+          "preview.webm": 3281
+        },
+        "action_state_exact": true,
+        "camera_timestamps_match": true,
+        "wrist_pixels": {
+          "left": {
+            "samples": 40,
+            "maximum_mean_absolute_pixel_error": 2.6922547743055554
+          },
+          "right": {
+            "samples": 40,
+            "maximum_mean_absolute_pixel_error": 3.1426236979166666
+          }
+        },
+        "protected_main_pixels": {
+          "samples": 30,
+          "maximum_mean_absolute_pixel_error": 2.509899139404297,
+          "passed": true
+        }
+      },
+      "timeline_validation": {
+        "passed": true,
+        "protected_intervals": [
+          {
+            "kind": "coupled",
+            "cycle": 1,
+            "frames": 136,
+            "passed": true
+          },
+          {
+            "kind": "coupled",
+            "cycle": 2,
+            "frames": 136,
+            "passed": true
+          },
+          {
+            "kind": "coupled",
+            "cycle": 3,
+            "frames": 121,
+            "passed": true
+          },
+          {
+            "kind": "coupled",
+            "cycle": 4,
+            "frames": 216,
+            "passed": true
+          },
+          {
+            "kind": "coupled",
+            "cycle": 5,
+            "frames": 121,
+            "passed": true
+          },
+          {
+            "kind": "final_storage",
+            "cycle": null,
+            "frames": 148,
+            "passed": true
+          }
+        ],
+        "skipped_bounded_static_frames": [
+          234,
+          397
+        ],
+        "all_nonstationary_source_frames_retained": true
+      },
+      "unresolved_scene_patch_pixels": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "screw-50",
+      "frames": 2462,
+      "seconds": 82.06666666666666,
+      "validation": {
+        "passed": true,
+        "frames": {
+          "parallel.mp4": 2462,
+          "left_wrist.mp4": 2462,
+          "right_wrist.mp4": 2462,
+          "preview.webm": 2462
+        },
+        "action_state_exact": true,
+        "camera_timestamps_match": true,
+        "wrist_pixels": {
+          "left": {
+            "samples": 40,
+            "maximum_mean_absolute_pixel_error": 2.585451388888889
+          },
+          "right": {
+            "samples": 40,
+            "maximum_mean_absolute_pixel_error": 3.4033995225694444
+          }
+        },
+        "protected_main_pixels": {
+          "samples": 30,
+          "maximum_mean_absolute_pixel_error": 2.5143685340881348,
+          "passed": true
+        }
+      },
+      "timeline_validation": {
+        "passed": true,
+        "protected_intervals": [
+          {
+            "kind": "coupled",
+            "cycle": 1,
+            "frames": 136,
+            "passed": true
+          },
+          {
+            "kind": "coupled",
+            "cycle": 2,
+            "frames": 136,
+            "passed": true
+          },
+          {
+            "kind": "coupled",
+            "cycle": 3,
+            "frames": 121,
+            "passed": true
+          },
+          {
+            "kind": "coupled",
+            "cycle": 4,
+            "frames": 216,
+            "passed": true
+          },
+          {
+            "kind": "coupled",
+            "cycle": 5,
+            "frames": 121,
+            "passed": true
+          },
+          {
+            "kind": "final_storage",
+            "cycle": null,
+            "frames": 148,
+            "passed": true
+          }
+        ],
+        "skipped_bounded_static_frames": [
+          234,
+          397
+        ],
+        "all_nonstationary_source_frames_retained": true
+      },
+      "unresolved_scene_patch_pixels": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "screw-85",
+      "frames": 3280,
+      "seconds": 109.33333333333333,
+      "validation": {
+        "passed": true,
+        "frames": {
+          "parallel.mp4": 3280,
+          "left_wrist.mp4": 3280,
+          "right_wrist.mp4": 3280,
+          "preview.webm": 3280
+        },
+        "action_state_exact": true,
+        "camera_timestamps_match": true,
+        "wrist_pixels": {
+          "left": {
+            "samples": 40,
+            "maximum_mean_absolute_pixel_error": 2.4817371961805557
+          },
+          "right": {
+            "samples": 40,
+            "maximum_mean_absolute_pixel_error": 3.1936664496527776
+          }
+        },
+        "protected_main_pixels": {
+          "samples": 30,
+          "maximum_mean_absolute_pixel_error": 2.509899139404297,
+          "passed": true
+        }
+      },
+      "timeline_validation": {
+        "passed": true,
+        "protected_intervals": [
+          {
+            "kind": "coupled",
+            "cycle": 1,
+            "frames": 136,
+            "passed": true
+          },
+          {
+            "kind": "coupled",
+            "cycle": 2,
+            "frames": 136,
+            "passed": true
+          },
+          {
+            "kind": "coupled",
+            "cycle": 3,
+            "frames": 121,
+            "passed": true
+          },
+          {
+            "kind": "coupled",
+            "cycle": 4,
+            "frames": 216,
+            "passed": true
+          },
+          {
+            "kind": "coupled",
+            "cycle": 5,
+            "frames": 121,
+            "passed": true
+          },
+          {
+            "kind": "final_storage",
+            "cycle": null,
+            "frames": 148,
+            "passed": true
+          }
+        ],
+        "skipped_bounded_static_frames": [
+          234,
+          397
+        ],
+        "all_nonstationary_source_frames_retained": true
+      },
+      "unresolved_scene_patch_pixels": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  ]
+}
