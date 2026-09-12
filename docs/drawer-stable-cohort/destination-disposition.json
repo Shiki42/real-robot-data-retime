@@ -1,0 +1,53 @@
+{
+  "flagged_outputs": [
+    {
+      "source": 22,
+      "output": 12,
+      "frames": 5
+    },
+    {
+      "source": 22,
+      "output": 71,
+      "frames": 5
+    },
+    {
+      "source": 41,
+      "output": 25,
+      "frames": 15
+    },
+    {
+      "source": 42,
+      "output": 26,
+      "frames": 1
+    },
+    {
+      "source": 42,
+      "output": 85,
+      "frames": 1
+    },
+    {
+      "source": 53,
+      "output": 36,
+      "frames": 5
+    },
+    {
+      "source": 53,
+      "output": 95,
+      "frames": 7
+    },
+    {
+      "source": 61,
+      "output": 44,
+      "frames": 3
+    }
+  ],
+  "review": "Representative maximum-area flagged frames compared side by side with both original source clocks.",
+  "confirmed_duplicate_in_review": false,
+  "explanations": {
+    "22": "Cube already present in corresponding left-source image; release label is later.",
+    "41": "Color/segmentation mismatch around the carried object, no second cube observed.",
+    "42": "Color cast; corresponding left-source cube position is unchanged. Flagged for human quality review.",
+    "53": "Cube already being deposited in corresponding left-source image, before late release label.",
+    "61": "Partly unmasked carried cube in corresponding left-source frame402, not a second cube."
+  }
+}

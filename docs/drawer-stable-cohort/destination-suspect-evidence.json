@@ -1,0 +1,52 @@
+[
+  {
+    "source": 22,
+    "output": 12,
+    "frame": 375,
+    "left": 384,
+    "right": 236,
+    "release": 386,
+    "pickup": 306,
+    "area": 188
+  },
+  {
+    "source": 41,
+    "output": 25,
+    "frame": 115,
+    "left": 265,
+    "right": 38,
+    "release": 316,
+    "pickup": 238,
+    "area": 275
+  },
+  {
+    "source": 42,
+    "output": 26,
+    "frame": 290,
+    "left": 348,
+    "right": 395,
+    "release": 351,
+    "pickup": 265,
+    "area": 358
+  },
+  {
+    "source": 53,
+    "output": 95,
+    "frame": 400,
+    "left": 487,
+    "right": 512,
+    "release": 494,
+    "pickup": 353,
+    "area": 162
+  },
+  {
+    "source": 61,
+    "output": 44,
+    "frame": 276,
+    "left": 402,
+    "right": 392,
+    "release": 469,
+    "pickup": 344,
+    "area": 144
+  }
+]

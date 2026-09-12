@@ -1,0 +1,726 @@
+[
+  {
+    "source": 3,
+    "outputs": [
+      0,
+      59
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift arrival, end of wait, postrelease and final frame; object deposited and drawer closes. Sampled-stage review, not every-frame certification.",
+    "contact_sheet": "review/source-003.jpg",
+    "quality_notes": [],
+    "passed_scope": "sampled_task_semantics_only"
+  },
+  {
+    "source": 7,
+    "outputs": [
+      1,
+      60
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift arrival, end of wait, postrelease and final frame; object deposited and drawer closes. Sampled-stage review, not every-frame certification.",
+    "contact_sheet": "review/source-007.jpg",
+    "quality_notes": [],
+    "passed_scope": "sampled_task_semantics_only"
+  },
+  {
+    "source": 8,
+    "outputs": [
+      2,
+      61
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift arrival, end of wait, postrelease and final frame; object deposited and drawer closes. Sampled-stage review, not every-frame certification.",
+    "contact_sheet": "review/source-008.jpg",
+    "quality_notes": [],
+    "passed_scope": "sampled_task_semantics_only"
+  },
+  {
+    "source": 9,
+    "outputs": [
+      3,
+      62
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift arrival, end of wait, postrelease and final frame; object deposited and drawer closes. Sampled-stage review, not every-frame certification.",
+    "contact_sheet": "review/source-009.jpg",
+    "quality_notes": [],
+    "passed_scope": "sampled_task_semantics_only"
+  },
+  {
+    "source": 10,
+    "outputs": [
+      4,
+      63
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift arrival, end of wait, postrelease and final frame; object deposited and drawer closes. Sampled-stage review, not every-frame certification.",
+    "contact_sheet": "review/source-010.jpg",
+    "quality_notes": [],
+    "passed_scope": "sampled_task_semantics_only"
+  },
+  {
+    "source": 11,
+    "outputs": [
+      5,
+      64
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift arrival, end of wait, postrelease and final frame; object deposited and drawer closes. Sampled-stage review, not every-frame certification.",
+    "contact_sheet": "review/source-011.jpg",
+    "quality_notes": [],
+    "passed_scope": "sampled_task_semantics_only"
+  },
+  {
+    "source": 13,
+    "outputs": [
+      6,
+      65
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift arrival, end of wait, postrelease and final frame; object deposited and drawer closes. Sampled-stage review, not every-frame certification.",
+    "contact_sheet": "review/source-013.jpg",
+    "quality_notes": [],
+    "passed_scope": "sampled_task_semantics_only"
+  },
+  {
+    "source": 16,
+    "outputs": [
+      7,
+      66
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift arrival, end of wait, postrelease and final frame; object deposited and drawer closes. Sampled-stage review, not every-frame certification.",
+    "contact_sheet": "review/source-016.jpg",
+    "quality_notes": [],
+    "passed_scope": "sampled_task_semantics_only"
+  },
+  {
+    "source": 17,
+    "outputs": [
+      8,
+      67
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift arrival, end of wait, postrelease and final frame; object deposited and drawer closes. Sampled-stage review, not every-frame certification.",
+    "contact_sheet": "review/source-017.jpg",
+    "quality_notes": [],
+    "passed_scope": "sampled_task_semantics_only"
+  },
+  {
+    "source": 18,
+    "outputs": [
+      9,
+      68
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift arrival, end of wait, postrelease and final frame; object deposited and drawer closes. Sampled-stage review, not every-frame certification.",
+    "contact_sheet": "review/source-018.jpg",
+    "quality_notes": [],
+    "passed_scope": "sampled_task_semantics_only"
+  },
+  {
+    "source": 19,
+    "outputs": [
+      10,
+      69
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift arrival, end of wait, postrelease and final frame; object deposited and drawer closes. Sampled-stage review, not every-frame certification.",
+    "contact_sheet": "review/source-019.jpg",
+    "quality_notes": [],
+    "passed_scope": "sampled_task_semantics_only"
+  },
+  {
+    "source": 20,
+    "outputs": [
+      11,
+      70
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift arrival, end of wait, postrelease and final frame; object deposited and drawer closes. Sampled-stage review, not every-frame certification.",
+    "contact_sheet": "review/source-020.jpg",
+    "quality_notes": [],
+    "passed_scope": "sampled_task_semantics_only"
+  },
+  {
+    "source": 22,
+    "outputs": [
+      12,
+      71
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift arrival, end of wait, postrelease and final frame; object deposited and drawer closes. Sampled-stage review, not every-frame certification.",
+    "contact_sheet": "review/source-022.jpg",
+    "quality_notes": [],
+    "passed_scope": "sampled_task_semantics_only"
+  },
+  {
+    "source": 23,
+    "outputs": [
+      13,
+      72
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift arrival, end of wait, postrelease and final frame; object deposited and drawer closes. Sampled-stage review, not every-frame certification.",
+    "contact_sheet": "review/source-023.jpg",
+    "quality_notes": [],
+    "passed_scope": "sampled_task_semantics_only"
+  },
+  {
+    "source": 25,
+    "outputs": [
+      14,
+      73
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift arrival, end of wait, postrelease and final frame; object deposited and drawer closes. Sampled-stage review, not every-frame certification.",
+    "contact_sheet": "review/source-025.jpg",
+    "quality_notes": [],
+    "passed_scope": "sampled_task_semantics_only"
+  },
+  {
+    "source": 26,
+    "outputs": [
+      15,
+      74
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift arrival, end of wait, postrelease and final frame; object deposited and drawer closes. Sampled-stage review, not every-frame certification.",
+    "contact_sheet": "review/source-026.jpg",
+    "quality_notes": [],
+    "passed_scope": "sampled_task_semantics_only"
+  },
+  {
+    "source": 27,
+    "outputs": [
+      16,
+      75
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift arrival, end of wait, postrelease and final frame; object deposited and drawer closes. Sampled-stage review, not every-frame certification.",
+    "contact_sheet": "review/source-027.jpg",
+    "quality_notes": [],
+    "passed_scope": "sampled_task_semantics_only"
+  },
+  {
+    "source": 29,
+    "outputs": [
+      17,
+      76
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift arrival, end of wait, postrelease and final frame; object deposited and drawer closes. Sampled-stage review, not every-frame certification.",
+    "contact_sheet": "review/source-029.jpg",
+    "quality_notes": [],
+    "passed_scope": "sampled_task_semantics_only"
+  },
+  {
+    "source": 30,
+    "outputs": [
+      18,
+      77
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift arrival, end of wait, postrelease and final frame; object deposited and drawer closes. Sampled-stage review, not every-frame certification.",
+    "contact_sheet": "review/source-030.jpg",
+    "quality_notes": [],
+    "passed_scope": "sampled_task_semantics_only"
+  },
+  {
+    "source": 31,
+    "outputs": [
+      19,
+      78
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift arrival, end of wait, postrelease and final frame; object deposited and drawer closes. Sampled-stage review, not every-frame certification.",
+    "contact_sheet": "review/source-031.jpg",
+    "quality_notes": [],
+    "passed_scope": "sampled_task_semantics_only"
+  },
+  {
+    "source": 32,
+    "outputs": [
+      20,
+      79
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift arrival, end of wait, postrelease and final frame; object deposited and drawer closes. Sampled-stage review, not every-frame certification.",
+    "contact_sheet": "review/source-032.jpg",
+    "quality_notes": [],
+    "passed_scope": "sampled_task_semantics_only"
+  },
+  {
+    "source": 33,
+    "outputs": [
+      21,
+      80
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift arrival, end of wait, postrelease and final frame; object deposited and drawer closes. Sampled-stage review, not every-frame certification.",
+    "contact_sheet": "review/source-033.jpg",
+    "quality_notes": [],
+    "passed_scope": "sampled_task_semantics_only"
+  },
+  {
+    "source": 34,
+    "outputs": [
+      22,
+      81
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift arrival, end of wait, postrelease and final frame; object deposited and drawer closes. Sampled-stage review, not every-frame certification.",
+    "contact_sheet": "review/source-034.jpg",
+    "quality_notes": [],
+    "passed_scope": "sampled_task_semantics_only"
+  },
+  {
+    "source": 39,
+    "outputs": [
+      23,
+      82
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift arrival, end of wait, postrelease and final frame; object deposited and drawer closes. Sampled-stage review, not every-frame certification.",
+    "contact_sheet": "review/source-039.jpg",
+    "quality_notes": [],
+    "passed_scope": "sampled_task_semantics_only"
+  },
+  {
+    "source": 40,
+    "outputs": [
+      24,
+      83
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift arrival, end of wait, postrelease and final frame; object deposited and drawer closes. Sampled-stage review, not every-frame certification.",
+    "contact_sheet": "review/source-040.jpg",
+    "quality_notes": [],
+    "passed_scope": "sampled_task_semantics_only"
+  },
+  {
+    "source": 41,
+    "outputs": [
+      25,
+      84
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift arrival, end of wait, postrelease and final frame; object deposited and drawer closes. Sampled-stage review, not every-frame certification.",
+    "contact_sheet": "review/source-041.jpg",
+    "quality_notes": [
+      "Visible exposure/color seams; task stages are recognizable, image quality requires human review."
+    ],
+    "passed_scope": "sampled_task_semantics_only"
+  },
+  {
+    "source": 42,
+    "outputs": [
+      26,
+      85
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift arrival, end of wait, postrelease and final frame; object deposited and drawer closes. Sampled-stage review, not every-frame certification.",
+    "contact_sheet": "review/source-042.jpg",
+    "quality_notes": [
+      "Strong single-frame color cast at original left-source frame348: new output26 frame290 and output85 frame272. Not a cabinet-displacement issue; retained for human review."
+    ],
+    "passed_scope": "sampled_task_semantics_only"
+  },
+  {
+    "source": 43,
+    "outputs": [
+      27,
+      86
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift arrival, end of wait, postrelease and final frame; object deposited and drawer closes. Sampled-stage review, not every-frame certification.",
+    "contact_sheet": "review/source-043.jpg",
+    "quality_notes": [],
+    "passed_scope": "sampled_task_semantics_only"
+  },
+  {
+    "source": 44,
+    "outputs": [
+      28,
+      87
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift arrival, end of wait, postrelease and final frame; object deposited and drawer closes. Sampled-stage review, not every-frame certification.",
+    "contact_sheet": "review/source-044.jpg",
+    "quality_notes": [],
+    "passed_scope": "sampled_task_semantics_only"
+  },
+  {
+    "source": 46,
+    "outputs": [
+      29,
+      88
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift arrival, end of wait, postrelease and final frame; object deposited and drawer closes. Sampled-stage review, not every-frame certification.",
+    "contact_sheet": "review/source-046.jpg",
+    "quality_notes": [],
+    "passed_scope": "sampled_task_semantics_only"
+  },
+  {
+    "source": 47,
+    "outputs": [
+      30,
+      89
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift arrival, end of wait, postrelease and final frame; object deposited and drawer closes. Sampled-stage review, not every-frame certification.",
+    "contact_sheet": "review/source-047.jpg",
+    "quality_notes": [
+      "Visible segmentation/compositing edges; no extra cube observed at reviewed stages."
+    ],
+    "passed_scope": "sampled_task_semantics_only"
+  },
+  {
+    "source": 48,
+    "outputs": [
+      31,
+      90
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift arrival, end of wait, postrelease and final frame; object deposited and drawer closes. Sampled-stage review, not every-frame certification.",
+    "contact_sheet": "review/source-048.jpg",
+    "quality_notes": [],
+    "passed_scope": "sampled_task_semantics_only"
+  },
+  {
+    "source": 49,
+    "outputs": [
+      32,
+      91
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift arrival, end of wait, postrelease and final frame; object deposited and drawer closes. Sampled-stage review, not every-frame certification.",
+    "contact_sheet": "review/source-049.jpg",
+    "quality_notes": [],
+    "passed_scope": "sampled_task_semantics_only"
+  },
+  {
+    "source": 50,
+    "outputs": [
+      33,
+      92
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift arrival, end of wait, postrelease and final frame; object deposited and drawer closes. Sampled-stage review, not every-frame certification.",
+    "contact_sheet": "review/source-050.jpg",
+    "quality_notes": [],
+    "passed_scope": "sampled_task_semantics_only"
+  },
+  {
+    "source": 51,
+    "outputs": [
+      34,
+      93
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift arrival, end of wait, postrelease and final frame; object deposited and drawer closes. Sampled-stage review, not every-frame certification.",
+    "contact_sheet": "review/source-051.jpg",
+    "quality_notes": [],
+    "passed_scope": "sampled_task_semantics_only"
+  },
+  {
+    "source": 52,
+    "outputs": [
+      35,
+      94
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift arrival, end of wait, postrelease and final frame; object deposited and drawer closes. Sampled-stage review, not every-frame certification.",
+    "contact_sheet": "review/source-052.jpg",
+    "quality_notes": [],
+    "passed_scope": "sampled_task_semantics_only"
+  },
+  {
+    "source": 53,
+    "outputs": [
+      36,
+      95
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift arrival, end of wait, postrelease and final frame; object deposited and drawer closes. Sampled-stage review, not every-frame certification.",
+    "contact_sheet": "review/source-053.jpg",
+    "quality_notes": [],
+    "passed_scope": "sampled_task_semantics_only"
+  },
+  {
+    "source": 54,
+    "outputs": [
+      37,
+      96
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift arrival, end of wait, postrelease and final frame; object deposited and drawer closes. Sampled-stage review, not every-frame certification.",
+    "contact_sheet": "review/source-054.jpg",
+    "quality_notes": [],
+    "passed_scope": "sampled_task_semantics_only"
+  },
+  {
+    "source": 55,
+    "outputs": [
+      38,
+      97
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift arrival, end of wait, postrelease and final frame; object deposited and drawer closes. Sampled-stage review, not every-frame certification.",
+    "contact_sheet": "review/source-055.jpg",
+    "quality_notes": [],
+    "passed_scope": "sampled_task_semantics_only"
+  },
+  {
+    "source": 56,
+    "outputs": [
+      39,
+      98
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift arrival, end of wait, postrelease and final frame; object deposited and drawer closes. Sampled-stage review, not every-frame certification.",
+    "contact_sheet": "review/source-056.jpg",
+    "quality_notes": [
+      "Visible exposure/color seams; task stages are recognizable, image quality requires human review."
+    ],
+    "passed_scope": "sampled_task_semantics_only"
+  },
+  {
+    "source": 57,
+    "outputs": [
+      40,
+      99
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift arrival, end of wait, postrelease and final frame; object deposited and drawer closes. Sampled-stage review, not every-frame certification.",
+    "contact_sheet": "review/source-057.jpg",
+    "quality_notes": [],
+    "passed_scope": "sampled_task_semantics_only"
+  },
+  {
+    "source": 58,
+    "outputs": [
+      41,
+      100
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift arrival, end of wait, postrelease and final frame; object deposited and drawer closes. Sampled-stage review, not every-frame certification.",
+    "contact_sheet": "review/source-058.jpg",
+    "quality_notes": [],
+    "passed_scope": "sampled_task_semantics_only"
+  },
+  {
+    "source": 59,
+    "outputs": [
+      42,
+      101
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift arrival, end of wait, postrelease and final frame; object deposited and drawer closes. Sampled-stage review, not every-frame certification.",
+    "contact_sheet": "review/source-059.jpg",
+    "quality_notes": [],
+    "passed_scope": "sampled_task_semantics_only"
+  },
+  {
+    "source": 60,
+    "outputs": [
+      43,
+      102
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift arrival, end of wait, postrelease and final frame; object deposited and drawer closes. Sampled-stage review, not every-frame certification.",
+    "contact_sheet": "review/source-060.jpg",
+    "quality_notes": [],
+    "passed_scope": "sampled_task_semantics_only"
+  },
+  {
+    "source": 61,
+    "outputs": [
+      44,
+      103
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift arrival, end of wait, postrelease and final frame; object deposited and drawer closes. Sampled-stage review, not every-frame certification.",
+    "contact_sheet": "review/source-061.jpg",
+    "quality_notes": [
+      "Visible segmentation/compositing edges; no extra cube observed at reviewed stages."
+    ],
+    "passed_scope": "sampled_task_semantics_only"
+  },
+  {
+    "source": 62,
+    "outputs": [
+      45,
+      104
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift arrival, end of wait, postrelease and final frame; object deposited and drawer closes. Sampled-stage review, not every-frame certification.",
+    "contact_sheet": "review/source-062.jpg",
+    "quality_notes": [],
+    "passed_scope": "sampled_task_semantics_only"
+  },
+  {
+    "source": 63,
+    "outputs": [
+      46,
+      105
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift arrival, end of wait, postrelease and final frame; object deposited and drawer closes. Sampled-stage review, not every-frame certification.",
+    "contact_sheet": "review/source-063.jpg",
+    "quality_notes": [],
+    "passed_scope": "sampled_task_semantics_only"
+  },
+  {
+    "source": 64,
+    "outputs": [
+      47,
+      106
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift arrival, end of wait, postrelease and final frame; object deposited and drawer closes. Sampled-stage review, not every-frame certification.",
+    "contact_sheet": "review/source-064.jpg",
+    "quality_notes": [],
+    "passed_scope": "sampled_task_semantics_only"
+  },
+  {
+    "source": 66,
+    "outputs": [
+      48,
+      107
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift arrival, end of wait, postrelease and final frame; object deposited and drawer closes. Sampled-stage review, not every-frame certification.",
+    "contact_sheet": "review/source-066.jpg",
+    "quality_notes": [],
+    "passed_scope": "sampled_task_semantics_only"
+  },
+  {
+    "source": 69,
+    "outputs": [
+      49,
+      108
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift arrival, end of wait, postrelease and final frame; object deposited and drawer closes. Sampled-stage review, not every-frame certification.",
+    "contact_sheet": "review/source-069.jpg",
+    "quality_notes": [
+      "Visible exposure/color seams; task stages are recognizable, image quality requires human review."
+    ],
+    "passed_scope": "sampled_task_semantics_only"
+  },
+  {
+    "source": 70,
+    "outputs": [
+      50,
+      109
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift arrival, end of wait, postrelease and final frame; object deposited and drawer closes. Sampled-stage review, not every-frame certification.",
+    "contact_sheet": "review/source-070.jpg",
+    "quality_notes": [],
+    "passed_scope": "sampled_task_semantics_only"
+  },
+  {
+    "source": 71,
+    "outputs": [
+      51,
+      110
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift arrival, end of wait, postrelease and final frame; object deposited and drawer closes. Sampled-stage review, not every-frame certification.",
+    "contact_sheet": "review/source-071.jpg",
+    "quality_notes": [
+      "Visible segmentation/compositing edges; no extra cube observed at reviewed stages."
+    ],
+    "passed_scope": "sampled_task_semantics_only"
+  },
+  {
+    "source": 72,
+    "outputs": [
+      52,
+      111
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift arrival, end of wait, postrelease and final frame; object deposited and drawer closes. Sampled-stage review, not every-frame certification.",
+    "contact_sheet": "review/source-072.jpg",
+    "quality_notes": [],
+    "passed_scope": "sampled_task_semantics_only"
+  },
+  {
+    "source": 73,
+    "outputs": [
+      53,
+      112
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift arrival, end of wait, postrelease and final frame; object deposited and drawer closes. Sampled-stage review, not every-frame certification.",
+    "contact_sheet": "review/source-073.jpg",
+    "quality_notes": [],
+    "passed_scope": "sampled_task_semantics_only"
+  },
+  {
+    "source": 74,
+    "outputs": [
+      54,
+      113
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift arrival, end of wait, postrelease and final frame; object deposited and drawer closes. Sampled-stage review, not every-frame certification.",
+    "contact_sheet": "review/source-074.jpg",
+    "quality_notes": [],
+    "passed_scope": "sampled_task_semantics_only"
+  },
+  {
+    "source": 75,
+    "outputs": [
+      55,
+      114
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift arrival, end of wait, postrelease and final frame; object deposited and drawer closes. Sampled-stage review, not every-frame certification.",
+    "contact_sheet": "review/source-075.jpg",
+    "quality_notes": [],
+    "passed_scope": "sampled_task_semantics_only"
+  },
+  {
+    "source": 79,
+    "outputs": [
+      56,
+      115
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift arrival, end of wait, postrelease and final frame; object deposited and drawer closes. Sampled-stage review, not every-frame certification.",
+    "contact_sheet": "review/source-079.jpg",
+    "quality_notes": [
+      "Visible exposure/color seams; task stages are recognizable, image quality requires human review."
+    ],
+    "passed_scope": "sampled_task_semantics_only"
+  },
+  {
+    "source": 80,
+    "outputs": [
+      57,
+      116
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift arrival, end of wait, postrelease and final frame; object deposited and drawer closes. Sampled-stage review, not every-frame certification.",
+    "contact_sheet": "review/source-080.jpg",
+    "quality_notes": [],
+    "passed_scope": "sampled_task_semantics_only"
+  },
+  {
+    "source": 86,
+    "outputs": [
+      58,
+      117
+    ],
+    "passed": true,
+    "scope": "Both variants viewed at lift arrival, end of wait, postrelease and final frame; object deposited and drawer closes. Sampled-stage review, not every-frame certification.",
+    "contact_sheet": "review/source-086.jpg",
+    "quality_notes": [],
+    "passed_scope": "sampled_task_semantics_only"
+  }
+]

@@ -1,0 +1,4706 @@
+[
+  {
+    "source": 0,
+    "reference_box": [
+      246,
+      33,
+      187,
+      143
+    ],
+    "valid_samples": 91,
+    "sample_count": 92,
+    "max_relative_pixels": 7.4265055604528705,
+    "p90_relative_pixels": 7.284489594091382,
+    "max_registered_pixels": 7.4265055604528705,
+    "worst": {
+      "frame": 576,
+      "area_ratio": 0.9619857982370226,
+      "box": [
+        241,
+        33,
+        179,
+        139
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 75,
+      "relative_shift": [
+        -7.181045818592281,
+        -1.8935590275234944
+      ],
+      "relative_pixels": 7.4265055604528705,
+      "registered_pixels": 7.4265055604528705
+    },
+    "last": {
+      "frame": 633,
+      "area_ratio": 0.9591699314397649,
+      "box": [
+        241,
+        33,
+        179,
+        139
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 93,
+      "relative_shift": [
+        -7.093288508179967,
+        -1.5272409154391227
+      ],
+      "relative_pixels": 7.255839487893135,
+      "registered_pixels": 7.255839487893135
+    }
+  },
+  {
+    "source": 1,
+    "reference_box": [
+      244,
+      33,
+      183,
+      141
+    ],
+    "valid_samples": 122,
+    "sample_count": 122,
+    "max_relative_pixels": 22.002749483374085,
+    "p90_relative_pixels": 19.888257841481252,
+    "max_registered_pixels": 21.981838448809377,
+    "worst": {
+      "frame": 750,
+      "area_ratio": 0.9353334173704777,
+      "box": [
+        246,
+        35,
+        146,
+        126
+      ],
+      "camera_shift": [
+        0.0,
+        -1.0
+      ],
+      "background_inliers": 76,
+      "relative_shift": [
+        -21.871530944979554,
+        -2.399399706368328
+      ],
+      "relative_pixels": 22.002749483374085,
+      "registered_pixels": 21.981838448809377
+    },
+    "last": {
+      "frame": 849,
+      "area_ratio": 0.9633808143199294,
+      "box": [
+        246,
+        36,
+        147,
+        126
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 77,
+      "relative_shift": [
+        -19.807351081169998,
+        -2.347515735419236
+      ],
+      "relative_pixels": 19.945976711627015,
+      "registered_pixels": 19.945976711627015
+    }
+  },
+  {
+    "source": 2,
+    "reference_box": [
+      293,
+      42,
+      196,
+      149
+    ],
+    "valid_samples": 100,
+    "sample_count": 104,
+    "max_relative_pixels": 19.98569681765303,
+    "p90_relative_pixels": 16.573993271756358,
+    "max_registered_pixels": 19.98569681765303,
+    "worst": {
+      "frame": 552,
+      "area_ratio": 1.0458323712768414,
+      "box": [
+        234,
+        24,
+        242,
+        151
+      ],
+      "camera_shift": [
+        0.0,
+        -1.0
+      ],
+      "background_inliers": 13,
+      "relative_shift": [
+        -13.91429993972912,
+        -14.346439783946423
+      ],
+      "relative_pixels": 19.98569681765303,
+      "registered_pixels": 19.98569681765303
+    },
+    "last": {
+      "frame": 697,
+      "area_ratio": 0.9772569845301317,
+      "box": [
+        293,
+        42,
+        193,
+        149
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 21,
+      "relative_shift": [
+        -2.0190975430497815,
+        -0.6097502067199656
+      ],
+      "relative_pixels": 2.109158648121261,
+      "registered_pixels": 2.109158648121261
+    }
+  },
+  {
+    "source": 3,
+    "reference_box": [
+      293,
+      42,
+      194,
+      150
+    ],
+    "valid_samples": 114,
+    "sample_count": 115,
+    "max_relative_pixels": 5.639394419286872,
+    "p90_relative_pixels": 3.6797213119555647,
+    "max_registered_pixels": 5.639394419286872,
+    "worst": {
+      "frame": 336,
+      "area_ratio": 0.9858474283741802,
+      "box": [
+        293,
+        41,
+        196,
+        149
+      ],
+      "camera_shift": [
+        0.0,
+        -1.0
+      ],
+      "background_inliers": 18,
+      "relative_shift": [
+        5.548264536512988,
+        1.0097178066946384
+      ],
+      "relative_pixels": 5.639394419286872,
+      "registered_pixels": 5.639394419286872
+    },
+    "last": {
+      "frame": 790,
+      "area_ratio": 1.009780232424347,
+      "box": [
+        293,
+        42,
+        195,
+        148
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 193,
+      "relative_shift": [
+        0.7459742417868256,
+        0.1172795871041643
+      ],
+      "relative_pixels": 0.7551371206348901,
+      "registered_pixels": 0.7551371206348901
+    }
+  },
+  {
+    "source": 4,
+    "reference_box": [
+      290,
+      42,
+      190,
+      146
+    ],
+    "valid_samples": 98,
+    "sample_count": 99,
+    "max_relative_pixels": 14.92007677093187,
+    "p90_relative_pixels": 10.922066167436709,
+    "max_registered_pixels": 14.92007677093187,
+    "worst": {
+      "frame": 480,
+      "area_ratio": 0.9700538557140321,
+      "box": [
+        302,
+        47,
+        184,
+        146
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 28,
+      "relative_shift": [
+        13.400977474885622,
+        6.559153418552498
+      ],
+      "relative_pixels": 14.92007677093187,
+      "registered_pixels": 14.92007677093187
+    },
+    "last": {
+      "frame": 665,
+      "area_ratio": 0.9678641178907499,
+      "box": [
+        297,
+        45,
+        183,
+        141
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 247,
+      "relative_shift": [
+        4.24951771507375,
+        0.13904316601627897
+      ],
+      "relative_pixels": 4.251791835537278,
+      "registered_pixels": 4.251791835537278
+    }
+  },
+  {
+    "source": 5,
+    "reference_box": [
+      297,
+      45,
+      183,
+      141
+    ],
+    "valid_samples": 97,
+    "sample_count": 97,
+    "max_relative_pixels": 15.47280451376714,
+    "p90_relative_pixels": 6.568368097118841,
+    "max_registered_pixels": 15.10879001989457,
+    "worst": {
+      "frame": 348,
+      "area_ratio": 0.9023081721771679,
+      "box": [
+        308,
+        45,
+        174,
+        139
+      ],
+      "camera_shift": [
+        0.0,
+        -1.2000045776367188
+      ],
+      "background_inliers": 10,
+      "relative_shift": [
+        14.559089178407191,
+        5.238377784814631
+      ],
+      "relative_pixels": 15.47280451376714,
+      "registered_pixels": 15.10879001989457
+    },
+    "last": {
+      "frame": 642,
+      "area_ratio": 0.982719900187149,
+      "box": [
+        300,
+        44,
+        180,
+        140
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 290,
+      "relative_shift": [
+        0.4656502188593663,
+        -1.1865658004363127
+      ],
+      "relative_pixels": 1.2746640832348117,
+      "registered_pixels": 1.2746640832348117
+    }
+  },
+  {
+    "source": 6,
+    "reference_box": [
+      289,
+      42,
+      189,
+      145
+    ],
+    "valid_samples": 109,
+    "sample_count": 110,
+    "max_relative_pixels": 10.771469862691799,
+    "p90_relative_pixels": 4.731045717582324,
+    "max_registered_pixels": 14.407660614125472,
+    "worst": {
+      "frame": 378,
+      "area_ratio": 0.8629682022264592,
+      "box": [
+        307,
+        42,
+        174,
+        148
+      ],
+      "camera_shift": null,
+      "background_inliers": 7,
+      "relative_shift": null,
+      "relative_pixels": null,
+      "registered_pixels": 14.407660614125472
+    },
+    "last": {
+      "frame": 730,
+      "area_ratio": 1.0376406913094287,
+      "box": [
+        287,
+        43,
+        192,
+        147
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 245,
+      "relative_shift": [
+        -1.1309296946187715,
+        2.382912558883362
+      ],
+      "relative_pixels": 2.63766454225221,
+      "registered_pixels": 2.63766454225221
+    }
+  },
+  {
+    "source": 7,
+    "reference_box": [
+      293,
+      41,
+      198,
+      149
+    ],
+    "valid_samples": 90,
+    "sample_count": 90,
+    "max_relative_pixels": 15.9285388342759,
+    "p90_relative_pixels": 4.47471507712088,
+    "max_registered_pixels": 15.865061350026773,
+    "worst": {
+      "frame": 390,
+      "area_ratio": 0.862916885695929,
+      "box": [
+        320,
+        40,
+        172,
+        150
+      ],
+      "camera_shift": [
+        0.0,
+        -1.44000244140625
+      ],
+      "background_inliers": 14,
+      "relative_shift": [
+        15.330281725259454,
+        4.324443503991176
+      ],
+      "relative_pixels": 15.9285388342759,
+      "registered_pixels": 15.865061350026773
+    },
+    "last": {
+      "frame": 607,
+      "area_ratio": 1.0001752234098475,
+      "box": [
+        292,
+        41,
+        198,
+        149
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 269,
+      "relative_shift": [
+        -0.5751323374700519,
+        -0.05543057090619641
+      ],
+      "relative_pixels": 0.5777973293420042,
+      "registered_pixels": 0.5777973293420042
+    }
+  },
+  {
+    "source": 8,
+    "reference_box": [
+      292,
+      41,
+      198,
+      149
+    ],
+    "valid_samples": 90,
+    "sample_count": 91,
+    "max_relative_pixels": 6.3540862326518,
+    "p90_relative_pixels": 3.3410481807084866,
+    "max_registered_pixels": 6.789824985006514,
+    "worst": {
+      "frame": 324,
+      "area_ratio": 0.9728352157544164,
+      "box": [
+        302,
+        40,
+        189,
+        150
+      ],
+      "camera_shift": null,
+      "background_inliers": 7,
+      "relative_shift": null,
+      "relative_pixels": null,
+      "registered_pixels": 6.789824985006514
+    },
+    "last": {
+      "frame": 613,
+      "area_ratio": 0.9949609035621199,
+      "box": [
+        292,
+        41,
+        198,
+        149
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 265,
+      "relative_shift": [
+        -0.1089009147234492,
+        -0.2122199418790558
+      ],
+      "relative_pixels": 0.23853031874114825,
+      "registered_pixels": 0.23853031874114825
+    }
+  },
+  {
+    "source": 9,
+    "reference_box": [
+      292,
+      42,
+      200,
+      150
+    ],
+    "valid_samples": 90,
+    "sample_count": 90,
+    "max_relative_pixels": 3.6040483243364516,
+    "p90_relative_pixels": 2.5473482757715016,
+    "max_registered_pixels": 3.6040483243364516,
+    "worst": {
+      "frame": 492,
+      "area_ratio": 0.9369364195049107,
+      "box": [
+        292,
+        41,
+        200,
+        151
+      ],
+      "camera_shift": [
+        0.0,
+        -1.0
+      ],
+      "background_inliers": 256,
+      "relative_shift": [
+        -1.5579607155400481,
+        -3.2499111884767444
+      ],
+      "relative_pixels": 3.6040483243364516,
+      "registered_pixels": 3.6040483243364516
+    },
+    "last": {
+      "frame": 605,
+      "area_ratio": 1.0051691459422205,
+      "box": [
+        292,
+        42,
+        200,
+        150
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 267,
+      "relative_shift": [
+        -0.1445406250668384,
+        0.39832946884355636
+      ],
+      "relative_pixels": 0.4237432690248921,
+      "registered_pixels": 0.4237432690248921
+    }
+  },
+  {
+    "source": 10,
+    "reference_box": [
+      294,
+      42,
+      196,
+      148
+    ],
+    "valid_samples": 89,
+    "sample_count": 90,
+    "max_relative_pixels": 6.34573563078001,
+    "p90_relative_pixels": 3.9630151599801415,
+    "max_registered_pixels": 9.524843810961492,
+    "worst": {
+      "frame": 336,
+      "area_ratio": 0.9286257532323173,
+      "box": [
+        302,
+        40,
+        189,
+        149
+      ],
+      "camera_shift": null,
+      "background_inliers": 7,
+      "relative_shift": null,
+      "relative_pixels": null,
+      "registered_pixels": 9.524843810961492
+    },
+    "last": {
+      "frame": 613,
+      "area_ratio": 1.0134558006201368,
+      "box": [
+        293,
+        42,
+        196,
+        149
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 222,
+      "relative_shift": [
+        0.3715372827945771,
+        0.47699285853279605
+      ],
+      "relative_pixels": 0.6046173497325937,
+      "registered_pixels": 0.6046173497325937
+    }
+  },
+  {
+    "source": 11,
+    "reference_box": [
+      293,
+      42,
+      196,
+      148
+    ],
+    "valid_samples": 86,
+    "sample_count": 87,
+    "max_relative_pixels": 4.989778490124336,
+    "p90_relative_pixels": 3.3442227477519157,
+    "max_registered_pixels": 5.934538696447904,
+    "worst": {
+      "frame": 432,
+      "area_ratio": 0.9679442909760589,
+      "box": [
+        296,
+        40,
+        195,
+        150
+      ],
+      "camera_shift": null,
+      "background_inliers": 0,
+      "relative_shift": null,
+      "relative_pixels": null,
+      "registered_pixels": 5.934538696447904
+    },
+    "last": {
+      "frame": 593,
+      "area_ratio": 1.000287753222836,
+      "box": [
+        294,
+        41,
+        196,
+        149
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 282,
+      "relative_shift": [
+        0.031648142782671584,
+        -0.182909881644008
+      ],
+      "relative_pixels": 0.1856276642761455,
+      "registered_pixels": 0.1856276642761455
+    }
+  },
+  {
+    "source": 12,
+    "reference_box": [
+      302,
+      40,
+      194,
+      148
+    ],
+    "valid_samples": 82,
+    "sample_count": 84,
+    "max_relative_pixels": 6.900398405247741,
+    "p90_relative_pixels": 6.409911692274141,
+    "max_registered_pixels": 6.754279248723415,
+    "worst": {
+      "frame": 288,
+      "area_ratio": 1.0188238045130364,
+      "box": [
+        306,
+        42,
+        191,
+        146
+      ],
+      "camera_shift": [
+        0.0,
+        -1.440000057220459
+      ],
+      "background_inliers": 226,
+      "relative_shift": [
+        5.4152370370376275,
+        4.2767634940269375
+      ],
+      "relative_pixels": 6.900398405247741,
+      "registered_pixels": 6.754279248723415
+    },
+    "last": {
+      "frame": 567,
+      "area_ratio": 0.91669589617678,
+      "box": [
+        307,
+        43,
+        187,
+        143
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 314,
+      "relative_shift": [
+        -0.02620140668039994,
+        -1.5389840133201034
+      ],
+      "relative_pixels": 1.5392070383697198,
+      "registered_pixels": 1.5392070383697198
+    }
+  },
+  {
+    "source": 13,
+    "reference_box": [
+      307,
+      43,
+      187,
+      144
+    ],
+    "valid_samples": 105,
+    "sample_count": 106,
+    "max_relative_pixels": 11.515364551141356,
+    "p90_relative_pixels": 4.628737369973151,
+    "max_registered_pixels": 11.328379490326796,
+    "worst": {
+      "frame": 348,
+      "area_ratio": 0.9231772450627251,
+      "box": [
+        314,
+        42,
+        180,
+        142
+      ],
+      "camera_shift": [
+        0.0,
+        -1.0999984741210938
+      ],
+      "background_inliers": 16,
+      "relative_shift": [
+        11.242585304756858,
+        2.4915650525218354
+      ],
+      "relative_pixels": 11.515364551141356,
+      "registered_pixels": 11.328379490326796
+    },
+    "last": {
+      "frame": 693,
+      "area_ratio": 1.0215501179977642,
+      "box": [
+        307,
+        44,
+        185,
+        143
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 321,
+      "relative_shift": [
+        1.0448915249000947,
+        1.2760664412615625
+      ],
+      "relative_pixels": 1.6492858640399468,
+      "registered_pixels": 1.6492858640399468
+    }
+  },
+  {
+    "source": 14,
+    "reference_box": [
+      307,
+      43,
+      185,
+      144
+    ],
+    "valid_samples": 73,
+    "sample_count": 74,
+    "max_relative_pixels": 10.892182372672195,
+    "p90_relative_pixels": 6.208805201571002,
+    "max_registered_pixels": 10.348110216846544,
+    "worst": {
+      "frame": 360,
+      "area_ratio": 0.9846285226302306,
+      "box": [
+        320,
+        45,
+        175,
+        144
+      ],
+      "camera_shift": [
+        0.0,
+        -1.0
+      ],
+      "background_inliers": 10,
+      "relative_shift": [
+        8.90082985747432,
+        6.27812588977352
+      ],
+      "relative_pixels": 10.892182372672195,
+      "registered_pixels": 10.348110216846544
+    },
+    "last": {
+      "frame": 488,
+      "area_ratio": 1.021715261681103,
+      "box": [
+        308,
+        45,
+        186,
+        142
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 314,
+      "relative_shift": [
+        1.4187600997088339,
+        1.897883703357067
+      ],
+      "relative_pixels": 2.3695659459053164,
+      "registered_pixels": 2.3695659459053164
+    }
+  },
+  {
+    "source": 15,
+    "reference_box": [
+      308,
+      45,
+      186,
+      142
+    ],
+    "valid_samples": 76,
+    "sample_count": 76,
+    "max_relative_pixels": 11.529907849613682,
+    "p90_relative_pixels": 5.441268637358991,
+    "max_registered_pixels": 11.307609123588213,
+    "worst": {
+      "frame": 288,
+      "area_ratio": 0.944622066718948,
+      "box": [
+        314,
+        46,
+        181,
+        141
+      ],
+      "camera_shift": [
+        0.0,
+        -0.480010986328125
+      ],
+      "background_inliers": 9,
+      "relative_shift": [
+        10.118208746760217,
+        5.528166674184874
+      ],
+      "relative_pixels": 11.529907849613682,
+      "registered_pixels": 11.307609123588213
+    },
+    "last": {
+      "frame": 497,
+      "area_ratio": 1.005489533691259,
+      "box": [
+        310,
+        45,
+        185,
+        142
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 334,
+      "relative_shift": [
+        1.713249423728314,
+        0.6644247961882286
+      ],
+      "relative_pixels": 1.8375755488401475,
+      "registered_pixels": 1.8375755488401475
+    }
+  },
+  {
+    "source": 16,
+    "reference_box": [
+      287,
+      41,
+      192,
+      146
+    ],
+    "valid_samples": 79,
+    "sample_count": 79,
+    "max_relative_pixels": 5.41672124115614,
+    "p90_relative_pixels": 3.2337404917158525,
+    "max_registered_pixels": 6.3629090484789,
+    "worst": {
+      "frame": 318,
+      "area_ratio": 0.9672787193973634,
+      "box": [
+        297,
+        39,
+        183,
+        147
+      ],
+      "camera_shift": [
+        1.0,
+        -1.1999969482421875
+      ],
+      "background_inliers": 9,
+      "relative_shift": [
+        5.072867655012033,
+        1.8991794962890793
+      ],
+      "relative_pixels": 5.41672124115614,
+      "registered_pixels": 6.3629090484789
+    },
+    "last": {
+      "frame": 536,
+      "area_ratio": 1.0072387005649717,
+      "box": [
+        287,
+        40,
+        192,
+        147
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 262,
+      "relative_shift": [
+        -0.05900586717302758,
+        -0.32901910018799185
+      ],
+      "relative_pixels": 0.3342682465466273,
+      "registered_pixels": 0.3342682465466273
+    }
+  },
+  {
+    "source": 17,
+    "reference_box": [
+      285,
+      41,
+      195,
+      149
+    ],
+    "valid_samples": 90,
+    "sample_count": 90,
+    "max_relative_pixels": 3.710572333683909,
+    "p90_relative_pixels": 2.5232606210578385,
+    "max_registered_pixels": 3.710572333683909,
+    "worst": {
+      "frame": 114,
+      "area_ratio": 0.936288575276688,
+      "box": [
+        285,
+        40,
+        195,
+        149
+      ],
+      "camera_shift": [
+        0.0,
+        -1.0
+      ],
+      "background_inliers": 278,
+      "relative_shift": [
+        -1.5866607808297886,
+        -3.35422936157876
+      ],
+      "relative_pixels": 3.710572333683909,
+      "registered_pixels": 3.710572333683909
+    },
+    "last": {
+      "frame": 590,
+      "area_ratio": 0.9977747847982666,
+      "box": [
+        285,
+        41,
+        195,
+        148
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 253,
+      "relative_shift": [
+        0.2497706100204482,
+        -0.2577300703730998
+      ],
+      "relative_pixels": 0.35890130510282325,
+      "registered_pixels": 0.35890130510282325
+    }
+  },
+  {
+    "source": 18,
+    "reference_box": [
+      285,
+      41,
+      195,
+      148
+    ],
+    "valid_samples": 86,
+    "sample_count": 87,
+    "max_relative_pixels": 11.321394231623255,
+    "p90_relative_pixels": 4.252791536566286,
+    "max_registered_pixels": 11.246869296145457,
+    "worst": {
+      "frame": 396,
+      "area_ratio": 0.8701567583555161,
+      "box": [
+        285,
+        39,
+        197,
+        148
+      ],
+      "camera_shift": [
+        0.0,
+        -1.1999969482421875
+      ],
+      "background_inliers": 76,
+      "relative_shift": [
+        7.523523766495373,
+        8.459938385284588
+      ],
+      "relative_pixels": 11.321394231623255,
+      "registered_pixels": 11.246869296145457
+    },
+    "last": {
+      "frame": 582,
+      "area_ratio": 1.014374445430346,
+      "box": [
+        285,
+        40,
+        195,
+        149
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 208,
+      "relative_shift": [
+        0.5660993316911913,
+        0.22450398420845374
+      ],
+      "relative_pixels": 0.6089913729000461,
+      "registered_pixels": 0.6089913729000461
+    }
+  },
+  {
+    "source": 19,
+    "reference_box": [
+      289,
+      41,
+      199,
+      151
+    ],
+    "valid_samples": 81,
+    "sample_count": 81,
+    "max_relative_pixels": 13.117854980404154,
+    "p90_relative_pixels": 3.039674251874341,
+    "max_registered_pixels": 13.117854980404154,
+    "worst": {
+      "frame": 336,
+      "area_ratio": 0.8825616665712814,
+      "box": [
+        293,
+        40,
+        197,
+        150
+      ],
+      "camera_shift": [
+        0.0,
+        -1.4400005340576172
+      ],
+      "background_inliers": 33,
+      "relative_shift": [
+        13.042331041153943,
+        1.405603180085464
+      ],
+      "relative_pixels": 13.117854980404154,
+      "registered_pixels": 13.117854980404154
+    },
+    "last": {
+      "frame": 546,
+      "area_ratio": 0.9943341154924741,
+      "box": [
+        288,
+        42,
+        201,
+        150
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 240,
+      "relative_shift": [
+        0.009077805523588722,
+        0.29262599045163995
+      ],
+      "relative_pixels": 0.29276676184452255,
+      "registered_pixels": 0.29276676184452255
+    }
+  },
+  {
+    "source": 20,
+    "reference_box": [
+      289,
+      41,
+      200,
+      151
+    ],
+    "valid_samples": 77,
+    "sample_count": 78,
+    "max_relative_pixels": 8.658545668351488,
+    "p90_relative_pixels": 2.8423459787510215,
+    "max_registered_pixels": 8.516576052570427,
+    "worst": {
+      "frame": 354,
+      "area_ratio": 0.8910252720050659,
+      "box": [
+        288,
+        40,
+        200,
+        151
+      ],
+      "camera_shift": [
+        0.0,
+        -1.1999969482421875
+      ],
+      "background_inliers": 99,
+      "relative_shift": [
+        6.048185997266842,
+        6.195955070317538
+      ],
+      "relative_pixels": 8.658545668351488,
+      "registered_pixels": 8.516576052570427
+    },
+    "last": {
+      "frame": 523,
+      "area_ratio": 0.9909043808646595,
+      "box": [
+        288,
+        41,
+        199,
+        149
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 246,
+      "relative_shift": [
+        -1.3084300431297606,
+        -1.1526449363699385
+      ],
+      "relative_pixels": 1.743725760291396,
+      "registered_pixels": 1.743725760291396
+    }
+  },
+  {
+    "source": 21,
+    "reference_box": [
+      288,
+      41,
+      199,
+      149
+    ],
+    "valid_samples": 111,
+    "sample_count": 111,
+    "max_relative_pixels": 27.045688310566742,
+    "p90_relative_pixels": 25.125743970570458,
+    "max_registered_pixels": 27.045688310566742,
+    "worst": {
+      "frame": 654,
+      "area_ratio": 0.8537107792057428,
+      "box": [
+        276,
+        25,
+        187,
+        139
+      ],
+      "camera_shift": [
+        0.0,
+        -1.2000007629394531
+      ],
+      "background_inliers": 162,
+      "relative_shift": [
+        -17.189300439486317,
+        -20.88054612775734
+      ],
+      "relative_pixels": 27.045688310566742,
+      "registered_pixels": 27.045688310566742
+    },
+    "last": {
+      "frame": 768,
+      "area_ratio": 0.8747829107328934,
+      "box": [
+        276,
+        27,
+        186,
+        139
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 171,
+      "relative_shift": [
+        -17.11777492842191,
+        -19.386421171072868
+      ],
+      "relative_pixels": 25.86216433948118,
+      "registered_pixels": 25.86216433948118
+    }
+  },
+  {
+    "source": 22,
+    "reference_box": [
+      291,
+      43,
+      195,
+      147
+    ],
+    "valid_samples": 85,
+    "sample_count": 85,
+    "max_relative_pixels": 7.285994632315892,
+    "p90_relative_pixels": 5.222552789119214,
+    "max_registered_pixels": 7.285994632315892,
+    "worst": {
+      "frame": 120,
+      "area_ratio": 0.8893841166936791,
+      "box": [
+        291,
+        42,
+        195,
+        146
+      ],
+      "camera_shift": [
+        0.0,
+        -1.2000007629394531
+      ],
+      "background_inliers": 295,
+      "relative_shift": [
+        -3.5762403080946115,
+        -6.347930610907412
+      ],
+      "relative_pixels": 7.285994632315892,
+      "registered_pixels": 7.285994632315892
+    },
+    "last": {
+      "frame": 576,
+      "area_ratio": 0.9934012502894188,
+      "box": [
+        291,
+        42,
+        194,
+        148
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 225,
+      "relative_shift": [
+        -0.8507889110536553,
+        -0.8620762393393306
+      ],
+      "relative_pixels": 1.2112048602962702,
+      "registered_pixels": 1.2112048602962702
+    }
+  },
+  {
+    "source": 23,
+    "reference_box": [
+      291,
+      42,
+      194,
+      148
+    ],
+    "valid_samples": 86,
+    "sample_count": 87,
+    "max_relative_pixels": 5.1104350819312945,
+    "p90_relative_pixels": 2.9186874048445586,
+    "max_registered_pixels": 11.041563030034508,
+    "worst": {
+      "frame": 324,
+      "area_ratio": 0.9124504546514339,
+      "box": [
+        300,
+        41,
+        186,
+        149
+      ],
+      "camera_shift": null,
+      "background_inliers": 1,
+      "relative_shift": null,
+      "relative_pixels": null,
+      "registered_pixels": 11.041563030034508
+    },
+    "last": {
+      "frame": 574,
+      "area_ratio": 1.0004080205176031,
+      "box": [
+        291,
+        42,
+        193,
+        148
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 262,
+      "relative_shift": [
+        0.0674290337864818,
+        -0.015751739724009894
+      ],
+      "relative_pixels": 0.0692444358899071,
+      "registered_pixels": 0.0692444358899071
+    }
+  },
+  {
+    "source": 24,
+    "reference_box": [
+      287,
+      39,
+      191,
+      145
+    ],
+    "valid_samples": 95,
+    "sample_count": 95,
+    "max_relative_pixels": 4.4707593489422,
+    "p90_relative_pixels": 3.1924192559184186,
+    "max_registered_pixels": 4.470773851571799,
+    "worst": {
+      "frame": 156,
+      "area_ratio": 0.9275336215177714,
+      "box": [
+        287,
+        38,
+        191,
+        145
+      ],
+      "camera_shift": [
+        0.0,
+        -1.1999969482421875
+      ],
+      "background_inliers": 247,
+      "relative_shift": [
+        -1.3899380333817248,
+        -4.249207151871161
+      ],
+      "relative_pixels": 4.4707593489422,
+      "registered_pixels": 4.470773851571799
+    },
+    "last": {
+      "frame": 626,
+      "area_ratio": 1.0014409221902016,
+      "box": [
+        287,
+        39,
+        193,
+        146
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 243,
+      "relative_shift": [
+        -0.018748315468656074,
+        0.01344644745299206
+      ],
+      "relative_pixels": 0.023071763738785236,
+      "registered_pixels": 0.023071763738785236
+    }
+  },
+  {
+    "source": 25,
+    "reference_box": [
+      287,
+      39,
+      193,
+      147
+    ],
+    "valid_samples": 80,
+    "sample_count": 80,
+    "max_relative_pixels": 8.503310862001186,
+    "p90_relative_pixels": 3.1895924876826083,
+    "max_registered_pixels": 8.727901246628928,
+    "worst": {
+      "frame": 366,
+      "area_ratio": 0.8770002388344877,
+      "box": [
+        287,
+        38,
+        195,
+        118
+      ],
+      "camera_shift": [
+        0.0,
+        -1.4399948120117188
+      ],
+      "background_inliers": 181,
+      "relative_shift": [
+        3.036259751757825,
+        -7.942759113537491
+      ],
+      "relative_pixels": 8.503310862001186,
+      "registered_pixels": 8.727901246628928
+    },
+    "last": {
+      "frame": 526,
+      "area_ratio": 1.0145689037497014,
+      "box": [
+        286,
+        39,
+        194,
+        147
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 204,
+      "relative_shift": [
+        0.11377489152374665,
+        0.28753728415500746
+      ],
+      "relative_pixels": 0.30922874336076495,
+      "registered_pixels": 0.30922874336076495
+    }
+  },
+  {
+    "source": 26,
+    "reference_box": [
+      300,
+      38,
+      192,
+      143
+    ],
+    "valid_samples": 92,
+    "sample_count": 92,
+    "max_relative_pixels": 10.759849079078194,
+    "p90_relative_pixels": 4.013800950126411,
+    "max_registered_pixels": 10.602269241328068,
+    "worst": {
+      "frame": 342,
+      "area_ratio": 0.9051249470563321,
+      "box": [
+        302,
+        37,
+        191,
+        144
+      ],
+      "camera_shift": [
+        0.0,
+        -1.0999984741210938
+      ],
+      "background_inliers": 8,
+      "relative_shift": [
+        10.556869533466283,
+        2.0801100590861097
+      ],
+      "relative_pixels": 10.759849079078194,
+      "registered_pixels": 10.602269241328068
+    },
+    "last": {
+      "frame": 589,
+      "area_ratio": 1.0045380286803414,
+      "box": [
+        300,
+        38,
+        192,
+        143
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 300,
+      "relative_shift": [
+        -0.18958708454624684,
+        0.5792185533199756
+      ],
+      "relative_pixels": 0.6094566392589642,
+      "registered_pixels": 0.6094566392589642
+    }
+  },
+  {
+    "source": 27,
+    "reference_box": [
+      296,
+      41,
+      197,
+      149
+    ],
+    "valid_samples": 78,
+    "sample_count": 78,
+    "max_relative_pixels": 9.466960871378278,
+    "p90_relative_pixels": 3.488782875833959,
+    "max_registered_pixels": 9.691534774743802,
+    "worst": {
+      "frame": 324,
+      "area_ratio": 0.8539739095454284,
+      "box": [
+        296,
+        40,
+        199,
+        121
+      ],
+      "camera_shift": [
+        0.0,
+        -1.4399986267089844
+      ],
+      "background_inliers": 262,
+      "relative_shift": [
+        3.3784252316681886,
+        -8.843618665129966
+      ],
+      "relative_pixels": 9.466960871378278,
+      "registered_pixels": 9.691534774743802
+    },
+    "last": {
+      "frame": 510,
+      "area_ratio": 0.9937934601459686,
+      "box": [
+        296,
+        41,
+        197,
+        149
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 307,
+      "relative_shift": [
+        -0.44771243798999194,
+        -0.47175607538426334
+      ],
+      "relative_pixels": 0.6503846721694055,
+      "registered_pixels": 0.6503846721694055
+    }
+  },
+  {
+    "source": 28,
+    "reference_box": [
+      293,
+      42,
+      196,
+      150
+    ],
+    "valid_samples": 82,
+    "sample_count": 83,
+    "max_relative_pixels": 13.308302753599047,
+    "p90_relative_pixels": 10.498679030113461,
+    "max_registered_pixels": 13.174797220072474,
+    "worst": {
+      "frame": 468,
+      "area_ratio": 0.8954011065006916,
+      "box": [
+        288,
+        35,
+        194,
+        146
+      ],
+      "camera_shift": [
+        0.0,
+        -1.4400005340576172
+      ],
+      "background_inliers": 202,
+      "relative_shift": [
+        -7.231125054536733,
+        -11.172365578833478
+      ],
+      "relative_pixels": 13.308302753599047,
+      "registered_pixels": 13.067465872311493
+    },
+    "last": {
+      "frame": 556,
+      "area_ratio": 0.9547602581834947,
+      "box": [
+        288,
+        36,
+        193,
+        145
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 236,
+      "relative_shift": [
+        -6.3131178040811164,
+        -7.72170092366737
+      ],
+      "relative_pixels": 9.973972205835121,
+      "registered_pixels": 9.973972205835121
+    }
+  },
+  {
+    "source": 29,
+    "reference_box": [
+      294,
+      43,
+      198,
+      149
+    ],
+    "valid_samples": 82,
+    "sample_count": 82,
+    "max_relative_pixels": 8.79549621334025,
+    "p90_relative_pixels": 4.817048364768948,
+    "max_registered_pixels": 9.057171729789024,
+    "worst": {
+      "frame": 360,
+      "area_ratio": 0.8525261720527992,
+      "box": [
+        294,
+        41,
+        199,
+        123
+      ],
+      "camera_shift": [
+        0.0,
+        -2.0
+      ],
+      "background_inliers": 225,
+      "relative_shift": [
+        2.4352199621334876,
+        -8.451654120638707
+      ],
+      "relative_pixels": 8.79549621334025,
+      "registered_pixels": 9.057171729789024
+    },
+    "last": {
+      "frame": 513,
+      "area_ratio": 0.9882225762403277,
+      "box": [
+        292,
+        42,
+        198,
+        148
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 245,
+      "relative_shift": [
+        -2.1800282499652326,
+        -1.832753489395202
+      ],
+      "relative_pixels": 2.8480710179938917,
+      "registered_pixels": 2.8480710179938917
+    }
+  },
+  {
+    "source": 30,
+    "reference_box": [
+      293,
+      42,
+      198,
+      148
+    ],
+    "valid_samples": 81,
+    "sample_count": 81,
+    "max_relative_pixels": 7.366517824904431,
+    "p90_relative_pixels": 3.8052442079910924,
+    "max_registered_pixels": 7.355328482347344,
+    "worst": {
+      "frame": 402,
+      "area_ratio": 0.912524738478937,
+      "box": [
+        303,
+        41,
+        187,
+        149
+      ],
+      "camera_shift": [
+        0.0,
+        -1.2000045776367188
+      ],
+      "background_inliers": 9,
+      "relative_shift": [
+        7.348716419692721,
+        0.5118123167463864
+      ],
+      "relative_pixels": 7.366517824904431,
+      "registered_pixels": 7.355328482347344
+    },
+    "last": {
+      "frame": 552,
+      "area_ratio": 0.9581566299123551,
+      "box": [
+        292,
+        42,
+        196,
+        149
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 255,
+      "relative_shift": [
+        -2.3768096703624337,
+        -2.0517556634567313
+      ],
+      "relative_pixels": 3.13989259556042,
+      "registered_pixels": 3.13989259556042
+    }
+  },
+  {
+    "source": 31,
+    "reference_box": [
+      293,
+      42,
+      196,
+      148
+    ],
+    "valid_samples": 83,
+    "sample_count": 84,
+    "max_relative_pixels": 14.918008152341699,
+    "p90_relative_pixels": 4.071567034261985,
+    "max_registered_pixels": 14.918008152341699,
+    "worst": {
+      "frame": 318,
+      "area_ratio": 0.851083448593822,
+      "box": [
+        301,
+        41,
+        189,
+        146
+      ],
+      "camera_shift": [
+        0.0,
+        -1.0
+      ],
+      "background_inliers": 15,
+      "relative_shift": [
+        14.474665451124281,
+        3.6098514251091416
+      ],
+      "relative_pixels": 14.918008152341699,
+      "registered_pixels": 14.918008152341699
+    },
+    "last": {
+      "frame": 545,
+      "area_ratio": 1.0022475795297372,
+      "box": [
+        293,
+        42,
+        196,
+        148
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 290,
+      "relative_shift": [
+        0.0955352178552289,
+        -0.1154837425249724
+      ],
+      "relative_pixels": 0.14987819267064895,
+      "registered_pixels": 0.14987819267064895
+    }
+  },
+  {
+    "source": 32,
+    "reference_box": [
+      293,
+      42,
+      196,
+      148
+    ],
+    "valid_samples": 80,
+    "sample_count": 81,
+    "max_relative_pixels": 4.529529713714522,
+    "p90_relative_pixels": 3.3058409781911995,
+    "max_registered_pixels": 11.674724565117545,
+    "worst": {
+      "frame": 360,
+      "area_ratio": 0.8962378291179351,
+      "box": [
+        311,
+        41,
+        178,
+        149
+      ],
+      "camera_shift": null,
+      "background_inliers": 0,
+      "relative_shift": null,
+      "relative_pixels": null,
+      "registered_pixels": 11.674724565117545
+    },
+    "last": {
+      "frame": 529,
+      "area_ratio": 0.9922797718499741,
+      "box": [
+        292,
+        42,
+        197,
+        149
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 267,
+      "relative_shift": [
+        -0.591218070461764,
+        -0.5480585843138783
+      ],
+      "relative_pixels": 0.8061681082011765,
+      "registered_pixels": 0.8061681082011765
+    }
+  },
+  {
+    "source": 33,
+    "reference_box": [
+      292,
+      42,
+      197,
+      148
+    ],
+    "valid_samples": 71,
+    "sample_count": 71,
+    "max_relative_pixels": 7.912640606947468,
+    "p90_relative_pixels": 2.8627957280804535,
+    "max_registered_pixels": 7.93607344718884,
+    "worst": {
+      "frame": 288,
+      "area_ratio": 0.9264287786480998,
+      "box": [
+        293,
+        41,
+        197,
+        149
+      ],
+      "camera_shift": [
+        0.0,
+        -1.7279987335205078
+      ],
+      "background_inliers": 76,
+      "relative_shift": [
+        7.896779310693546,
+        -0.5007573193837089
+      ],
+      "relative_pixels": 7.912640606947468,
+      "registered_pixels": 7.93607344718884
+    },
+    "last": {
+      "frame": 544,
+      "area_ratio": 1.0153176675369886,
+      "box": [
+        292,
+        42,
+        197,
+        148
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 245,
+      "relative_shift": [
+        0.41109572791208393,
+        0.2908094362821032
+      ],
+      "relative_pixels": 0.5035571722637667,
+      "registered_pixels": 0.5035571722637667
+    }
+  },
+  {
+    "source": 34,
+    "reference_box": [
+      292,
+      42,
+      197,
+      148
+    ],
+    "valid_samples": 90,
+    "sample_count": 90,
+    "max_relative_pixels": 5.759952795393243,
+    "p90_relative_pixels": 3.6382722658722666,
+    "max_registered_pixels": 5.69777366431833,
+    "worst": {
+      "frame": 408,
+      "area_ratio": 0.989959373186303,
+      "box": [
+        292,
+        41,
+        197,
+        149
+      ],
+      "camera_shift": [
+        0.0,
+        -1.4399986267089844
+      ],
+      "background_inliers": 87,
+      "relative_shift": [
+        5.532039060184388,
+        1.6042443834256233
+      ],
+      "relative_pixels": 5.759952795393243,
+      "registered_pixels": 5.69777366431833
+    },
+    "last": {
+      "frame": 606,
+      "area_ratio": 0.9829947765525247,
+      "box": [
+        294,
+        42,
+        194,
+        147
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 243,
+      "relative_shift": [
+        0.7510372997799664,
+        -0.6200488711520507
+      ],
+      "relative_pixels": 0.9739186969545842,
+      "registered_pixels": 0.9739186969545842
+    }
+  },
+  {
+    "source": 35,
+    "reference_box": [
+      294,
+      42,
+      194,
+      149
+    ],
+    "valid_samples": 88,
+    "sample_count": 89,
+    "max_relative_pixels": 19.92462039827028,
+    "p90_relative_pixels": 17.552367067109515,
+    "max_registered_pixels": 19.748518613822675,
+    "worst": {
+      "frame": 564,
+      "area_ratio": 0.8520892687559354,
+      "box": [
+        290,
+        31,
+        178,
+        136
+      ],
+      "camera_shift": [
+        0.0,
+        -1.0
+      ],
+      "background_inliers": 241,
+      "relative_shift": [
+        -9.40250606144076,
+        -17.56654142908438
+      ],
+      "relative_pixels": 19.92462039827028,
+      "registered_pixels": 19.748518613822675
+    },
+    "last": {
+      "frame": 564,
+      "area_ratio": 0.8520892687559354,
+      "box": [
+        290,
+        31,
+        178,
+        136
+      ],
+      "camera_shift": [
+        0.0,
+        -1.0
+      ],
+      "background_inliers": 241,
+      "relative_shift": [
+        -9.40250606144076,
+        -17.56654142908438
+      ],
+      "relative_pixels": 19.92462039827028,
+      "registered_pixels": 19.748518613822675
+    }
+  },
+  {
+    "source": 36,
+    "reference_box": [
+      305,
+      47,
+      170,
+      136
+    ],
+    "valid_samples": 105,
+    "sample_count": 105,
+    "max_relative_pixels": 20.900485744913865,
+    "p90_relative_pixels": 17.233174060834454,
+    "max_registered_pixels": 20.900489215111232,
+    "worst": {
+      "frame": 636,
+      "area_ratio": 0.8552075032182922,
+      "box": [
+        306,
+        33,
+        157,
+        125
+      ],
+      "camera_shift": [
+        0.0,
+        -1.2000007629394531
+      ],
+      "background_inliers": 229,
+      "relative_shift": [
+        -8.679656248683614,
+        -19.012992183715724
+      ],
+      "relative_pixels": 20.900485744913865,
+      "registered_pixels": 20.900489215111232
+    },
+    "last": {
+      "frame": 693,
+      "area_ratio": 0.8905780665726721,
+      "box": [
+        306,
+        34,
+        157,
+        125
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 229,
+      "relative_shift": [
+        -5.563595916414613,
+        -17.718424263532967
+      ],
+      "relative_pixels": 18.571380075365944,
+      "registered_pixels": 18.571380075365944
+    }
+  },
+  {
+    "source": 37,
+    "reference_box": [
+      292,
+      42,
+      192,
+      147
+    ],
+    "valid_samples": 91,
+    "sample_count": 92,
+    "max_relative_pixels": 9.22911883445491,
+    "p90_relative_pixels": 4.843326700544827,
+    "max_registered_pixels": 9.22912213518689,
+    "worst": {
+      "frame": 312,
+      "area_ratio": 0.8919544321822712,
+      "box": [
+        290,
+        41,
+        199,
+        140
+      ],
+      "camera_shift": [
+        0.0,
+        -1.4400005340576172
+      ],
+      "background_inliers": 188,
+      "relative_shift": [
+        7.5388423384775365,
+        -5.323766585423229
+      ],
+      "relative_pixels": 9.22911883445491,
+      "registered_pixels": 9.22912213518689
+    },
+    "last": {
+      "frame": 572,
+      "area_ratio": 1.0264625608164235,
+      "box": [
+        291,
+        42,
+        195,
+        149
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 241,
+      "relative_shift": [
+        0.2991096194381839,
+        1.3999634055413708
+      ],
+      "relative_pixels": 1.4315600236439434,
+      "registered_pixels": 1.4315600236439434
+    }
+  },
+  {
+    "source": 38,
+    "reference_box": [
+      291,
+      42,
+      194,
+      148
+    ],
+    "valid_samples": 91,
+    "sample_count": 91,
+    "max_relative_pixels": 10.124509735745066,
+    "p90_relative_pixels": 4.835984497947216,
+    "max_registered_pixels": 10.12451023179776,
+    "worst": {
+      "frame": 324,
+      "area_ratio": 0.8988270641936789,
+      "box": [
+        290,
+        42,
+        200,
+        133
+      ],
+      "camera_shift": [
+        0.0,
+        -1.2000007629394531
+      ],
+      "background_inliers": 181,
+      "relative_shift": [
+        9.776111017584299,
+        -2.633125663743286
+      ],
+      "relative_pixels": 10.124509735745066,
+      "registered_pixels": 10.12451023179776
+    },
+    "last": {
+      "frame": 539,
+      "area_ratio": 0.9843415958860576,
+      "box": [
+        287,
+        41,
+        196,
+        148
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 215,
+      "relative_shift": [
+        -3.521512860723135,
+        -2.619342701494972
+      ],
+      "relative_pixels": 4.388850534720158,
+      "registered_pixels": 4.388850534720158
+    }
+  },
+  {
+    "source": 39,
+    "reference_box": [
+      287,
+      41,
+      196,
+      149
+    ],
+    "valid_samples": 98,
+    "sample_count": 98,
+    "max_relative_pixels": 9.433395018033428,
+    "p90_relative_pixels": 4.972717915645981,
+    "max_registered_pixels": 9.433398585250902,
+    "worst": {
+      "frame": 348,
+      "area_ratio": 0.852187646233037,
+      "box": [
+        287,
+        39,
+        197,
+        122
+      ],
+      "camera_shift": [
+        0.0,
+        -1.44000244140625
+      ],
+      "background_inliers": 184,
+      "relative_shift": [
+        3.3424306616316812,
+        -8.821400049790412
+      ],
+      "relative_pixels": 9.433395018033428,
+      "registered_pixels": 9.433398585250902
+    },
+    "last": {
+      "frame": 586,
+      "area_ratio": 1.004971923256902,
+      "box": [
+        287,
+        40,
+        196,
+        150
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 212,
+      "relative_shift": [
+        0.0910390321909631,
+        0.10850478405794206
+      ],
+      "relative_pixels": 0.14163824887977064,
+      "registered_pixels": 0.14163824887977064
+    }
+  },
+  {
+    "source": 40,
+    "reference_box": [
+      287,
+      41,
+      196,
+      148
+    ],
+    "valid_samples": 95,
+    "sample_count": 95,
+    "max_relative_pixels": 7.383157205827348,
+    "p90_relative_pixels": 4.516125118999159,
+    "max_registered_pixels": 7.416199030045764,
+    "worst": {
+      "frame": 312,
+      "area_ratio": 0.9432150313152401,
+      "box": [
+        287,
+        39,
+        197,
+        148
+      ],
+      "camera_shift": [
+        0.0,
+        -1.440000057220459
+      ],
+      "background_inliers": 166,
+      "relative_shift": [
+        7.113407522443595,
+        -1.9774841960438465
+      ],
+      "relative_pixels": 7.383157205827348,
+      "registered_pixels": 7.416199030045764
+    },
+    "last": {
+      "frame": 564,
+      "area_ratio": 1.0123471518043543,
+      "box": [
+        287,
+        40,
+        196,
+        149
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 215,
+      "relative_shift": [
+        0.2790026119052982,
+        0.11016163602457141
+      ],
+      "relative_pixels": 0.2999634036038206,
+      "registered_pixels": 0.2999634036038206
+    }
+  },
+  {
+    "source": 41,
+    "reference_box": [
+      287,
+      41,
+      196,
+      149
+    ],
+    "valid_samples": 76,
+    "sample_count": 81,
+    "max_relative_pixels": 8.862000855043739,
+    "p90_relative_pixels": 4.763977104679748,
+    "max_registered_pixels": 11.687176812630106,
+    "worst": {
+      "frame": 270,
+      "area_ratio": 0.8997122893547062,
+      "box": [
+        288,
+        39,
+        196,
+        148
+      ],
+      "camera_shift": null,
+      "background_inliers": 0,
+      "relative_shift": null,
+      "relative_pixels": null,
+      "registered_pixels": 11.687176812630106
+    },
+    "last": {
+      "frame": 499,
+      "area_ratio": 0.9990018202102049,
+      "box": [
+        286,
+        39,
+        195,
+        147
+      ],
+      "camera_shift": null,
+      "background_inliers": 0,
+      "relative_shift": null,
+      "relative_pixels": null,
+      "registered_pixels": 1.5470940360277738
+    }
+  },
+  {
+    "source": 42,
+    "reference_box": [
+      288,
+      40,
+      197,
+      150
+    ],
+    "valid_samples": 85,
+    "sample_count": 85,
+    "max_relative_pixels": 8.987349469947914,
+    "p90_relative_pixels": 5.32421319893758,
+    "max_registered_pixels": 9.323445345172752,
+    "worst": {
+      "frame": 312,
+      "area_ratio": 0.8597649238608072,
+      "box": [
+        288,
+        38,
+        198,
+        132
+      ],
+      "camera_shift": [
+        0.0,
+        -1.727996826171875
+      ],
+      "background_inliers": 172,
+      "relative_shift": [
+        3.7790760457035617,
+        -8.15420350100257
+      ],
+      "relative_pixels": 8.987349469947914,
+      "registered_pixels": 9.249445914186126
+    },
+    "last": {
+      "frame": 538,
+      "area_ratio": 0.9970470731283655,
+      "box": [
+        288,
+        40,
+        197,
+        149
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 199,
+      "relative_shift": [
+        -0.2916555051800742,
+        -0.3414755091867221
+      ],
+      "relative_pixels": 0.4490751129557008,
+      "registered_pixels": 0.4490751129557008
+    }
+  },
+  {
+    "source": 43,
+    "reference_box": [
+      288,
+      40,
+      197,
+      149
+    ],
+    "valid_samples": 92,
+    "sample_count": 92,
+    "max_relative_pixels": 7.594712957046301,
+    "p90_relative_pixels": 4.40316258731166,
+    "max_registered_pixels": 7.594720114070029,
+    "worst": {
+      "frame": 324,
+      "area_ratio": 0.8913719279723151,
+      "box": [
+        288,
+        38,
+        198,
+        131
+      ],
+      "camera_shift": [
+        0.0,
+        -1.2000045776367188
+      ],
+      "background_inliers": 185,
+      "relative_shift": [
+        2.6308404590675423,
+        -7.124488990717879
+      ],
+      "relative_pixels": 7.594712957046301,
+      "registered_pixels": 7.594720114070029
+    },
+    "last": {
+      "frame": 555,
+      "area_ratio": 0.9980057481377207,
+      "box": [
+        287,
+        39,
+        194,
+        148
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 227,
+      "relative_shift": [
+        -2.043425791766765,
+        -1.1221195748948958
+      ],
+      "relative_pixels": 2.3312531623184842,
+      "registered_pixels": 2.3312531623184842
+    }
+  },
+  {
+    "source": 44,
+    "reference_box": [
+      295,
+      45,
+      197,
+      150
+    ],
+    "valid_samples": 84,
+    "sample_count": 85,
+    "max_relative_pixels": 9.121347461847517,
+    "p90_relative_pixels": 3.508027258638301,
+    "max_registered_pixels": 9.427222489704983,
+    "worst": {
+      "frame": 324,
+      "area_ratio": 0.9242355348414232,
+      "box": [
+        294,
+        44,
+        199,
+        147
+      ],
+      "camera_shift": [
+        0.0,
+        -1.200002670288086
+      ],
+      "background_inliers": 26,
+      "relative_shift": [
+        8.94915574747182,
+        -1.763970217221427
+      ],
+      "relative_pixels": 9.121347461847517,
+      "registered_pixels": 9.427222489704983
+    },
+    "last": {
+      "frame": 568,
+      "area_ratio": 1.0175628055018757,
+      "box": [
+        294,
+        44,
+        197,
+        151
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 46,
+      "relative_shift": [
+        0.00602896867127356,
+        0.11814183808694168
+      ],
+      "relative_pixels": 0.11829557206337159,
+      "registered_pixels": 0.11829557206337159
+    }
+  },
+  {
+    "source": 45,
+    "reference_box": [
+      294,
+      45,
+      197,
+      151
+    ],
+    "valid_samples": 96,
+    "sample_count": 100,
+    "max_relative_pixels": 23.311737104402958,
+    "p90_relative_pixels": 19.757971641023175,
+    "max_registered_pixels": 24.259578336715723,
+    "worst": {
+      "frame": 546,
+      "area_ratio": 0.8549304499633947,
+      "box": [
+        283,
+        33,
+        191,
+        144
+      ],
+      "camera_shift": [
+        0.0,
+        -1.1999969482421875
+      ],
+      "background_inliers": 38,
+      "relative_shift": [
+        -14.582500295276873,
+        -18.187571909494892
+      ],
+      "relative_pixels": 23.311737104402958,
+      "registered_pixels": 24.259578336715723
+    },
+    "last": {
+      "frame": 682,
+      "area_ratio": 0.9030241594863997,
+      "box": [
+        284,
+        34,
+        190,
+        142
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 32,
+      "relative_shift": [
+        -12.95606392567197,
+        -14.927823981509448
+      ],
+      "relative_pixels": 19.766120541700314,
+      "registered_pixels": 5.787159976912595
+    }
+  },
+  {
+    "source": 46,
+    "reference_box": [
+      294,
+      42,
+      198,
+      149
+    ],
+    "valid_samples": 103,
+    "sample_count": 106,
+    "max_relative_pixels": 4.972401383663414,
+    "p90_relative_pixels": 4.406818768209176,
+    "max_registered_pixels": 12.935869868453167,
+    "worst": {
+      "frame": 390,
+      "area_ratio": 0.8895677496716725,
+      "box": [
+        320,
+        40,
+        174,
+        151
+      ],
+      "camera_shift": null,
+      "background_inliers": 1,
+      "relative_shift": null,
+      "relative_pixels": null,
+      "registered_pixels": 12.935869868453167
+    },
+    "last": {
+      "frame": 768,
+      "area_ratio": 0.9996573973619597,
+      "box": [
+        294,
+        41,
+        199,
+        151
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 207,
+      "relative_shift": [
+        0.15590400786931013,
+        -0.13946851046434006
+      ],
+      "relative_pixels": 0.20918299424392903,
+      "registered_pixels": 0.20918299424392903
+    }
+  },
+  {
+    "source": 47,
+    "reference_box": [
+      295,
+      35,
+      193,
+      144
+    ],
+    "valid_samples": 109,
+    "sample_count": 112,
+    "max_relative_pixels": 4.953623585518119,
+    "p90_relative_pixels": 4.119128744825459,
+    "max_registered_pixels": 8.508437660450992,
+    "worst": {
+      "frame": 426,
+      "area_ratio": 0.9399185954680761,
+      "box": [
+        313,
+        34,
+        175,
+        147
+      ],
+      "camera_shift": null,
+      "background_inliers": 3,
+      "relative_shift": null,
+      "relative_pixels": null,
+      "registered_pixels": 8.508437660450992
+    },
+    "last": {
+      "frame": 798,
+      "area_ratio": 1.0019439888220643,
+      "box": [
+        295,
+        36,
+        193,
+        144
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 222,
+      "relative_shift": [
+        -0.23953364791947251,
+        0.29323043470351706
+      ],
+      "relative_pixels": 0.3786297087155515,
+      "registered_pixels": 0.3786297087155515
+    }
+  },
+  {
+    "source": 48,
+    "reference_box": [
+      295,
+      35,
+      193,
+      145
+    ],
+    "valid_samples": 109,
+    "sample_count": 111,
+    "max_relative_pixels": 6.3473960443261195,
+    "p90_relative_pixels": 5.268089406321545,
+    "max_registered_pixels": 9.875938386272717,
+    "worst": {
+      "frame": 504,
+      "area_ratio": 0.9040208308102217,
+      "box": [
+        305,
+        34,
+        184,
+        140
+      ],
+      "camera_shift": null,
+      "background_inliers": 6,
+      "relative_shift": null,
+      "relative_pixels": null,
+      "registered_pixels": 9.875938386272717
+    },
+    "last": {
+      "frame": 790,
+      "area_ratio": 0.9965483831900206,
+      "box": [
+        295,
+        35,
+        193,
+        144
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 226,
+      "relative_shift": [
+        -0.08947262631483,
+        -0.19468257782332898
+      ],
+      "relative_pixels": 0.21425838832496094,
+      "registered_pixels": 0.21425838832496094
+    }
+  },
+  {
+    "source": 49,
+    "reference_box": [
+      295,
+      35,
+      193,
+      145
+    ],
+    "valid_samples": 88,
+    "sample_count": 90,
+    "max_relative_pixels": 9.117394432893942,
+    "p90_relative_pixels": 4.229525270887044,
+    "max_registered_pixels": 9.117394432893942,
+    "worst": {
+      "frame": 366,
+      "area_ratio": 0.9340025244935986,
+      "box": [
+        306,
+        34,
+        182,
+        145
+      ],
+      "camera_shift": [
+        0.0,
+        -1.0
+      ],
+      "background_inliers": 11,
+      "relative_shift": [
+        8.591505156674202,
+        3.051707782178042
+      ],
+      "relative_pixels": 9.117394432893942,
+      "registered_pixels": 9.117394432893942
+    },
+    "last": {
+      "frame": 653,
+      "area_ratio": 1.000721283885316,
+      "box": [
+        295,
+        35,
+        193,
+        146
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 227,
+      "relative_shift": [
+        0.06375551617202291,
+        -0.1769951474643534
+      ],
+      "relative_pixels": 0.18812774401530807,
+      "registered_pixels": 0.18812774401530807
+    }
+  },
+  {
+    "source": 50,
+    "reference_box": [
+      295,
+      35,
+      193,
+      145
+    ],
+    "valid_samples": 106,
+    "sample_count": 109,
+    "max_relative_pixels": 5.608513103827796,
+    "p90_relative_pixels": 4.287738672961446,
+    "max_registered_pixels": 10.674201388128195,
+    "worst": {
+      "frame": 510,
+      "area_ratio": 0.8803574685391209,
+      "box": [
+        297,
+        34,
+        191,
+        144
+      ],
+      "camera_shift": null,
+      "background_inliers": 5,
+      "relative_shift": null,
+      "relative_pixels": null,
+      "registered_pixels": 10.674201388128195
+    },
+    "last": {
+      "frame": 769,
+      "area_ratio": 1.009666241108882,
+      "box": [
+        295,
+        35,
+        193,
+        144
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 224,
+      "relative_shift": [
+        0.323824117687991,
+        0.30141861892617783
+      ],
+      "relative_pixels": 0.4423971553160918,
+      "registered_pixels": 0.4423971553160918
+    }
+  },
+  {
+    "source": 51,
+    "reference_box": [
+      297,
+      37,
+      196,
+      147
+    ],
+    "valid_samples": 100,
+    "sample_count": 101,
+    "max_relative_pixels": 5.92040020538041,
+    "p90_relative_pixels": 3.423227617184532,
+    "max_registered_pixels": 6.03458802856413,
+    "worst": {
+      "frame": 372,
+      "area_ratio": 0.9463103122043519,
+      "box": [
+        298,
+        36,
+        196,
+        147
+      ],
+      "camera_shift": [
+        0.0,
+        -1.1000022888183594
+      ],
+      "background_inliers": 8,
+      "relative_shift": [
+        5.890236877866641,
+        -0.5968652398056378
+      ],
+      "relative_pixels": 5.92040020538041,
+      "registered_pixels": 5.931316449982304
+    },
+    "last": {
+      "frame": 703,
+      "area_ratio": 0.9984035004730369,
+      "box": [
+        297,
+        37,
+        196,
+        147
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 224,
+      "relative_shift": [
+        -0.03910344029634416,
+        -0.3709494412225496
+      ],
+      "relative_pixels": 0.37300478145237165,
+      "registered_pixels": 0.37300478145237165
+    }
+  },
+  {
+    "source": 52,
+    "reference_box": [
+      298,
+      38,
+      196,
+      149
+    ],
+    "valid_samples": 107,
+    "sample_count": 109,
+    "max_relative_pixels": 5.273585257014007,
+    "p90_relative_pixels": 2.573229529903059,
+    "max_registered_pixels": 7.8925144168886225,
+    "worst": {
+      "frame": 384,
+      "area_ratio": 0.957820324005891,
+      "box": [
+        314,
+        37,
+        181,
+        147
+      ],
+      "camera_shift": null,
+      "background_inliers": 6,
+      "relative_shift": null,
+      "relative_pixels": null,
+      "registered_pixels": 7.8925144168886225
+    },
+    "last": {
+      "frame": 775,
+      "area_ratio": 1.0018262150220913,
+      "box": [
+        298,
+        38,
+        196,
+        148
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 242,
+      "relative_shift": [
+        -0.01733506514290184,
+        -0.021737350951411827
+      ],
+      "relative_pixels": 0.027803181650550266,
+      "registered_pixels": 0.027803181650550266
+    }
+  },
+  {
+    "source": 53,
+    "reference_box": [
+      298,
+      38,
+      196,
+      148
+    ],
+    "valid_samples": 99,
+    "sample_count": 101,
+    "max_relative_pixels": 5.130796245597386,
+    "p90_relative_pixels": 4.574502636673333,
+    "max_registered_pixels": 5.771813588078239,
+    "worst": {
+      "frame": 132,
+      "area_ratio": 0.9142739709940696,
+      "box": [
+        298,
+        37,
+        196,
+        149
+      ],
+      "camera_shift": [
+        0.0,
+        -1.0
+      ],
+      "background_inliers": 287,
+      "relative_shift": [
+        -2.3030287590240732,
+        -4.584880439983607
+      ],
+      "relative_pixels": 5.130796245597386,
+      "registered_pixels": 5.130796245597386
+    },
+    "last": {
+      "frame": 711,
+      "area_ratio": 0.9995302683342141,
+      "box": [
+        298,
+        38,
+        196,
+        147
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 240,
+      "relative_shift": [
+        0.0699303807961087,
+        -0.05484623891801732
+      ],
+      "relative_pixels": 0.08887276344156857,
+      "registered_pixels": 0.08887276344156857
+    }
+  },
+  {
+    "source": 54,
+    "reference_box": [
+      297,
+      38,
+      197,
+      148
+    ],
+    "valid_samples": 81,
+    "sample_count": 84,
+    "max_relative_pixels": 4.668281143323309,
+    "p90_relative_pixels": 4.192568213616297,
+    "max_registered_pixels": 7.852019887879673,
+    "worst": {
+      "frame": 330,
+      "area_ratio": 0.9335338523236613,
+      "box": [
+        304,
+        37,
+        190,
+        147
+      ],
+      "camera_shift": null,
+      "background_inliers": 7,
+      "relative_shift": null,
+      "relative_pixels": null,
+      "registered_pixels": 7.852019887879673
+    },
+    "last": {
+      "frame": 605,
+      "area_ratio": 0.9953998584571833,
+      "box": [
+        297,
+        39,
+        197,
+        147
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 226,
+      "relative_shift": [
+        -0.03823459090745018,
+        -0.2740877939489508
+      ],
+      "relative_pixels": 0.2767417618171543,
+      "registered_pixels": 0.2767417618171543
+    }
+  },
+  {
+    "source": 55,
+    "reference_box": [
+      294,
+      42,
+      198,
+      150
+    ],
+    "valid_samples": 101,
+    "sample_count": 103,
+    "max_relative_pixels": 5.731317629618432,
+    "p90_relative_pixels": 4.459630740053074,
+    "max_registered_pixels": 6.19274864072241,
+    "worst": {
+      "frame": 366,
+      "area_ratio": 0.9794974300399771,
+      "box": [
+        307,
+        40,
+        187,
+        151
+      ],
+      "camera_shift": null,
+      "background_inliers": 2,
+      "relative_shift": null,
+      "relative_pixels": null,
+      "registered_pixels": 6.19274864072241
+    },
+    "last": {
+      "frame": 728,
+      "area_ratio": 0.9905197030268418,
+      "box": [
+        294,
+        42,
+        198,
+        151
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 217,
+      "relative_shift": [
+        -0.08193054812113587,
+        -0.5468242514556749
+      ],
+      "relative_pixels": 0.5529280031753582,
+      "registered_pixels": 0.5529280031753582
+    }
+  },
+  {
+    "source": 56,
+    "reference_box": [
+      294,
+      42,
+      198,
+      150
+    ],
+    "valid_samples": 96,
+    "sample_count": 98,
+    "max_relative_pixels": 4.140807699408837,
+    "p90_relative_pixels": 3.3815980200970093,
+    "max_registered_pixels": 11.878249268867533,
+    "worst": {
+      "frame": 360,
+      "area_ratio": 0.9051403739493395,
+      "box": [
+        323,
+        40,
+        171,
+        150
+      ],
+      "camera_shift": null,
+      "background_inliers": 0,
+      "relative_shift": null,
+      "relative_pixels": null,
+      "registered_pixels": 11.878249268867533
+    },
+    "last": {
+      "frame": 734,
+      "area_ratio": 0.9970267024987135,
+      "box": [
+        294,
+        41,
+        198,
+        152
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 209,
+      "relative_shift": [
+        -0.06019876795676282,
+        -0.040581318152334234
+      ],
+      "relative_pixels": 0.07259982814368879,
+      "registered_pixels": 0.07259982814368879
+    }
+  },
+  {
+    "source": 57,
+    "reference_box": [
+      292,
+      42,
+      194,
+      149
+    ],
+    "valid_samples": 96,
+    "sample_count": 100,
+    "max_relative_pixels": 5.640473245209171,
+    "p90_relative_pixels": 3.934054557024975,
+    "max_registered_pixels": 7.220733399786771,
+    "worst": {
+      "frame": 384,
+      "area_ratio": 0.9474505723204995,
+      "box": [
+        297,
+        41,
+        191,
+        150
+      ],
+      "camera_shift": null,
+      "background_inliers": 5,
+      "relative_shift": null,
+      "relative_pixels": null,
+      "registered_pixels": 7.220733399786771
+    },
+    "last": {
+      "frame": 705,
+      "area_ratio": 0.9974563533356458,
+      "box": [
+        292,
+        43,
+        194,
+        150
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 206,
+      "relative_shift": [
+        0.04301027691207082,
+        0.13462259419607392
+      ],
+      "relative_pixels": 0.1413263131484502,
+      "registered_pixels": 0.1413263131484502
+    }
+  },
+  {
+    "source": 58,
+    "reference_box": [
+      291,
+      42,
+      195,
+      150
+    ],
+    "valid_samples": 95,
+    "sample_count": 98,
+    "max_relative_pixels": 8.921351030944622,
+    "p90_relative_pixels": 5.584046840376583,
+    "max_registered_pixels": 8.753929624043854,
+    "worst": {
+      "frame": 618,
+      "area_ratio": 0.8730113146861179,
+      "box": [
+        291,
+        41,
+        195,
+        148
+      ],
+      "camera_shift": [
+        0.0,
+        -1.0
+      ],
+      "background_inliers": 184,
+      "relative_shift": [
+        -4.834052867364562,
+        -7.498162247701842
+      ],
+      "relative_pixels": 8.921351030944622,
+      "registered_pixels": 8.753929624043854
+    },
+    "last": {
+      "frame": 702,
+      "area_ratio": 0.9912124518982253,
+      "box": [
+        291,
+        42,
+        195,
+        148
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 200,
+      "relative_shift": [
+        -0.760133800082258,
+        -1.2032653272804907
+      ],
+      "relative_pixels": 1.4232536112242682,
+      "registered_pixels": 1.4232536112242682
+    }
+  },
+  {
+    "source": 59,
+    "reference_box": [
+      291,
+      41,
+      195,
+      149
+    ],
+    "valid_samples": 89,
+    "sample_count": 92,
+    "max_relative_pixels": 5.966755073358685,
+    "p90_relative_pixels": 4.166604677203009,
+    "max_registered_pixels": 7.62963941663461,
+    "worst": {
+      "frame": 348,
+      "area_ratio": 0.9392801432780634,
+      "box": [
+        296,
+        40,
+        190,
+        147
+      ],
+      "camera_shift": null,
+      "background_inliers": 5,
+      "relative_shift": null,
+      "relative_pixels": null,
+      "registered_pixels": 7.62963941663461
+    },
+    "last": {
+      "frame": 652,
+      "area_ratio": 0.9999422265873246,
+      "box": [
+        291,
+        42,
+        195,
+        148
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 202,
+      "relative_shift": [
+        -0.0819747045915733,
+        0.0037783805213962296
+      ],
+      "relative_pixels": 0.08206173500627546,
+      "registered_pixels": 0.08206173500627546
+    }
+  },
+  {
+    "source": 60,
+    "reference_box": [
+      293,
+      42,
+      196,
+      150
+    ],
+    "valid_samples": 90,
+    "sample_count": 94,
+    "max_relative_pixels": 4.606901799597802,
+    "p90_relative_pixels": 3.3814754393778945,
+    "max_registered_pixels": 7.090172260084174,
+    "worst": {
+      "frame": 372,
+      "area_ratio": 0.9402761795166859,
+      "box": [
+        299,
+        41,
+        191,
+        149
+      ],
+      "camera_shift": null,
+      "background_inliers": 7,
+      "relative_shift": null,
+      "relative_pixels": null,
+      "registered_pixels": 7.090172260084174
+    },
+    "last": {
+      "frame": 664,
+      "area_ratio": 0.9979286536248562,
+      "box": [
+        293,
+        42,
+        196,
+        150
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 198,
+      "relative_shift": [
+        -0.16764154253309016,
+        -0.5497267902411522
+      ],
+      "relative_pixels": 0.5747201324920796,
+      "registered_pixels": 0.5747201324920796
+    }
+  },
+  {
+    "source": 61,
+    "reference_box": [
+      309,
+      41,
+      198,
+      150
+    ],
+    "valid_samples": 91,
+    "sample_count": 95,
+    "max_relative_pixels": 4.926347035560398,
+    "p90_relative_pixels": 3.2452580605875494,
+    "max_registered_pixels": 10.076981114895633,
+    "worst": {
+      "frame": 372,
+      "area_ratio": 0.906796228150874,
+      "box": [
+        320,
+        40,
+        188,
+        146
+      ],
+      "camera_shift": null,
+      "background_inliers": 5,
+      "relative_shift": null,
+      "relative_pixels": null,
+      "registered_pixels": 10.076981114895633
+    },
+    "last": {
+      "frame": 673,
+      "area_ratio": 0.9934452621895125,
+      "box": [
+        309,
+        41,
+        198,
+        149
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 258,
+      "relative_shift": [
+        -0.27380213768185513,
+        -0.5900428292973601
+      ],
+      "relative_pixels": 0.6504753269758871,
+      "registered_pixels": 0.6504753269758871
+    }
+  },
+  {
+    "source": 62,
+    "reference_box": [
+      319,
+      38,
+      198,
+      147
+    ],
+    "valid_samples": 107,
+    "sample_count": 109,
+    "max_relative_pixels": 8.993404600131939,
+    "p90_relative_pixels": 5.4535749973565,
+    "max_registered_pixels": 8.775916250121613,
+    "worst": {
+      "frame": 498,
+      "area_ratio": 0.9309878213802436,
+      "box": [
+        320,
+        37,
+        198,
+        147
+      ],
+      "camera_shift": [
+        0.0,
+        -0.597198486328125
+      ],
+      "background_inliers": 17,
+      "relative_shift": [
+        8.26986020788894,
+        3.5342238813704796
+      ],
+      "relative_pixels": 8.993404600131939,
+      "registered_pixels": 8.775916250121613
+    },
+    "last": {
+      "frame": 771,
+      "area_ratio": 1.0112372771665588,
+      "box": [
+        318,
+        38,
+        198,
+        146
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 312,
+      "relative_shift": [
+        0.25183631085820934,
+        0.5395516449267603
+      ],
+      "relative_pixels": 0.5954305207241609,
+      "registered_pixels": 0.5954305207241609
+    }
+  },
+  {
+    "source": 63,
+    "reference_box": [
+      277,
+      45,
+      197,
+      152
+    ],
+    "valid_samples": 88,
+    "sample_count": 91,
+    "max_relative_pixels": 5.788692508656525,
+    "p90_relative_pixels": 4.175064271286565,
+    "max_registered_pixels": 6.253335811291197,
+    "worst": {
+      "frame": 456,
+      "area_ratio": 0.9651536509726529,
+      "box": [
+        291,
+        44,
+        184,
+        152
+      ],
+      "camera_shift": null,
+      "background_inliers": 0,
+      "relative_shift": null,
+      "relative_pixels": null,
+      "registered_pixels": 6.253335811291197
+    },
+    "last": {
+      "frame": 638,
+      "area_ratio": 1.0039469974626445,
+      "box": [
+        276,
+        44,
+        198,
+        153
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 133,
+      "relative_shift": [
+        0.15345028967527696,
+        -0.2763305480138456
+      ],
+      "relative_pixels": 0.31607841300389156,
+      "registered_pixels": 0.31607841300389156
+    }
+  },
+  {
+    "source": 64,
+    "reference_box": [
+      276,
+      45,
+      198,
+      152
+    ],
+    "valid_samples": 88,
+    "sample_count": 91,
+    "max_relative_pixels": 5.355763306016169,
+    "p90_relative_pixels": 3.22398611937894,
+    "max_registered_pixels": 12.579090438885911,
+    "worst": {
+      "frame": 342,
+      "area_ratio": 0.8871673964297744,
+      "box": [
+        304,
+        44,
+        171,
+        149
+      ],
+      "camera_shift": null,
+      "background_inliers": 0,
+      "relative_shift": null,
+      "relative_pixels": null,
+      "registered_pixels": 12.579090438885911
+    },
+    "last": {
+      "frame": 644,
+      "area_ratio": 0.9971370831929943,
+      "box": [
+        276,
+        45,
+        198,
+        153
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 160,
+      "relative_shift": [
+        0.0811726996297466,
+        -0.1346169609752934
+      ],
+      "relative_pixels": 0.15719648007320244,
+      "registered_pixels": 0.15719648007320244
+    }
+  },
+  {
+    "source": 65,
+    "reference_box": [
+      296,
+      45,
+      187,
+      145
+    ],
+    "valid_samples": 110,
+    "sample_count": 113,
+    "max_relative_pixels": 8.185312707504265,
+    "p90_relative_pixels": 6.779900225207927,
+    "max_registered_pixels": 15.86686655482161,
+    "worst": {
+      "frame": 432,
+      "area_ratio": 0.8847672609788202,
+      "box": [
+        314,
+        46,
+        171,
+        140
+      ],
+      "camera_shift": null,
+      "background_inliers": 0,
+      "relative_shift": null,
+      "relative_pixels": null,
+      "registered_pixels": 15.86686655482161
+    },
+    "last": {
+      "frame": 758,
+      "area_ratio": 1.000119660165131,
+      "box": [
+        301,
+        47,
+        182,
+        143
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 236,
+      "relative_shift": [
+        2.2771543675974613,
+        1.3612477605953757
+      ],
+      "relative_pixels": 2.6530034827708233,
+      "registered_pixels": 2.6530034827708233
+    }
+  },
+  {
+    "source": 66,
+    "reference_box": [
+      303,
+      25,
+      169,
+      126
+    ],
+    "valid_samples": 76,
+    "sample_count": 77,
+    "max_relative_pixels": 9.710230428558564,
+    "p90_relative_pixels": 6.497827802326446,
+    "max_registered_pixels": 9.710231872909288,
+    "worst": {
+      "frame": 318,
+      "area_ratio": 0.8537088400540502,
+      "box": [
+        302,
+        24,
+        172,
+        115
+      ],
+      "camera_shift": [
+        0.0,
+        -1.44000244140625
+      ],
+      "background_inliers": 206,
+      "relative_shift": [
+        6.341931230708269,
+        -7.353127446241615
+      ],
+      "relative_pixels": 9.710230428558564,
+      "registered_pixels": 9.710231872909288
+    },
+    "last": {
+      "frame": 498,
+      "area_ratio": 0.9941682668373515,
+      "box": [
+        300,
+        24,
+        169,
+        127
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 241,
+      "relative_shift": [
+        -2.525100120336049,
+        -0.7959791954077673
+      ],
+      "relative_pixels": 2.6475863531229957,
+      "registered_pixels": 2.6475863531229957
+    }
+  },
+  {
+    "source": 67,
+    "reference_box": [
+      300,
+      24,
+      170,
+      127
+    ],
+    "valid_samples": 87,
+    "sample_count": 88,
+    "max_relative_pixels": 21.31791187788074,
+    "p90_relative_pixels": 15.646668165868471,
+    "max_registered_pixels": 21.31791187788074,
+    "worst": {
+      "frame": 480,
+      "area_ratio": 0.8566385707081622,
+      "box": [
+        289,
+        15,
+        167,
+        125
+      ],
+      "camera_shift": [
+        0.0,
+        -1.0
+      ],
+      "background_inliers": 151,
+      "relative_shift": [
+        -16.68870442067646,
+        -13.264256918213803
+      ],
+      "relative_pixels": 21.31791187788074,
+      "registered_pixels": 21.31791187788074
+    },
+    "last": {
+      "frame": 552,
+      "area_ratio": 0.9351631726820834,
+      "box": [
+        289,
+        15,
+        167,
+        124
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 187,
+      "relative_shift": [
+        -11.980255094114625,
+        -10.086098821394245
+      ],
+      "relative_pixels": 15.660648184382081,
+      "registered_pixels": 15.660648184382081
+    }
+  },
+  {
+    "source": 68,
+    "reference_box": [
+      289,
+      15,
+      167,
+      124
+    ],
+    "valid_samples": 97,
+    "sample_count": 97,
+    "max_relative_pixels": 11.788424608881368,
+    "p90_relative_pixels": 6.7559924373902245,
+    "max_registered_pixels": 11.972560314874697,
+    "worst": {
+      "frame": 480,
+      "area_ratio": 0.8546777064149191,
+      "box": [
+        286,
+        12,
+        165,
+        121
+      ],
+      "camera_shift": [
+        0.0,
+        -1.4399967193603516
+      ],
+      "background_inliers": 148,
+      "relative_shift": [
+        -7.6190403254545345,
+        -8.995397672053052
+      ],
+      "relative_pixels": 11.788424608881368,
+      "registered_pixels": 11.972560314874697
+    },
+    "last": {
+      "frame": 610,
+      "area_ratio": 0.9882380252263406,
+      "box": [
+        287,
+        12,
+        164,
+        122
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 103,
+      "relative_shift": [
+        -3.2575505181837343,
+        -3.237271607359915
+      ],
+      "relative_pixels": 4.59255515354337,
+      "registered_pixels": 3.6530595649119073
+    }
+  },
+  {
+    "source": 69,
+    "reference_box": [
+      297,
+      30,
+      186,
+      139
+    ],
+    "valid_samples": 35,
+    "sample_count": 92,
+    "max_relative_pixels": 11.101329627526567,
+    "p90_relative_pixels": 9.341059868035934,
+    "max_registered_pixels": 10.909987686498768,
+    "worst": {
+      "frame": 120,
+      "area_ratio": 0.8611384030916356,
+      "box": [
+        295,
+        32,
+        182,
+        138
+      ],
+      "camera_shift": [
+        -1.727996826171875,
+        0.0
+      ],
+      "background_inliers": 55,
+      "relative_shift": [
+        -7.877985108962491,
+        -7.821564429317476
+      ],
+      "relative_pixels": 11.101329627526567,
+      "registered_pixels": 10.909987686498768
+    },
+    "last": {
+      "frame": 585,
+      "area_ratio": 1.0231872666535664,
+      "box": [
+        301,
+        35,
+        180,
+        138
+      ],
+      "camera_shift": null,
+      "background_inliers": 0,
+      "relative_shift": null,
+      "relative_pixels": null,
+      "registered_pixels": 2.9216686832708074
+    }
+  },
+  {
+    "source": 70,
+    "reference_box": [
+      302,
+      41,
+      191,
+      146
+    ],
+    "valid_samples": 70,
+    "sample_count": 72,
+    "max_relative_pixels": 7.440582086973682,
+    "p90_relative_pixels": 5.592511130801402,
+    "max_registered_pixels": 7.612023685435566,
+    "worst": {
+      "frame": 420,
+      "area_ratio": 0.8779271083983802,
+      "box": [
+        302,
+        41,
+        191,
+        144
+      ],
+      "camera_shift": [
+        0.0,
+        -1.1999969482421875
+      ],
+      "background_inliers": 245,
+      "relative_shift": [
+        -3.875316827907227,
+        -6.351706957687256
+      ],
+      "relative_pixels": 7.440582086973682,
+      "registered_pixels": 7.612023685435566
+    },
+    "last": {
+      "frame": 494,
+      "area_ratio": 0.9970655554903457,
+      "box": [
+        302,
+        42,
+        191,
+        145
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 264,
+      "relative_shift": [
+        -0.0643995102440158,
+        -0.12227246975531614
+      ],
+      "relative_pixels": 0.13819498464030378,
+      "registered_pixels": 0.13819498464030378
+    }
+  },
+  {
+    "source": 71,
+    "reference_box": [
+      302,
+      42,
+      191,
+      145
+    ],
+    "valid_samples": 75,
+    "sample_count": 80,
+    "max_relative_pixels": 9.698762807735639,
+    "p90_relative_pixels": 6.792080204249889,
+    "max_registered_pixels": 9.827330079354162,
+    "worst": {
+      "frame": 348,
+      "area_ratio": 0.9253696315418916,
+      "box": [
+        302,
+        41,
+        192,
+        146
+      ],
+      "camera_shift": [
+        0.0,
+        -1.1999988555908203
+      ],
+      "background_inliers": 62,
+      "relative_shift": [
+        9.325767911466414,
+        2.663841748711704
+      ],
+      "relative_pixels": 9.698762807735639,
+      "registered_pixels": 9.645748749605648
+    },
+    "last": {
+      "frame": 545,
+      "area_ratio": 0.9986505515137292,
+      "box": [
+        302,
+        41,
+        191,
+        147
+      ],
+      "camera_shift": null,
+      "background_inliers": 5,
+      "relative_shift": null,
+      "relative_pixels": null,
+      "registered_pixels": 0.6870700887072212
+    }
+  },
+  {
+    "source": 72,
+    "reference_box": [
+      302,
+      42,
+      191,
+      145
+    ],
+    "valid_samples": 100,
+    "sample_count": 100,
+    "max_relative_pixels": 10.574370550787764,
+    "p90_relative_pixels": 7.441825377632149,
+    "max_registered_pixels": 10.707352290653967,
+    "worst": {
+      "frame": 360,
+      "area_ratio": 0.8610770756753603,
+      "box": [
+        302,
+        40,
+        192,
+        137
+      ],
+      "camera_shift": [
+        0.0,
+        -1.4399986267089844
+      ],
+      "background_inliers": 189,
+      "relative_shift": [
+        8.857454779654063,
+        -5.776054654498253
+      ],
+      "relative_pixels": 10.574370550787764,
+      "registered_pixels": 10.707352290653967
+    },
+    "last": {
+      "frame": 596,
+      "area_ratio": 0.9436373183966392,
+      "box": [
+        300,
+        42,
+        191,
+        145
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 243,
+      "relative_shift": [
+        -2.691460535956935,
+        -2.978279888526771
+      ],
+      "relative_pixels": 4.014238521938704,
+      "registered_pixels": 4.014238521938704
+    }
+  },
+  {
+    "source": 73,
+    "reference_box": [
+      300,
+      41,
+      191,
+      146
+    ],
+    "valid_samples": 82,
+    "sample_count": 82,
+    "max_relative_pixels": 11.986040647808919,
+    "p90_relative_pixels": 5.347296460516105,
+    "max_registered_pixels": 11.986040406312313,
+    "worst": {
+      "frame": 306,
+      "area_ratio": 0.8599497105432431,
+      "box": [
+        307,
+        40,
+        185,
+        146
+      ],
+      "camera_shift": [
+        0.0,
+        -1.2000007629394531
+      ],
+      "background_inliers": 48,
+      "relative_shift": [
+        11.961997815508028,
+        0.7588008122747425
+      ],
+      "relative_pixels": 11.986040647808919,
+      "registered_pixels": 11.986040406312313
+    },
+    "last": {
+      "frame": 593,
+      "area_ratio": 0.9857903046605462,
+      "box": [
+        301,
+        42,
+        191,
+        145
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 207,
+      "relative_shift": [
+        0.06389965920891427,
+        -0.20923012864419377
+      ],
+      "relative_pixels": 0.21877022918916836,
+      "registered_pixels": 0.21877022918916836
+    }
+  },
+  {
+    "source": 74,
+    "reference_box": [
+      292,
+      44,
+      193,
+      149
+    ],
+    "valid_samples": 101,
+    "sample_count": 102,
+    "max_relative_pixels": 7.634750467294799,
+    "p90_relative_pixels": 6.002660008814555,
+    "max_registered_pixels": 9.383670264658226,
+    "worst": {
+      "frame": 288,
+      "area_ratio": 0.9041400547445255,
+      "box": [
+        297,
+        43,
+        189,
+        149
+      ],
+      "camera_shift": null,
+      "background_inliers": 1,
+      "relative_shift": null,
+      "relative_pixels": null,
+      "registered_pixels": 9.383670264658226
+    },
+    "last": {
+      "frame": 674,
+      "area_ratio": 0.9539803832116789,
+      "box": [
+        293,
+        44,
+        191,
+        148
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 140,
+      "relative_shift": [
+        -0.5916032535125169,
+        -1.8006296835328612
+      ],
+      "relative_pixels": 1.8953262692175845,
+      "registered_pixels": 1.8953262692175845
+    }
+  },
+  {
+    "source": 75,
+    "reference_box": [
+      293,
+      44,
+      191,
+      146
+    ],
+    "valid_samples": 77,
+    "sample_count": 78,
+    "max_relative_pixels": 10.285691934585358,
+    "p90_relative_pixels": 6.657499820588953,
+    "max_registered_pixels": 13.051553981455855,
+    "worst": {
+      "frame": 282,
+      "area_ratio": 0.8684663304657372,
+      "box": [
+        293,
+        42,
+        193,
+        148
+      ],
+      "camera_shift": null,
+      "background_inliers": 0,
+      "relative_shift": null,
+      "relative_pixels": null,
+      "registered_pixels": 13.051553981455855
+    },
+    "last": {
+      "frame": 503,
+      "area_ratio": 1.0092554138237912,
+      "box": [
+        293,
+        43,
+        190,
+        147
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 187,
+      "relative_shift": [
+        0.6970632627280224,
+        -0.04275682088270116
+      ],
+      "relative_pixels": 0.6983733514224547,
+      "registered_pixels": 0.6983733514224547
+    }
+  },
+  {
+    "source": 76,
+    "reference_box": [
+      321,
+      41,
+      191,
+      143
+    ],
+    "valid_samples": 101,
+    "sample_count": 103,
+    "max_relative_pixels": 15.278909363436567,
+    "p90_relative_pixels": 7.017142775333352,
+    "max_registered_pixels": 15.278909363436567,
+    "worst": {
+      "frame": 324,
+      "area_ratio": 0.895412955220263,
+      "box": [
+        338,
+        40,
+        176,
+        144
+      ],
+      "camera_shift": [
+        0.0,
+        -1.2000007629394531
+      ],
+      "background_inliers": 52,
+      "relative_shift": [
+        14.45644084693788,
+        4.945340167783769
+      ],
+      "relative_pixels": 15.278909363436567,
+      "registered_pixels": 15.278909363436567
+    },
+    "last": {
+      "frame": 634,
+      "area_ratio": 0.9767920984063504,
+      "box": [
+        322,
+        43,
+        187,
+        142
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 313,
+      "relative_shift": [
+        -0.9195783036063858,
+        0.20594024637073005
+      ],
+      "relative_pixels": 0.9423564301997601,
+      "registered_pixels": 0.9423564301997601
+    }
+  },
+  {
+    "source": 77,
+    "reference_box": [
+      323,
+      43,
+      186,
+      141
+    ],
+    "valid_samples": 91,
+    "sample_count": 92,
+    "max_relative_pixels": 9.100591653341509,
+    "p90_relative_pixels": 7.147775589346557,
+    "max_registered_pixels": 9.987618541920265,
+    "worst": {
+      "frame": 276,
+      "area_ratio": 0.9378056880623151,
+      "box": [
+        328,
+        44,
+        182,
+        136
+      ],
+      "camera_shift": null,
+      "background_inliers": 6,
+      "relative_shift": null,
+      "relative_pixels": null,
+      "registered_pixels": 9.987618541920265
+    },
+    "last": {
+      "frame": 619,
+      "area_ratio": 0.9702312662278848,
+      "box": [
+        326,
+        45,
+        181,
+        139
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 325,
+      "relative_shift": [
+        -0.11545584742890469,
+        0.6728607955468249
+      ],
+      "relative_pixels": 0.6826944432829614,
+      "registered_pixels": 0.6826944432829614
+    }
+  },
+  {
+    "source": 78,
+    "reference_box": [
+      326,
+      45,
+      181,
+      139
+    ],
+    "valid_samples": 91,
+    "sample_count": 91,
+    "max_relative_pixels": 12.531655994935447,
+    "p90_relative_pixels": 8.550608635407395,
+    "max_registered_pixels": 12.553685647228203,
+    "worst": {
+      "frame": 312,
+      "area_ratio": 0.9128934624697337,
+      "box": [
+        329,
+        45,
+        179,
+        142
+      ],
+      "camera_shift": [
+        0.0,
+        -1.1999988555908203
+      ],
+      "background_inliers": 261,
+      "relative_shift": [
+        12.46595368063305,
+        -1.2815618626164138
+      ],
+      "relative_pixels": 12.531655994935447,
+      "registered_pixels": 12.553685647228203
+    },
+    "last": {
+      "frame": 552,
+      "area_ratio": 0.974818401937046,
+      "box": [
+        328,
+        44,
+        176,
+        136
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 321,
+      "relative_shift": [
+        -1.0351116050754854,
+        -3.3221000843187483
+      ],
+      "relative_pixels": 3.4796271359432436,
+      "registered_pixels": 3.4796271359432436
+    }
+  },
+  {
+    "source": 79,
+    "reference_box": [
+      328,
+      44,
+      176,
+      135
+    ],
+    "valid_samples": 67,
+    "sample_count": 70,
+    "max_relative_pixels": 8.4557395224345,
+    "p90_relative_pixels": 7.03657288603598,
+    "max_registered_pixels": 8.4557395224345,
+    "worst": {
+      "frame": 90,
+      "area_ratio": 0.8695291565650122,
+      "box": [
+        328,
+        42,
+        176,
+        136
+      ],
+      "camera_shift": [
+        0.0,
+        -1.0
+      ],
+      "background_inliers": 383,
+      "relative_shift": [
+        -4.111094471044964,
+        -7.389075254820753
+      ],
+      "relative_pixels": 8.4557395224345,
+      "registered_pixels": 8.4557395224345
+    },
+    "last": {
+      "frame": 478,
+      "area_ratio": 1.0044021947173662,
+      "box": [
+        327,
+        42,
+        176,
+        134
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 341,
+      "relative_shift": [
+        -0.21961365833362834,
+        -1.0760169340226469
+      ],
+      "relative_pixels": 1.0981997091741451,
+      "registered_pixels": 1.0981997091741451
+    }
+  },
+  {
+    "source": 80,
+    "reference_box": [
+      327,
+      42,
+      176,
+      134
+    ],
+    "valid_samples": 85,
+    "sample_count": 87,
+    "max_relative_pixels": 9.685267260245016,
+    "p90_relative_pixels": 6.352089910628003,
+    "max_registered_pixels": 8.85035012286061,
+    "worst": {
+      "frame": 354,
+      "area_ratio": 1.032020195309905,
+      "box": [
+        327,
+        41,
+        178,
+        136
+      ],
+      "camera_shift": [
+        0.0,
+        -1.200000286102295
+      ],
+      "background_inliers": 12,
+      "relative_shift": [
+        8.383984249108778,
+        4.849042174808332
+      ],
+      "relative_pixels": 9.685267260245016,
+      "registered_pixels": 8.23642702247873
+    },
+    "last": {
+      "frame": 578,
+      "area_ratio": 1.0306251245598883,
+      "box": [
+        326,
+        41,
+        175,
+        132
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 305,
+      "relative_shift": [
+        0.44025554724044014,
+        -0.02736691492903276
+      ],
+      "relative_pixels": 0.44110531045172463,
+      "registered_pixels": 0.44110531045172463
+    }
+  },
+  {
+    "source": 81,
+    "reference_box": [
+      326,
+      41,
+      175,
+      134
+    ],
+    "valid_samples": 101,
+    "sample_count": 102,
+    "max_relative_pixels": 8.588740323504377,
+    "p90_relative_pixels": 6.771450583596487,
+    "max_registered_pixels": 8.771330390242008,
+    "worst": {
+      "frame": 516,
+      "area_ratio": 0.8680646857743887,
+      "box": [
+        324,
+        39,
+        177,
+        134
+      ],
+      "camera_shift": [
+        0.0,
+        -1.1999969482421875
+      ],
+      "background_inliers": 276,
+      "relative_shift": [
+        -3.5415624365586496,
+        -7.824563620582737
+      ],
+      "relative_pixels": 8.588740323504377,
+      "registered_pixels": 8.771330390242008
+    },
+    "last": {
+      "frame": 605,
+      "area_ratio": 1.0177491454115173,
+      "box": [
+        324,
+        40,
+        177,
+        135
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 281,
+      "relative_shift": [
+        0.3091745945508819,
+        0.4721564893644796
+      ],
+      "relative_pixels": 0.5643763641088207,
+      "registered_pixels": 0.5643763641088207
+    }
+  },
+  {
+    "source": 82,
+    "reference_box": [
+      325,
+      40,
+      176,
+      135
+    ],
+    "valid_samples": 91,
+    "sample_count": 92,
+    "max_relative_pixels": 8.614181210970694,
+    "p90_relative_pixels": 7.4139363133998035,
+    "max_registered_pixels": 8.92332105965483,
+    "worst": {
+      "frame": 96,
+      "area_ratio": 0.8718868170556787,
+      "box": [
+        325,
+        39,
+        176,
+        138
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 346,
+      "relative_shift": [
+        -4.438210538343981,
+        -7.382845329056607
+      ],
+      "relative_pixels": 8.614181210970694,
+      "registered_pixels": 8.614181210970694
+    },
+    "last": {
+      "frame": 589,
+      "area_ratio": 0.9514930238623027,
+      "box": [
+        320,
+        42,
+        178,
+        134
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 324,
+      "relative_shift": [
+        -5.334800875321548,
+        -1.308323933729696
+      ],
+      "relative_pixels": 5.492887391427345,
+      "registered_pixels": 5.492887391427345
+    }
+  },
+  {
+    "source": 83,
+    "reference_box": [
+      318,
+      41,
+      181,
+      137
+    ],
+    "valid_samples": 105,
+    "sample_count": 105,
+    "max_relative_pixels": 15.72037076680442,
+    "p90_relative_pixels": 8.018652914583917,
+    "max_registered_pixels": 15.720370474760303,
+    "worst": {
+      "frame": 336,
+      "area_ratio": 0.9352037840990086,
+      "box": [
+        322,
+        40,
+        179,
+        140
+      ],
+      "camera_shift": [
+        0.0,
+        -1.2000007629394531
+      ],
+      "background_inliers": 97,
+      "relative_shift": [
+        15.535001388968169,
+        2.4070290589346968
+      ],
+      "relative_pixels": 15.72037076680442,
+      "registered_pixels": 15.720370474760303
+    },
+    "last": {
+      "frame": 624,
+      "area_ratio": 1.0031102183632477,
+      "box": [
+        324,
+        44,
+        171,
+        131
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 298,
+      "relative_shift": [
+        0.7970528775754246,
+        2.2422224732890186
+      ],
+      "relative_pixels": 2.379675378990502,
+      "registered_pixels": 2.379675378990502
+    }
+  },
+  {
+    "source": 84,
+    "reference_box": [
+      313,
+      38,
+      182,
+      134
+    ],
+    "valid_samples": 18,
+    "sample_count": 18,
+    "max_relative_pixels": 16.40991663727287,
+    "p90_relative_pixels": 13.56505777274252,
+    "max_registered_pixels": 16.40991663727287,
+    "worst": {
+      "frame": 282,
+      "area_ratio": 1.0942964536689002,
+      "box": [
+        308,
+        38,
+        193,
+        131
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 228,
+      "relative_shift": [
+        15.229183848787216,
+        6.112063754746316
+      ],
+      "relative_pixels": 16.40991663727287,
+      "registered_pixels": 16.40991663727287
+    },
+    "last": {
+      "frame": 378,
+      "area_ratio": 1.176254289916653,
+      "box": [
+        309,
+        39,
+        183,
+        139
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 226,
+      "relative_shift": [
+        -0.19738401295455787,
+        6.827485086368242
+      ],
+      "relative_pixels": 6.830337696860295,
+      "registered_pixels": 6.830337696860295
+    }
+  },
+  {
+    "source": 85,
+    "reference_box": [
+      310,
+      40,
+      182,
+      138
+    ],
+    "valid_samples": 102,
+    "sample_count": 102,
+    "max_relative_pixels": 12.606591100679461,
+    "p90_relative_pixels": 8.077373789308199,
+    "max_registered_pixels": 12.738889998190748,
+    "worst": {
+      "frame": 372,
+      "area_ratio": 0.8700610451465755,
+      "box": [
+        309,
+        38,
+        185,
+        125
+      ],
+      "camera_shift": [
+        0.0,
+        -1.727996826171875
+      ],
+      "background_inliers": 230,
+      "relative_shift": [
+        11.255745374599314,
+        -5.677528973234459
+      ],
+      "relative_pixels": 12.606591100679461,
+      "registered_pixels": 12.738889998190748
+    },
+    "last": {
+      "frame": 610,
+      "area_ratio": 1.0201918561749515,
+      "box": [
+        311,
+        38,
+        177,
+        134
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 266,
+      "relative_shift": [
+        1.1832248552281044,
+        -1.1381578455193022
+      ],
+      "relative_pixels": 1.6417747529264508,
+      "registered_pixels": 1.6417747529264508
+    }
+  },
+  {
+    "source": 86,
+    "reference_box": [
+      311,
+      38,
+      177,
+      134
+    ],
+    "valid_samples": 92,
+    "sample_count": 94,
+    "max_relative_pixels": 10.56302558651955,
+    "p90_relative_pixels": 7.843712131270111,
+    "max_registered_pixels": 10.718062054571105,
+    "worst": {
+      "frame": 318,
+      "area_ratio": 0.8677823709827978,
+      "box": [
+        311,
+        37,
+        178,
+        123
+      ],
+      "camera_shift": [
+        0.0,
+        -1.4399995803833008
+      ],
+      "background_inliers": 240,
+      "relative_shift": [
+        8.121820033169229,
+        -6.753780340689033
+      ],
+      "relative_pixels": 10.56302558651955,
+      "registered_pixels": 10.718062054571105
+    },
+    "last": {
+      "frame": 603,
+      "area_ratio": 0.9833311108147753,
+      "box": [
+        311,
+        38,
+        177,
+        134
+      ],
+      "camera_shift": [
+        0.0,
+        0.0
+      ],
+      "background_inliers": 268,
+      "relative_shift": [
+        -1.1444368968028016,
+        -0.6701068595603061
+      ],
+      "relative_pixels": 1.3261896598878316,
+      "registered_pixels": 1.3261896598878316
+    }
+  }
+]

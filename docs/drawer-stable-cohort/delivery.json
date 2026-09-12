@@ -1,0 +1,10 @@
+{
+  "dataset": "/home/coder/share/drawer-stable-cohort-20260912/dataset",
+  "files": 813,
+  "bytes": 542547276,
+  "source_episodes": 59,
+  "outputs": 118,
+  "frames": 62651,
+  "local_review_directory": "/Users/shuyuan/Downloads/drawer-stable-review-118-20260912",
+  "local_review_url": "http://127.0.0.1:38769/"
+}
