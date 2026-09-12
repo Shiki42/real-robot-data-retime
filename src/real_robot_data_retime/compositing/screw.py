@@ -10,6 +10,7 @@ from ..background.clean_plate import (
     temporal_plate,
 )
 from ..interaction.video import components
+from .interpolation import FlowFrames
 
 
 class ScrewStageCompositor:
@@ -45,14 +46,17 @@ class ScrewStageCompositor:
                 frame.max(axis=-1) < 155
             )
             changed[: int(h * 0.3)] = False
+            regions = components(changed, 8)
             for side in range(2):
                 nearby = dilate(self.layers[t, side], 5)
-                for mask, _, _ in components(changed, 8):
+                for mask, _, _ in regions:
                     if (mask & nearby).any() and not (
                         mask & self.layers[t, 1 - side]
                     ).any():
                         self.layers[t, side] |= dilate(mask, 1)
         self.excluded = np.array([dilate(m.any(axis=0), 2) for m in self.layers])
+        self.flow_frames = FlowFrames(self.frames)
+        self.interpolated_frames = [0, 0]
         self.cache = {}
         self.missing_pixels = 0
         self.overlap_pixels = 0
@@ -84,20 +88,35 @@ class ScrewStageCompositor:
         return out
 
     def frame(self, left, right):
-        left, right = int(left), int(right)
-        if left == right:
+        sources = [float(left), float(right)]
+        if (
+            not np.isfinite(sources).all()
+            or min(sources) < 0
+            or max(sources) > len(self.frames) - 1
+        ):
+            raise ValueError("source clocks outside stage video")
+        times = [int(np.floor(source)) for source in sources]
+        if left == right and left == times[0]:
             self.paired_frames += 1
-            return self.original_frames[left].copy()
-        images = [self.frames[left], self.frames[right]]
-        out = self._scene(left, 0).copy()
-        scene = self._scene(right, 1)
+            return self.original_frames[times[0]].copy()
+        out = self._scene(times[0], 0).copy()
+        scene = self._scene(times[1], 1)
         out[~self.left_scene] = scene[~self.left_scene]
-        masks = [self.layers[left, 0], self.layers[right, 1]]
+        images, masks = [], []
+        for side, source in enumerate(sources):
+            lo, hi = int(np.floor(source)), int(np.ceil(source))
+            if lo == hi:
+                image, mask = self.frames[lo], self.layers[lo, side]
+            else:
+                image, mask = self.flow_frames.sample(
+                    source, [self.layers[lo, side], self.layers[hi, side]]
+                )
+                self.interpolated_frames[side] += 1
+            images.append(image)
+            masks.append(mask)
         self.overlap_pixels += int((masks[0] & masks[1]).sum())
-        # Reuse the established RGB-only right-foreground ordering. No metric
-        # depth is available in this dataset; this is a visual pilot.
-        for im, mask in zip(images, masks):
-            out[mask] = im[mask]
+        for image, mask in zip(images, masks):
+            out[mask] = image[mask]
         return out
 
     def report(self):
@@ -108,6 +127,11 @@ class ScrewStageCompositor:
             "real_plate_coverage_fraction": float((self.coverage > 0).mean()),
             "unknown_depth_order": "stable_right_foreground",
             "background_color_matching": "shared_stationary_pixels_to_stage_end",
-            "held_object_method": "observed_connected_dark_motion",
+            "held_object_method": "arm_payload_masks_with_connected_motion_refinement",
             "metric_collision_checked": False,
+            "interpolated_frames": {
+                "left": self.interpolated_frames[0],
+                "right": self.interpolated_frames[1],
+            },
+            "interpolation_method": "bidirectional_DIS_flow",
         }

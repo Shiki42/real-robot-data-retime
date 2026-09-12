@@ -5,23 +5,23 @@
   "camera": "observation.images.right_environment_1",
   "coupled_intervals": [
     [
-      300,
+      365,
       435
     ],
     [
-      760,
+      805,
       895
     ],
     [
-      1250,
+      1310,
       1370
     ],
     [
-      1770,
+      1785,
       1985
     ],
     [
-      2340,
+      2405,
       2460
     ]
   ],
@@ -30,7 +30,7 @@
     0.5,
     0.85
   ],
-  "boundary_method": "pilot visual review with gripper release and left-arm motion onset; inclusive raw episode frames; third guard includes completed right withdrawal before storage",
+  "boundary_method": "reviewed pre-contact coupled boundaries; independent pickup includes approach to per-arm ready poses; restart finishes before original coupled insertion",
   "workspace_split_x": 330,
   "collision_policy": "independent pickup workspaces assumed disjoint as specified by user; no new metric collision claim",
   "left_scene_boxes": [
@@ -327,6 +327,183 @@
         [
           270,
           400
+        ]
+      ]
+    }
+  ],
+  "ready_frames": [
+    [
+      361,
+      350
+    ],
+    [
+      801,
+      790
+    ],
+    [
+      1306,
+      1295
+    ],
+    [
+      1781,
+      1778
+    ],
+    [
+      2401,
+      2390
+    ]
+  ],
+  "brake_seconds": 0.5,
+  "restart_seconds": 0.3,
+  "ready_pose_method": "left waits near center four original frames before coupling; right waits before contact on its original approach; both use existing monotone clock ramps",
+  "right_payload_prompts": [
+    {
+      "pickup_frame": 259,
+      "source_frame": 350,
+      "bbox": [
+        309,
+        115,
+        62,
+        150
+      ],
+      "positive_points": [
+        [
+          337,
+          148
+        ],
+        [
+          327,
+          234
+        ]
+      ],
+      "negative_points": [
+        [
+          380,
+          210
+        ],
+        [
+          330,
+          187
+        ]
+      ]
+    },
+    {
+      "pickup_frame": 718,
+      "source_frame": 790,
+      "bbox": [
+        350,
+        170,
+        110,
+        160
+      ],
+      "positive_points": [
+        [
+          427,
+          207
+        ],
+        [
+          374,
+          300
+        ]
+      ],
+      "negative_points": [
+        [
+          470,
+          275
+        ],
+        [
+          408,
+          250
+        ]
+      ]
+    },
+    {
+      "pickup_frame": 1230,
+      "source_frame": 1295,
+      "bbox": [
+        322,
+        60,
+        78,
+        202
+      ],
+      "positive_points": [
+        [
+          367,
+          95
+        ],
+        [
+          343,
+          224
+        ]
+      ],
+      "negative_points": [
+        [
+          425,
+          170
+        ],
+        [
+          354,
+          152
+        ]
+      ]
+    },
+    {
+      "pickup_frame": 1716,
+      "source_frame": 1778,
+      "bbox": [
+        380,
+        78,
+        106,
+        213
+      ],
+      "positive_points": [
+        [
+          445,
+          117
+        ],
+        [
+          402,
+          257
+        ]
+      ],
+      "negative_points": [
+        [
+          480,
+          210
+        ],
+        [
+          429,
+          190
+        ]
+      ]
+    },
+    {
+      "pickup_frame": 2311,
+      "source_frame": 2390,
+      "bbox": [
+        300,
+        0,
+        70,
+        193
+      ],
+      "positive_points": [
+        [
+          332,
+          28
+        ],
+        [
+          324,
+          157
+        ]
+      ],
+      "negative_points": [
+        [
+          355,
+          90
+        ],
+        [
+          420,
+          120
         ]
       ]
     }

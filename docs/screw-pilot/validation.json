@@ -5,31 +5,32 @@
   "cases": [
     {
       "name": "screw-15",
-      "frames": 3281,
-      "seconds": 109.36666666666666,
+      "position": 0.15,
+      "seconds": 117.76666666666667,
+      "frames": 3533,
       "validation": {
         "passed": true,
         "frames": {
-          "parallel.mp4": 3281,
-          "left_wrist.mp4": 3281,
-          "right_wrist.mp4": 3281,
-          "preview.webm": 3281
+          "parallel.mp4": 3533,
+          "left_wrist.mp4": 3533,
+          "right_wrist.mp4": 3533,
+          "preview.webm": 3533
         },
         "action_state_exact": true,
         "camera_timestamps_match": true,
         "wrist_pixels": {
           "left": {
-            "samples": 40,
-            "maximum_mean_absolute_pixel_error": 2.6922547743055554
+            "samples": 3533,
+            "maximum_mean_absolute_pixel_error": 3.097156032986111
           },
           "right": {
-            "samples": 40,
-            "maximum_mean_absolute_pixel_error": 3.1426236979166666
+            "samples": 3533,
+            "maximum_mean_absolute_pixel_error": 3.7624012586805557
           }
         },
         "protected_main_pixels": {
           "samples": 30,
-          "maximum_mean_absolute_pixel_error": 2.509899139404297,
+          "maximum_mean_absolute_pixel_error": 2.619873046875,
           "passed": true
         }
       },
@@ -39,31 +40,31 @@
           {
             "kind": "coupled",
             "cycle": 1,
-            "frames": 136,
+            "frames": 71,
             "passed": true
           },
           {
             "kind": "coupled",
             "cycle": 2,
-            "frames": 136,
+            "frames": 91,
             "passed": true
           },
           {
             "kind": "coupled",
             "cycle": 3,
-            "frames": 121,
+            "frames": 61,
             "passed": true
           },
           {
             "kind": "coupled",
             "cycle": 4,
-            "frames": 216,
+            "frames": 201,
             "passed": true
           },
           {
             "kind": "coupled",
             "cycle": 5,
-            "frames": 121,
+            "frames": 56,
             "passed": true
           },
           {
@@ -73,11 +74,117 @@
             "passed": true
           }
         ],
+        "smooth_ready_waits": [
+          {
+            "cycle": 1,
+            "arm": "left",
+            "hold_frames": 154,
+            "brake_first_rate": 0.9970409876543158,
+            "brake_last_rate": 0.005633580246922065,
+            "restart_first_rate": 0.0058934105573484885,
+            "restart_last_rate": 0.9825737946451341,
+            "passed": true
+          },
+          {
+            "cycle": 1,
+            "arm": "right",
+            "hold_frames": 0,
+            "brake_first_rate": 0.9970409876543158,
+            "brake_last_rate": 0.005633580246922065,
+            "restart_first_rate": 0.005893410557291645,
+            "restart_last_rate": 0.9825737946451341,
+            "passed": true
+          },
+          {
+            "cycle": 2,
+            "arm": "left",
+            "hold_frames": 215,
+            "brake_first_rate": 0.9970409876543727,
+            "brake_last_rate": 0.005633580246922065,
+            "restart_first_rate": 0.005893410557291645,
+            "restart_last_rate": 0.9825737946450772,
+            "passed": true
+          },
+          {
+            "cycle": 2,
+            "arm": "right",
+            "hold_frames": 0,
+            "brake_first_rate": 0.9970409876543727,
+            "brake_last_rate": 0.005633580246922065,
+            "restart_first_rate": 0.005893410557291645,
+            "restart_last_rate": 0.9825737946450772,
+            "passed": true
+          },
+          {
+            "cycle": 3,
+            "arm": "left",
+            "hold_frames": 295,
+            "brake_first_rate": 0.9970409876543727,
+            "brake_last_rate": 0.005633580246922065,
+            "restart_first_rate": 0.005893410557291645,
+            "restart_last_rate": 0.9825737946450772,
+            "passed": true
+          },
+          {
+            "cycle": 3,
+            "arm": "right",
+            "hold_frames": 0,
+            "brake_first_rate": 0.9970409876543727,
+            "brake_last_rate": 0.005633580246922065,
+            "restart_first_rate": 0.005893410557291645,
+            "restart_last_rate": 0.9825737946450772,
+            "passed": true
+          },
+          {
+            "cycle": 4,
+            "arm": "left",
+            "hold_frames": 162,
+            "brake_first_rate": 0.9970409876543727,
+            "brake_last_rate": 0.005633580246922065,
+            "restart_first_rate": 0.005893410557291645,
+            "restart_last_rate": 0.9825737946450772,
+            "passed": true
+          },
+          {
+            "cycle": 4,
+            "arm": "right",
+            "hold_frames": 0,
+            "brake_first_rate": 0.9970409876543727,
+            "brake_last_rate": 0.005633580246922065,
+            "restart_first_rate": 0.005893410557291645,
+            "restart_last_rate": 0.9825737946450772,
+            "passed": true
+          },
+          {
+            "cycle": 5,
+            "arm": "left",
+            "hold_frames": 277,
+            "brake_first_rate": 0.9970409876541453,
+            "brake_last_rate": 0.005633580246922065,
+            "restart_first_rate": 0.005893410557291645,
+            "restart_last_rate": 0.9825737946453046,
+            "passed": true
+          },
+          {
+            "cycle": 5,
+            "arm": "right",
+            "hold_frames": 0,
+            "brake_first_rate": 0.9970409876541453,
+            "brake_last_rate": 0.005633580246922065,
+            "restart_first_rate": 0.005893410557291645,
+            "restart_last_rate": 0.9825737946453046,
+            "passed": true
+          }
+        ],
         "skipped_bounded_static_frames": [
           234,
           397
         ],
-        "all_nonstationary_source_frames_retained": true
+        "all_nonstationary_source_motion_retained": true,
+        "interpolated_frames": {
+          "left": 110,
+          "right": 110
+        }
       },
       "unresolved_scene_patch_pixels": [
         0,
@@ -89,31 +196,32 @@
     },
     {
       "name": "screw-50",
-      "frames": 2462,
-      "seconds": 82.06666666666666,
+      "position": 0.5,
+      "seconds": 84.9,
+      "frames": 2547,
       "validation": {
         "passed": true,
         "frames": {
-          "parallel.mp4": 2462,
-          "left_wrist.mp4": 2462,
-          "right_wrist.mp4": 2462,
-          "preview.webm": 2462
+          "parallel.mp4": 2547,
+          "left_wrist.mp4": 2547,
+          "right_wrist.mp4": 2547,
+          "preview.webm": 2547
         },
         "action_state_exact": true,
         "camera_timestamps_match": true,
         "wrist_pixels": {
           "left": {
-            "samples": 40,
-            "maximum_mean_absolute_pixel_error": 2.585451388888889
+            "samples": 2547,
+            "maximum_mean_absolute_pixel_error": 3.0986653645833333
           },
           "right": {
-            "samples": 40,
-            "maximum_mean_absolute_pixel_error": 3.4033995225694444
+            "samples": 2547,
+            "maximum_mean_absolute_pixel_error": 3.757954644097222
           }
         },
         "protected_main_pixels": {
           "samples": 30,
-          "maximum_mean_absolute_pixel_error": 2.5143685340881348,
+          "maximum_mean_absolute_pixel_error": 2.641700267791748,
           "passed": true
         }
       },
@@ -123,31 +231,31 @@
           {
             "kind": "coupled",
             "cycle": 1,
-            "frames": 136,
+            "frames": 71,
             "passed": true
           },
           {
             "kind": "coupled",
             "cycle": 2,
-            "frames": 136,
+            "frames": 91,
             "passed": true
           },
           {
             "kind": "coupled",
             "cycle": 3,
-            "frames": 121,
+            "frames": 61,
             "passed": true
           },
           {
             "kind": "coupled",
             "cycle": 4,
-            "frames": 216,
+            "frames": 201,
             "passed": true
           },
           {
             "kind": "coupled",
             "cycle": 5,
-            "frames": 121,
+            "frames": 56,
             "passed": true
           },
           {
@@ -157,11 +265,117 @@
             "passed": true
           }
         ],
+        "smooth_ready_waits": [
+          {
+            "cycle": 1,
+            "arm": "left",
+            "hold_frames": 11,
+            "brake_first_rate": 0.9970409876543158,
+            "brake_last_rate": 0.005633580246922065,
+            "restart_first_rate": 0.0058934105573484885,
+            "restart_last_rate": 0.9825737946451341,
+            "passed": true
+          },
+          {
+            "cycle": 1,
+            "arm": "right",
+            "hold_frames": 55,
+            "brake_first_rate": 0.9970409876543158,
+            "brake_last_rate": 0.005633580246922065,
+            "restart_first_rate": 0.005893410557291645,
+            "restart_last_rate": 0.9825737946451341,
+            "passed": true
+          },
+          {
+            "cycle": 2,
+            "arm": "left",
+            "hold_frames": 11,
+            "brake_first_rate": 0.9970409876543727,
+            "brake_last_rate": 0.005633580246922065,
+            "restart_first_rate": 0.005893410557291645,
+            "restart_last_rate": 0.9825737946450772,
+            "passed": true
+          },
+          {
+            "cycle": 2,
+            "arm": "right",
+            "hold_frames": 25,
+            "brake_first_rate": 0.9970409876543727,
+            "brake_last_rate": 0.005633580246922065,
+            "restart_first_rate": 0.005893410557291645,
+            "restart_last_rate": 0.9825737946450772,
+            "passed": true
+          },
+          {
+            "cycle": 3,
+            "arm": "left",
+            "hold_frames": 28,
+            "brake_first_rate": 0.9970409876543727,
+            "brake_last_rate": 0.005633580246922065,
+            "restart_first_rate": 0.005893410557291645,
+            "restart_last_rate": 0.9825737946450772,
+            "passed": true
+          },
+          {
+            "cycle": 3,
+            "arm": "right",
+            "hold_frames": 0,
+            "brake_first_rate": 0.9970409876543727,
+            "brake_last_rate": 0.005633580246922065,
+            "restart_first_rate": 0.005893410557291645,
+            "restart_last_rate": 0.9825737946450772,
+            "passed": true
+          },
+          {
+            "cycle": 4,
+            "arm": "left",
+            "hold_frames": 3,
+            "brake_first_rate": 0.9970409876543727,
+            "brake_last_rate": 0.005633580246922065,
+            "restart_first_rate": 0.005893410557291645,
+            "restart_last_rate": 0.9825737946450772,
+            "passed": true
+          },
+          {
+            "cycle": 4,
+            "arm": "right",
+            "hold_frames": 59,
+            "brake_first_rate": 0.9970409876543727,
+            "brake_last_rate": 0.005633580246922065,
+            "restart_first_rate": 0.005893410557291645,
+            "restart_last_rate": 0.9825737946450772,
+            "passed": true
+          },
+          {
+            "cycle": 5,
+            "arm": "left",
+            "hold_frames": 29,
+            "brake_first_rate": 0.9970409876541453,
+            "brake_last_rate": 0.005633580246922065,
+            "restart_first_rate": 0.005893410557291645,
+            "restart_last_rate": 0.9825737946453046,
+            "passed": true
+          },
+          {
+            "cycle": 5,
+            "arm": "right",
+            "hold_frames": 0,
+            "brake_first_rate": 0.9970409876541453,
+            "brake_last_rate": 0.005633580246922065,
+            "restart_first_rate": 0.005893410557291645,
+            "restart_last_rate": 0.9825737946453046,
+            "passed": true
+          }
+        ],
         "skipped_bounded_static_frames": [
           234,
           397
         ],
-        "all_nonstationary_source_frames_retained": true
+        "all_nonstationary_source_motion_retained": true,
+        "interpolated_frames": {
+          "left": 110,
+          "right": 110
+        }
       },
       "unresolved_scene_patch_pixels": [
         0,
@@ -173,31 +387,32 @@
     },
     {
       "name": "screw-85",
-      "frames": 3280,
-      "seconds": 109.33333333333333,
+      "position": 0.85,
+      "seconds": 117.76666666666667,
+      "frames": 3533,
       "validation": {
         "passed": true,
         "frames": {
-          "parallel.mp4": 3280,
-          "left_wrist.mp4": 3280,
-          "right_wrist.mp4": 3280,
-          "preview.webm": 3280
+          "parallel.mp4": 3533,
+          "left_wrist.mp4": 3533,
+          "right_wrist.mp4": 3533,
+          "preview.webm": 3533
         },
         "action_state_exact": true,
         "camera_timestamps_match": true,
         "wrist_pixels": {
           "left": {
-            "samples": 40,
-            "maximum_mean_absolute_pixel_error": 2.4817371961805557
+            "samples": 3533,
+            "maximum_mean_absolute_pixel_error": 3.099870876736111
           },
           "right": {
-            "samples": 40,
-            "maximum_mean_absolute_pixel_error": 3.1936664496527776
+            "samples": 3533,
+            "maximum_mean_absolute_pixel_error": 3.745061848958333
           }
         },
         "protected_main_pixels": {
           "samples": 30,
-          "maximum_mean_absolute_pixel_error": 2.509899139404297,
+          "maximum_mean_absolute_pixel_error": 2.611384630203247,
           "passed": true
         }
       },
@@ -207,31 +422,31 @@
           {
             "kind": "coupled",
             "cycle": 1,
-            "frames": 136,
+            "frames": 71,
             "passed": true
           },
           {
             "kind": "coupled",
             "cycle": 2,
-            "frames": 136,
+            "frames": 91,
             "passed": true
           },
           {
             "kind": "coupled",
             "cycle": 3,
-            "frames": 121,
+            "frames": 61,
             "passed": true
           },
           {
             "kind": "coupled",
             "cycle": 4,
-            "frames": 216,
+            "frames": 201,
             "passed": true
           },
           {
             "kind": "coupled",
             "cycle": 5,
-            "frames": 121,
+            "frames": 56,
             "passed": true
           },
           {
@@ -241,11 +456,117 @@
             "passed": true
           }
         ],
+        "smooth_ready_waits": [
+          {
+            "cycle": 1,
+            "arm": "left",
+            "hold_frames": 11,
+            "brake_first_rate": 0.9970409876543158,
+            "brake_last_rate": 0.005633580246922065,
+            "restart_first_rate": 0.0058934105573484885,
+            "restart_last_rate": 0.9825737946451341,
+            "passed": true
+          },
+          {
+            "cycle": 1,
+            "arm": "right",
+            "hold_frames": 254,
+            "brake_first_rate": 0.9970409876543158,
+            "brake_last_rate": 0.005633580246922065,
+            "restart_first_rate": 0.005893410557291645,
+            "restart_last_rate": 0.9825737946451341,
+            "passed": true
+          },
+          {
+            "cycle": 2,
+            "arm": "left",
+            "hold_frames": 11,
+            "brake_first_rate": 0.9970409876543727,
+            "brake_last_rate": 0.005633580246922065,
+            "restart_first_rate": 0.005893410557291645,
+            "restart_last_rate": 0.9825737946450772,
+            "passed": true
+          },
+          {
+            "cycle": 2,
+            "arm": "right",
+            "hold_frames": 254,
+            "brake_first_rate": 0.9970409876543727,
+            "brake_last_rate": 0.005633580246922065,
+            "restart_first_rate": 0.005893410557291645,
+            "restart_last_rate": 0.9825737946450772,
+            "passed": true
+          },
+          {
+            "cycle": 3,
+            "arm": "left",
+            "hold_frames": 11,
+            "brake_first_rate": 0.9970409876543727,
+            "brake_last_rate": 0.005633580246922065,
+            "restart_first_rate": 0.005893410557291645,
+            "restart_last_rate": 0.9825737946450772,
+            "passed": true
+          },
+          {
+            "cycle": 3,
+            "arm": "right",
+            "hold_frames": 250,
+            "brake_first_rate": 0.9970409876543727,
+            "brake_last_rate": 0.005633580246922065,
+            "restart_first_rate": 0.005893410557291645,
+            "restart_last_rate": 0.9825737946450772,
+            "passed": true
+          },
+          {
+            "cycle": 4,
+            "arm": "left",
+            "hold_frames": 3,
+            "brake_first_rate": 0.9970409876543727,
+            "brake_last_rate": 0.005633580246922065,
+            "restart_first_rate": 0.005893410557291645,
+            "restart_last_rate": 0.9825737946450772,
+            "passed": true
+          },
+          {
+            "cycle": 4,
+            "arm": "right",
+            "hold_frames": 278,
+            "brake_first_rate": 0.9970409876543727,
+            "brake_last_rate": 0.005633580246922065,
+            "restart_first_rate": 0.005893410557291645,
+            "restart_last_rate": 0.9825737946450772,
+            "passed": true
+          },
+          {
+            "cycle": 5,
+            "arm": "left",
+            "hold_frames": 11,
+            "brake_first_rate": 0.9970409876541453,
+            "brake_last_rate": 0.005633580246922065,
+            "restart_first_rate": 0.005893410557291645,
+            "restart_last_rate": 0.9825737946453046,
+            "passed": true
+          },
+          {
+            "cycle": 5,
+            "arm": "right",
+            "hold_frames": 230,
+            "brake_first_rate": 0.9970409876541453,
+            "brake_last_rate": 0.005633580246922065,
+            "restart_first_rate": 0.005893410557291645,
+            "restart_last_rate": 0.9825737946453046,
+            "passed": true
+          }
+        ],
         "skipped_bounded_static_frames": [
           234,
           397
         ],
-        "all_nonstationary_source_frames_retained": true
+        "all_nonstationary_source_motion_retained": true,
+        "interpolated_frames": {
+          "left": 110,
+          "right": 110
+        }
       },
       "unresolved_scene_patch_pixels": [
         0,
@@ -255,5 +576,9 @@
         0
       ]
     }
-  ]
+  ],
+  "tests": {
+    "command": "python -m pytest -q tests/test_screw.py tests/test_general_smoothing.py tests/test_smooth_stages.py tests/test_hold_compression.py",
+    "passed": 31
+  }
 }

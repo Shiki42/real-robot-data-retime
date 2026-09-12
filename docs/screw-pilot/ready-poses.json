@@ -1,0 +1,37 @@
+[
+  {
+    "cycle": 1,
+    "left_ready_source": 361,
+    "right_ready_source": 350,
+    "coupled_start_source": 365,
+    "right_remaining_tcp_displacement_mm": 16.328408072895567
+  },
+  {
+    "cycle": 2,
+    "left_ready_source": 801,
+    "right_ready_source": 790,
+    "coupled_start_source": 805,
+    "right_remaining_tcp_displacement_mm": 30.795187519964692
+  },
+  {
+    "cycle": 3,
+    "left_ready_source": 1306,
+    "right_ready_source": 1295,
+    "coupled_start_source": 1310,
+    "right_remaining_tcp_displacement_mm": 12.021151274187956
+  },
+  {
+    "cycle": 4,
+    "left_ready_source": 1781,
+    "right_ready_source": 1778,
+    "coupled_start_source": 1785,
+    "right_remaining_tcp_displacement_mm": 28.61309342693802
+  },
+  {
+    "cycle": 5,
+    "left_ready_source": 2401,
+    "right_ready_source": 2390,
+    "coupled_start_source": 2405,
+    "right_remaining_tcp_displacement_mm": 13.845604791521726
+  }
+]

@@ -1,10 +1,10 @@
-<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>插螺丝 · 五轮时序重组样例</title>
+<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>插螺丝 · 就位等待与平滑启动样例</title>
 <style>
 :root{color-scheme:dark;font:15px/1.6 system-ui,sans-serif;background:#11171c;color:#e4edf1}body{max-width:1440px;margin:auto;padding:32px 24px}h1{font-size:28px;margin:0 0 12px}p{color:#a7b7c2}a{color:#8bc6e0}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}article{background:#1b252c;border:1px solid #34434c;border-radius:12px;padding:16px}h2{font-size:19px;margin:0 0 8px}video{width:100%;background:#070a0c;border-radius:5px}button,select{background:#2a3b46;color:#edf3f6;border:1px solid #52636f;border-radius:5px;padding:7px;margin:4px 3px 4px 0;cursor:pointer}input{width:100%;accent-color:#8bc6e0}.clock{font:13px/1.7 ui-monospace,monospace;background:#11171c;padding:10px;margin:8px 0;border-radius:5px;min-height:48px}.downloads{font-size:13px;display:flex;gap:12px;flex-wrap:wrap}details{margin:16px 0}details video{max-width:640px}.tag{color:#ffce80}.note{max-width:1000px}@media(max-width:1000px){.grid{grid-template-columns:1fr}article{max-width:700px}}
 </style>
-<h1>插螺丝 · 五轮时序重组</h1>
-<p class="note">同一条原始示范（episode 1），三种相对起始时序。每轮只重组独立动作；五次插入保持原始双臂同步。首轮左手拿套筒，后四轮左手连续收纳上一件并拿下一套筒，与右手撤回、拾取下一颗螺丝配对。</p>
-<p class="note">主视角合成、左右腕视频与 action/state 共用逐帧源时间。下方可直接跳到每次插入。此页是样例检查，分段和分割提示见各条验证记录。</p>
+<h1>插螺丝 · 就位等待与平滑启动</h1>
+<p class="note">左臂拿到套筒后继续靠近中间就位；右臂拿到螺丝后靠近，在接触前停靠。提前到达的一臂等待另一臂完成。后四轮左臂的「收纳上一件＋拾取下一个套筒＋靠近就位」保持连续。</p>
+<p class="note">减速 0.5 秒，启动 0.3 秒。动作、主视角和双腕视频共用同一组连续源时间；实际插入保持原始双臂同步。下拉菜单可直接检查每轮的右臂减速、等待和启动。</p>
 __ORIGINAL__
 <div class="grid" id="cases"></div>
 <script>
@@ -15,9 +15,28 @@ for(const [i,c] of cases.entries()){
  el.innerHTML=`<h2>${titles[i]}</h2><p>u = ${c.position.toFixed(2)} · ${c.seconds.toFixed(1)} 秒 · ${c.frames} 帧</p><video controls preload="metadata" src="${c.name}/preview.webm"></video><div><button class="play">播放 / 暂停</button><button class="previous">上一帧</button><button class="next">下一帧</button><select aria-label="跳转动作阶段"><option value="0">回到开头</option></select></div><input aria-label="逐帧时间轴" type="range" min="0" max="${c.frames-1}" value="0" step="1"><div class="clock"></div><div class="downloads"><a href="${c.name}/parallel.mp4" download>主视角 MP4</a><a href="${c.name}/left_wrist.mp4" download>左腕 MP4</a><a href="${c.name}/right_wrist.mp4" download>右腕 MP4</a><a href="${c.name}/trajectories.parquet" download>运动数据</a><a href="${c.name}/report.json" download>验证记录</a></div>`;
  document.querySelector('#cases').append(el);
  const video=el.querySelector('video'),slider=el.querySelector('input'),select=el.querySelector('select'),clock=el.querySelector('.clock');
- for(const s of c.stages){const opt=document.createElement('option');opt.value=s.output_start;opt.textContent=s.kind==='coupled'?`第 ${s.cycle} 次同步插入`:s.kind==='independent'?`第 ${s.cycle} 轮独立动作`:'最终收纳';select.append(opt)}
+ const phaseName=s=>s.kind==='coupled'?`第 ${s.cycle} 次同步插入`:s.kind==='independent'?`第 ${s.cycle} 轮拾取并就位`:s.kind==='approach'?`第 ${s.cycle} 轮平滑接近`:'最终收纳';
+ function option(label,frame){const opt=document.createElement('option');opt.value=frame;opt.textContent=label;select.append(opt)}
+ for(const s of c.stages){
+  option(phaseName(s),s.output_start);
+  if(s.kind==='independent'){
+   const [l,r]=s.transitions;
+   option(`第 ${s.cycle} 轮左臂就位`,l.arrival_output_frame);
+   option(`第 ${s.cycle} 轮右臂减速`,r.brake_start_output_frame);
+   if(r.hold_frames>0)option(`第 ${s.cycle} 轮右臂等待`,r.arrival_output_frame);
+   option(`第 ${s.cycle} 轮右臂启动`,r.restart_start_output_frame);
+  }
+ }
  let current=0;
- function show(t){current=Math.min(c.frames-1,Math.max(0,Math.round(t*c.fps)));slider.value=current;const s=c.stages.findLast(s=>current>=s.output_start&&current<=s.output_end);const phase=s.kind==='coupled'?`第 ${s.cycle} 次插入 · 原始同步`:s.kind==='independent'?`第 ${s.cycle} 轮 · 独立动作`:'最终收纳';clock.textContent=`${phase}\n输出 ${current} 帧 (${(current/c.fps).toFixed(2)}s) · 左源 ${c.left[current]} / 右源 ${c.right[current]}`;clock.style.whiteSpace='pre-line'}
+ function armPhase(tr){return current>=tr.brake_start_output_frame&&current<tr.arrival_output_frame?'减速':current>=tr.arrival_output_frame&&current<tr.restart_start_output_frame?'就位等待':current>=tr.restart_start_output_frame&&current<tr.restart_end_output_frame?'启动':''}
+ function sourceFrame(x){return Number.isInteger(x)?x:x.toFixed(3)}
+ function show(t){
+  current=Math.min(c.frames-1,Math.max(0,Math.round(t*c.fps)));slider.value=current;
+  const s=c.stages.findLast(s=>current>=s.output_start&&current<=s.output_end);
+  const independent=c.stages.find(x=>x.kind==='independent'&&x.cycle===s.cycle);
+  const phase=independent?independent.transitions.map((tr,side)=>{const p=armPhase(tr);return p?`${side===0?'左臂':'右臂'}${p}`:''}).filter(Boolean).join(' · '):'';
+  clock.textContent=`${phaseName(s)}${phase?' · '+phase:''}\n输出 ${current} 帧 (${(current/c.fps).toFixed(2)}s)\n左源 ${sourceFrame(c.left[current])} / 右源 ${sourceFrame(c.right[current])}`;clock.style.whiteSpace='pre-line';
+ }
  function seek(n){video.pause();video.currentTime=Math.max(0,Math.min(c.frames-1,n))/c.fps;show(video.currentTime)}
  el.querySelector('.play').onclick=()=>video.paused?video.play():video.pause();
  el.querySelector('.previous').onclick=()=>seek(current-1);el.querySelector('.next').onclick=()=>seek(current+1);

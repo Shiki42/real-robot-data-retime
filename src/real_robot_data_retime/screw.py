@@ -15,6 +15,7 @@ from .interaction.video import read_video, write_video
 from .model_experiment import sha256
 from .staged import export_trajectories
 from .timeline.screw import screw_schedule
+from .timeline.smooth import sample_rows
 from .trim import analyze_episode, read_episode, source_episodes
 from .validate import frame_at, mae
 from .video import remap_video
@@ -54,6 +55,28 @@ def inputs(source, config):
     return info, row, path, first, state, action, trim, identity
 
 
+def mask_proposal(spec, shape):
+    return {
+        key: spec[key] for key in ("bbox", "positive_points", "negative_points")
+    } | {"mask": np.ones(shape, bool)}
+
+
+def segment_carried_screw(model, frames, robots, cursor, begin, spec):
+    """Track the visible bolt head and shaft only after its recorded pickup."""
+    if not cursor <= spec["pickup_frame"] <= spec["source_frame"] <= begin:
+        raise ValueError("held screw prompt is outside its pickup/approach interval")
+    proposal = mask_proposal(spec, frames.shape[1:3])
+    for reverse, stop in [(False, begin + 1), (True, spec["pickup_frame"] - 1)]:
+        for t, mask in model.propagate(
+            frames,
+            [proposal],
+            seed_frame=spec["source_frame"],
+            reverse=reverse,
+            stop_frame=stop,
+        ):
+            robots[t - cursor, 1] |= mask[0]
+
+
 def prepare(frames, config, trim, work, identity):
     from .interaction.photometric_motion import photometric_motion
     from .interaction.robot_discovery import robot_prompt
@@ -79,12 +102,7 @@ def prepare(frames, config, trim, work, identity):
                     ["left_segmentation_prompts", "right_segmentation_prompts"][side]
                 ][cycle]
                 seed = spec["source_frame"] - cursor
-                proposal = {
-                    "bbox": spec["bbox"],
-                    "positive_points": spec["positive_points"],
-                    "negative_points": spec["negative_points"],
-                    "mask": np.ones(frames.shape[1:3], bool),
-                }
+                proposal = mask_proposal(spec, frames.shape[1:3])
             prompts.append(
                 {
                     "side": side,
@@ -101,12 +119,7 @@ def prepare(frames, config, trim, work, identity):
         for spec in config["segmentation_overrides"]:
             if spec["cycle"] != cycle:
                 continue
-            proposal = {
-                "bbox": spec["bbox"],
-                "positive_points": spec["positive_points"],
-                "negative_points": spec["negative_points"],
-                "mask": np.ones(frames.shape[1:3], bool),
-            }
+            proposal = mask_proposal(spec, frames.shape[1:3])
             for t, mask in model.propagate(
                 frames,
                 [proposal],
@@ -114,6 +127,9 @@ def prepare(frames, config, trim, work, identity):
                 stop_frame=spec["stop"],
             ):
                 robots[t - cursor, spec["side"]] = mask[0]
+        segment_carried_screw(
+            model, frames, robots, cursor, begin, config["right_payload_prompts"][cycle]
+        )
         valid = begin - cursor + 1
         np.savez_compressed(
             work / f"masks_{cycle}.npz",
@@ -130,7 +146,9 @@ def prepare(frames, config, trim, work, identity):
 def verify_output(folder, state, action, left, right, fps):
     table = pq.read_table(folder / "trajectories.parquet")
     for name, values in [("action", action), ("observation.state", state)]:
-        expected = np.column_stack([values[left, :7], values[right, 7:]])
+        expected = np.column_stack(
+            [sample_rows(values[:, :7], left), sample_rows(values[:, 7:], right)]
+        )
         if not np.array_equal(np.array(table[name].to_pylist()), expected):
             raise ValueError("exported motion does not match video source clocks")
     counts = {}
@@ -173,7 +191,7 @@ def verify_protected_pixels(folder, frames, plan):
     errors = []
     try:
         for stage in plan["stages"]:
-            if stage["kind"] == "independent":
+            if stage["kind"] not in ("coupled", "final_storage"):
                 continue
             for target in np.linspace(
                 stage["output_start"], stage["output_end"], 5
@@ -191,6 +209,24 @@ def verify_protected_pixels(folder, frames, plan):
         "maximum_mean_absolute_pixel_error": max(errors),
         "passed": True,
     }
+
+
+def render_frames(frames, compositors, left, right, stages):
+    stage_index = 0
+    for t, (l, r) in enumerate(zip(left, right)):
+        while t > stages[stage_index]["output_end"]:
+            stage_index += 1
+        stage = stages[stage_index]
+        if stage["kind"] in ("independent", "approach"):
+            yield compositors[stage["cycle"] - 1].frame(
+                l - stage["source_start"], r - stage["source_start"]
+            )
+        else:
+            if l != r or l != int(l):
+                raise ValueError(
+                    "coupled render requires identical native source frames"
+                )
+            yield frames[int(l)]
 
 
 def render(source, work, frames, config, values):
@@ -230,28 +266,21 @@ def render(source, work, frames, config, values):
             trim["start"],
             trim["stop"],
             config["coupled_intervals"],
+            config["ready_frames"],
             position,
             info["fps"],
+            brake_seconds=config["brake_seconds"],
+            restart_seconds=config["restart_seconds"],
         )
         for comp in compositors:
             comp.overlap_pixels = comp.paired_frames = 0
+            comp.interpolated_frames = [0, 0]
 
-        def output_frames(left=left, right=right, plan=plan):
-            stage_index = 0
-            for t, (l, r) in enumerate(zip(left, right)):
-                while t > plan["stages"][stage_index]["output_end"]:
-                    stage_index += 1
-                stage = plan["stages"][stage_index]
-                if stage["kind"] == "independent":
-                    yield compositors[stage["cycle"] - 1].frame(
-                        l - stage["source_start"], r - stage["source_start"]
-                    )
-                else:
-                    if l != r:
-                        raise ValueError("coupled render clocks diverged")
-                    yield frames[l]
-
-        write_video(folder / "parallel.mp4", output_frames(), info["fps"])
+        write_video(
+            folder / "parallel.mp4",
+            render_frames(frames, compositors, left, right, plan["stages"]),
+            info["fps"],
+        )
         np.savez_compressed(folder / "source_mapping.npz", left=left, right=right)
         export_trajectories(
             folder, (state, action), left, right, info["fps"], {"stages": {}}
@@ -276,7 +305,7 @@ def render(source, work, frames, config, values):
                 feature["shape"][0],
             )
             wrist_pixels[side] = wrist_pixel_error(
-                video, folder / f"{side}_wrist.mp4", clock + offset, samples=40
+                video, folder / f"{side}_wrist.mp4", clock + offset
             )
         subprocess.run(
             [
