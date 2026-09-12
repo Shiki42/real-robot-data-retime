@@ -25,6 +25,8 @@ class IdleTimeline {
       line.className = 'idle-row';
       const label = document.createElement('div');
       label.className = 'idle-label';
+      const rest = masks[arm + '_terminal_rest'];
+      label.title = `末尾静止起点：第 ${rest.start} 帧；第 ${rest.mask_start} 帧起全部屏蔽。该静止段实际保留监督 ${rest.supervised_frames} 帧（最多 ${rest.max_supervised_frames} 帧）。`;
       label.textContent = `${index === 0 ? '左臂' : '右臂'} · 屏蔽 ${total} 帧 / ${(total / row.fps).toFixed(2)} 秒`;
       const status = document.createElement('span');
       status.className = 'idle-status';

@@ -1,0 +1,92 @@
+{
+  "episodes": 156,
+  "arm_timelines": 312,
+  "passed": true,
+  "max_supervised_tail_frames": 45,
+  "counts": {
+    "left": {
+      "changed_outputs": 126,
+      "added_idle_frames": 7712,
+      "total_idle_frames": 16597
+    },
+    "right": {
+      "changed_outputs": 4,
+      "added_idle_frames": 46,
+      "total_idle_frames": 10280
+    }
+  },
+  "examples": [
+    {
+      "output": 0,
+      "arm": "left",
+      "rest": {
+        "start": 430,
+        "mask_start": 475,
+        "end": 698,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
+      "added": 223
+    },
+    {
+      "output": 0,
+      "arm": "right",
+      "rest": {
+        "start": 573,
+        "mask_start": 618,
+        "end": 698,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
+      "added": 7
+    },
+    {
+      "output": 1,
+      "arm": "left",
+      "rest": {
+        "start": 554,
+        "mask_start": 599,
+        "end": 739,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
+      "added": 37
+    },
+    {
+      "output": 2,
+      "arm": "left",
+      "rest": {
+        "start": 629,
+        "mask_start": 674,
+        "end": 715,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
+      "added": 17
+    },
+    {
+      "output": 3,
+      "arm": "left",
+      "rest": {
+        "start": 522,
+        "mask_start": 567,
+        "end": 734,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
+      "added": 167
+    },
+    {
+      "output": 4,
+      "arm": "left",
+      "rest": {
+        "start": 450,
+        "mask_start": 495,
+        "end": 613,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
+      "added": 118
+    }
+  ]
+}

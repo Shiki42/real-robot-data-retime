@@ -3,6 +3,7 @@
   "policy": "task_aware_waits",
   "supervised_wait": "Left lift-peak waiting for opening and right waiting for left withdrawal remain supervised (loss=1).",
   "excess_wait": "Every source uses one continuous interval from withdrawal permission to its close-preparation boundary. Dependency waits and preparation remain supervised; no per-frame quiet-mask branch remains.",
+  "terminal_rest": "Per arm, after completion and final bounded rest, at most the first1.5s remain eligible for supervision; all subsequent frames are idle. Existing idle labels are not re-enabled. Uses full-suffix state/action ranges <=0.3deg joints and <=0.5mm gripper.",
   "training_status": "not_connected_to_training",
   "fps": 30,
   "interval_convention": "[start, end), zero-based output frames",
@@ -46,14 +47,33 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
-      "left": [],
+      "left_terminal_rest": {
+        "start": 430,
+        "mask_start": 475,
+        "end": 698,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
+      "left": [
+        [
+          475,
+          698
+        ]
+      ],
+      "right_terminal_rest": {
+        "start": 573,
+        "mask_start": 618,
+        "end": 698,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "right": [
         [
           0,
           37
         ],
         [
-          625,
+          618,
           698
         ]
       ]
@@ -123,12 +143,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "Continuous excess wait ends before closing preparation; small adjustments do not split mask."
       },
+      "left_terminal_rest": {
+        "start": 554,
+        "mask_start": 599,
+        "end": 739,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
-          636,
+          599,
           739
         ]
       ],
+      "right_terminal_rest": {
+        "start": 721,
+        "mask_start": 739,
+        "end": 739,
+        "max_supervised_frames": 45,
+        "supervised_frames": 18
+      },
       "right": [
         [
           0,
@@ -199,12 +233,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "Continuous excess wait ends before closing preparation; small adjustments do not split mask."
       },
+      "left_terminal_rest": {
+        "start": 629,
+        "mask_start": 674,
+        "end": 715,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
-          691,
+          674,
           715
         ]
       ],
+      "right_terminal_rest": {
+        "start": 702,
+        "mask_start": 715,
+        "end": 715,
+        "max_supervised_frames": 45,
+        "supervised_frames": 13
+      },
       "right": [
         [
           0,
@@ -253,7 +301,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
-      "left": [],
+      "left_terminal_rest": {
+        "start": 522,
+        "mask_start": 567,
+        "end": 734,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
+      "left": [
+        [
+          567,
+          734
+        ]
+      ],
+      "right_terminal_rest": {
+        "start": 656,
+        "mask_start": 701,
+        "end": 734,
+        "max_supervised_frames": 45,
+        "supervised_frames": 17
+      },
       "right": [
         [
           0,
@@ -302,7 +369,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
-      "left": [],
+      "left_terminal_rest": {
+        "start": 450,
+        "mask_start": 495,
+        "end": 613,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
+      "left": [
+        [
+          495,
+          613
+        ]
+      ],
+      "right_terminal_rest": {
+        "start": 540,
+        "mask_start": 585,
+        "end": 613,
+        "max_supervised_frames": 45,
+        "supervised_frames": 11
+      },
       "right": [
         [
           0,
@@ -351,7 +437,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
-      "left": [],
+      "left_terminal_rest": {
+        "start": 515,
+        "mask_start": 560,
+        "end": 597,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
+      "left": [
+        [
+          560,
+          597
+        ]
+      ],
+      "right_terminal_rest": {
+        "start": 514,
+        "mask_start": 559,
+        "end": 597,
+        "max_supervised_frames": 45,
+        "supervised_frames": 27
+      },
       "right": [
         [
           0,
@@ -400,7 +505,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
-      "left": [],
+      "left_terminal_rest": {
+        "start": 476,
+        "mask_start": 521,
+        "end": 583,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
+      "left": [
+        [
+          521,
+          583
+        ]
+      ],
+      "right_terminal_rest": {
+        "start": 543,
+        "mask_start": 583,
+        "end": 583,
+        "max_supervised_frames": 45,
+        "supervised_frames": 16
+      },
       "right": [
         [
           0,
@@ -449,7 +573,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
-      "left": [],
+      "left_terminal_rest": {
+        "start": 451,
+        "mask_start": 496,
+        "end": 592,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
+      "left": [
+        [
+          496,
+          592
+        ]
+      ],
+      "right_terminal_rest": {
+        "start": 520,
+        "mask_start": 565,
+        "end": 592,
+        "max_supervised_frames": 45,
+        "supervised_frames": 1
+      },
       "right": [
         [
           0,
@@ -512,12 +655,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "Continuous excess wait ends before closing preparation; small adjustments do not split mask."
       },
+      "left_terminal_rest": {
+        "start": 515,
+        "mask_start": 560,
+        "end": 598,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
-          568,
+          560,
           598
         ]
       ],
+      "right_terminal_rest": {
+        "start": 588,
+        "mask_start": 598,
+        "end": 598,
+        "max_supervised_frames": 45,
+        "supervised_frames": 10
+      },
       "right": [
         [
           0,
@@ -566,7 +723,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
-      "left": [],
+      "left_terminal_rest": {
+        "start": 502,
+        "mask_start": 547,
+        "end": 562,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
+      "left": [
+        [
+          547,
+          562
+        ]
+      ],
+      "right_terminal_rest": {
+        "start": 534,
+        "mask_start": 562,
+        "end": 562,
+        "max_supervised_frames": 45,
+        "supervised_frames": 23
+      },
       "right": [
         [
           0,
@@ -629,12 +805,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "Continuous excess wait ends before closing preparation; small adjustments do not split mask."
       },
+      "left_terminal_rest": {
+        "start": 486,
+        "mask_start": 531,
+        "end": 714,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
-          682,
+          531,
           714
         ]
       ],
+      "right_terminal_rest": {
+        "start": 699,
+        "mask_start": 714,
+        "end": 714,
+        "max_supervised_frames": 45,
+        "supervised_frames": 15
+      },
       "right": [
         [
           0,
@@ -697,12 +887,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "Continuous excess wait ends before closing preparation; small adjustments do not split mask."
       },
+      "left_terminal_rest": {
+        "start": 426,
+        "mask_start": 471,
+        "end": 474,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
-          472,
+          471,
           474
         ]
       ],
+      "right_terminal_rest": {
+        "start": 473,
+        "mask_start": 474,
+        "end": 474,
+        "max_supervised_frames": 45,
+        "supervised_frames": 1
+      },
       "right": [
         [
           0,
@@ -751,7 +955,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
-      "left": [],
+      "left_terminal_rest": {
+        "start": 378,
+        "mask_start": 423,
+        "end": 484,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
+      "left": [
+        [
+          423,
+          484
+        ]
+      ],
+      "right_terminal_rest": {
+        "start": 435,
+        "mask_start": 480,
+        "end": 484,
+        "max_supervised_frames": 45,
+        "supervised_frames": 6
+      },
       "right": [
         [
           0,
@@ -800,7 +1023,21 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 525,
+        "mask_start": 526,
+        "end": 526,
+        "max_supervised_frames": 45,
+        "supervised_frames": 1
+      },
       "left": [],
+      "right_terminal_rest": {
+        "start": 485,
+        "mask_start": 526,
+        "end": 526,
+        "max_supervised_frames": 45,
+        "supervised_frames": 18
+      },
       "right": [
         [
           0,
@@ -863,12 +1100,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "Continuous excess wait ends before closing preparation; small adjustments do not split mask."
       },
+      "left_terminal_rest": {
+        "start": 532,
+        "mask_start": 577,
+        "end": 582,
+        "max_supervised_frames": 45,
+        "supervised_frames": 36
+      },
       "left": [
         [
           568,
           582
         ]
       ],
+      "right_terminal_rest": {
+        "start": 543,
+        "mask_start": 582,
+        "end": 582,
+        "max_supervised_frames": 45,
+        "supervised_frames": 39
+      },
       "right": [
         [
           0,
@@ -931,7 +1182,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "Continuous excess wait ends before closing preparation; small adjustments do not split mask."
       },
-      "left": [],
+      "left_terminal_rest": {
+        "start": 437,
+        "mask_start": 482,
+        "end": 558,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
+      "left": [
+        [
+          482,
+          558
+        ]
+      ],
+      "right_terminal_rest": {
+        "start": 522,
+        "mask_start": 558,
+        "end": 558,
+        "max_supervised_frames": 45,
+        "supervised_frames": 3
+      },
       "right": [
         [
           0,
@@ -984,7 +1254,21 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 532,
+        "mask_start": 536,
+        "end": 536,
+        "max_supervised_frames": 45,
+        "supervised_frames": 4
+      },
       "left": [],
+      "right_terminal_rest": {
+        "start": 444,
+        "mask_start": 489,
+        "end": 536,
+        "max_supervised_frames": 45,
+        "supervised_frames": 42
+      },
       "right": [
         [
           0,
@@ -1033,12 +1317,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 430,
+        "mask_start": 475,
+        "end": 516,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
-          510,
+          475,
           516
         ]
       ],
+      "right_terminal_rest": {
+        "start": 499,
+        "mask_start": 516,
+        "end": 516,
+        "max_supervised_frames": 45,
+        "supervised_frames": 17
+      },
       "right": [
         [
           0,
@@ -1097,12 +1395,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "Continuous excess wait ends before closing preparation; small adjustments do not split mask."
       },
+      "left_terminal_rest": {
+        "start": 562,
+        "mask_start": 584,
+        "end": 584,
+        "max_supervised_frames": 45,
+        "supervised_frames": 1
+      },
       "left": [
         [
           563,
           584
         ]
       ],
+      "right_terminal_rest": {
+        "start": 550,
+        "mask_start": 584,
+        "end": 584,
+        "max_supervised_frames": 45,
+        "supervised_frames": 34
+      },
       "right": [
         [
           0,
@@ -1157,7 +1469,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
-      "left": [],
+      "left_terminal_rest": {
+        "start": 388,
+        "mask_start": 433,
+        "end": 457,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
+      "left": [
+        [
+          433,
+          457
+        ]
+      ],
+      "right_terminal_rest": {
+        "start": 397,
+        "mask_start": 442,
+        "end": 457,
+        "max_supervised_frames": 45,
+        "supervised_frames": 8
+      },
       "right": [
         [
           0,
@@ -1206,14 +1537,33 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
-      "left": [],
+      "left_terminal_rest": {
+        "start": 534,
+        "mask_start": 579,
+        "end": 589,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
+      "left": [
+        [
+          579,
+          589
+        ]
+      ],
+      "right_terminal_rest": {
+        "start": 514,
+        "mask_start": 559,
+        "end": 589,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "right": [
         [
           0,
           124
         ],
         [
-          575,
+          559,
           589
         ]
       ]
@@ -1255,7 +1605,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
-      "left": [],
+      "left_terminal_rest": {
+        "start": 437,
+        "mask_start": 482,
+        "end": 502,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
+      "left": [
+        [
+          482,
+          502
+        ]
+      ],
+      "right_terminal_rest": {
+        "start": 495,
+        "mask_start": 502,
+        "end": 502,
+        "max_supervised_frames": 45,
+        "supervised_frames": 4
+      },
       "right": [
         [
           0,
@@ -1304,7 +1673,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
-      "left": [],
+      "left_terminal_rest": {
+        "start": 440,
+        "mask_start": 485,
+        "end": 550,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
+      "left": [
+        [
+          485,
+          550
+        ]
+      ],
+      "right_terminal_rest": {
+        "start": 486,
+        "mask_start": 531,
+        "end": 550,
+        "max_supervised_frames": 45,
+        "supervised_frames": 16
+      },
       "right": [
         [
           0,
@@ -1363,7 +1751,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "Continuous excess wait ends before closing preparation; small adjustments do not split mask."
       },
-      "left": [],
+      "left_terminal_rest": {
+        "start": 375,
+        "mask_start": 420,
+        "end": 479,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
+      "left": [
+        [
+          420,
+          479
+        ]
+      ],
+      "right_terminal_rest": {
+        "start": 448,
+        "mask_start": 479,
+        "end": 479,
+        "max_supervised_frames": 45,
+        "supervised_frames": 1
+      },
       "right": [
         [
           0,
@@ -1416,7 +1823,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
-      "left": [],
+      "left_terminal_rest": {
+        "start": 409,
+        "mask_start": 454,
+        "end": 473,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
+      "left": [
+        [
+          454,
+          473
+        ]
+      ],
+      "right_terminal_rest": {
+        "start": 464,
+        "mask_start": 473,
+        "end": 473,
+        "max_supervised_frames": 45,
+        "supervised_frames": 2
+      },
       "right": [
         [
           0,
@@ -1465,7 +1891,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
-      "left": [],
+      "left_terminal_rest": {
+        "start": 429,
+        "mask_start": 474,
+        "end": 507,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
+      "left": [
+        [
+          474,
+          507
+        ]
+      ],
+      "right_terminal_rest": {
+        "start": 490,
+        "mask_start": 507,
+        "end": 507,
+        "max_supervised_frames": 45,
+        "supervised_frames": 8
+      },
       "right": [
         [
           0,
@@ -1538,12 +1983,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "Continuous excess wait ends before closing preparation; small adjustments do not split mask."
       },
+      "left_terminal_rest": {
+        "start": 370,
+        "mask_start": 415,
+        "end": 507,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
-          497,
+          415,
           507
         ]
       ],
+      "right_terminal_rest": {
+        "start": 503,
+        "mask_start": 507,
+        "end": 507,
+        "max_supervised_frames": 45,
+        "supervised_frames": 4
+      },
       "right": [
         [
           0,
@@ -1620,12 +2079,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "Preparatory repositioning already underway: preserve supervision."
       },
+      "left_terminal_rest": {
+        "start": 470,
+        "mask_start": 515,
+        "end": 594,
+        "max_supervised_frames": 45,
+        "supervised_frames": 1
+      },
       "left": [
         [
           471,
           594
         ]
       ],
+      "right_terminal_rest": {
+        "start": 579,
+        "mask_start": 594,
+        "end": 594,
+        "max_supervised_frames": 45,
+        "supervised_frames": 15
+      },
       "right": [
         [
           0,
@@ -1670,7 +2143,21 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 495,
+        "mask_start": 500,
+        "end": 500,
+        "max_supervised_frames": 45,
+        "supervised_frames": 5
+      },
       "left": [],
+      "right_terminal_rest": {
+        "start": 494,
+        "mask_start": 500,
+        "end": 500,
+        "max_supervised_frames": 45,
+        "supervised_frames": 1
+      },
       "right": [
         [
           0,
@@ -1719,12 +2206,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 451,
+        "mask_start": 496,
+        "end": 563,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
-          560,
+          496,
           563
         ]
       ],
+      "right_terminal_rest": {
+        "start": 562,
+        "mask_start": 563,
+        "end": 563,
+        "max_supervised_frames": 45,
+        "supervised_frames": 1
+      },
       "right": [
         [
           0,
@@ -1769,7 +2270,21 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 488,
+        "mask_start": 530,
+        "end": 530,
+        "max_supervised_frames": 45,
+        "supervised_frames": 42
+      },
       "left": [],
+      "right_terminal_rest": {
+        "start": 519,
+        "mask_start": 530,
+        "end": 530,
+        "max_supervised_frames": 45,
+        "supervised_frames": 3
+      },
       "right": [
         [
           0,
@@ -1832,7 +2347,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "Continuous excess wait ends before closing preparation; small adjustments do not split mask."
       },
-      "left": [],
+      "left_terminal_rest": {
+        "start": 419,
+        "mask_start": 464,
+        "end": 486,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
+      "left": [
+        [
+          464,
+          486
+        ]
+      ],
+      "right_terminal_rest": {
+        "start": 469,
+        "mask_start": 486,
+        "end": 486,
+        "max_supervised_frames": 45,
+        "supervised_frames": 7
+      },
       "right": [
         [
           0,
@@ -1895,7 +2429,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "Continuous excess wait ends before closing preparation; small adjustments do not split mask."
       },
-      "left": [],
+      "left_terminal_rest": {
+        "start": 367,
+        "mask_start": 412,
+        "end": 539,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
+      "left": [
+        [
+          412,
+          539
+        ]
+      ],
+      "right_terminal_rest": {
+        "start": 482,
+        "mask_start": 527,
+        "end": 539,
+        "max_supervised_frames": 45,
+        "supervised_frames": 17
+      },
       "right": [
         [
           0,
@@ -1948,7 +2501,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
-      "left": [],
+      "left_terminal_rest": {
+        "start": 465,
+        "mask_start": 510,
+        "end": 511,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
+      "left": [
+        [
+          510,
+          511
+        ]
+      ],
+      "right_terminal_rest": {
+        "start": 493,
+        "mask_start": 511,
+        "end": 511,
+        "max_supervised_frames": 45,
+        "supervised_frames": 5
+      },
       "right": [
         [
           0,
@@ -2015,12 +2587,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "Continuous excess wait ends before closing preparation; small adjustments do not split mask."
       },
+      "left_terminal_rest": {
+        "start": 319,
+        "mask_start": 364,
+        "end": 446,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
-          444,
+          364,
           446
         ]
       ],
+      "right_terminal_rest": {
+        "start": 442,
+        "mask_start": 446,
+        "end": 446,
+        "max_supervised_frames": 45,
+        "supervised_frames": 4
+      },
       "right": [
         [
           0,
@@ -2069,7 +2655,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
-      "left": [],
+      "left_terminal_rest": {
+        "start": 339,
+        "mask_start": 384,
+        "end": 480,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
+      "left": [
+        [
+          384,
+          480
+        ]
+      ],
+      "right_terminal_rest": {
+        "start": 431,
+        "mask_start": 476,
+        "end": 480,
+        "max_supervised_frames": 45,
+        "supervised_frames": 2
+      },
       "right": [
         [
           0,
@@ -2118,7 +2723,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
-      "left": [],
+      "left_terminal_rest": {
+        "start": 353,
+        "mask_start": 398,
+        "end": 491,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
+      "left": [
+        [
+          398,
+          491
+        ]
+      ],
+      "right_terminal_rest": {
+        "start": 430,
+        "mask_start": 475,
+        "end": 491,
+        "max_supervised_frames": 45,
+        "supervised_frames": 7
+      },
       "right": [
         [
           0,
@@ -2167,7 +2791,21 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 494,
+        "mask_start": 499,
+        "end": 499,
+        "max_supervised_frames": 45,
+        "supervised_frames": 5
+      },
       "left": [],
+      "right_terminal_rest": {
+        "start": 466,
+        "mask_start": 499,
+        "end": 499,
+        "max_supervised_frames": 45,
+        "supervised_frames": 14
+      },
       "right": [
         [
           0,
@@ -2216,7 +2854,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
-      "left": [],
+      "left_terminal_rest": {
+        "start": 438,
+        "mask_start": 483,
+        "end": 593,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
+      "left": [
+        [
+          483,
+          593
+        ]
+      ],
+      "right_terminal_rest": {
+        "start": 484,
+        "mask_start": 529,
+        "end": 593,
+        "max_supervised_frames": 45,
+        "supervised_frames": 28
+      },
       "right": [
         [
           0,
@@ -2265,12 +2922,30 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 415,
+        "mask_start": 460,
+        "end": 558,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           9
+        ],
+        [
+          460,
+          558
         ]
       ],
+      "right_terminal_rest": {
+        "start": 431,
+        "mask_start": 476,
+        "end": 558,
+        "max_supervised_frames": 45,
+        "supervised_frames": 7
+      },
       "right": [
         [
           438,
@@ -2315,7 +2990,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
-      "left": [],
+      "left_terminal_rest": {
+        "start": 530,
+        "mask_start": 575,
+        "end": 693,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
+      "left": [
+        [
+          575,
+          693
+        ]
+      ],
+      "right_terminal_rest": {
+        "start": 581,
+        "mask_start": 626,
+        "end": 693,
+        "max_supervised_frames": 45,
+        "supervised_frames": 19
+      },
       "right": [
         [
           0,
@@ -2364,7 +3058,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
-      "left": [],
+      "left_terminal_rest": {
+        "start": 488,
+        "mask_start": 533,
+        "end": 558,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
+      "left": [
+        [
+          533,
+          558
+        ]
+      ],
+      "right_terminal_rest": {
+        "start": 552,
+        "mask_start": 558,
+        "end": 558,
+        "max_supervised_frames": 45,
+        "supervised_frames": 2
+      },
       "right": [
         [
           0,
@@ -2413,12 +3126,30 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 455,
+        "mask_start": 500,
+        "end": 581,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           11
+        ],
+        [
+          500,
+          581
         ]
       ],
+      "right_terminal_rest": {
+        "start": 550,
+        "mask_start": 581,
+        "end": 581,
+        "max_supervised_frames": 45,
+        "supervised_frames": 5
+      },
       "right": [
         [
           555,
@@ -2463,12 +3194,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 504,
+        "mask_start": 513,
+        "end": 513,
+        "max_supervised_frames": 45,
+        "supervised_frames": 9
+      },
       "left": [
         [
           0,
           17
         ]
       ],
+      "right_terminal_rest": {
+        "start": 505,
+        "mask_start": 513,
+        "end": 513,
+        "max_supervised_frames": 45,
+        "supervised_frames": 6
+      },
       "right": [
         [
           511,
@@ -2513,12 +3258,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 573,
+        "mask_start": 574,
+        "end": 574,
+        "max_supervised_frames": 45,
+        "supervised_frames": 1
+      },
       "left": [
         [
           0,
           15
         ]
       ],
+      "right_terminal_rest": {
+        "start": 519,
+        "mask_start": 564,
+        "end": 574,
+        "max_supervised_frames": 45,
+        "supervised_frames": 2
+      },
       "right": [
         [
           521,
@@ -2563,7 +3322,21 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 546,
+        "mask_start": 588,
+        "end": 588,
+        "max_supervised_frames": 45,
+        "supervised_frames": 42
+      },
       "left": [],
+      "right_terminal_rest": {
+        "start": 569,
+        "mask_start": 588,
+        "end": 588,
+        "max_supervised_frames": 45,
+        "supervised_frames": 1
+      },
       "right": [
         [
           0,
@@ -2612,7 +3385,21 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 525,
+        "mask_start": 530,
+        "end": 530,
+        "max_supervised_frames": 45,
+        "supervised_frames": 5
+      },
       "left": [],
+      "right_terminal_rest": {
+        "start": 512,
+        "mask_start": 530,
+        "end": 530,
+        "max_supervised_frames": 45,
+        "supervised_frames": 1
+      },
       "right": [
         [
           0,
@@ -2661,12 +3448,30 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 476,
+        "mask_start": 521,
+        "end": 548,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           20
+        ],
+        [
+          521,
+          548
         ]
       ],
+      "right_terminal_rest": {
+        "start": 520,
+        "mask_start": 548,
+        "end": 548,
+        "max_supervised_frames": 45,
+        "supervised_frames": 12
+      },
       "right": [
         [
           532,
@@ -2711,12 +3516,30 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 514,
+        "mask_start": 559,
+        "end": 563,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           12
+        ],
+        [
+          559,
+          563
         ]
       ],
+      "right_terminal_rest": {
+        "start": 550,
+        "mask_start": 563,
+        "end": 563,
+        "max_supervised_frames": 45,
+        "supervised_frames": 5
+      },
       "right": [
         [
           555,
@@ -2761,7 +3584,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
-      "left": [],
+      "left_terminal_rest": {
+        "start": 482,
+        "mask_start": 527,
+        "end": 576,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
+      "left": [
+        [
+          527,
+          576
+        ]
+      ],
+      "right_terminal_rest": {
+        "start": 556,
+        "mask_start": 576,
+        "end": 576,
+        "max_supervised_frames": 45,
+        "supervised_frames": 6
+      },
       "right": [
         [
           0,
@@ -2810,7 +3652,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
-      "left": [],
+      "left_terminal_rest": {
+        "start": 484,
+        "mask_start": 529,
+        "end": 607,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
+      "left": [
+        [
+          529,
+          607
+        ]
+      ],
+      "right_terminal_rest": {
+        "start": 517,
+        "mask_start": 562,
+        "end": 607,
+        "max_supervised_frames": 45,
+        "supervised_frames": 5
+      },
       "right": [
         [
           0,
@@ -2859,7 +3720,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
-      "left": [],
+      "left_terminal_rest": {
+        "start": 497,
+        "mask_start": 542,
+        "end": 557,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
+      "left": [
+        [
+          542,
+          557
+        ]
+      ],
+      "right_terminal_rest": {
+        "start": 548,
+        "mask_start": 557,
+        "end": 557,
+        "max_supervised_frames": 45,
+        "supervised_frames": 8
+      },
       "right": [
         [
           0,
@@ -2908,7 +3788,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
-      "left": [],
+      "left_terminal_rest": {
+        "start": 500,
+        "mask_start": 545,
+        "end": 556,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
+      "left": [
+        [
+          545,
+          556
+        ]
+      ],
+      "right_terminal_rest": {
+        "start": 543,
+        "mask_start": 556,
+        "end": 556,
+        "max_supervised_frames": 45,
+        "supervised_frames": 2
+      },
       "right": [
         [
           0,
@@ -2962,7 +3861,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
-      "left": [],
+      "left_terminal_rest": {
+        "start": 498,
+        "mask_start": 543,
+        "end": 561,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
+      "left": [
+        [
+          543,
+          561
+        ]
+      ],
+      "right_terminal_rest": {
+        "start": 528,
+        "mask_start": 561,
+        "end": 561,
+        "max_supervised_frames": 45,
+        "supervised_frames": 5
+      },
       "right": [
         [
           0,
@@ -3022,12 +3940,30 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 460,
+        "mask_start": 505,
+        "end": 616,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           33
+        ],
+        [
+          505,
+          616
         ]
       ],
+      "right_terminal_rest": {
+        "start": 610,
+        "mask_start": 616,
+        "end": 616,
+        "max_supervised_frames": 45,
+        "supervised_frames": 4
+      },
       "right": [
         [
           614,
@@ -3072,7 +4008,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
-      "left": [],
+      "left_terminal_rest": {
+        "start": 460,
+        "mask_start": 505,
+        "end": 529,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
+      "left": [
+        [
+          505,
+          529
+        ]
+      ],
+      "right_terminal_rest": {
+        "start": 523,
+        "mask_start": 529,
+        "end": 529,
+        "max_supervised_frames": 45,
+        "supervised_frames": 5
+      },
       "right": [
         [
           0,
@@ -3121,7 +4076,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
-      "left": [],
+      "left_terminal_rest": {
+        "start": 466,
+        "mask_start": 511,
+        "end": 526,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
+      "left": [
+        [
+          511,
+          526
+        ]
+      ],
+      "right_terminal_rest": {
+        "start": 507,
+        "mask_start": 526,
+        "end": 526,
+        "max_supervised_frames": 45,
+        "supervised_frames": 4
+      },
       "right": [
         [
           0,
@@ -3170,12 +4144,30 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 493,
+        "mask_start": 538,
+        "end": 611,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           72
+        ],
+        [
+          538,
+          611
         ]
       ],
+      "right_terminal_rest": {
+        "start": 556,
+        "mask_start": 601,
+        "end": 611,
+        "max_supervised_frames": 45,
+        "supervised_frames": 7
+      },
       "right": [
         [
           563,
@@ -3225,7 +4217,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
-      "left": [],
+      "left_terminal_rest": {
+        "start": 347,
+        "mask_start": 392,
+        "end": 404,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
+      "left": [
+        [
+          392,
+          404
+        ]
+      ],
+      "right_terminal_rest": {
+        "start": 400,
+        "mask_start": 404,
+        "end": 404,
+        "max_supervised_frames": 45,
+        "supervised_frames": 1
+      },
       "right": [
         [
           0,
@@ -3285,7 +4296,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
-      "left": [],
+      "left_terminal_rest": {
+        "start": 407,
+        "mask_start": 452,
+        "end": 513,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
+      "left": [
+        [
+          452,
+          513
+        ]
+      ],
+      "right_terminal_rest": {
+        "start": 442,
+        "mask_start": 487,
+        "end": 513,
+        "max_supervised_frames": 45,
+        "supervised_frames": 38
+      },
       "right": [
         [
           0,
@@ -3358,12 +4388,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "Continuous excess wait ends before closing preparation; small adjustments do not split mask."
       },
+      "left_terminal_rest": {
+        "start": 329,
+        "mask_start": 374,
+        "end": 506,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
-          489,
+          374,
           506
         ]
       ],
+      "right_terminal_rest": {
+        "start": 504,
+        "mask_start": 506,
+        "end": 506,
+        "max_supervised_frames": 45,
+        "supervised_frames": 2
+      },
       "right": [
         [
           0,
@@ -3423,7 +4467,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
-      "left": [],
+      "left_terminal_rest": {
+        "start": 317,
+        "mask_start": 362,
+        "end": 395,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
+      "left": [
+        [
+          362,
+          395
+        ]
+      ],
+      "right_terminal_rest": {
+        "start": 373,
+        "mask_start": 395,
+        "end": 395,
+        "max_supervised_frames": 45,
+        "supervised_frames": 8
+      },
       "right": [
         [
           0,
@@ -3483,12 +4546,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 422,
+        "mask_start": 454,
+        "end": 454,
+        "max_supervised_frames": 45,
+        "supervised_frames": 16
+      },
       "left": [
         [
           438,
           454
         ]
       ],
+      "right_terminal_rest": {
+        "start": 441,
+        "mask_start": 454,
+        "end": 454,
+        "max_supervised_frames": 45,
+        "supervised_frames": 13
+      },
       "right": [
         [
           0,
@@ -3549,7 +4626,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
-      "left": [],
+      "left_terminal_rest": {
+        "start": 383,
+        "mask_start": 428,
+        "end": 484,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
+      "left": [
+        [
+          428,
+          484
+        ]
+      ],
+      "right_terminal_rest": {
+        "start": 414,
+        "mask_start": 459,
+        "end": 484,
+        "max_supervised_frames": 45,
+        "supervised_frames": 20
+      },
       "right": [
         [
           0,
@@ -3598,7 +4694,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
-      "left": [],
+      "left_terminal_rest": {
+        "start": 383,
+        "mask_start": 428,
+        "end": 469,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
+      "left": [
+        [
+          428,
+          469
+        ]
+      ],
+      "right_terminal_rest": {
+        "start": 447,
+        "mask_start": 469,
+        "end": 469,
+        "max_supervised_frames": 45,
+        "supervised_frames": 5
+      },
       "right": [
         [
           0,
@@ -3658,7 +4773,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
-      "left": [],
+      "left_terminal_rest": {
+        "start": 378,
+        "mask_start": 423,
+        "end": 546,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
+      "left": [
+        [
+          423,
+          546
+        ]
+      ],
+      "right_terminal_rest": {
+        "start": 544,
+        "mask_start": 546,
+        "end": 546,
+        "max_supervised_frames": 45,
+        "supervised_frames": 2
+      },
       "right": [
         [
           0,
@@ -3703,7 +4837,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
-      "left": [],
+      "left_terminal_rest": {
+        "start": 326,
+        "mask_start": 371,
+        "end": 393,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
+      "left": [
+        [
+          371,
+          393
+        ]
+      ],
+      "right_terminal_rest": {
+        "start": 359,
+        "mask_start": 393,
+        "end": 393,
+        "max_supervised_frames": 45,
+        "supervised_frames": 7
+      },
       "right": [
         [
           0,
@@ -3752,12 +4905,30 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 425,
+        "mask_start": 470,
+        "end": 506,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           25
+        ],
+        [
+          470,
+          506
         ]
       ],
+      "right_terminal_rest": {
+        "start": 473,
+        "mask_start": 506,
+        "end": 506,
+        "max_supervised_frames": 45,
+        "supervised_frames": 10
+      },
       "right": [
         [
           483,
@@ -3813,7 +4984,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
-      "left": [],
+      "left_terminal_rest": {
+        "start": 327,
+        "mask_start": 372,
+        "end": 508,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
+      "left": [
+        [
+          372,
+          508
+        ]
+      ],
+      "right_terminal_rest": {
+        "start": 463,
+        "mask_start": 508,
+        "end": 508,
+        "max_supervised_frames": 45,
+        "supervised_frames": 17
+      },
       "right": [
         [
           0,
@@ -3887,7 +5077,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "Continuous excess wait ends before closing preparation; small adjustments do not split mask."
       },
-      "left": [],
+      "left_terminal_rest": {
+        "start": 361,
+        "mask_start": 406,
+        "end": 431,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
+      "left": [
+        [
+          406,
+          431
+        ]
+      ],
+      "right_terminal_rest": {
+        "start": 425,
+        "mask_start": 431,
+        "end": 431,
+        "max_supervised_frames": 45,
+        "supervised_frames": 1
+      },
       "right": [
         [
           0,
@@ -3940,7 +5149,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
-      "left": [],
+      "left_terminal_rest": {
+        "start": 293,
+        "mask_start": 338,
+        "end": 372,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
+      "left": [
+        [
+          338,
+          372
+        ]
+      ],
+      "right_terminal_rest": {
+        "start": 352,
+        "mask_start": 372,
+        "end": 372,
+        "max_supervised_frames": 45,
+        "supervised_frames": 15
+      },
       "right": [
         [
           0,
@@ -4010,12 +5238,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "Continuous excess wait ends before closing preparation; small adjustments do not split mask."
       },
+      "left_terminal_rest": {
+        "start": 354,
+        "mask_start": 399,
+        "end": 436,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
-          414,
+          399,
           436
         ]
       ],
+      "right_terminal_rest": {
+        "start": 428,
+        "mask_start": 436,
+        "end": 436,
+        "max_supervised_frames": 45,
+        "supervised_frames": 8
+      },
       "right": [
         [
           247,
@@ -4085,6 +5327,13 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "Continuous excess wait ends before closing preparation; small adjustments do not split mask."
       },
+      "left_terminal_rest": {
+        "start": 450,
+        "mask_start": 495,
+        "end": 512,
+        "max_supervised_frames": 45,
+        "supervised_frames": 21
+      },
       "left": [
         [
           0,
@@ -4095,6 +5344,13 @@
           512
         ]
       ],
+      "right_terminal_rest": {
+        "start": 506,
+        "mask_start": 512,
+        "end": 512,
+        "max_supervised_frames": 45,
+        "supervised_frames": 6
+      },
       "right": [
         [
           265,
@@ -4159,12 +5415,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "Continuous excess wait ends before closing preparation; small adjustments do not split mask."
       },
+      "left_terminal_rest": {
+        "start": 435,
+        "mask_start": 480,
+        "end": 503,
+        "max_supervised_frames": 45,
+        "supervised_frames": 9
+      },
       "left": [
         [
           444,
           503
         ]
       ],
+      "right_terminal_rest": {
+        "start": 500,
+        "mask_start": 503,
+        "end": 503,
+        "max_supervised_frames": 45,
+        "supervised_frames": 3
+      },
       "right": [
         [
           0,
@@ -4246,12 +5516,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "Continuous excess wait ends before closing preparation; small adjustments do not split mask."
       },
+      "left_terminal_rest": {
+        "start": 306,
+        "mask_start": 351,
+        "end": 535,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
-          502,
+          351,
           535
         ]
       ],
+      "right_terminal_rest": {
+        "start": 530,
+        "mask_start": 535,
+        "end": 535,
+        "max_supervised_frames": 45,
+        "supervised_frames": 5
+      },
       "right": [
         [
           0,
@@ -4295,7 +5579,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
-      "left": [],
+      "left_terminal_rest": {
+        "start": 333,
+        "mask_start": 378,
+        "end": 389,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
+      "left": [
+        [
+          378,
+          389
+        ]
+      ],
+      "right_terminal_rest": {
+        "start": 384,
+        "mask_start": 389,
+        "end": 389,
+        "max_supervised_frames": 45,
+        "supervised_frames": 2
+      },
       "right": [
         [
           0,
@@ -4344,7 +5647,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
-      "left": [],
+      "left_terminal_rest": {
+        "start": 331,
+        "mask_start": 376,
+        "end": 476,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
+      "left": [
+        [
+          376,
+          476
+        ]
+      ],
+      "right_terminal_rest": {
+        "start": 416,
+        "mask_start": 461,
+        "end": 476,
+        "max_supervised_frames": 45,
+        "supervised_frames": 17
+      },
       "right": [
         [
           433,
@@ -4400,12 +5722,30 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 294,
+        "mask_start": 339,
+        "end": 468,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           6
+        ],
+        [
+          339,
+          468
         ]
       ],
+      "right_terminal_rest": {
+        "start": 373,
+        "mask_start": 418,
+        "end": 468,
+        "max_supervised_frames": 45,
+        "supervised_frames": 17
+      },
       "right": [
         [
           390,
@@ -4450,15 +5790,33 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 393,
+        "mask_start": 438,
+        "end": 661,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           85
+        ],
+        [
+          438,
+          661
         ]
       ],
+      "right_terminal_rest": {
+        "start": 536,
+        "mask_start": 581,
+        "end": 661,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "right": [
         [
-          588,
+          581,
           661
         ]
       ]
@@ -4528,16 +5886,30 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "Continuous excess wait ends before closing preparation; small adjustments do not split mask."
       },
+      "left_terminal_rest": {
+        "start": 447,
+        "mask_start": 492,
+        "end": 632,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           78
         ],
         [
-          529,
+          492,
           632
         ]
       ],
+      "right_terminal_rest": {
+        "start": 614,
+        "mask_start": 632,
+        "end": 632,
+        "max_supervised_frames": 45,
+        "supervised_frames": 18
+      },
       "right": [
         [
           322,
@@ -4604,16 +5976,30 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "Continuous excess wait ends before closing preparation; small adjustments do not split mask."
       },
+      "left_terminal_rest": {
+        "start": 493,
+        "mask_start": 538,
+        "end": 579,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           61
         ],
         [
-          555,
+          538,
           579
         ]
       ],
+      "right_terminal_rest": {
+        "start": 566,
+        "mask_start": 579,
+        "end": 579,
+        "max_supervised_frames": 45,
+        "supervised_frames": 13
+      },
       "right": [
         [
           317,
@@ -4658,12 +6044,30 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 388,
+        "mask_start": 433,
+        "end": 600,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           60
+        ],
+        [
+          433,
+          600
         ]
       ],
+      "right_terminal_rest": {
+        "start": 522,
+        "mask_start": 567,
+        "end": 600,
+        "max_supervised_frames": 45,
+        "supervised_frames": 17
+      },
       "right": [
         [
           539,
@@ -4708,12 +6112,30 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 312,
+        "mask_start": 357,
+        "end": 475,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           25
+        ],
+        [
+          357,
+          475
         ]
       ],
+      "right_terminal_rest": {
+        "start": 402,
+        "mask_start": 447,
+        "end": 475,
+        "max_supervised_frames": 45,
+        "supervised_frames": 11
+      },
       "right": [
         [
           413,
@@ -4758,12 +6180,30 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 404,
+        "mask_start": 449,
+        "end": 486,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           49
+        ],
+        [
+          449,
+          486
         ]
       ],
+      "right_terminal_rest": {
+        "start": 403,
+        "mask_start": 448,
+        "end": 486,
+        "max_supervised_frames": 45,
+        "supervised_frames": 27
+      },
       "right": [
         [
           430,
@@ -4808,12 +6248,30 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 356,
+        "mask_start": 401,
+        "end": 463,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           36
+        ],
+        [
+          401,
+          463
         ]
       ],
+      "right_terminal_rest": {
+        "start": 423,
+        "mask_start": 463,
+        "end": 463,
+        "max_supervised_frames": 45,
+        "supervised_frames": 16
+      },
       "right": [
         [
           439,
@@ -4853,12 +6311,30 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 313,
+        "mask_start": 358,
+        "end": 454,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           30
+        ],
+        [
+          358,
+          454
         ]
       ],
+      "right_terminal_rest": {
+        "start": 382,
+        "mask_start": 427,
+        "end": 454,
+        "max_supervised_frames": 45,
+        "supervised_frames": 1
+      },
       "right": [
         [
           383,
@@ -4917,16 +6393,30 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "Continuous excess wait ends before closing preparation; small adjustments do not split mask."
       },
+      "left_terminal_rest": {
+        "start": 395,
+        "mask_start": 440,
+        "end": 478,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           57
         ],
         [
-          448,
+          440,
           478
         ]
       ],
+      "right_terminal_rest": {
+        "start": 468,
+        "mask_start": 478,
+        "end": 478,
+        "max_supervised_frames": 45,
+        "supervised_frames": 10
+      },
       "right": [
         [
           275,
@@ -4971,12 +6461,30 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 391,
+        "mask_start": 436,
+        "end": 451,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           52
+        ],
+        [
+          436,
+          451
         ]
       ],
+      "right_terminal_rest": {
+        "start": 423,
+        "mask_start": 451,
+        "end": 451,
+        "max_supervised_frames": 45,
+        "supervised_frames": 23
+      },
       "right": [
         [
           446,
@@ -5035,16 +6543,30 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "Continuous excess wait ends before closing preparation; small adjustments do not split mask."
       },
+      "left_terminal_rest": {
+        "start": 354,
+        "mask_start": 399,
+        "end": 582,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           48
         ],
         [
-          550,
+          399,
           582
         ]
       ],
+      "right_terminal_rest": {
+        "start": 567,
+        "mask_start": 582,
+        "end": 582,
+        "max_supervised_frames": 45,
+        "supervised_frames": 15
+      },
       "right": [
         [
           265,
@@ -5098,16 +6620,30 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "Continuous excess wait ends before closing preparation; small adjustments do not split mask."
       },
+      "left_terminal_rest": {
+        "start": 314,
+        "mask_start": 359,
+        "end": 361,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           43
         ],
         [
-          360,
+          359,
           361
         ]
       ],
+      "right_terminal_rest": {
+        "start": 360,
+        "mask_start": 361,
+        "end": 361,
+        "max_supervised_frames": 45,
+        "supervised_frames": 1
+      },
       "right": [
         [
           216,
@@ -5152,12 +6688,30 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 293,
+        "mask_start": 338,
+        "end": 399,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           63
+        ],
+        [
+          338,
+          399
         ]
       ],
+      "right_terminal_rest": {
+        "start": 350,
+        "mask_start": 395,
+        "end": 399,
+        "max_supervised_frames": 45,
+        "supervised_frames": 6
+      },
       "right": [
         [
           356,
@@ -5197,12 +6751,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 411,
+        "mask_start": 412,
+        "end": 412,
+        "max_supervised_frames": 45,
+        "supervised_frames": 1
+      },
       "left": [
         [
           0,
           40
         ]
       ],
+      "right_terminal_rest": {
+        "start": 363,
+        "mask_start": 408,
+        "end": 412,
+        "max_supervised_frames": 45,
+        "supervised_frames": 18
+      },
       "right": [
         [
           381,
@@ -5261,6 +6829,13 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "Continuous excess wait ends before closing preparation; small adjustments do not split mask."
       },
+      "left_terminal_rest": {
+        "start": 433,
+        "mask_start": 478,
+        "end": 483,
+        "max_supervised_frames": 45,
+        "supervised_frames": 36
+      },
       "left": [
         [
           0,
@@ -5271,6 +6846,13 @@
           483
         ]
       ],
+      "right_terminal_rest": {
+        "start": 444,
+        "mask_start": 483,
+        "end": 483,
+        "max_supervised_frames": 45,
+        "supervised_frames": 39
+      },
       "right": [
         [
           228,
@@ -5324,12 +6906,30 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "Continuous excess wait ends before closing preparation; small adjustments do not split mask."
       },
+      "left_terminal_rest": {
+        "start": 331,
+        "mask_start": 376,
+        "end": 452,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           59
+        ],
+        [
+          376,
+          452
         ]
       ],
+      "right_terminal_rest": {
+        "start": 409,
+        "mask_start": 452,
+        "end": 452,
+        "max_supervised_frames": 45,
+        "supervised_frames": 3
+      },
       "right": [
         [
           253,
@@ -5373,12 +6973,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 448,
+        "mask_start": 452,
+        "end": 452,
+        "max_supervised_frames": 45,
+        "supervised_frames": 4
+      },
       "left": [
         [
           0,
           49
         ]
       ],
+      "right_terminal_rest": {
+        "start": 360,
+        "mask_start": 405,
+        "end": 452,
+        "max_supervised_frames": 45,
+        "supervised_frames": 42
+      },
       "right": [
         [
           402,
@@ -5418,12 +7032,30 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 344,
+        "mask_start": 389,
+        "end": 424,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           58
+        ],
+        [
+          389,
+          424
         ]
       ],
+      "right_terminal_rest": {
+        "start": 404,
+        "mask_start": 424,
+        "end": 424,
+        "max_supervised_frames": 45,
+        "supervised_frames": 17
+      },
       "right": [
         [
           421,
@@ -5472,12 +7104,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "Continuous excess wait ends before closing preparation; small adjustments do not split mask."
       },
+      "left_terminal_rest": {
+        "start": 462,
+        "mask_start": 463,
+        "end": 463,
+        "max_supervised_frames": 45,
+        "supervised_frames": 1
+      },
       "left": [
         [
           0,
           49
         ]
       ],
+      "right_terminal_rest": {
+        "start": 425,
+        "mask_start": 463,
+        "end": 463,
+        "max_supervised_frames": 45,
+        "supervised_frames": 34
+      },
       "right": [
         [
           459,
@@ -5528,12 +7174,30 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 337,
+        "mask_start": 382,
+        "end": 406,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           69
+        ],
+        [
+          382,
+          406
         ]
       ],
+      "right_terminal_rest": {
+        "start": 346,
+        "mask_start": 391,
+        "end": 406,
+        "max_supervised_frames": 45,
+        "supervised_frames": 8
+      },
       "right": [
         [
           354,
@@ -5573,15 +7237,33 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 441,
+        "mask_start": 486,
+        "end": 496,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           68
+        ],
+        [
+          486,
+          496
         ]
       ],
+      "right_terminal_rest": {
+        "start": 421,
+        "mask_start": 466,
+        "end": 496,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "right": [
         [
-          482,
+          466,
           496
         ]
       ]
@@ -5618,12 +7300,30 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 355,
+        "mask_start": 400,
+        "end": 420,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           50
+        ],
+        [
+          400,
+          420
         ]
       ],
+      "right_terminal_rest": {
+        "start": 409,
+        "mask_start": 420,
+        "end": 420,
+        "max_supervised_frames": 45,
+        "supervised_frames": 4
+      },
       "right": [
         [
           413,
@@ -5663,12 +7363,30 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 362,
+        "mask_start": 407,
+        "end": 472,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           52
+        ],
+        [
+          407,
+          472
         ]
       ],
+      "right_terminal_rest": {
+        "start": 408,
+        "mask_start": 453,
+        "end": 472,
+        "max_supervised_frames": 45,
+        "supervised_frames": 16
+      },
       "right": [
         [
           424,
@@ -5713,12 +7431,30 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "Continuous excess wait ends before closing preparation; small adjustments do not split mask."
       },
+      "left_terminal_rest": {
+        "start": 310,
+        "mask_start": 355,
+        "end": 414,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           39
+        ],
+        [
+          355,
+          414
         ]
       ],
+      "right_terminal_rest": {
+        "start": 361,
+        "mask_start": 406,
+        "end": 414,
+        "max_supervised_frames": 45,
+        "supervised_frames": 1
+      },
       "right": [
         [
           362,
@@ -5758,12 +7494,30 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 349,
+        "mask_start": 394,
+        "end": 413,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           37
+        ],
+        [
+          394,
+          413
         ]
       ],
+      "right_terminal_rest": {
+        "start": 393,
+        "mask_start": 413,
+        "end": 413,
+        "max_supervised_frames": 45,
+        "supervised_frames": 2
+      },
       "right": [
         [
           395,
@@ -5803,12 +7557,30 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 367,
+        "mask_start": 412,
+        "end": 445,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           38
+        ],
+        [
+          412,
+          445
         ]
       ],
+      "right_terminal_rest": {
+        "start": 418,
+        "mask_start": 445,
+        "end": 445,
+        "max_supervised_frames": 45,
+        "supervised_frames": 8
+      },
       "right": [
         [
           426,
@@ -5867,12 +7639,30 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "Continuous excess wait ends before closing preparation; small adjustments do not split mask."
       },
+      "left_terminal_rest": {
+        "start": 316,
+        "mask_start": 361,
+        "end": 443,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           72
+        ],
+        [
+          361,
+          443
         ]
       ],
+      "right_terminal_rest": {
+        "start": 414,
+        "mask_start": 443,
+        "end": 443,
+        "max_supervised_frames": 45,
+        "supervised_frames": 4
+      },
       "right": [
         [
           418,
@@ -5940,6 +7730,13 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "Preparatory repositioning already underway: preserve supervision."
       },
+      "left_terminal_rest": {
+        "start": 424,
+        "mask_start": 469,
+        "end": 513,
+        "max_supervised_frames": 45,
+        "supervised_frames": 1
+      },
       "left": [
         [
           0,
@@ -5950,6 +7747,13 @@
           513
         ]
       ],
+      "right_terminal_rest": {
+        "start": 498,
+        "mask_start": 513,
+        "end": 513,
+        "max_supervised_frames": 45,
+        "supervised_frames": 15
+      },
       "right": []
     },
     {
@@ -5984,12 +7788,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 453,
+        "mask_start": 458,
+        "end": 458,
+        "max_supervised_frames": 45,
+        "supervised_frames": 5
+      },
       "left": [
         [
           0,
           60
         ]
       ],
+      "right_terminal_rest": {
+        "start": 452,
+        "mask_start": 458,
+        "end": 458,
+        "max_supervised_frames": 45,
+        "supervised_frames": 1
+      },
       "right": [
         [
           453,
@@ -6029,12 +7847,30 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 404,
+        "mask_start": 449,
+        "end": 513,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           61
+        ],
+        [
+          449,
+          513
         ]
       ],
+      "right_terminal_rest": {
+        "start": 488,
+        "mask_start": 513,
+        "end": 513,
+        "max_supervised_frames": 45,
+        "supervised_frames": 1
+      },
       "right": [
         [
           489,
@@ -6074,12 +7910,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 452,
+        "mask_start": 494,
+        "end": 494,
+        "max_supervised_frames": 45,
+        "supervised_frames": 42
+      },
       "left": [
         [
           0,
           70
         ]
       ],
+      "right_terminal_rest": {
+        "start": 482,
+        "mask_start": 494,
+        "end": 494,
+        "max_supervised_frames": 45,
+        "supervised_frames": 3
+      },
       "right": [
         [
           485,
@@ -6128,12 +7978,30 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "Continuous excess wait ends before closing preparation; small adjustments do not split mask."
       },
+      "left_terminal_rest": {
+        "start": 385,
+        "mask_start": 430,
+        "end": 452,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           78
+        ],
+        [
+          430,
+          452
         ]
       ],
+      "right_terminal_rest": {
+        "start": 416,
+        "mask_start": 452,
+        "end": 452,
+        "max_supervised_frames": 45,
+        "supervised_frames": 7
+      },
       "right": [
         [
           423,
@@ -6178,12 +8046,30 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "Continuous excess wait ends before closing preparation; small adjustments do not split mask."
       },
+      "left_terminal_rest": {
+        "start": 339,
+        "mask_start": 384,
+        "end": 511,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           57
+        ],
+        [
+          384,
+          511
         ]
       ],
+      "right_terminal_rest": {
+        "start": 428,
+        "mask_start": 473,
+        "end": 511,
+        "max_supervised_frames": 45,
+        "supervised_frames": 17
+      },
       "right": [
         [
           445,
@@ -6223,12 +8109,30 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 441,
+        "mask_start": 486,
+        "end": 487,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           83
+        ],
+        [
+          486,
+          487
         ]
       ],
+      "right_terminal_rest": {
+        "start": 469,
+        "mask_start": 487,
+        "end": 487,
+        "max_supervised_frames": 45,
+        "supervised_frames": 5
+      },
       "right": [
         [
           474,
@@ -6281,12 +8185,30 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "Continuous excess wait ends before closing preparation; small adjustments do not split mask."
       },
+      "left_terminal_rest": {
+        "start": 301,
+        "mask_start": 346,
+        "end": 426,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           64
+        ],
+        [
+          346,
+          426
         ]
       ],
+      "right_terminal_rest": {
+        "start": 379,
+        "mask_start": 424,
+        "end": 426,
+        "max_supervised_frames": 45,
+        "supervised_frames": 4
+      },
       "right": [
         [
           383,
@@ -6326,12 +8248,30 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 323,
+        "mask_start": 368,
+        "end": 464,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           76
+        ],
+        [
+          368,
+          464
         ]
       ],
+      "right_terminal_rest": {
+        "start": 412,
+        "mask_start": 457,
+        "end": 464,
+        "max_supervised_frames": 45,
+        "supervised_frames": 2
+      },
       "right": [
         [
           414,
@@ -6371,12 +8311,30 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 342,
+        "mask_start": 387,
+        "end": 480,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           71
+        ],
+        [
+          387,
+          480
         ]
       ],
+      "right_terminal_rest": {
+        "start": 415,
+        "mask_start": 460,
+        "end": 480,
+        "max_supervised_frames": 45,
+        "supervised_frames": 7
+      },
       "right": [
         [
           422,
@@ -6416,12 +8374,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 485,
+        "mask_start": 490,
+        "end": 490,
+        "max_supervised_frames": 45,
+        "supervised_frames": 5
+      },
       "left": [
         [
           0,
           82
         ]
       ],
+      "right_terminal_rest": {
+        "start": 438,
+        "mask_start": 483,
+        "end": 490,
+        "max_supervised_frames": 45,
+        "supervised_frames": 14
+      },
       "right": [
         [
           452,
@@ -6461,12 +8433,30 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 434,
+        "mask_start": 479,
+        "end": 589,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           106
+        ],
+        [
+          479,
+          589
         ]
       ],
+      "right_terminal_rest": {
+        "start": 480,
+        "mask_start": 525,
+        "end": 589,
+        "max_supervised_frames": 45,
+        "supervised_frames": 28
+      },
       "right": [
         [
           508,
@@ -6511,12 +8501,30 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 415,
+        "mask_start": 460,
+        "end": 558,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           129
+        ],
+        [
+          460,
+          558
         ]
       ],
+      "right_terminal_rest": {
+        "start": 431,
+        "mask_start": 476,
+        "end": 558,
+        "max_supervised_frames": 45,
+        "supervised_frames": 7
+      },
       "right": [
         [
           438,
@@ -6556,12 +8564,30 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 535,
+        "mask_start": 580,
+        "end": 698,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           101
+        ],
+        [
+          580,
+          698
         ]
       ],
+      "right_terminal_rest": {
+        "start": 586,
+        "mask_start": 631,
+        "end": 698,
+        "max_supervised_frames": 45,
+        "supervised_frames": 19
+      },
       "right": [
         [
           605,
@@ -6601,12 +8627,30 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 498,
+        "mask_start": 543,
+        "end": 568,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           97
+        ],
+        [
+          543,
+          568
         ]
       ],
+      "right_terminal_rest": {
+        "start": 562,
+        "mask_start": 568,
+        "end": 568,
+        "max_supervised_frames": 45,
+        "supervised_frames": 2
+      },
       "right": [
         [
           564,
@@ -6651,12 +8695,30 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 455,
+        "mask_start": 500,
+        "end": 581,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           135
+        ],
+        [
+          500,
+          581
         ]
       ],
+      "right_terminal_rest": {
+        "start": 550,
+        "mask_start": 581,
+        "end": 581,
+        "max_supervised_frames": 45,
+        "supervised_frames": 5
+      },
       "right": [
         [
           555,
@@ -6701,12 +8763,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 504,
+        "mask_start": 513,
+        "end": 513,
+        "max_supervised_frames": 45,
+        "supervised_frames": 9
+      },
       "left": [
         [
           0,
           130
         ]
       ],
+      "right_terminal_rest": {
+        "start": 505,
+        "mask_start": 513,
+        "end": 513,
+        "max_supervised_frames": 45,
+        "supervised_frames": 6
+      },
       "right": [
         [
           511,
@@ -6746,12 +8822,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 574,
+        "mask_start": 575,
+        "end": 575,
+        "max_supervised_frames": 45,
+        "supervised_frames": 1
+      },
       "left": [
         [
           0,
           140
         ]
       ],
+      "right_terminal_rest": {
+        "start": 520,
+        "mask_start": 565,
+        "end": 575,
+        "max_supervised_frames": 45,
+        "supervised_frames": 2
+      },
       "right": [
         [
           522,
@@ -6791,12 +8881,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 577,
+        "mask_start": 619,
+        "end": 619,
+        "max_supervised_frames": 45,
+        "supervised_frames": 42
+      },
       "left": [
         [
           0,
           147
         ]
       ],
+      "right_terminal_rest": {
+        "start": 600,
+        "mask_start": 619,
+        "end": 619,
+        "max_supervised_frames": 45,
+        "supervised_frames": 1
+      },
       "right": [
         [
           601,
@@ -6836,12 +8940,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 556,
+        "mask_start": 561,
+        "end": 561,
+        "max_supervised_frames": 45,
+        "supervised_frames": 5
+      },
       "left": [
         [
           0,
           113
         ]
       ],
+      "right_terminal_rest": {
+        "start": 543,
+        "mask_start": 561,
+        "end": 561,
+        "max_supervised_frames": 45,
+        "supervised_frames": 1
+      },
       "right": [
         [
           544,
@@ -6881,12 +8999,30 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 483,
+        "mask_start": 528,
+        "end": 555,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           152
+        ],
+        [
+          528,
+          555
         ]
       ],
+      "right_terminal_rest": {
+        "start": 527,
+        "mask_start": 555,
+        "end": 555,
+        "max_supervised_frames": 45,
+        "supervised_frames": 12
+      },
       "right": [
         [
           539,
@@ -6926,12 +9062,30 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 535,
+        "mask_start": 580,
+        "end": 584,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           155
+        ],
+        [
+          580,
+          584
         ]
       ],
+      "right_terminal_rest": {
+        "start": 571,
+        "mask_start": 584,
+        "end": 584,
+        "max_supervised_frames": 45,
+        "supervised_frames": 5
+      },
       "right": [
         [
           576,
@@ -6971,12 +9125,30 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 529,
+        "mask_start": 574,
+        "end": 623,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           135
+        ],
+        [
+          574,
+          623
         ]
       ],
+      "right_terminal_rest": {
+        "start": 602,
+        "mask_start": 623,
+        "end": 623,
+        "max_supervised_frames": 45,
+        "supervised_frames": 6
+      },
       "right": [
         [
           608,
@@ -7016,12 +9188,30 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 537,
+        "mask_start": 582,
+        "end": 660,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           151
+        ],
+        [
+          582,
+          660
         ]
       ],
+      "right_terminal_rest": {
+        "start": 570,
+        "mask_start": 615,
+        "end": 660,
+        "max_supervised_frames": 45,
+        "supervised_frames": 5
+      },
       "right": [
         [
           575,
@@ -7061,12 +9251,30 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 556,
+        "mask_start": 601,
+        "end": 616,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           156
+        ],
+        [
+          601,
+          616
         ]
       ],
+      "right_terminal_rest": {
+        "start": 607,
+        "mask_start": 616,
+        "end": 616,
+        "max_supervised_frames": 45,
+        "supervised_frames": 8
+      },
       "right": [
         [
           615,
@@ -7106,12 +9314,30 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 566,
+        "mask_start": 611,
+        "end": 622,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           141
+        ],
+        [
+          611,
+          622
         ]
       ],
+      "right_terminal_rest": {
+        "start": 609,
+        "mask_start": 622,
+        "end": 622,
+        "max_supervised_frames": 45,
+        "supervised_frames": 2
+      },
       "right": [
         [
           611,
@@ -7156,12 +9382,30 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 567,
+        "mask_start": 612,
+        "end": 630,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           141
+        ],
+        [
+          612,
+          630
         ]
       ],
+      "right_terminal_rest": {
+        "start": 597,
+        "mask_start": 630,
+        "end": 630,
+        "max_supervised_frames": 45,
+        "supervised_frames": 5
+      },
       "right": [
         [
           602,
@@ -7212,12 +9456,30 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 476,
+        "mask_start": 521,
+        "end": 632,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           161
+        ],
+        [
+          521,
+          632
         ]
       ],
+      "right_terminal_rest": {
+        "start": 610,
+        "mask_start": 632,
+        "end": 632,
+        "max_supervised_frames": 45,
+        "supervised_frames": 4
+      },
       "right": [
         [
           614,
@@ -7257,12 +9519,30 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 536,
+        "mask_start": 581,
+        "end": 605,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           155
+        ],
+        [
+          581,
+          605
         ]
       ],
+      "right_terminal_rest": {
+        "start": 599,
+        "mask_start": 605,
+        "end": 605,
+        "max_supervised_frames": 45,
+        "supervised_frames": 5
+      },
       "right": [
         [
           604,
@@ -7302,12 +9582,30 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 544,
+        "mask_start": 589,
+        "end": 604,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           145
+        ],
+        [
+          589,
+          604
         ]
       ],
+      "right_terminal_rest": {
+        "start": 585,
+        "mask_start": 604,
+        "end": 604,
+        "max_supervised_frames": 45,
+        "supervised_frames": 4
+      },
       "right": [
         [
           589,
@@ -7347,12 +9645,30 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 499,
+        "mask_start": 544,
+        "end": 617,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           240
+        ],
+        [
+          544,
+          617
         ]
       ],
+      "right_terminal_rest": {
+        "start": 562,
+        "mask_start": 607,
+        "end": 617,
+        "max_supervised_frames": 45,
+        "supervised_frames": 7
+      },
       "right": [
         [
           569,
@@ -7397,12 +9713,30 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 421,
+        "mask_start": 466,
+        "end": 478,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           146
+        ],
+        [
+          466,
+          478
         ]
       ],
+      "right_terminal_rest": {
+        "start": 474,
+        "mask_start": 478,
+        "end": 478,
+        "max_supervised_frames": 45,
+        "supervised_frames": 1
+      },
       "right": [
         [
           475,
@@ -7453,12 +9787,30 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 485,
+        "mask_start": 530,
+        "end": 591,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           122
+        ],
+        [
+          530,
+          591
         ]
       ],
+      "right_terminal_rest": {
+        "start": 502,
+        "mask_start": 547,
+        "end": 591,
+        "max_supervised_frames": 45,
+        "supervised_frames": 38
+      },
       "right": [
         [
           540,
@@ -7517,12 +9869,30 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "Continuous excess wait ends before closing preparation; small adjustments do not split mask."
       },
+      "left_terminal_rest": {
+        "start": 412,
+        "mask_start": 457,
+        "end": 572,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           138
+        ],
+        [
+          457,
+          572
         ]
       ],
+      "right_terminal_rest": {
+        "start": 539,
+        "mask_start": 572,
+        "end": 572,
+        "max_supervised_frames": 45,
+        "supervised_frames": 2
+      },
       "right": [
         [
           541,
@@ -7573,12 +9943,30 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 395,
+        "mask_start": 440,
+        "end": 473,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           114
+        ],
+        [
+          440,
+          473
         ]
       ],
+      "right_terminal_rest": {
+        "start": 418,
+        "mask_start": 463,
+        "end": 473,
+        "max_supervised_frames": 45,
+        "supervised_frames": 8
+      },
       "right": [
         [
           426,
@@ -7629,12 +10017,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 507,
+        "mask_start": 523,
+        "end": 523,
+        "max_supervised_frames": 45,
+        "supervised_frames": 16
+      },
       "left": [
         [
           0,
           127
         ]
       ],
+      "right_terminal_rest": {
+        "start": 471,
+        "mask_start": 516,
+        "end": 523,
+        "max_supervised_frames": 45,
+        "supervised_frames": 13
+      },
       "right": [
         [
           484,
@@ -7690,12 +10092,30 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 482,
+        "mask_start": 527,
+        "end": 583,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           140
+        ],
+        [
+          527,
+          583
         ]
       ],
+      "right_terminal_rest": {
+        "start": 485,
+        "mask_start": 530,
+        "end": 583,
+        "max_supervised_frames": 45,
+        "supervised_frames": 20
+      },
       "right": [
         [
           505,
@@ -7735,12 +10155,30 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 485,
+        "mask_start": 530,
+        "end": 571,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           133
+        ],
+        [
+          530,
+          571
         ]
       ],
+      "right_terminal_rest": {
+        "start": 549,
+        "mask_start": 571,
+        "end": 571,
+        "max_supervised_frames": 45,
+        "supervised_frames": 5
+      },
       "right": [
         [
           554,
@@ -7791,12 +10229,30 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 474,
+        "mask_start": 519,
+        "end": 642,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           117
+        ],
+        [
+          519,
+          642
         ]
       ],
+      "right_terminal_rest": {
+        "start": 615,
+        "mask_start": 642,
+        "end": 642,
+        "max_supervised_frames": 45,
+        "supervised_frames": 2
+      },
       "right": [
         [
           617,
@@ -7836,12 +10292,30 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 431,
+        "mask_start": 476,
+        "end": 498,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           139
+        ],
+        [
+          476,
+          498
         ]
       ],
+      "right_terminal_rest": {
+        "start": 456,
+        "mask_start": 498,
+        "end": 498,
+        "max_supervised_frames": 45,
+        "supervised_frames": 7
+      },
       "right": [
         [
           463,
@@ -7881,12 +10355,30 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 475,
+        "mask_start": 520,
+        "end": 556,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           129
+        ],
+        [
+          520,
+          556
         ]
       ],
+      "right_terminal_rest": {
+        "start": 522,
+        "mask_start": 556,
+        "end": 556,
+        "max_supervised_frames": 45,
+        "supervised_frames": 10
+      },
       "right": [
         [
           532,
@@ -7937,12 +10429,30 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 436,
+        "mask_start": 481,
+        "end": 617,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           140
+        ],
+        [
+          481,
+          617
         ]
       ],
+      "right_terminal_rest": {
+        "start": 559,
+        "mask_start": 604,
+        "end": 617,
+        "max_supervised_frames": 45,
+        "supervised_frames": 17
+      },
       "right": [
         [
           576,
@@ -8002,12 +10512,30 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "Continuous excess wait ends before closing preparation; small adjustments do not split mask."
       },
+      "left_terminal_rest": {
+        "start": 484,
+        "mask_start": 529,
+        "end": 554,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           129
+        ],
+        [
+          529,
+          554
         ]
       ],
+      "right_terminal_rest": {
+        "start": 500,
+        "mask_start": 545,
+        "end": 554,
+        "max_supervised_frames": 45,
+        "supervised_frames": 1
+      },
       "right": [
         [
           501,
@@ -8047,12 +10575,30 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 402,
+        "mask_start": 447,
+        "end": 481,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           127
+        ],
+        [
+          447,
+          481
         ]
       ],
+      "right_terminal_rest": {
+        "start": 461,
+        "mask_start": 481,
+        "end": 481,
+        "max_supervised_frames": 45,
+        "supervised_frames": 15
+      },
       "right": [
         [
           476,
@@ -8108,12 +10654,30 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "Continuous excess wait ends before closing preparation; small adjustments do not split mask."
       },
+      "left_terminal_rest": {
+        "start": 502,
+        "mask_start": 547,
+        "end": 562,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           180
+        ],
+        [
+          547,
+          562
         ]
       ],
+      "right_terminal_rest": {
+        "start": 525,
+        "mask_start": 562,
+        "end": 562,
+        "max_supervised_frames": 45,
+        "supervised_frames": 8
+      },
       "right": [
         [
           533,
@@ -8173,12 +10737,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "Continuous excess wait ends before closing preparation; small adjustments do not split mask."
       },
+      "left_terminal_rest": {
+        "start": 576,
+        "mask_start": 597,
+        "end": 597,
+        "max_supervised_frames": 45,
+        "supervised_frames": 21
+      },
       "left": [
         [
           0,
           201
         ]
       ],
+      "right_terminal_rest": {
+        "start": 571,
+        "mask_start": 597,
+        "end": 597,
+        "max_supervised_frames": 45,
+        "supervised_frames": 6
+      },
       "right": [
         [
           577,
@@ -8238,12 +10816,26 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "Continuous excess wait ends before closing preparation; small adjustments do not split mask."
       },
+      "left_terminal_rest": {
+        "start": 585,
+        "mask_start": 594,
+        "end": 594,
+        "max_supervised_frames": 45,
+        "supervised_frames": 9
+      },
       "left": [
         [
           0,
           150
         ]
       ],
+      "right_terminal_rest": {
+        "start": 585,
+        "mask_start": 594,
+        "end": 594,
+        "max_supervised_frames": 45,
+        "supervised_frames": 3
+      },
       "right": [
         [
           588,
@@ -8311,12 +10903,30 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "Continuous excess wait ends before closing preparation; small adjustments do not split mask."
       },
+      "left_terminal_rest": {
+        "start": 444,
+        "mask_start": 489,
+        "end": 640,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           148
+        ],
+        [
+          489,
+          640
         ]
       ],
+      "right_terminal_rest": {
+        "start": 545,
+        "mask_start": 590,
+        "end": 640,
+        "max_supervised_frames": 45,
+        "supervised_frames": 5
+      },
       "right": [
         [
           550,
@@ -8356,12 +10966,30 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 404,
+        "mask_start": 449,
+        "end": 460,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           71
+        ],
+        [
+          449,
+          460
         ]
       ],
+      "right_terminal_rest": {
+        "start": 455,
+        "mask_start": 460,
+        "end": 460,
+        "max_supervised_frames": 45,
+        "supervised_frames": 2
+      },
       "right": [
         [
           457,
@@ -8401,12 +11029,30 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 484,
+        "mask_start": 529,
+        "end": 629,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           161
+        ],
+        [
+          529,
+          629
         ]
       ],
+      "right_terminal_rest": {
+        "start": 568,
+        "mask_start": 613,
+        "end": 629,
+        "max_supervised_frames": 45,
+        "supervised_frames": 17
+      },
       "right": [
         [
           585,
@@ -8457,12 +11103,30 @@
         "review_scope": "Four sampled video stages per source (withdrawal, interval midpoint, preparation, closing), plus source state/action ranges and gripper onset evidence; both variants share the same original-source boundary.",
         "decision": "No substantive extra wait before closing."
       },
+      "left_terminal_rest": {
+        "start": 432,
+        "mask_start": 477,
+        "end": 606,
+        "max_supervised_frames": 45,
+        "supervised_frames": 45
+      },
       "left": [
         [
           0,
           154
+        ],
+        [
+          477,
+          606
         ]
       ],
+      "right_terminal_rest": {
+        "start": 486,
+        "mask_start": 531,
+        "end": 606,
+        "max_supervised_frames": 45,
+        "supervised_frames": 17
+      },
       "right": [
         [
           503,

@@ -69,3 +69,26 @@ def test_export_requires_complete_phase_coverage(tmp_path):
     boundaries.write_text(json.dumps({'sources': {}}))
     with pytest.raises(ValueError, match='exactly every source'):
         module.export(tmp_path, manifest, tmp_path / 'out.json', boundaries)
+
+
+def test_terminal_rest_caps_each_arm_after_return_not_interior_wait():
+    state = np.zeros((120, 7))
+    state[30:60, 0] = np.arange(30)
+    state[60:, 0] = 29
+    result = module.terminal_rest_limit(state, state, 10, 30)
+    assert result == dict(start=59, mask_start=104, end=120, max_supervised_frames=45)
+    # Other arm returns later and has no excess tail.
+    later = np.zeros((120, 7))
+    later[:90, 0] = np.arange(90)
+    later[90:, 0] = 89
+    assert module.terminal_rest_limit(later, later, 10, 30)['mask_start'] == 120
+
+
+def test_terminal_rest_checks_commands_gripper_and_accumulated_drift():
+    state = np.zeros((100, 7)); action = state.copy()
+    action[:80, 6] = np.arange(80)
+    action[80:, 6] = 79
+    assert module.terminal_rest_limit(state, action, 10, 30)['start'] == 79
+    drift = np.zeros((100, 7)); drift[:, 0] = np.arange(100) * .1
+    assert module.terminal_rest_limit(drift, drift, 0, 30)['start'] >= 96
+    assert module.terminal_rest_limit(state, state, 70, 30)['start'] == 70

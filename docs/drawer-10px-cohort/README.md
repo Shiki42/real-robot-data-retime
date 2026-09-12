@@ -58,11 +58,30 @@ withdrawal point. Source66 has no substantive extra wait. Evidence pages and the
 proposal records are retained; the committed boundaries are authoritative.
 
 `continuous-wait-validation.json` records all156 checks: 39 output masks changed,
-26 outputs contain continuous excess waits (958 frames total). Left idle remains
-8,885 frames; right idle totals10,234. Output001 keeps [429,527), and output079
+26 outputs contain continuous excess waits (958 frames total). Before the final-rest
+cap, left idle totaled8,885 frames and right idle totaled10,234. Output001 keeps [429,527), and output079
 keeps [322,420). Both are half-open zero-based output-frame ranges.
 
 The local review preserves its original localStorage key and user notes. Orange
 means exclude that arm's seven action dimensions; blue means retain supervision.
 These remain exported review labels: the training loader has not been connected.
 The original video/Action dataset and compressed archive have not been rewritten.
+
+## Final-rest supervision cap
+
+Each arm now retains at most1.5 seconds of non-idle labels after it has completed
+its task and settled at its final rest pose. The full suffix must fit the same
+0.3-degree joint /0.5mm gripper pose ranges used by timeline.holds, for BOTH state
+and action. Backward range accumulation prevents slow drift and earlier pauses
+from being mistaken for final rest. Detection is bounded after left withdrawal
+or right close-start; any remaining return movement delays the detected rest.
+
+At30 FPS, frames from rest_start+45 onward are idle. Previously idle frames
+remain idle, so fewer than45 supervised frames may remain. No video, Action,
+source clock, or task-wait boundary is changed. Export records contain per-arm
+terminal-rest boundaries; hover the timeline label to inspect them.
+See review/terminal-rest-validation.json for full-cohort counts and checks.
+
+Final-rest cap adds7,712 left-arm and46 right-arm idle frames. Final totals are
+16,597 left-arm and10,280 right-arm idle frames. All312 arm timelines passed
+the45-frame maximum and unchanged-before-cutoff checks;15 focused tests pass.
