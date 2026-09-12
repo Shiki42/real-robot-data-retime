@@ -40,25 +40,32 @@ def test_required_open_wait_is_supervised_but_other_idle_is_unchanged():
     assert not module.required_open_wait(left, right, dict(peak_source_frame=2, open_source_frame=2)).any()
 
 
-def test_close_wait_preserves_dependency_and_masks_only_excess_quiet():
-    left = np.array([1, 2, 3, 4, 5, 6, 7, 8])
-    right = np.array([0, 1, 2, 3, 4, 5.5, 6, 7])
-    stages = dict(open_source_frame=1, withdrawal_source_frame=4, close_source_frame=6)
-    quiet = np.array([1, 1, 1, 1, 0, 1, 0, 1], bool)
-    required, excess = module.right_wait_masks(left, right, stages, quiet, None)
-    np.testing.assert_array_equal(np.flatnonzero(required), [1, 2])
-    np.testing.assert_array_equal(np.flatnonzero(excess), [3])
-    # Adjustment frame 4, interpolation into moving source 6, and closing stay supervised.
-    assert not excess[4:].any()
 
-
-def test_reviewed_wait_is_continuous_and_preparation_is_supervised():
+def test_continuous_close_wait_stops_before_preparation():
     left = np.arange(10)
     right = np.arange(10)
     stages = dict(open_source_frame=1, withdrawal_source_frame=3, close_source_frame=9)
-    quiet = np.array([True, False] * 5)
-    required, excess = module.right_wait_masks(left, right, stages, quiet, {'close_preparation_source_frame': 7})
+    required, excess = module.right_wait_masks(left, right, stages, {'close_preparation_source_frame': 7})
+    np.testing.assert_array_equal(np.flatnonzero(required), [1, 2])
     np.testing.assert_array_equal(np.flatnonzero(excess), [3, 4, 5, 6])
     assert not excess[7:].any()
+    _, no_wait = module.right_wait_masks(left, right, stages, {'close_preparation_source_frame': 2})
+    assert not no_wait.any()
+
+
+@pytest.mark.parametrize('boundary', [0, 10, 3.5, np.nan])
+def test_invalid_close_preparation_rejected(boundary):
     with pytest.raises(ValueError):
-        module.right_wait_masks(left, right, stages, quiet, {'close_preparation_source_frame': 10})
+        module.right_wait_masks(np.arange(10), np.arange(10),
+            dict(open_source_frame=1, withdrawal_source_frame=3, close_source_frame=9),
+            {'close_preparation_source_frame': boundary})
+
+
+def test_export_requires_complete_phase_coverage(tmp_path):
+    import json
+    manifest = tmp_path / 'manifest.json'
+    boundaries = tmp_path / 'boundaries.json'
+    manifest.write_text(json.dumps({'episodes_data': [{'source': 3}]}))
+    boundaries.write_text(json.dumps({'sources': {}}))
+    with pytest.raises(ValueError, match='exactly every source'):
+        module.export(tmp_path, manifest, tmp_path / 'out.json', boundaries)

@@ -6,7 +6,6 @@ from pathlib import Path
 import numpy as np
 import pyarrow.parquet as pq
 from real_robot_data_retime.retime import boolean_ranges
-from real_robot_data_retime.timeline.holds import stationary_pose_mask
 
 
 def clock_idle_mask(clock):
@@ -39,29 +38,27 @@ def required_open_wait(left, right, stages):
             & (np.asarray(right) < stages['open_source_frame']))
 
 
-def right_wait_masks(left, right, stages, source_quiet, close_preparation):
-    """Separate dependency waiting from excess quiet time before closing."""
+def right_wait_masks(left, right, stages, close_preparation):
+    """One continuous excess wait, stopping before required preparation."""
     left, right = np.asarray(left), np.asarray(right)
+    boundary = close_preparation['close_preparation_source_frame']
+    if (not np.isfinite(boundary) or boundary != int(boundary)
+            or not stages['open_source_frame'] <= boundary <= stages['close_source_frame']):
+        raise ValueError('Close preparation boundary must be an integer in the open/close phase')
     opened = right >= stages['open_source_frame']
     withdrawn = left >= stages['withdrawal_source_frame']
     required = opened & ~withdrawn
-    quiet = source_quiet[np.floor(right).astype(int)] & source_quiet[np.ceil(right).astype(int)]
-    if close_preparation is None:
-        excess = opened & withdrawn & (right < stages['close_source_frame']) & quiet
-    else:
-        boundary = close_preparation['close_preparation_source_frame']
-        if not stages['open_source_frame'] <= boundary <= stages['close_source_frame']:
-            raise ValueError('Reviewed close preparation lies outside open/close phase')
-        excess = opened & withdrawn & (right < boundary)
+    excess = opened & withdrawn & (right < boundary)
     return required, excess
 
 
 def export(dataset, manifest, output, phase_boundaries):
     dataset, output = Path(dataset), Path(output)
     review = json.loads(Path(manifest).read_text())
-    source = Path(json.loads((dataset / 'uniform_manifest.json').read_text())['source_config']['source'])
-    source_quiet = {}
     boundaries = json.loads(Path(phase_boundaries).read_text())['sources']
+    expected = {str(row['source']) for row in review['episodes_data']}
+    if set(boundaries) != expected:
+        raise ValueError('Phase boundaries must cover exactly every source in this cohort')
     records = []
     for row in review['episodes_data']:
         ep = row['output']
@@ -72,19 +69,14 @@ def export(dataset, manifest, output, phase_boundaries):
         receipt = json.loads((dataset / f'meta/retime_receipts/episode_{ep:03d}.json').read_text())
         if receipt['source_episode_index'] != row['source']:
             raise ValueError(f'Video and numeric source IDs differ: {ep}')
-        if row['source'] not in source_quiet:
-            original = pq.read_table(source / f"data/chunk-000/file-{row['source']:03d}.parquet", columns=['observation.state', 'action'])
-            source_quiet[row['source']] = stationary_pose_mask(
-                np.asarray(original['observation.state'].to_pylist())[:, 7:],
-                np.asarray(original['action'].to_pylist())[:, 7:], review['fps'])
         record = dict(output=ep, source=row['source'], frames=len(table))
         with np.load(dataset / f'meta/retime_source_indices/episode_{ep:03d}.npz') as maps:
             required_wait = required_open_wait(maps['left'], maps['right'], receipt['plan']['stages'])
             record['left_required_open_wait'] = [[span.start, span.end] for span in boolean_ranges(required_wait)]
-            required_close, excess_close = right_wait_masks(maps['left'], maps['right'], receipt['plan']['stages'], source_quiet[row['source']], boundaries.get(str(row['source'])))
+            required_close, excess_close = right_wait_masks(maps['left'], maps['right'], receipt['plan']['stages'], boundaries[str(row['source'])])
             record['right_required_withdrawal_wait'] = [[span.start, span.end] for span in boolean_ranges(required_close)]
             record['right_excess_wait'] = [[span.start, span.end] for span in boolean_ranges(excess_close)]
-            record['right_wait_boundary'] = boundaries.get(str(row['source']))
+            record['right_wait_boundary'] = boundaries[str(row['source'])]
             for arm in ['left', 'right']:
                 clock = table[f'retime.{arm}_source_frame'].to_numpy()
                 if not np.array_equal(clock, maps[arm]):
@@ -93,13 +85,14 @@ def export(dataset, manifest, output, phase_boundaries):
                 if arm == 'left':
                     idle[required_wait] = False
                 else:
-                    idle[required_close] = False
-                    idle |= excess_close
+                    stages = receipt['plan']['stages']
+                    preclose = (clock >= stages['open_source_frame']) & (clock < stages['close_source_frame'])
+                    idle[preclose] = excess_close[preclose]
                 record[arm] = [[span.start, span.end] for span in boolean_ranges(idle)]
         records.append(record)
     result = dict(schema_version=1, policy='task_aware_waits',
                   supervised_wait='Left lift-peak waiting for opening and right waiting for left withdrawal remain supervised (loss=1).',
-                  excess_wait='Reviewed sources use a continuous interval from withdrawal permission to the reviewed close-preparation boundary; preparation remains supervised. Other sources retain source-quiet masks pending phase review.',
+                  excess_wait='Every source uses one continuous interval from withdrawal permission to its close-preparation boundary. Dependency waits and preparation remain supervised; no per-frame quiet-mask branch remains.',
                   training_status='not_connected_to_training', fps=review['fps'],
                   interval_convention='[start, end), zero-based output frames',
                   mask_semantics='idle=true means exclude that arm from action loss; left action[0:7], right action[7:14]',
