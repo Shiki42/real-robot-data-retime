@@ -2,8 +2,8 @@ import json
 
 import pytest
 
+from real_robot_data_retime.interaction.checkpoint_render import render_checkpoint
 from real_robot_data_retime.model_experiment import sha256
-from scripts.render_interaction_checkpoint import render_checkpoint
 
 
 def test_unfinished_analysis_cannot_render_an_old_success_report(tmp_path):
@@ -73,7 +73,7 @@ def test_changed_registration_cannot_render_under_old_manifest(monkeypatch, tmp_
     import numpy as np
 
     from real_robot_data_retime.interaction.measurements import inputs_fingerprint
-    from scripts import render_interaction_checkpoint as renderer
+    from real_robot_data_retime.interaction import checkpoint_render as renderer
 
     source = tmp_path / "input.mp4"
     source.write_bytes(b"source identity")

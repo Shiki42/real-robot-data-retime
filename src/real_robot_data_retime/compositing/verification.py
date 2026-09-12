@@ -42,6 +42,7 @@ class OriginAudit:
                     event=event,
                     roi=roi,
                     template=template,
+                    origin_mask=objects[event["object_id"], 0][roi].astype(bool),
                     color=color,
                     color_reference=self.color_count(frames[0][roi], color)
                     if color
@@ -59,26 +60,33 @@ class OriginAudit:
             if t <= event["grasp_frame"] + 5:
                 continue
             roi = item["roi"]
-            if foreground[roi].mean() > 0.1:
+            hidden = np.asarray(foreground[roi], dtype=bool)
+            if hidden.mean() > 0.1 or hidden[item["origin_mask"]].mean() > 0.1:
                 continue
+            visible = ~hidden
             if item["color"] is not None:
-                expected = self.color_count(source_frames[t][roi], item["color"])
-                rendered = self.color_count(frame[roi], item["color"])
+                expected = self.color_count(
+                    source_frames[t][roi], item["color"], visible
+                )
+                rendered = self.color_count(frame[roi], item["color"], visible)
                 absent = expected < max(2, item["color_reference"] * 0.1)
                 duplicate = rendered - expected > max(3, item["color_reference"] * 0.05)
             else:
                 expected = cv2.cvtColor(source_frames[t][roi], cv2.COLOR_BGR2GRAY)
                 rendered = cv2.cvtColor(frame[roi], cv2.COLOR_BGR2GRAY)
-                source_score = float(
-                    cv2.matchTemplate(expected, item["template"], cv2.TM_CCOEFF_NORMED)[
-                        0, 0
-                    ]
-                )
-                rendered_score = float(
-                    cv2.matchTemplate(rendered, item["template"], cv2.TM_CCOEFF_NORMED)[
-                        0, 0
-                    ]
-                )
+                reference = item["template"][visible].astype(float)
+                if reference.std() < 3:
+                    continue
+                reference -= reference.mean()
+                scores = []
+                for image in (expected, rendered):
+                    values = image[visible].astype(float)
+                    values -= values.mean()
+                    norm = np.linalg.norm(values) * np.linalg.norm(reference)
+                    scores.append(
+                        float(values @ reference / norm) if norm > 1e-8 else 0.0
+                    )
+                source_score, rendered_score = scores
                 absent = source_score < 0.5
                 duplicate = rendered_score > 0.8
             if absent:
@@ -86,17 +94,18 @@ class OriginAudit:
                 item["duplicates"] += int(duplicate)
 
     @staticmethod
-    def color_count(image, color):
+    def color_count(image, color, visible=None):
         hue, saturation = color
         hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV).astype(float)
         delta = np.abs(hsv[:, :, 0] - hue)
-        return int(
-            (
-                (np.minimum(delta, 180 - delta) < 10)
-                & (hsv[:, :, 1] > saturation)
-                & (hsv[:, :, 2] > 25)
-            ).sum()
+        match = (
+            (np.minimum(delta, 180 - delta) < 10)
+            & (hsv[:, :, 1] > saturation)
+            & (hsv[:, :, 2] > 25)
         )
+        if visible is not None:
+            match &= visible
+        return int(match.sum())
 
     def report(self):
         entries = [
@@ -116,4 +125,5 @@ class OriginAudit:
             passed=all(e["passed"] for e in entries),
             objects=entries,
             method="rendered_origin_appearance_against_observed_source_absence",
+            occlusion_policy="per_pixel_foreground_exclusion",
         )

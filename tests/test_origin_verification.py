@@ -28,3 +28,26 @@ def test_pickup_interval_preserves_occlusion_uncertainty():
     result = pickup_interval(obj, grip, p, 35, 30)
     assert result["pickup_frame"] == 20
     assert result["uncertainty_frames"] == [20, 35]
+
+
+def test_small_foreground_color_is_not_a_duplicate_object():
+    from real_robot_data_retime.compositing.verification import OriginAudit
+
+    frames = np.full((20, 30, 30, 3), 170, np.uint8)
+    frames[0, 10:17, 10:17] = [0, 0, 180]
+    objects = np.zeros((1, 20, 30, 30), bool)
+    objects[0, 0, 10:17, 10:17] = True
+    event = {"object_id": 0, "robot_id": "left", "grasp_frame": 0}
+    audit = OriginAudit(frames, objects, [event])
+    image = frames[7].copy()
+    image[7, 10:14] = [0, 0, 180]
+    foreground = np.zeros((30, 30), bool)
+    foreground[7, 10:14] = True
+    for t in [7, 8, 9]:
+        audit.observe(image, frames, [t, t], foreground)
+    assert audit.report()["passed"]
+    duplicate = OriginAudit(frames, objects, [event])
+    image = frames[0].copy()
+    for t in [7, 8, 9]:
+        duplicate.observe(image, frames, [t, t], np.zeros_like(foreground))
+    assert not duplicate.report()["passed"]

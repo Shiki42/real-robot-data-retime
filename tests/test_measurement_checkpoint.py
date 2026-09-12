@@ -43,7 +43,7 @@ def test_point_tracking_failure_keeps_complete_measurements_for_retry(
     )
     monkeypatch.setattr(
         pipeline,
-        "photometric_motion",
+        "photometry_cache",
         lambda *a: PhotometricMotion(
             geometry,
             geometry,

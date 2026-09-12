@@ -13,6 +13,9 @@ DEFAULT_WORKSPACE = {
     "maximum_m": [0.46, 0.12, 0.18],
     "ee_radius_m": 0.025,
     "waiting_padding_m": 0.0,
+    "waiting_padding_extra_m": [0.0, 0.0, 0.0],
+    "waiting_source_frames": None,
+    "waiting_enabled": [True, True, True],
     "retreat_distance_m": 0.03,
     "minimum_clearance_m": 0.05,
 }
@@ -85,11 +88,11 @@ def preparation_onsets(state, action, own):
     segments = detect_arm_segments(state, action, heuristic)
     starts = []
     for side, phase_start in enumerate((0, segments.split)):
-        anchor = own[side][0]["approach_start"]
+        anchor = own[side][0]["pickup_frame"]
         energy = arm_motion_energy(state, ("left", "right")[side], heuristic)
         active = np.flatnonzero(energy[phase_start : anchor + 1] > 0)
         if not len(active):
-            raise ValueError("no preparation motion before approach annotation")
+            raise ValueError("no measured preparation motion before first pickup")
         starts.append(
             max(
                 phase_start,
@@ -107,11 +110,16 @@ def source_clocks(own, stops, fps, *, starts):
             own[side][-1]["retract_end"],
             stops[side],
             fps,
-            brake_after={stops[side][-1]: own[side][0]["release_frame"]},
+            brake_after={
+                stop: own[side][0]["release_frame"]
+                for stop in stops[side]
+                if stop > own[side][0]["release_frame"]
+            },
         )
         if any(
             r["brake_source_start"] < own[side][0]["release_frame"]
-            for r in ramp[(1 if side == 1 else 0) :]
+            for r in ramp
+            if r["source_frame"] > own[side][0]["release_frame"]
         ):
             raise ValueError("outside stopping ramp interrupts preceding placement")
         clocks.append(clock)
@@ -145,22 +153,50 @@ def nominal_schedule(clocks, holds, events):
     return tuple(map(np.asarray, output))
 
 
-def plan_workspace(timeline, joints, config=DEFAULT_WORKSPACE):
-    """Earliest non-preemptive right admissions, constrained by swept mesh gaps."""
-    from time import perf_counter
+def waiting_source_frames(inside, own, starts):
+    """Locate entry after the previous completed placement, not a late visual label."""
+    stops = [[], []]
+    for stage, (side, cycle) in enumerate([(0, 1), (1, 0), (1, 1)]):
+        begin = (
+            starts[side] if cycle == 0 else own[side][cycle - 1]["release_frame"] + 1
+        )
+        pickup = own[side][cycle]["pickup_frame"]
+        if begin >= pickup:
+            raise ValueError("placement overlaps the following pickup")
+        entries = (
+            np.flatnonzero(
+                ~inside[stage, begin:pickup] & inside[stage, begin + 1 : pickup + 1]
+            )
+            + begin
+            + 1
+        )
+        if not len(entries):
+            raise ValueError("no outside approach for fixed-volume waiting pose")
+        stops[side].append(int(entries[0]) - 1)
+    return stops
 
-    from ..collision.continuous import ContinuousClearance
-    from ..collision.piperx import DEFAULT_BASE_SPACING_M
-    from .scheduler import schedule_sources
 
-    began = perf_counter()
-    state, action, urdf, mesh_root = joints
-    clearance = config["minimum_clearance_m"]
+def workspace_planning_cache(timeline, joints, clearance_m):
+    """Share FK and source-pair decisions across waiting-position candidates."""
+    state, action, urdf, meshes = joints
     fk = PiperXClearance(
-        state[:, :7], state[:, 7:], Path(urdf), Path(mesh_root), margin_m=clearance
+        state[:, :7], state[:, 7:], Path(urdf), Path(meshes), margin_m=clearance_m
     )
     own = workpiece_events(timeline["episodes"])
-    starts = preparation_onsets(state, action, own)
+    return {
+        "timeline": timeline,
+        "joints": joints,
+        "clearance_m": clearance_m,
+        "fk": fk,
+        "own": own,
+        "starts": preparation_onsets(state, action, own),
+        "tcp": np.array([[p[4] for p in arm] for arm in fk.poses]),
+        "pose_cache": [{float(i): p for i, p in enumerate(arm)} for arm in fk.poses],
+        "configuration_cache": {},
+    }
+
+
+def workspace_waiting_stops(cache, config):
     # The box defines waiting poses only. Withdrawal is not an admission gate.
     lo, hi = np.asarray(config["minimum_m"]), np.asarray(config["maximum_m"])
     radius = config["ee_radius_m"] + config["waiting_padding_m"]
@@ -173,19 +209,77 @@ def plan_workspace(timeline, joints, config=DEFAULT_WORKSPACE):
         or radius < 0
     ):
         raise ValueError("invalid waiting volume geometry")
-    tcp = np.array([[p[4] for p in arm] for arm in fk.poses])
-    inside = np.all((tcp >= lo - radius) & (tcp <= hi + radius), axis=-1)
-    stops = [[], []]
-    for side, cycle in [(0, 1), (1, 0), (1, 1)]:
-        event = own[side][cycle]
-        start = starts[side] if cycle == 0 else event["approach_start"]
-        hits = np.flatnonzero(inside[side, start : event["pickup_frame"] + 1]) + start
-        if not len(hits) or hits[0] <= start:
-            raise ValueError("no outside approach for fixed-volume waiting pose")
-        stops[side].append(int(hits[0]) - 1)
+    extra = np.asarray(config["waiting_padding_extra_m"], float)
+    if extra.shape != (3,) or not np.isfinite(extra).all() or np.any(extra < 0):
+        raise ValueError("invalid per-stage waiting padding")
+    radii = (radius + extra)[:, None, None]
+    paths = cache["tcp"][[0, 1, 1]]
+    inside = np.all((paths >= lo - radii) & (paths <= hi + radii), axis=-1)
+    automatic = waiting_source_frames(inside, cache["own"], cache["starts"])
+    explicit = config["waiting_source_frames"]
+    values = np.asarray(
+        [automatic[0][0], *automatic[1]] if explicit is None else explicit, float
+    )
+    if (
+        values.shape != (3,)
+        or not np.isfinite(values).all()
+        or np.any(values != np.floor(values))
+    ):
+        raise ValueError("invalid explicit waiting source frames")
+    limits = [automatic[0][0], *automatic[1]]
+    for stage, (side, cycle) in enumerate([(0, 1), (1, 0), (1, 1)]):
+        begin = (
+            cache["starts"][side]
+            if cycle == 0
+            else cache["own"][side][cycle - 1]["release_frame"] + 1
+        )
+        stop = int(values[stage])
+        if not begin <= stop <= limits[stage] or inside[stage, stop]:
+            raise ValueError("explicit wait is not on the outside preparation path")
+    enabled = config["waiting_enabled"]
+    if len(enabled) != 3 or any(type(x) is not bool for x in enabled):
+        raise ValueError("invalid enabled waiting stages")
+    return [
+        [int(values[0])] if enabled[0] else [],
+        [int(values[i]) for i in [1, 2] if enabled[i]],
+    ]
+
+
+def plan_workspace(timeline, joints, config=DEFAULT_WORKSPACE, *, cache=None):
+    """Earliest non-preemptive right admissions, constrained by swept mesh gaps."""
+    from time import perf_counter
+
+    from ..collision.continuous import ContinuousClearance
+    from ..collision.piperx import DEFAULT_BASE_SPACING_M
+    from .scheduler import schedule_sources
+
+    began = perf_counter()
+    clearance = config["minimum_clearance_m"]
+    cache = (
+        workspace_planning_cache(timeline, joints, clearance)
+        if cache is None
+        else cache
+    )
+    if (
+        cache["joints"] is not joints
+        or cache["timeline"] is not timeline
+        or cache["clearance_m"] != clearance
+    ):
+        raise ValueError("workspace cache belongs to different immutable inputs")
+    fk, own, starts = (cache[k] for k in ["fk", "own", "starts"])
+    stops = workspace_waiting_stops(cache, config)
+    selected = workspace_waiting_stops(
+        cache, dict(config, waiting_enabled=[True, True, True])
+    )
+    boundary = workspace_waiting_stops(
+        cache,
+        dict(config, waiting_enabled=[True, True, True], waiting_source_frames=None),
+    )
+    entry_sources = [boundary[1][0] + 1, boundary[1][1] + 1]
+    enabled = config["waiting_enabled"]
     clocks, holds, ramps = source_clocks(own, stops, timeline["fps"], starts=starts)
-    pose_cache = [{float(i): p for i, p in enumerate(arm)} for arm in fk.poses]
-    configuration_cache = {}
+    pose_cache = cache["pose_cache"]
+    configuration_cache = cache["configuration_cache"]
     check = ContinuousClearance.on_source_clocks(
         fk, clocks, pose_cache, configuration_cache, clearance
     )
@@ -224,7 +318,9 @@ def plan_workspace(timeline, joints, config=DEFAULT_WORKSPACE):
             can_wait=lambda side, index: (
                 index in holds[side] or index == len(clocks[side]) - 1
             ),
-            earliest_right_admissions=tuple(holds[1]),
+            earliest_right_admissions=tuple(
+                int(np.searchsorted(clocks[1], source)) - 1 for source in entry_sources
+            ),
         )
         edges = [
             tuple(map(int, e))
@@ -254,9 +350,9 @@ def plan_workspace(timeline, joints, config=DEFAULT_WORKSPACE):
         "onset_delay_frames": [0, 0],
         "right_preparation": {
             "source_start_frame": starts[1],
-            "source_end_frame": stops[1][0],
+            "source_end_frame": boundary[1][0],
             "output_start_frame": 0,
-            "output_end_frame": int(np.flatnonzero(right >= stops[1][0])[0]),
+            "output_end_frame": int(np.flatnonzero(right >= boundary[1][0])[0]),
         },
         "preparation_onsets": {
             "method": "first smoothed measured-joint motion in each sequential source phase, with boundary padding",
@@ -264,17 +360,31 @@ def plan_workspace(timeline, joints, config=DEFAULT_WORKSPACE):
                 group[0]["approach_start"] for group in own
             ],
             "restored_source_frames": [
-                group[0]["approach_start"] - start for group, start in zip(own, starts)
+                max(0, group[0]["approach_start"] - start)
+                for group, start in zip(own, starts)
             ],
         },
         "protected_source_intervals": {
             "left": [
                 [starts[0], own[0][0]["release_frame"]],
-                [stops[0][0] + up, own[0][1]["retract_end"]],
+                [
+                    selected[0][0] + up
+                    if enabled[0]
+                    else own[0][0]["release_frame"] + 1,
+                    own[0][1]["retract_end"],
+                ],
             ],
             "right": [
-                [stops[1][0] + up, own[1][0]["release_frame"]],
-                [stops[1][1] + up, own[1][1]["retract_end"]],
+                [
+                    selected[1][0] + up if enabled[1] else starts[1],
+                    own[1][0]["release_frame"],
+                ],
+                [
+                    selected[1][1] + up
+                    if enabled[2]
+                    else own[1][0]["release_frame"] + 1,
+                    own[1][1]["retract_end"],
+                ],
             ],
         },
         "ramps": {"left": ramps[0], "right": ramps[1]},
@@ -282,9 +392,10 @@ def plan_workspace(timeline, joints, config=DEFAULT_WORKSPACE):
             {
                 "arm": "right",
                 "cycle": k + 1,
-                "output_frame": int(np.flatnonzero(schedule.right > hold)[0]) - 1,
+                "output_frame": int(np.flatnonzero(right >= source)[0]),
+                "definition": "first observed workspace entry",
             }
-            for k, hold in enumerate(holds[1])
+            for k, source in enumerate(entry_sources)
         ],
     }
     verify_uninterrupted(left, right, stages)

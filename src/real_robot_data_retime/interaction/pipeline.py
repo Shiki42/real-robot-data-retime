@@ -19,7 +19,7 @@ from .discovery import (
     track_candidates,
 )
 from .evidence import score_hypothesis, stable_runs
-from .photometric_motion import photometric_motion
+from .cache import photometry_cache
 from .registration import stabilize
 from .verification import (
     attachment_visibility,
@@ -100,7 +100,9 @@ def run(
     task = task or discover_task(frames)
     profile = PROFILES[task]
     progress("robot_discovery")
-    photometry = photometric_motion(frames)
+    photometry = photometry_cache(
+        frames, Path.home() / ".cache" / "real-robot-data-retime"
+    )
     evidence = photometry.discovery
     np.savez_compressed(
         output_dir / "motion_photometry.npz",
@@ -194,6 +196,13 @@ def run(
                         seeds=seeds,
                     )
                 )
+            if task == "workpiece":
+                from .gripper_geometry import motion_supported_grippers
+
+                grippers = motion_supported_grippers(
+                    grippers, evidence, frames.shape[1:3]
+                )
+                retries.append(grippers["localization_audit"])
             evidence["centers"] = grippers["centers"]
             evidence["apertures"] = grippers["apertures"]
             retries.append(
@@ -211,6 +220,13 @@ def run(
             grippers = gripper_cache(
                 frames, evidence, sam, Path.home() / ".cache" / "real-robot-data-retime"
             )
+            if task == "workpiece":
+                from .gripper_geometry import motion_supported_grippers
+
+                grippers = motion_supported_grippers(
+                    grippers, evidence, frames.shape[1:3]
+                )
+                retries.append(grippers["localization_audit"])
             evidence["centers"] = grippers["centers"]
             evidence["apertures"] = grippers["apertures"]
             progress("object_segmentation")
@@ -232,10 +248,13 @@ def run(
                 )
             else:
                 tracks = segment_candidates(frames, proposals, evidence, sam)
-            progress("object_identity_recovery")
-            tracks, retries = recover_candidates(
-                frames, proposals, tracks, evidence, sam
-            )
+            # Workpiece origin-seeded tracks are verified before expensive
+            # identity retries. Failed episodes can request retry_objects.
+            if task != "workpiece" or retry_objects:
+                progress("object_identity_recovery")
+                tracks, retries = recover_candidates(
+                    frames, proposals, tracks, evidence, sam
+                )
             if task == "letters":
                 tracks, terminal_retries = terminal_letter_recovery(
                     frames, proposals, tracks, sam
@@ -368,15 +387,29 @@ def run(
     progress("interaction_hypotheses")
     bins = []
     deposit_cache = {}
+    bin_coverages = []
     if task == "workpiece" and backend == "sam2":
         from ..tasks.workpiece import bin_visit, discover_bins, verify_deposit
 
         bins = discover_bins(frames[0])
+        if len(bins) != 2:
+            reference = np.median(frames[:: max(1, len(frames) // 30)], axis=0).astype(
+                np.uint8
+            )
+            bins = discover_bins(reference)
         all_robots = (
             np.unpackbits(grippers["robot_masks"], axis=-1, count=frames.shape[2])
             .astype(bool)
             .any(axis=1)
         )
+        for side, bin_info in enumerate(bins):
+            x, y, bw, bh = map(int, bin_info["bbox"])
+            mask = np.unpackbits(
+                grippers["robot_masks"][:, side, y : y + bh],
+                axis=-1,
+                count=frames.shape[2],
+            )
+            bin_coverages.append(mask[:, :, x : x + bw].mean(axis=(1, 2)))
     candidates = []
     for side in range(2):
         aperture = evidence["apertures"][:, side]
@@ -455,6 +488,7 @@ def run(
                         min(len(frames), pickup + round(fps * 8)),
                         bins[side]["bbox"],
                         fps,
+                        robot_coverage=bin_coverages[side],
                     )
                     if visit is not None:
                         key = (
@@ -476,6 +510,7 @@ def run(
                             **deposit_cache[key],
                             **visit,
                             "method": "occluded_bin_deposition",
+                            "destination_bin": bins[side]["bbox"],
                         }
                         updated = score_hypothesis(
                             track["centers"],
@@ -705,6 +740,12 @@ def run(
         gates["balanced_arm_assignments"] = all(
             sum(x["robot_id"] == side for x in selected) == 2
             for side in ["left", "right"]
+        )
+    if task == "workpiece":
+        gates["two_destination_bins"] = len(bins) == 2
+        gates["destination_depositions"] = bool(selected) and all(
+            e.get("release_evidence") is not None and e["release_evidence"]["verified"]
+            for e in selected
         )
     complete = all(gates.values())
     report = dict(

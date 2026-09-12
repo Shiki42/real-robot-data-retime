@@ -30,7 +30,7 @@ def discover_bins(frame):
     return sorted(bins, key=lambda b: b["center"][0])
 
 
-def bin_visit(gripper, pickup, stop, bin_box, fps):
+def bin_visit(gripper, pickup, stop, bin_box, fps, *, robot_coverage):
     import numpy as np
     from scipy.ndimage import median_filter
     from ..interaction.evidence import stable_runs
@@ -46,30 +46,50 @@ def bin_visit(gripper, pickup, stop, bin_box, fps):
         & (xy[:, 1] > y - pad)
         & (xy[:, 1] < y + h + pad)
     )
-    spatial_near = near.copy()
-    near[: pickup + 3] = False
-    near[stop:] = False
-    visits = stable_runs(near, max(3, round(fps * 0.15)))
-    if not visits:
-        return None
-    start, end = visits[0]
-    outside = np.flatnonzero(finite[end:stop] & ~spatial_near[end:stop]) + end
-    if not len(outside):
-        return None
-    clear_frame = int(outside[0])
+    coverage = np.asarray(robot_coverage, float)
+    if coverage.shape != (len(xy),) or not np.isfinite(coverage).all():
+        raise ValueError("invalid observed bin coverage")
+    covered = median_filter((coverage >= 0.1).astype(np.uint8), size=5).astype(bool)
     velocity = np.linalg.norm(np.diff(xy, axis=0), axis=1)
     quiet = (
         median_filter(np.where(np.isfinite(velocity), velocity, np.inf), size=5)
         < max(w, h) * 0.015
     )
-    pauses = stable_runs(quiet[start : end - 1], 3)
-    release = start + pauses[-1][1] if pauses else end - 1
-    return dict(
-        entry_frame=start,
-        release_frame=release,
-        clearance_frame=clear_frame,
-        release_interval=[start, end],
-    )
+    # Keep direct fingertip visits separate from arm-overlap hypotheses. Their
+    # union could incorrectly merge two trips when the forearm spans the bin.
+    for method, presence in [
+        ("gripper_center", near),
+        ("observed_arm_overlap", covered),
+    ]:
+        observed = presence.copy()
+        observed[: pickup + 3] = False
+        observed[stop:] = False
+        for start, end in stable_runs(observed, max(3, round(fps * 0.15))):
+            exits = np.zeros(stop - end, bool)
+            if method == "gripper_center":
+                exits = finite[end:stop] & ~near[end:stop]
+            if np.max(coverage[start:end]) >= 0.1:
+                clear_runs = stable_runs(coverage[end:stop] < 0.1, 3)
+                if clear_runs:
+                    exits[clear_runs[0][0]] = True
+            outside = np.flatnonzero(exits) + end
+            if not len(outside):
+                continue
+            clear_frame = int(outside[0])
+            pauses = stable_runs(quiet[start : end - 1], 3)
+            release = start + pauses[-1][1] if pauses else end - 1
+            if method == "observed_arm_overlap":
+                # With an unobserved tip, use the last frame before confirmed
+                # clearance as a conservative upper bound on release.
+                release = clear_frame - 1
+            return dict(
+                entry_frame=start,
+                release_frame=release,
+                clearance_frame=clear_frame,
+                release_interval=[start, clear_frame],
+                visit_evidence=method,
+            )
+    return None
 
 
 def verify_deposit(frames, robots, pickup, visit, bin_box, fps):

@@ -335,6 +335,7 @@ def finalize(source, output, repo_id, *, episode_indices=None):
         pq.write_table(table, file)
         stats = receipt["statistics"]
         stats["index"] = feature_statistics(np.arange(total, total + n).reshape(-1, 1))
+        (output / f"meta/retime_receipts/episode_{ep:03d}.json").write_text(json.dumps(receipt, indent=2))
         all_stats.append(stats)
         row = dict(
             episode_index=ep,

@@ -105,14 +105,82 @@ def test_joint_onsets_restore_preparation_before_late_visual_annotations():
     state[60:, :6] = 59
     state[90:, 7:13] = np.arange(130)[:, None]
     own = [
-        [{"approach_start": 20, "release_frame": 55}, {"retract_end": 80}],
-        [{"approach_start": 125, "release_frame": 155}, {"retract_end": 195}],
+        [
+            {"approach_start": 20, "pickup_frame": 40, "release_frame": 55},
+            {"retract_end": 80},
+        ],
+        [
+            {"approach_start": 125, "pickup_frame": 150, "release_frame": 155},
+            {"retract_end": 195},
+        ],
     ]
     starts = preparation_onsets(state, state.copy(), own)
     assert starts[0] == 0
     assert 60 < starts[1] <= 90
     assert own[1][0]["approach_start"] == 125
+    own[1][0]["approach_start"] = 70
+    assert preparation_onsets(state, state.copy(), own) == starts
+
     clocks, _, _ = source_clocks(own, [[65], [135, 175]], 30, starts=starts)
     assert clocks[1][0] == starts[1]
     assert np.max(np.diff(clocks[1])) <= 1 + 1e-8
     assert np.all(np.diff(clocks[1][: 125 - starts[1]]) > 0)
+
+
+def test_second_wait_uses_full_return_and_approach_before_late_visual_label():
+    from real_robot_data_retime.timeline.workpiece_workspace import (
+        waiting_source_frames,
+    )
+
+    inside = np.zeros((3, 60), bool)
+    inside[0, 11:15] = True
+    inside[0, 20:26] = True
+    inside[1, 15:19] = True
+    inside[2, 31:36] = True
+    inside[2, 45:51] = True
+    own = [
+        [{"release_frame": 10}, {"approach_start": 23, "pickup_frame": 25}],
+        [
+            {"approach_start": 10, "pickup_frame": 18, "release_frame": 30},
+            {"approach_start": 48, "pickup_frame": 50},
+        ],
+    ]
+    assert waiting_source_frames(inside, own, [0, 0]) == [[19], [14, 44]]
+
+
+def test_explicit_waits_must_remain_outside_before_first_entry():
+    from real_robot_data_retime.timeline.workpiece_workspace import (
+        workspace_waiting_stops,
+    )
+
+    tcp = np.zeros((2, 60, 3))
+    tcp[0, 20:26] = [0.35, 0, 0.05]
+    tcp[1, 15:19] = [0.35, 0, 0.05]
+    tcp[1, 45:51] = [0.35, 0, 0.05]
+    own = [
+        [{"release_frame": 10}, {"pickup_frame": 25}],
+        [{"pickup_frame": 18, "release_frame": 30}, {"pickup_frame": 50}],
+    ]
+    cache = {"tcp": tcp, "own": own, "starts": [0, 0]}
+    config = dict(DEFAULT_WORKSPACE, waiting_source_frames=[18, 12, 40])
+    assert workspace_waiting_stops(cache, config) == [[18], [12, 40]]
+    with pytest.raises(ValueError, match="outside preparation"):
+        workspace_waiting_stops(cache, dict(config, waiting_source_frames=[21, 12, 40]))
+
+
+def test_disabled_waits_preserve_uninterrupted_source_preparation():
+    from real_robot_data_retime.timeline.workpiece_workspace import source_clocks
+
+    own = [
+        [{'release_frame': 30}, {'retract_end': 90}],
+        [{'release_frame': 50}, {'retract_end': 110}],
+    ]
+    clocks, holds, ramps = source_clocks(own, [[], []], 30, starts=[0, 10])
+    np.testing.assert_array_equal(clocks[0], np.arange(91))
+    np.testing.assert_array_equal(clocks[1], np.arange(10, 111))
+    assert holds == [[], []]
+    assert ramps == [[], []]
+    clocks, holds, ramps = source_clocks(own, [[], [75]], 30, starts=[0, 10])
+    assert len(holds[1]) == 1
+    assert clocks[1][holds[1][0]] == 75
+    np.testing.assert_array_equal(clocks[1][:41], np.arange(10, 51))

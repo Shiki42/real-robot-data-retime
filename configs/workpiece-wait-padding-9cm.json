@@ -12,5 +12,16 @@
   "ee_radius_m": 0.025,
   "waiting_padding_m": 0.09,
   "retreat_distance_m": 0.03,
-  "minimum_clearance_m": 0.05
+  "minimum_clearance_m": 0.05,
+  "waiting_padding_extra_m": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "waiting_source_frames": null,
+  "waiting_enabled": [
+    true,
+    true,
+    true
+  ]
 }
