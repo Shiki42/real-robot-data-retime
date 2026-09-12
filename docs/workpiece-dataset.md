@@ -58,3 +58,6 @@ intact. Expensive identity retries run after initial verification failure.
 Exact photometric evidence is cached by frame content and implementation hashes.
 Origin checks exclude foreground pixels so a small moving occluder cannot be
 mistaken for a duplicate part; visible unoccluded duplicates still fail.
+
+Rejected episodes retain portable status and available analysis/planning evidence
+under `meta/rejections`, referenced by the processing report.

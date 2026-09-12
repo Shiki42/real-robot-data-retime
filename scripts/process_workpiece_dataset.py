@@ -507,6 +507,19 @@ def finalize_packages(manifest, work, output):
         minimum_clearance_m=0.05,
         base_spacing_m=0.59,
     )
+    for item, (record, status) in zip(summary["rejected"], failures):
+        evidence = output / f"meta/rejections/source_episode_{record['episode']:03d}"
+        evidence.mkdir(parents=True, exist_ok=True)
+        write_json(evidence / "status.json", status)
+        sources = [
+            Path(record["analysis"]) / "report.json",
+            Path(record["analysis"]) / "grasp_candidates.json",
+            Path(record["work_dir"]) / "planning_attempts.json",
+        ]
+        for path in sources:
+            if path.is_file():
+                shutil.copyfile(path, evidence / path.name)
+        item["evidence_path"] = str(evidence.relative_to(output))
     write_json(output / "processing_report.json", summary)
     return summary
 
