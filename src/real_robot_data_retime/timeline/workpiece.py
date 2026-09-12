@@ -8,7 +8,7 @@ from ..compositing.ownership import arm_foreground
 from ..tasks.workpiece import workpiece_events
 
 
-def approach_clock(start, end, stops, fps):
+def approach_clock(start, end, stops, fps, *, brake_after=None):
     """Only approach/return segments brake; an admitted execution stays at 1x."""
     down, up = round(fps * 0.5), round(fps * 0.3)
     if min(down, up) < 2:
@@ -30,6 +30,11 @@ def approach_clock(start, end, stops, fps):
         # A short initial approach must not be stretched into a slow crawl.
         # Start at source speed and shorten only its own stopping ramp.
         brake_duration = min(down, max(2, 2 * distance)) if segment == 0 else down
+        if braking and brake_after is not None:
+            available = b - brake_after.get(b, a)
+            if available < 1:
+                raise ValueError("no braking path after the protected execution")
+            brake_duration = min(brake_duration, max(2, 2 * available))
         brake_distance = round(brake_duration / 2)
         nominal = (round(up / 2) if accelerating else 0) + (
             brake_distance if braking else 0

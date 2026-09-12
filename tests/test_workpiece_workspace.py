@@ -33,9 +33,11 @@ def test_fixed_box_entry_and_observed_retreat():
     tcp, events = fixture()
     r = workspace_events(tcp, events, DEFAULT_WORKSPACE)
     assert r[0][0]["wait_frame"] == 9
-    # Four centimetres alone is insufficient until the EE envelope clears the box.
-    assert r[0][0]["withdrawal_frame"] == 25
-    assert r[1][1]["withdrawal_frame"] == 75
+    # Confirm at 3 cm while still inside, then backdate to the last stationary pose.
+    assert r[0][0]["withdrawal_frame"] == 19
+    assert r[0][0]["withdrawal_confirmed_frame"] == 20
+    assert r[1][1]["withdrawal_frame"] == 69
+    assert r[1][1]["withdrawal_confirmed_frame"] == 70
 
 
 def test_waiting_pose_does_not_depend_on_other_arms_future():
@@ -56,36 +58,73 @@ def test_invalid_workspace_and_missing_withdrawal_fail():
         workspace_events(tcp, events, DEFAULT_WORKSPACE)
 
 
-def test_ee_audit_does_not_call_link_collision_checker():
-    from real_robot_data_retime.timeline.workpiece_workspace import audit_ee_workspace
+def test_inward_jitter_resets_the_backdated_origin():
+    tcp, events = fixture()
+    tcp[0, 15:20, 1] = [0.0, 0.01, -0.01, -0.005, 0.005]
+    tcp[0, 20, 1] = 0.025
+    record = workspace_events(tcp, events, DEFAULT_WORKSPACE)[0][0]
+    assert record["withdrawal_frame"] == 17
+    assert record["withdrawal_confirmed_frame"] == 20
 
-    class FK:
-        values = (
-            np.tile([0.35, 0.2, 0.05, 0, 0, 0, 0], (3, 1)),
-            np.tile([0.35, -0.2, 0.05, 0, 0, 0, 0], (3, 1)),
+
+def test_nominal_release_starts_at_onset_not_confirmation():
+    from real_robot_data_retime.timeline.workpiece_workspace import nominal_schedule
+
+    clocks = [np.arange(12), np.arange(12)]
+    events = [
+        [
+            dict(withdrawal_frame=3, withdrawal_confirmed_frame=5),
+            dict(withdrawal_frame=8),
+        ],
+        [dict(withdrawal_frame=5), dict(withdrawal_frame=10)],
+    ]
+    left, right = nominal_schedule(clocks, [[6], [1, 8]], events)
+    index = np.flatnonzero(right > 1)[0]
+    assert left[index - 1] == 3
+
+
+def test_admission_bound_matches_clear_shortest_path():
+    from real_robot_data_retime.timeline.workpiece_workspace import (
+        admission_remaining_bound,
+    )
+    from real_robot_data_retime.timeline.scheduler import schedule_sources
+
+    gates = [(1, 2, 0, 5), (0, 7, 1, 6), (1, 9, 0, 10)]
+
+    def dependency(i, j):
+        clocks = (i, j)
+        return all(
+            clocks[s] <= stop or clocks[o] >= release for s, stop, o, release in gates
         )
 
-        def _pose(self, row, side):
-            return (None, None, None, None, row[:3])
+    bound = admission_remaining_bound([14, 15], gates)
+    for i, j in [(0, 0), (3, 2), (7, 4), (8, 9), (12, 11)]:
+        if not dependency(i, j):
+            continue
 
-        def __call__(self, *args):
-            raise AssertionError("link collision must not be consulted")
+        def safe(a, b, na, nb):
+            current = (a + i, b + j)
+            following = (na + i, nb + j)
+            return all(
+                not (current[s] <= stop < following[s] and current[o] < release)
+                for s, stop, o, release in gates
+            )
 
-    audit = audit_ee_workspace(FK(), np.arange(3), np.arange(3), DEFAULT_WORKSPACE)
-    assert audit["passed"] and not audit["link_collision_check"]
-
-
-def test_ee_audit_detects_between_frame_workspace_occupancy():
-    from real_robot_data_retime.timeline.workpiece_workspace import audit_ee_workspace
-
-    class FK:
-        values = (
-            np.array([[0.35, -0.2, 0.05, 0, 0, 0, 0], [0.35, 0.2, 0.05, 0, 0, 0, 0]]),
-            np.array([[0.35, 0.2, 0.05, 0, 0, 0, 0], [0.35, -0.2, 0.05, 0, 0, 0, 0]]),
+        path = schedule_sources(
+            14 - i,
+            15 - j,
+            safe,
+            dependency=lambda a, b: dependency(a + i, b + j),
+            left_priority=False,
         )
+        assert bound(i, j) <= len(path.left) - 1
 
-        def _pose(self, row, side):
-            return (None, None, None, None, row[:3])
 
-    audit = audit_ee_workspace(FK(), np.arange(2), np.arange(2), DEFAULT_WORKSPACE)
-    assert not audit["passed"] and audit["failed_output_edges"] == [0]
+def test_short_brake_preserves_every_frame_through_placement():
+    from real_robot_data_retime.timeline.workpiece import approach_clock
+
+    clock, holds, ramps = approach_clock(0, 60, [31], 30, brake_after={31: 30})
+    np.testing.assert_array_equal(clock[:31], np.arange(31))
+    assert ramps[0]["brake_intervals"] == 2
+    assert clock[holds[0]] == 31
+    assert ramps[0]["brake_source_start"] == 30

@@ -1,0 +1,65 @@
+[
+  {
+    "episode": 0,
+    "observation.state": {
+      "minimum_recorded_frame_distance_m": 0.1359693751361443,
+      "source_frame": 358,
+      "mesh_pair": [
+        7,
+        9
+      ],
+      "at_frame_330_m": 0.1641992950803221
+    },
+    "action": {
+      "minimum_recorded_frame_distance_m": 0.13491650197697458,
+      "source_frame": 98,
+      "mesh_pair": [
+        7,
+        7
+      ],
+      "at_frame_330_m": 0.16725030254184156
+    }
+  },
+  {
+    "episode": 1,
+    "observation.state": {
+      "minimum_recorded_frame_distance_m": 0.11940776833135232,
+      "source_frame": 574,
+      "mesh_pair": [
+        7,
+        7
+      ],
+      "at_frame_330_m": 0.15558931899570264
+    },
+    "action": {
+      "minimum_recorded_frame_distance_m": 0.11802068654562814,
+      "source_frame": 569,
+      "mesh_pair": [
+        7,
+        7
+      ],
+      "at_frame_330_m": 0.1484062290070676
+    }
+  },
+  {
+    "episode": 2,
+    "observation.state": {
+      "minimum_recorded_frame_distance_m": 0.10952135870736249,
+      "source_frame": 330,
+      "mesh_pair": [
+        4,
+        9
+      ],
+      "at_frame_330_m": 0.10952135870736249
+    },
+    "action": {
+      "minimum_recorded_frame_distance_m": 0.1072492243477592,
+      "source_frame": 325,
+      "mesh_pair": [
+        4,
+        9
+      ],
+      "at_frame_330_m": 0.1079882707812518
+    }
+  }
+]

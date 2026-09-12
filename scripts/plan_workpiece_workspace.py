@@ -34,7 +34,7 @@ def main():
     np.savez_compressed(args.output / "candidate_mapping.npz", left=left, right=right)
     report.update(
         validated_for_rendering=False,
-        status="ee_workspace_passed_pending_visual_review",
+        status="mesh_clearance_passed_pending_visual_review",
     )
     (args.output / "report.json").write_text(json.dumps(report, indent=2) + "\n")
     print(json.dumps(dict(status=report["status"], output=str(args.output)), indent=2))

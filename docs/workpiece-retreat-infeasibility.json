@@ -1,0 +1,891 @@
+{
+  "left_source_frame": 330,
+  "right_source_interval": [
+    592,
+    690
+  ],
+  "certificates": [
+    {
+      "right_interval": [
+        592,
+        593
+      ],
+      "state_clearance_upper_bound_m": 0.001,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 23
+    },
+    {
+      "right_interval": [
+        593,
+        594
+      ],
+      "state_clearance_upper_bound_m": 0.001,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 16
+    },
+    {
+      "right_interval": [
+        594,
+        595
+      ],
+      "state_clearance_upper_bound_m": 0.001,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 18
+    },
+    {
+      "right_interval": [
+        595,
+        596
+      ],
+      "state_clearance_upper_bound_m": 0.001,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 27
+    },
+    {
+      "right_interval": [
+        596,
+        597
+      ],
+      "state_clearance_upper_bound_m": 0.001,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 26
+    },
+    {
+      "right_interval": [
+        597,
+        598
+      ],
+      "state_clearance_upper_bound_m": 0.001,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 25
+    },
+    {
+      "right_interval": [
+        598,
+        599
+      ],
+      "state_clearance_upper_bound_m": 0.001,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 22
+    },
+    {
+      "right_interval": [
+        599,
+        600
+      ],
+      "state_clearance_upper_bound_m": 0.001,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 17
+    },
+    {
+      "right_interval": [
+        600,
+        601
+      ],
+      "state_clearance_upper_bound_m": 0.001,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 19
+    },
+    {
+      "right_interval": [
+        601,
+        602
+      ],
+      "state_clearance_upper_bound_m": 0.001,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 14
+    },
+    {
+      "right_interval": [
+        602,
+        603
+      ],
+      "state_clearance_upper_bound_m": 0.001,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 8
+    },
+    {
+      "right_interval": [
+        603,
+        604
+      ],
+      "state_clearance_upper_bound_m": 0.001,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 7
+    },
+    {
+      "right_interval": [
+        604,
+        605
+      ],
+      "state_clearance_upper_bound_m": 0.001,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 10
+    },
+    {
+      "right_interval": [
+        605,
+        606
+      ],
+      "state_clearance_upper_bound_m": 0.001,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 16
+    },
+    {
+      "right_interval": [
+        606,
+        607
+      ],
+      "state_clearance_upper_bound_m": 0.001,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 19
+    },
+    {
+      "right_interval": [
+        607,
+        608
+      ],
+      "state_clearance_upper_bound_m": 0.001,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 24
+    },
+    {
+      "right_interval": [
+        608,
+        609
+      ],
+      "state_clearance_upper_bound_m": 0.001,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 31
+    },
+    {
+      "right_interval": [
+        609,
+        610
+      ],
+      "state_clearance_upper_bound_m": 0.001,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 33
+    },
+    {
+      "right_interval": [
+        610,
+        611
+      ],
+      "state_clearance_upper_bound_m": 0.001,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 42
+    },
+    {
+      "right_interval": [
+        611,
+        612
+      ],
+      "state_clearance_upper_bound_m": 0.001,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 42
+    },
+    {
+      "right_interval": [
+        612,
+        613
+      ],
+      "state_clearance_upper_bound_m": 0.001,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 38
+    },
+    {
+      "right_interval": [
+        613,
+        614
+      ],
+      "state_clearance_upper_bound_m": 0.001,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 47
+    },
+    {
+      "right_interval": [
+        614,
+        615
+      ],
+      "state_clearance_upper_bound_m": 0.001,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 42
+    },
+    {
+      "right_interval": [
+        615,
+        616
+      ],
+      "state_clearance_upper_bound_m": 0.001,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 38
+    },
+    {
+      "right_interval": [
+        616,
+        617
+      ],
+      "state_clearance_upper_bound_m": 0.001,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 43
+    },
+    {
+      "right_interval": [
+        617,
+        618
+      ],
+      "state_clearance_upper_bound_m": 0.001,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 39
+    },
+    {
+      "right_interval": [
+        618,
+        619
+      ],
+      "state_clearance_upper_bound_m": 0.001,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 54
+    },
+    {
+      "right_interval": [
+        619,
+        620
+      ],
+      "state_clearance_upper_bound_m": 0.001,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 52
+    },
+    {
+      "right_interval": [
+        620,
+        621
+      ],
+      "state_clearance_upper_bound_m": 0.001,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 61
+    },
+    {
+      "right_interval": [
+        621,
+        622
+      ],
+      "state_clearance_upper_bound_m": 0.001,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 54
+    },
+    {
+      "right_interval": [
+        622,
+        623
+      ],
+      "state_clearance_upper_bound_m": 0.001,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 56
+    },
+    {
+      "right_interval": [
+        623,
+        624
+      ],
+      "state_clearance_upper_bound_m": 0.001,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 51
+    },
+    {
+      "right_interval": [
+        624,
+        625
+      ],
+      "state_clearance_upper_bound_m": 0.001,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 46
+    },
+    {
+      "right_interval": [
+        625,
+        626
+      ],
+      "state_clearance_upper_bound_m": 0.001,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 42
+    },
+    {
+      "right_interval": [
+        626,
+        627
+      ],
+      "state_clearance_upper_bound_m": 0.001,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 44
+    },
+    {
+      "right_interval": [
+        627,
+        628
+      ],
+      "state_clearance_upper_bound_m": 0.001,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 44
+    },
+    {
+      "right_interval": [
+        628,
+        629
+      ],
+      "state_clearance_upper_bound_m": 0.001,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 37
+    },
+    {
+      "right_interval": [
+        629,
+        630
+      ],
+      "state_clearance_upper_bound_m": 0.001,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 40
+    },
+    {
+      "right_interval": [
+        630,
+        631
+      ],
+      "state_clearance_upper_bound_m": 0.001,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 40
+    },
+    {
+      "right_interval": [
+        631,
+        632
+      ],
+      "state_clearance_upper_bound_m": 0.001,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 35
+    },
+    {
+      "right_interval": [
+        632,
+        633
+      ],
+      "state_clearance_upper_bound_m": 0.001,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 37
+    },
+    {
+      "right_interval": [
+        633,
+        634
+      ],
+      "state_clearance_upper_bound_m": 0.001,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 37
+    },
+    {
+      "right_interval": [
+        634,
+        635
+      ],
+      "state_clearance_upper_bound_m": 0.001,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 36
+    },
+    {
+      "right_interval": [
+        635,
+        636
+      ],
+      "state_clearance_upper_bound_m": 0.001,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 40
+    },
+    {
+      "right_interval": [
+        636,
+        637
+      ],
+      "state_clearance_upper_bound_m": 0.001,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 36
+    },
+    {
+      "right_interval": [
+        637,
+        638
+      ],
+      "state_clearance_upper_bound_m": 0.001,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 36
+    },
+    {
+      "right_interval": [
+        638,
+        639
+      ],
+      "state_clearance_upper_bound_m": 0.001,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 30
+    },
+    {
+      "right_interval": [
+        639,
+        640
+      ],
+      "state_clearance_upper_bound_m": 0.001,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 33
+    },
+    {
+      "right_interval": [
+        640,
+        641
+      ],
+      "state_clearance_upper_bound_m": 0.001,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 31
+    },
+    {
+      "right_interval": [
+        641,
+        642
+      ],
+      "state_clearance_upper_bound_m": 0.001,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 24
+    },
+    {
+      "right_interval": [
+        642,
+        643
+      ],
+      "state_clearance_upper_bound_m": 0.001,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 25
+    },
+    {
+      "right_interval": [
+        643,
+        644
+      ],
+      "state_clearance_upper_bound_m": 0.001,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 27
+    },
+    {
+      "right_interval": [
+        644,
+        645
+      ],
+      "state_clearance_upper_bound_m": 0.001,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 22
+    },
+    {
+      "right_interval": [
+        645,
+        646
+      ],
+      "state_clearance_upper_bound_m": 0.001,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 24
+    },
+    {
+      "right_interval": [
+        646,
+        647
+      ],
+      "state_clearance_upper_bound_m": 0.001,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 26
+    },
+    {
+      "right_interval": [
+        647,
+        648
+      ],
+      "state_clearance_upper_bound_m": 0.001,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 21
+    },
+    {
+      "right_interval": [
+        648,
+        649
+      ],
+      "state_clearance_upper_bound_m": 0.001,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 27
+    },
+    {
+      "right_interval": [
+        649,
+        650
+      ],
+      "state_clearance_upper_bound_m": 0.001,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 21
+    },
+    {
+      "right_interval": [
+        650,
+        651
+      ],
+      "state_clearance_upper_bound_m": 0.001,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 25
+    },
+    {
+      "right_interval": [
+        651,
+        652
+      ],
+      "state_clearance_upper_bound_m": 0.0013164580430239247,
+      "action_clearance_upper_bound_m": 0.006558560702452966,
+      "samples": 22
+    },
+    {
+      "right_interval": [
+        652,
+        653
+      ],
+      "state_clearance_upper_bound_m": 0.009363154017748544,
+      "action_clearance_upper_bound_m": 0.012142518841012192,
+      "samples": 32
+    },
+    {
+      "right_interval": [
+        653,
+        654
+      ],
+      "state_clearance_upper_bound_m": 0.016529265230576327,
+      "action_clearance_upper_bound_m": 0.012089797751569105,
+      "samples": 25
+    },
+    {
+      "right_interval": [
+        654,
+        655
+      ],
+      "state_clearance_upper_bound_m": 0.016529265230576327,
+      "action_clearance_upper_bound_m": 0.011130522861988294,
+      "samples": 22
+    },
+    {
+      "right_interval": [
+        655,
+        656
+      ],
+      "state_clearance_upper_bound_m": 0.015331905057454132,
+      "action_clearance_upper_bound_m": 0.010404212960146781,
+      "samples": 26
+    },
+    {
+      "right_interval": [
+        656,
+        657
+      ],
+      "state_clearance_upper_bound_m": 0.014038115560182755,
+      "action_clearance_upper_bound_m": 0.010243279771769483,
+      "samples": 23
+    },
+    {
+      "right_interval": [
+        657,
+        658
+      ],
+      "state_clearance_upper_bound_m": 0.01199380501395246,
+      "action_clearance_upper_bound_m": 0.010153627809691562,
+      "samples": 18
+    },
+    {
+      "right_interval": [
+        658,
+        659
+      ],
+      "state_clearance_upper_bound_m": 0.01053735445209435,
+      "action_clearance_upper_bound_m": 0.010092490452415115,
+      "samples": 18
+    },
+    {
+      "right_interval": [
+        659,
+        660
+      ],
+      "state_clearance_upper_bound_m": 0.009684819004000835,
+      "action_clearance_upper_bound_m": 0.010011610981024467,
+      "samples": 15
+    },
+    {
+      "right_interval": [
+        660,
+        661
+      ],
+      "state_clearance_upper_bound_m": 0.00912866502979294,
+      "action_clearance_upper_bound_m": 0.009942553242091708,
+      "samples": 10
+    },
+    {
+      "right_interval": [
+        661,
+        662
+      ],
+      "state_clearance_upper_bound_m": 0.00890415977096672,
+      "action_clearance_upper_bound_m": 0.009942553242091708,
+      "samples": 8
+    },
+    {
+      "right_interval": [
+        662,
+        663
+      ],
+      "state_clearance_upper_bound_m": 0.0090057971716088,
+      "action_clearance_upper_bound_m": 0.009942553242091708,
+      "samples": 7
+    },
+    {
+      "right_interval": [
+        663,
+        664
+      ],
+      "state_clearance_upper_bound_m": 0.009070507282628554,
+      "action_clearance_upper_bound_m": 0.009942553242091708,
+      "samples": 7
+    },
+    {
+      "right_interval": [
+        664,
+        665
+      ],
+      "state_clearance_upper_bound_m": 0.009146344627108068,
+      "action_clearance_upper_bound_m": 0.009942553242091708,
+      "samples": 8
+    },
+    {
+      "right_interval": [
+        665,
+        666
+      ],
+      "state_clearance_upper_bound_m": 0.009199013197113613,
+      "action_clearance_upper_bound_m": 0.01001092744605155,
+      "samples": 6
+    },
+    {
+      "right_interval": [
+        666,
+        667
+      ],
+      "state_clearance_upper_bound_m": 0.009199013197113613,
+      "action_clearance_upper_bound_m": 0.010014516152986846,
+      "samples": 9
+    },
+    {
+      "right_interval": [
+        667,
+        668
+      ],
+      "state_clearance_upper_bound_m": 0.009192799057145516,
+      "action_clearance_upper_bound_m": 0.01012492635205494,
+      "samples": 12
+    },
+    {
+      "right_interval": [
+        668,
+        669
+      ],
+      "state_clearance_upper_bound_m": 0.009192799057145516,
+      "action_clearance_upper_bound_m": 0.01012492635205494,
+      "samples": 11
+    },
+    {
+      "right_interval": [
+        669,
+        670
+      ],
+      "state_clearance_upper_bound_m": 0.009192799057145516,
+      "action_clearance_upper_bound_m": 0.010201218201850281,
+      "samples": 14
+    },
+    {
+      "right_interval": [
+        670,
+        671
+      ],
+      "state_clearance_upper_bound_m": 0.009192799057145516,
+      "action_clearance_upper_bound_m": 0.010201218201850281,
+      "samples": 15
+    },
+    {
+      "right_interval": [
+        671,
+        672
+      ],
+      "state_clearance_upper_bound_m": 0.009192799057145516,
+      "action_clearance_upper_bound_m": 0.010270608119214094,
+      "samples": 10
+    },
+    {
+      "right_interval": [
+        672,
+        673
+      ],
+      "state_clearance_upper_bound_m": 0.009192799057145516,
+      "action_clearance_upper_bound_m": 0.010308717914208183,
+      "samples": 11
+    },
+    {
+      "right_interval": [
+        673,
+        674
+      ],
+      "state_clearance_upper_bound_m": 0.009461962425325085,
+      "action_clearance_upper_bound_m": 0.01069536092671004,
+      "samples": 19
+    },
+    {
+      "right_interval": [
+        674,
+        675
+      ],
+      "state_clearance_upper_bound_m": 0.00958149864993062,
+      "action_clearance_upper_bound_m": 0.011413397957324788,
+      "samples": 12
+    },
+    {
+      "right_interval": [
+        675,
+        676
+      ],
+      "state_clearance_upper_bound_m": 0.00994940668213751,
+      "action_clearance_upper_bound_m": 0.011551272419229812,
+      "samples": 19
+    },
+    {
+      "right_interval": [
+        676,
+        677
+      ],
+      "state_clearance_upper_bound_m": 0.01027874428376133,
+      "action_clearance_upper_bound_m": 0.0073074176804155625,
+      "samples": 19
+    },
+    {
+      "right_interval": [
+        677,
+        678
+      ],
+      "state_clearance_upper_bound_m": 0.011336777159082077,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 20
+    },
+    {
+      "right_interval": [
+        678,
+        679
+      ],
+      "state_clearance_upper_bound_m": 0.013873259843827986,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 24
+    },
+    {
+      "right_interval": [
+        679,
+        680
+      ],
+      "state_clearance_upper_bound_m": 0.015448186393364597,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 46
+    },
+    {
+      "right_interval": [
+        680,
+        681
+      ],
+      "state_clearance_upper_bound_m": 0.016010696378112452,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 37
+    },
+    {
+      "right_interval": [
+        681,
+        682
+      ],
+      "state_clearance_upper_bound_m": 0.012235935721616513,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 40
+    },
+    {
+      "right_interval": [
+        682,
+        683
+      ],
+      "state_clearance_upper_bound_m": 0.0031255634768555937,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 55
+    },
+    {
+      "right_interval": [
+        683,
+        684
+      ],
+      "state_clearance_upper_bound_m": 0.001,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 37
+    },
+    {
+      "right_interval": [
+        684,
+        685
+      ],
+      "state_clearance_upper_bound_m": 0.001,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 44
+    },
+    {
+      "right_interval": [
+        685,
+        686
+      ],
+      "state_clearance_upper_bound_m": 0.001,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 50
+    },
+    {
+      "right_interval": [
+        686,
+        687
+      ],
+      "state_clearance_upper_bound_m": 0.001,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 45
+    },
+    {
+      "right_interval": [
+        687,
+        688
+      ],
+      "state_clearance_upper_bound_m": 0.001,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 47
+    },
+    {
+      "right_interval": [
+        688,
+        689
+      ],
+      "state_clearance_upper_bound_m": 0.001,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 51
+    },
+    {
+      "right_interval": [
+        689,
+        690
+      ],
+      "state_clearance_upper_bound_m": 0.001,
+      "action_clearance_upper_bound_m": 0.001,
+      "samples": 57
+    }
+  ]
+}
