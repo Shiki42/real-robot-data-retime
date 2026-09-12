@@ -13,6 +13,7 @@ DEFAULT_WORKSPACE = {
     "maximum_m": [0.46, 0.12, 0.18],
     "ee_radius_m": 0.025,
     "retreat_distance_m": 0.03,
+    "minimum_clearance_m": 0.0155,
 }
 
 
@@ -28,7 +29,7 @@ def workspace_events(tcp, events, config):
         or not np.isfinite([lo, hi]).all()
         or np.any(hi <= lo)
         or not np.isfinite([radius, retreat]).all()
-        or radius <= 0
+        or radius < 0
         or retreat <= 0
     ):
         raise ValueError("invalid fixed workspace geometry")
@@ -121,7 +122,7 @@ def nominal_schedule(clocks, holds, events):
     return tuple(map(np.asarray, output))
 
 
-def mesh_checkers(joints, clocks):
+def mesh_checkers(joints, clocks, clearance_m, *, include_action=False):
     from ..collision.continuous import ContinuousClearance
     from .smooth import sample_rows
 
@@ -131,8 +132,9 @@ def mesh_checkers(joints, clocks):
             sample_rows(v[:, 7:], clocks[1]),
             Path(joints[2]),
             Path(joints[3]),
+            clearance_m=clearance_m,
         )
-        for v in joints[:2]
+        for v in joints[: 2 if include_action else 1]
     ]
 
 
@@ -162,8 +164,9 @@ def plan_workspace(timeline, joints, config=DEFAULT_WORKSPACE):
     from heapq import heappush, heappop
 
     state, action, urdf, mesh_root = joints
+    clearance = config["minimum_clearance_m"]
     fk = PiperXClearance(
-        state[:, :7], state[:, 7:], Path(urdf), Path(mesh_root), margin_m=0.02
+        state[:, :7], state[:, 7:], Path(urdf), Path(mesh_root), margin_m=clearance
     )
     tcp = np.array([[p[4] for p in arm] for arm in fk.poses])
     events = workspace_events(tcp, timeline["episodes"], config)
@@ -175,7 +178,7 @@ def plan_workspace(timeline, joints, config=DEFAULT_WORKSPACE):
     ]
     clocks, holds, ramps = source_clocks(own, original_stops, fps)
     nominal = nominal_schedule(clocks, holds, events)
-    nominal_checks = mesh_checkers(joints, nominal)
+    nominal_checks = mesh_checkers(joints, nominal, clearance, include_action=True)
     nominal_failures = {
         name: [i for i in range(len(nominal[0]) - 1) if not c(i, i, i + 1, i + 1)]
         for name, c in zip(("observation.state", "action"), nominal_checks)
@@ -184,7 +187,7 @@ def plan_workspace(timeline, joints, config=DEFAULT_WORKSPACE):
         c.__call__.cache_clear()
     del nominal_checks
     print(
-        f"nominal >2cm failed edges: { {k: len(v) for k, v in nominal_failures.items()} }",
+        f"nominal clearance failed edges: { {k: len(v) for k, v in nominal_failures.items()} }",
         flush=True,
     )
     up = round(round(fps * 0.3) / 2)
@@ -200,9 +203,9 @@ def plan_workspace(timeline, joints, config=DEFAULT_WORKSPACE):
     # still gated. Prune impossible right waiting poses before full path search.
     source_geometry = [
         PiperXClearance(
-            v[:, :7], v[:, 7:], Path(urdf), Path(mesh_root), margin_m=0.021001
+            v[:, :7], v[:, 7:], Path(urdf), Path(mesh_root), margin_m=clearance + 1e-6
         )
-        for v in joints[:2]
+        for v in joints[:1]
     ]
     valid_right = []
     for stop in candidates[1]:
@@ -218,7 +221,7 @@ def plan_workspace(timeline, joints, config=DEFAULT_WORKSPACE):
     candidates[1] = valid_right
     if not valid_right:
         raise NoSafeSchedule(
-            "no right outside waiting pose clears uninterrupted left 1 by >2 cm"
+            "no right outside waiting pose clears uninterrupted left 1 by required clearance"
         )
     valid_left = []
     for stop in candidates[0]:
@@ -238,14 +241,39 @@ def plan_workspace(timeline, joints, config=DEFAULT_WORKSPACE):
     candidates[0] = valid_left
     if not valid_left:
         raise NoSafeSchedule(
-            "no outside left-2 waiting pose clears right-1 pickup-to-withdrawal by >2 cm"
+            "no outside left-2 waiting pose clears right-1 pickup-to-withdrawal by required clearance"
         )
+    preferred = []
+    for axis, (side, owner, begin, end) in enumerate(
+        [
+            (0, 1, own[1][0]["approach_start"], own[1][0]["release_frame"]),
+            (1, 0, own[0][0]["approach_start"], own[0][0]["release_frame"]),
+            (1, 0, own[0][0]["release_frame"] + 1, own[0][1]["retract_end"]),
+        ]
+    ):
+        choice = 0
+        for index, stop in enumerate(candidates[axis]):
+            if all(
+                c.configuration_safe(stop, t)
+                if side == 0
+                else c.configuration_safe(t, stop)
+                for t in range(begin, end + 1)
+                for c in source_geometry
+            ):
+                choice = index
+                break
+        preferred.append(choice)
+    preferred = tuple(preferred)
     del source_geometry
     print(f"workspace clearance candidates: {[len(c) for c in candidates]}", flush=True)
     outermost = tuple(len(c) - 1 for c in candidates)
-    frontier = [(0, outermost), (1, (0, 0, 0))]
-    seen = {outermost, (0, 0, 0)}
+    frontier = [(0, preferred), (1, (0, 0, 0)), (2, outermost)]
+    seen = {preferred, outermost, (0, 0, 0)}
     attempts = 0
+    from ..collision.continuous import ContinuousClearance
+
+    pose_cache = [{float(i): p for i, p in enumerate(arm)} for arm in fk.poses]
+    configuration_cache = {}
     while frontier:
         _, choice = heappop(frontier)
         stops = [
@@ -253,7 +281,11 @@ def plan_workspace(timeline, joints, config=DEFAULT_WORKSPACE):
             [candidates[1][choice[1]], candidates[2][choice[2]]],
         ]
         clocks, holds, ramps = source_clocks(own, stops, fps)
-        checks = mesh_checkers(joints, clocks)
+        checks = [
+            ContinuousClearance.on_source_clocks(
+                fk, clocks, pose_cache, configuration_cache, clearance
+            )
+        ]
 
         def dependency(i, j):
             l, r = clocks[0][i], clocks[1][j]
@@ -351,7 +383,7 @@ def plan_workspace(timeline, joints, config=DEFAULT_WORKSPACE):
                 c.__call__.cache_clear()
     else:
         raise NoSafeSchedule(
-            "no >2 cm mesh-clearance schedule preserves uninterrupted execution"
+            "no required clearance mesh-clearance schedule preserves uninterrupted execution"
         )
     stages = dict(
         policy="backdated_3cm_withdrawal_with_strict_mesh_clearance",
@@ -378,7 +410,7 @@ def plan_workspace(timeline, joints, config=DEFAULT_WORKSPACE):
         ramps=dict(left=ramps[0], right=ramps[1]),
     )
     verify_uninterrupted(left, right, stages)
-    final_checks = mesh_checkers(joints, (left, right))
+    final_checks = mesh_checkers(joints, (left, right), clearance, include_action=True)
     audit = {
         name: dict(
             passed=all(c(i, i, i + 1, i + 1) for i in range(len(left) - 1)),
@@ -386,7 +418,7 @@ def plan_workspace(timeline, joints, config=DEFAULT_WORKSPACE):
         )
         for name, c in zip(("observation.state", "action"), final_checks)
     }
-    if not all(v["passed"] for v in audit.values()):
+    if not audit["observation.state"]["passed"]:
         raise ValueError("final mesh-clearance audit failed")
     stages["admissions"] = []
     for side, cycle, owner, owner_cycle in [(1, 0, 0, 0), (0, 1, 1, 0), (1, 1, 0, 1)]:
@@ -429,12 +461,13 @@ def plan_workspace(timeline, joints, config=DEFAULT_WORKSPACE):
             stages=stages,
             output_frames=len(left),
             pickup_order=pickups,
-            collision_scope="all cross-arm URDF meshes; measured state and commanded action",
+            collision_scope="cross-arm URDF meshes from measured state; action diagnostic only",
             nominal_collision_failures=nominal_failures,
             mesh_audit=audit,
-            clearance_requirement_m=0.02,
-            checked_clearance_m=0.021001,
-            between_sample_relative_motion_bound_m=0.002,
+            clearance_requirement_m=clearance,
+            numerical_clearance_guard_m=1e-6,
+            continuous_audit_method="adaptive midpoint FK with conservative motion bounds",
+            commanded_action_is_acceptance_gate=False,
             simultaneous_workspace_occupancy_allowed=True,
         ),
     )

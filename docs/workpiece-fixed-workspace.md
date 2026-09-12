@@ -1,4 +1,4 @@
-# Backdated withdrawal with strict URDF clearance
+# Backdated withdrawal with 1.55 cm measured-state URDF clearance
 
 The fixed cuboid selects an outside EE staging pose. Following the user's latest
 rule, an observed lateral retreat of 3 cm confirms an event, then the nominal
@@ -14,34 +14,31 @@ This is offline retrospective editing, not a causal online release detector.
 
 ## Safety precedence
 
-The prior EE-only acceptance policy is superseded. Every cross-arm URDF mesh
-must stay strictly farther than 2 cm, for both measured state and commanded
-action trajectories, including all waits, brakes and restarts. The system first
-constructs the nominal backdated timeline and audits it. If it fails, the existing
-monotone scheduler delays admission and, when necessary, backs the waiting pose
-farther out along the same recorded outside approach. It never skips poses or
-pauses an admitted execution. Left 1 cannot be slowed or delayed. Right/left
-approaches still start together. A failure to find such a path is explicit.
+The current minimum accepted distance is 1.55 cm, as requested by the user.
+The acceptance gate uses the actual recorded joint state. Commanded action is
+reported independently and is not interpreted as the simultaneously observed
+physical pose. Every link mesh is included in the measured-state check.
 
-The collision repair is intentionally separate from the nominal fixed-volume
-release rule. Actual admission and additional wait relative to the backdated
-onset are recorded. It is not possible to promise exact-onset admission and also
-override a detected collision; the strict distance requirement takes precedence.
+The nominal timeline is audited first. Safety repair can delay admission or
+choose an earlier recorded outside waiting pose, but cannot pause an admitted
+execution or delay left 1. Fixed-volume timing remains the nominal rule;
+collision repair is a separately reported correction. No failed candidate is
+rendered as satisfying the distance requirement.
 
-## Between-frame guarantee within the geometric model
+## Adaptive between-frame verification
 
-`collision.continuous.ContinuousClearance` reuses `PiperXClearance` FK, meshes,
-and its conservative reach/angle/aperture motion bound. It checks separation at
-2.1001 cm while limiting relative mesh travel between checked samples to 0.2 cm.
-Every intermediate point is within 0.1 cm of a checked sample, leaving a strict
-lower bound above 2 cm. Full-motion AABB separation can certify an entire edge
-without subdivision. Edges are piecewise-linear in the exported joint rows.
-The final trajectory is independently audited after scheduling.
+`ContinuousClearance` certifies each piecewise-linear exported joint interval
+using midpoint FK and a conservative relative mesh motion bound. A midpoint
+separation greater than 1.55 cm plus half the interval's motion bound proves the
+whole interval clear. Otherwise it subdivides, rejects any violating midpoint,
+and fails closed at the numerical depth limit. The only fixed threshold guard
+is 1 micrometre; there is no extra fixed 1 mm rejection margin. Endpoint FK and
+configuration checks are reused across candidate clocks only within the same
+source trajectories and clearance setting.
 
 This certifies the supplied URDF/base-spacing/interpolation model, not unknown
-physical calibration or unmodeled objects. Image overlap is allowed in rendering
-because physically separated geometry can overlap in projection; the established
-stable foreground ordering remains a visual approximation without depth.
+physical calibration or unmodeled objects. Image overlap can occur without a
+3-D collision; rendering uses the established visual ordering approximation.
 
 ## Artifacts and entry points
 
@@ -81,3 +78,20 @@ clearance implementation are retained on this experimental branch.
 Normal braking remains 0.5 s. Candidate safety repair may shorten a braking window
 only after the previous placement is complete; it must not retime that completed
 execution. Every such ramp is recorded, and this does not waive mesh clearance.
+
+## Recheck at 1.55 cm
+
+The original 3-D box and EE envelope remain the checked-in configuration; trial
+reductions in box height and the envelope did not produce an accepted schedule
+and were not adopted. No new passing video has been produced for this request.
+
+For Episode 1 at left source 331, right source is constrained to [592,690] by
+the backdated gates and original waiting region. An adaptive distance upper-bound
+proof covers every interpolation in that entire right-source interval and keeps
+its best achievable clearance below 1.55 cm. The maximum sampled gap was 1.408 cm.
+Thus changing the threshold from 2 cm to 1.55 cm alone does not remove this
+bottleneck. Modifying a return trajectory is beyond pure retiming and remains a
+user decision. See [the 1.55 cm proof](workpiece-clearance155-infeasibility.json).
+
+Earlier 2 cm audit results above are retained as historical evidence. Current
+artifacts: `/home/coder/share/retime-workpiece-clearance155-20260912` on Coder A.
