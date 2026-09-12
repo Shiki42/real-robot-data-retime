@@ -276,3 +276,61 @@ def bin_aware_audit_support(frames, robots, motion, support):
             )
         )
     return motion, result, records
+
+
+def refine_deposition_releases(timeline, state):
+    """Bound verified bin releases by sustained opening of the measured jaws.
+
+    Visual bin clearance can occur well into the return motion. A stable held
+    aperture followed by at least 10 mm sustained opening inside that verified
+    visit provides an earlier conservative release bound, without changing poses.
+    """
+    from copy import deepcopy
+    import numpy as np
+
+    state = np.asarray(state, float)
+    if (
+        state.ndim != 2
+        or state.shape[1] != 14
+        or not len(state)
+        or not np.isfinite(state).all()
+    ):
+        raise ValueError("expected finite dual-arm measured states")
+    refined = deepcopy(timeline)
+    window = max(3, round(timeline["fps"] * 0.1))
+    audit = []
+    for event in refined["episodes"]:
+        evidence = event.get("release_evidence")
+        if not evidence or not evidence["verified"]:
+            continue
+        begin, end = evidence["entry_frame"], event["release_frame"]
+        if begin < window or end >= len(state) or begin <= event["pickup_frame"]:
+            continue
+        aperture = state[:, 6 if event["robot_id"] == "left" else 13]
+        held = aperture[begin - window : begin]
+        if np.ptp(held) > 1.5:
+            continue
+        minimum_open = float(np.median(held)) + 10.0
+        visit_end = min(end, evidence["clearance_frame"])
+        for first in range(begin, visit_end - window + 1):
+            opened = aperture[first : first + window]
+            if opened.min() < minimum_open or np.ptp(opened) > 1.5:
+                continue
+            bound = first + window - 1
+            item = {
+                "arm": event["robot_id"],
+                "object_id": event["object_id"],
+                "visual_release_frame": end,
+                "release_frame": bound,
+                "held_frames": [begin - window, begin],
+                "open_frames": [first, first + window],
+                "held_aperture_mm": float(np.median(held)),
+                "minimum_open_aperture_mm": float(opened.min()),
+                "method": "verified_bin_visit_and_sustained_measured_jaw_opening",
+            }
+            event["release_frame"] = bound
+            evidence["release_frame"] = bound
+            evidence["measured_jaw_release"] = item
+            audit.append(item)
+            break
+    return refined, audit

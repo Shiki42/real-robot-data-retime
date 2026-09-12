@@ -75,6 +75,32 @@ def validate(source, dataset, urdf, meshes):
         receipt = json.loads(
             (dataset / f"meta/retime_receipts/episode_{ep:03d}.json").read_text()
         )
+        evidence = dataset / f"meta/evidence/episode_{ep:03d}"
+        release_path = evidence / "measured_release_audit.json"
+        if release_path.is_file():
+            from real_robot_data_retime.tasks.workpiece import (
+                refine_deposition_releases,
+            )
+
+            recorded = json.loads(release_path.read_text())["releases"]
+            visual = json.loads((evidence / "interaction_timeline.json").read_text())
+            for item in recorded:
+                event = next(
+                    e
+                    for e in visual["episodes"]
+                    if e["robot_id"] == item["arm"]
+                    and e["object_id"] == item["object_id"]
+                )
+                if event["release_frame"] != item["release_frame"]:
+                    raise ValueError(
+                        "measured release disagrees with exported timeline"
+                    )
+                event["release_frame"] = item["visual_release_frame"]
+            _, recomputed = refine_deposition_releases(
+                visual, np.asarray(original["observation.state"].to_pylist())
+            )
+            if recomputed != recorded:
+                raise ValueError("measured release evidence cannot be reproduced")
         plan = receipt["plan"]
         starts = preparation_onsets(
             np.asarray(original["observation.state"].to_pylist()),

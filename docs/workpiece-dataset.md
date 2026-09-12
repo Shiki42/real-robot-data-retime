@@ -61,3 +61,9 @@ mistaken for a duplicate part; visible unoccluded duplicates still fail.
 
 Rejected episodes retain portable status and available analysis/planning evidence
 under `meta/rejections`, referenced by the processing report.
+
+A verified bin visit can use measured jaw opening to refine an overly late
+visual release bound. This requires a stable held aperture followed by at least
+10 mm sustained opening during the visit; visual deposition verification remains
+mandatory. The original visual bound and observed jaw windows are recorded, and
+the final validator reproduces this refinement from the original measured state.

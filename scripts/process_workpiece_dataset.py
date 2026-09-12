@@ -169,6 +169,7 @@ def source_waiting_configs(cache, configs):
 def process(record, manifest, work):
     from real_robot_data_retime.interaction.checkpoint_render import render_checkpoint
     from real_robot_data_retime.staged import load_joints
+    from real_robot_data_retime.model_experiment import sha256
     from real_robot_data_retime.timeline.scheduler import NoSafeSchedule
     from real_robot_data_retime.timeline.workpiece_workspace import (
         DEFAULT_WORKSPACE,
@@ -192,9 +193,26 @@ def process(record, manifest, work):
         raise ValueError("destination deposition is not verified")
 
     joints = load_joints(Path(record["joint_data"]), urdf, meshes, timeline)
+    if "verified_render" not in record:
+        from real_robot_data_retime.tasks.workpiece import refine_deposition_releases
+
+        refined, release_audit = refine_deposition_releases(timeline, joints[0])
+        if release_audit:
+            measured_analysis = root / "analysis-measured-releases"
+            shutil.copytree(analysis, measured_analysis, dirs_exist_ok=True)
+            timeline = refined
+            write_json(measured_analysis / "interaction_timeline.json", timeline)
+            write_json(
+                measured_analysis / "measured_release_audit.json",
+                {
+                    "joint_data_sha256": sha256(record["joint_data"]),
+                    "original_analysis": str(analysis),
+                    "releases": release_audit,
+                },
+            )
+            analysis = measured_analysis
     if "verified_render" in record:
         render = Path(record["verified_render"])
-        from real_robot_data_retime.model_experiment import sha256
 
         report = json.loads((render / "report.json").read_text())
         if report["source_sha256"] != sha256(record["source_video"]):
@@ -476,6 +494,11 @@ def finalize_packages(manifest, work, output):
         ):
             shutil.copyfile(Path(receipt["analysis_directory"]) / name, evidence / name)
         shutil.copyfile(receipt["render_report"], evidence / "render_report.json")
+        release_audit = (
+            Path(receipt["analysis_directory"]) / "measured_release_audit.json"
+        )
+        if release_audit.is_file():
+            shutil.copyfile(release_audit, evidence / release_audit.name)
         receipt["statistics"]["episode_index"] = feature_statistics(
             np.full((len(table), 1), new_id)
         )
