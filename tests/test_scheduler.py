@@ -1,5 +1,8 @@
+import itertools
+
 import numpy as np
 import pytest
+
 from real_robot_data_retime.timeline.scheduler import schedule_sources
 
 
@@ -59,7 +62,7 @@ def test_astar_matches_exhaustive_small_schedules():
             blocked[0, 0] = False
             blocked[-1, -1] = False
 
-            def safe(i, j, ni, nj):
+            def safe(i, j, ni, nj, blocked=blocked):
                 return not blocked[i, j] and not blocked[ni, nj]
 
             queue = deque([(0, 0, 0)])
@@ -83,3 +86,31 @@ def test_astar_matches_exhaustive_small_schedules():
             else:
                 plan = schedule_sources(n, m, safe, left_priority=priority)
                 assert len(plan.left) == optimum
+
+
+def test_earliest_admission_can_prefer_longer_complete_schedule():
+    fast = [(0, 0), (1, 1), (2, 1), (3, 2), (4, 3), (5, 4)]
+    early = [(0, 0), (0, 1), (0, 2), (1, 2), (2, 2), (3, 2), (4, 3), (5, 4)]
+    edges = {(*a, *b) for path in (fast, early) for a, b in itertools.pairwise(path)}
+    edges.add((5, 4, 5, 4))
+    safe = lambda i, j, ni, nj: (i, j, ni, nj) in edges
+    shortest = schedule_sources(6, 5, safe, left_priority=False)
+    earliest = schedule_sources(
+        6, 5, safe, left_priority=False, earliest_right_admissions=(1,)
+    )
+    assert len(shortest.left) == len(fast)
+    assert list(zip(earliest.left, earliest.right)) == early
+
+
+def test_earliest_admission_rejects_dead_end():
+    path = [(0, 0), (1, 1), (2, 1), (3, 2), (4, 3), (5, 4)]
+    edges = {(*a, *b) for a, b in itertools.pairwise(path)}
+    edges.update([(0, 0, 0, 1), (0, 1, 0, 2), (5, 4, 5, 4)])
+    result = schedule_sources(
+        6,
+        5,
+        lambda *edge: edge in edges,
+        left_priority=False,
+        earliest_right_admissions=(1,),
+    )
+    assert list(zip(result.left, result.right)) == path

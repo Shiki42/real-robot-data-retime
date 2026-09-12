@@ -1,3 +1,28 @@
+# Earliest safe right-arm admission at 59 cm base spacing
+
+The current planner uses the fixed EE volume only to choose outside waiting
+poses. It does not gate admission on withdrawal or on leaving that volume.
+It preserves simultaneous approach starts, alternating pickups, and uninterrupted
+admitted motion. Existing 0.5 s braking / 0.3 s restart clocks remain in use.
+
+A lexicographic A* objective minimizes right-1 admission time, then right-2
+admission time, then completion time, for the selected waiting poses and 30 Hz
+source clocks. Cached exact URDF pose checks screen candidate paths. Adaptive
+midpoint motion bounds certify every complete interpolated transition; rejected
+transitions are excluded before repeating the search. This is offline planning
+with known recorded trajectories, not a guarantee for unobserved live motion.
+The minimum accepted measured-state mesh gap is 0.0155 m plus a 1e-6 m guard.
+
+`waiting_padding_m` enlarges the waiting envelope without changing robot meshes
+or the physical EE radius. The three revised examples use padding 0 / 0 / 0.03 m
+for Episodes 0 / 1 / 2. An earliest-time claim is conditional on those waiting
+poses; it is not a global optimum over arbitrary new arm trajectories.
+`render_interaction_checkpoint.py --fixed-workspace --workspace CONFIG.json`
+uses the same continuously validated planner for rendering. Episode 2 uses
+`configs/workpiece-wait-padding-3cm.json`; Episodes 0 and 1 use the defaults.
+
+## Historical experiments (superseded geometry and release rules)
+
 # Backdated withdrawal with 1.55 cm measured-state URDF clearance
 
 The fixed cuboid selects an outside EE staging pose. Following the user's latest

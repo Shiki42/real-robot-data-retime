@@ -13,8 +13,8 @@ from real_robot_data_retime.interaction.measurements import (
     producer_fingerprint,
 )
 from real_robot_data_retime.model_experiment import sha256
+from real_robot_data_retime.staged import export_trajectories, load_joints
 from real_robot_data_retime.timeline.visual import plan_visual
-from real_robot_data_retime.staged import load_joints, export_trajectories
 
 
 def render_checkpoint(
@@ -29,7 +29,12 @@ def render_checkpoint(
     left_delay_seconds=0,
     fixed_workspace=False,
     diagnostic_nominal_workspace=False,
+    workspace=None,
 ):
+    if workspace is not None and not fixed_workspace:
+        raise ValueError(
+            "workspace configuration requires validated workspace planning"
+        )
     if fixed_workspace and diagnostic_nominal_workspace:
         raise ValueError("choose validated planning or nominal diagnostic, not both")
     progress = json.loads((analysis / "progress.json").read_text())
@@ -65,6 +70,7 @@ def render_checkpoint(
             if right_delay_seconds or left_delay_seconds:
                 raise ValueError("fixed EE workspace uses synchronous startup")
             from real_robot_data_retime.timeline.workpiece_workspace import (
+                DEFAULT_WORKSPACE,
                 plan_workspace,
             )
 
@@ -75,7 +81,11 @@ def render_checkpoint(
 
                 left, right, plan = nominal_plan(timeline, joints)
             else:
-                left, right, plan = plan_workspace(timeline, joints)
+                left, right, plan = plan_workspace(
+                    timeline,
+                    joints,
+                    config=DEFAULT_WORKSPACE if workspace is None else workspace,
+                )
         else:
             left, right, plan = plan_visual(
                 timeline,
@@ -136,6 +146,7 @@ def main():
     mode = parser.add_mutually_exclusive_group()
     mode.add_argument("--fixed-workspace", action="store_true")
     mode.add_argument("--diagnostic-nominal-workspace", action="store_true")
+    parser.add_argument("--workspace", type=Path)
     parser.add_argument("--joint-data", type=Path)
     parser.add_argument("--urdf", type=Path)
     parser.add_argument("--mesh-root", type=Path)
@@ -147,6 +158,7 @@ def main():
         args.analysis,
         args.output,
         fixed_workspace=args.fixed_workspace,
+        workspace=json.loads(args.workspace.read_text()) if args.workspace else None,
         diagnostic_nominal_workspace=args.diagnostic_nominal_workspace,
         joint_data=args.joint_data,
         urdf=args.urdf,

@@ -1,8 +1,9 @@
 import numpy as np
 import pytest
+
 from real_robot_data_retime.timeline.workpiece_workspace import (
-    workspace_events,
     DEFAULT_WORKSPACE,
+    workspace_events,
 )
 
 
@@ -18,13 +19,13 @@ def fixture():
             tcp[side, start + 20 : start + 25, 1] = sign * 0.03
             tcp[side, start + 25 : start + 30, 1] = sign * 0.16
             events.append(
-                dict(
-                    robot_id=["left", "right"][side],
-                    approach_start=start,
-                    pickup_frame=start + 15,
-                    release_frame=start + 35,
-                    retract_end=start + 45,
-                )
+                {
+                    "robot_id": ["left", "right"][side],
+                    "approach_start": start,
+                    "pickup_frame": start + 15,
+                    "release_frame": start + 35,
+                    "retract_end": start + 45,
+                }
             )
     return tcp, events
 
@@ -73,51 +74,14 @@ def test_nominal_release_starts_at_onset_not_confirmation():
     clocks = [np.arange(12), np.arange(12)]
     events = [
         [
-            dict(withdrawal_frame=3, withdrawal_confirmed_frame=5),
-            dict(withdrawal_frame=8),
+            {"withdrawal_frame": 3, "withdrawal_confirmed_frame": 5},
+            {"withdrawal_frame": 8},
         ],
-        [dict(withdrawal_frame=5), dict(withdrawal_frame=10)],
+        [{"withdrawal_frame": 5}, {"withdrawal_frame": 10}],
     ]
     left, right = nominal_schedule(clocks, [[6], [1, 8]], events)
     index = np.flatnonzero(right > 1)[0]
     assert left[index - 1] == 3
-
-
-def test_admission_bound_matches_clear_shortest_path():
-    from real_robot_data_retime.timeline.workpiece_workspace import (
-        admission_remaining_bound,
-    )
-    from real_robot_data_retime.timeline.scheduler import schedule_sources
-
-    gates = [(1, 2, 0, 5), (0, 7, 1, 6), (1, 9, 0, 10)]
-
-    def dependency(i, j):
-        clocks = (i, j)
-        return all(
-            clocks[s] <= stop or clocks[o] >= release for s, stop, o, release in gates
-        )
-
-    bound = admission_remaining_bound([14, 15], gates)
-    for i, j in [(0, 0), (3, 2), (7, 4), (8, 9), (12, 11)]:
-        if not dependency(i, j):
-            continue
-
-        def safe(a, b, na, nb):
-            current = (a + i, b + j)
-            following = (na + i, nb + j)
-            return all(
-                not (current[s] <= stop < following[s] and current[o] < release)
-                for s, stop, o, release in gates
-            )
-
-        path = schedule_sources(
-            14 - i,
-            15 - j,
-            safe,
-            dependency=lambda a, b: dependency(a + i, b + j),
-            left_priority=False,
-        )
-        assert bound(i, j) <= len(path.left) - 1
 
 
 def test_short_brake_preserves_every_frame_through_placement():

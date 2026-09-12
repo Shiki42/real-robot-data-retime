@@ -1,0 +1,86 @@
+[
+  {
+    "episode": 0,
+    "base_spacing_m": 0.59,
+    "minimum_sampled_gap_mm": 16.075372775730546,
+    "below_threshold_intervals": [],
+    "continuous_mesh_audit": {
+      "observation.state": {
+        "passed": true,
+        "checked_interior_samples": 1707
+      }
+    },
+    "source_origin_passed": true,
+    "admissions": [
+      {
+        "arm": "right",
+        "cycle": 1,
+        "output_frame": 47
+      },
+      {
+        "arm": "right",
+        "cycle": 2,
+        "output_frame": 302
+      }
+    ],
+    "search_seconds": 17.492309495806694,
+    "waiting_padding_m": 0.0,
+    "video_sha256": "72a3602f4dfbf2a79f18dc3d06c3d11d9888d2bce1638a3de9db46c0abf81c35"
+  },
+  {
+    "episode": 1,
+    "base_spacing_m": 0.59,
+    "minimum_sampled_gap_mm": 17.460642412977272,
+    "below_threshold_intervals": [],
+    "continuous_mesh_audit": {
+      "observation.state": {
+        "passed": true,
+        "checked_interior_samples": 1199
+      }
+    },
+    "source_origin_passed": true,
+    "admissions": [
+      {
+        "arm": "right",
+        "cycle": 1,
+        "output_frame": 102
+      },
+      {
+        "arm": "right",
+        "cycle": 2,
+        "output_frame": 335
+      }
+    ],
+    "search_seconds": 9.06343026459217,
+    "waiting_padding_m": 0.0,
+    "video_sha256": "735b5be6d50171833db46a5a07c834b9c329f5fc1e539f89c41bb73fa31525d9"
+  },
+  {
+    "episode": 2,
+    "base_spacing_m": 0.59,
+    "minimum_sampled_gap_mm": 16.070254827296317,
+    "below_threshold_intervals": [],
+    "continuous_mesh_audit": {
+      "observation.state": {
+        "passed": true,
+        "checked_interior_samples": 1518
+      }
+    },
+    "source_origin_passed": true,
+    "admissions": [
+      {
+        "arm": "right",
+        "cycle": 1,
+        "output_frame": 143
+      },
+      {
+        "arm": "right",
+        "cycle": 2,
+        "output_frame": 393
+      }
+    ],
+    "search_seconds": 6.087340407073498,
+    "waiting_padding_m": 0.03,
+    "video_sha256": "ff1c3b33a09b98c6ba7a6732bf2bf10ab69c54b2e155a5d8b34babaf502e7ed3"
+  }
+]

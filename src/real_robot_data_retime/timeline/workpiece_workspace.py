@@ -1,17 +1,18 @@
-"""Fixed-volume admission, using measured withdrawal instead of future arm sweeps."""
+"""Fixed-volume waiting poses and earliest continuously safe right admissions."""
 
 from pathlib import Path
+
 import numpy as np
 
-from .workpiece import approach_clock, verify_uninterrupted
 from ..collision.piperx import PiperXClearance
 from ..tasks.workpiece import workpiece_events
-
+from .workpiece import approach_clock, verify_uninterrupted
 
 DEFAULT_WORKSPACE = {
     "minimum_m": [0.27, -0.12, -0.04],
     "maximum_m": [0.46, 0.12, 0.18],
     "ee_radius_m": 0.025,
+    "waiting_padding_m": 0.0,
     "retreat_distance_m": 0.03,
     "minimum_clearance_m": 0.0155,
 }
@@ -21,7 +22,7 @@ def workspace_events(tcp, events, config):
     """Each admission boundary depends on a fixed box, not the opposite trajectory."""
     lo = np.asarray(config["minimum_m"], float)
     hi = np.asarray(config["maximum_m"], float)
-    radius = float(config["ee_radius_m"])
+    radius = float(config["ee_radius_m"] + config["waiting_padding_m"])
     retreat = float(config["retreat_distance_m"])
     if (
         lo.shape != (3,)
@@ -63,14 +64,14 @@ def workspace_events(tcp, events, config):
             if release is None:
                 raise ValueError("no three-centimetre lateral withdrawal observed")
             records[side].append(
-                dict(
-                    entry_frame=entry,
-                    wait_frame=entry - 1,
-                    pickup_frame=pickup,
-                    withdrawal_frame=release,
-                    withdrawal_confirmed_frame=confirmed,
-                    withdrawal_direction=("+Y" if side == 0 else "-Y"),
-                )
+                {
+                    "entry_frame": entry,
+                    "wait_frame": entry - 1,
+                    "pickup_frame": pickup,
+                    "withdrawal_frame": release,
+                    "withdrawal_confirmed_frame": confirmed,
+                    "withdrawal_direction": ("+Y" if side == 0 else "-Y"),
+                }
             )
             previous_release = event["release_frame"]
     return records
@@ -122,352 +123,174 @@ def nominal_schedule(clocks, holds, events):
     return tuple(map(np.asarray, output))
 
 
-def mesh_checkers(joints, clocks, clearance_m, *, include_action=False):
-    from ..collision.continuous import ContinuousClearance
-    from .smooth import sample_rows
-
-    return [
-        ContinuousClearance(
-            sample_rows(v[:, :7], clocks[0]),
-            sample_rows(v[:, 7:], clocks[1]),
-            Path(joints[2]),
-            Path(joints[3]),
-            clearance_m=clearance_m,
-        )
-        for v in joints[: 2 if include_action else 1]
-    ]
-
-
-def admission_remaining_bound(lengths, gates):
-    """Critical-path lower bound from the three alternating admission gates."""
-
-    def remaining(i, j):
-        current = (i, j)
-        delay = [0, 0]
-        for side, stop, owner, withdrawal in gates:
-            if current[side] > stop:
-                continue
-            arrival = stop - current[side] + delay[side]
-            release = (
-                0
-                if current[owner] >= withdrawal
-                else withdrawal - current[owner] + delay[owner]
-            )
-            delay[side] += max(0, release - arrival)
-        return max(lengths[side] - 1 - current[side] + delay[side] for side in range(2))
-
-    return remaining
-
-
 def plan_workspace(timeline, joints, config=DEFAULT_WORKSPACE):
-    from .scheduler import schedule_sources, NoSafeSchedule
-    from heapq import heappush, heappop
+    """Earliest non-preemptive right admissions, constrained by swept mesh gaps."""
+    from time import perf_counter
 
-    state, action, urdf, mesh_root = joints
+    from ..collision.continuous import ContinuousClearance
+    from ..collision.piperx import DEFAULT_BASE_SPACING_M
+    from .scheduler import schedule_sources
+
+    began = perf_counter()
+    state, _, urdf, mesh_root = joints
     clearance = config["minimum_clearance_m"]
     fk = PiperXClearance(
         state[:, :7], state[:, 7:], Path(urdf), Path(mesh_root), margin_m=clearance
     )
-    tcp = np.array([[p[4] for p in arm] for arm in fk.poses])
-    events = workspace_events(tcp, timeline["episodes"], config)
     own = workpiece_events(timeline["episodes"])
-    fps = timeline["fps"]
-    original_stops = [
-        [events[0][1]["wait_frame"]],
-        [e["wait_frame"] for e in events[1]],
-    ]
-    clocks, holds, ramps = source_clocks(own, original_stops, fps)
-    nominal = nominal_schedule(clocks, holds, events)
-    nominal_checks = mesh_checkers(joints, nominal, clearance, include_action=True)
-    nominal_failures = {
-        name: [i for i in range(len(nominal[0]) - 1) if not c(i, i, i + 1, i + 1)]
-        for name, c in zip(("observation.state", "action"), nominal_checks)
-    }
-    for c in nominal_checks:
-        c.__call__.cache_clear()
-    del nominal_checks
-    print(
-        f"nominal clearance failed edges: { {k: len(v) for k, v in nominal_failures.items()} }",
-        flush=True,
-    )
-    up = round(round(fps * 0.3) / 2)
-    # Backoff candidates depend on the fixed volume and own approach only.
-    candidates = [
-        list(range(original_stops[0][0], own[0][0]["release_frame"], -1)),
-        list(range(original_stops[1][0], own[1][0]["approach_start"], -1)),
-        list(range(original_stops[1][1], own[1][0]["release_frame"], -1)),
-    ]
-    if any(not c for c in candidates):
-        raise NoSafeSchedule("insufficient outside braking path")
-    # Left 1 is uninterrupted, so these poses must occur while right 1 is
-    # still gated. Prune impossible right waiting poses before full path search.
-    source_geometry = [
-        PiperXClearance(
-            v[:, :7], v[:, 7:], Path(urdf), Path(mesh_root), margin_m=clearance + 1e-6
-        )
-        for v in joints[:1]
-    ]
-    valid_right = []
-    for stop in candidates[1]:
-        initial_clock, arrival, _ = approach_clock(
-            own[1][0]["approach_start"], stop, [stop], fps
-        )
-        earliest_left = own[0][0]["approach_start"] + arrival[0]
-        unavoidable = range(earliest_left, events[0][0]["withdrawal_frame"] + 1)
-        if all(
-            c.configuration_safe(t, stop) for t in unavoidable for c in source_geometry
-        ):
-            valid_right.append(stop)
-    candidates[1] = valid_right
-    if not valid_right:
-        raise NoSafeSchedule(
-            "no right outside waiting pose clears uninterrupted left 1 by required clearance"
-        )
-    valid_left = []
-    for stop in candidates[0]:
-        trial_clocks, trial_holds, _ = source_clocks(
-            own, [[stop], [valid_right[0], original_stops[1][1]]], fps
-        )
-        early_left, early_right = nominal_schedule(trial_clocks, trial_holds, events)
-        arrival = int(np.flatnonzero(early_left >= stop)[0])
-        pickup = int(np.flatnonzero(early_right >= events[1][0]["pickup_frame"])[0])
-        mandatory = range(
-            events[1][0]["pickup_frame"], events[1][0]["withdrawal_frame"] + 1
-        )
-        if arrival > pickup or all(
-            c.configuration_safe(stop, t) for t in mandatory for c in source_geometry
-        ):
-            valid_left.append(stop)
-    candidates[0] = valid_left
-    if not valid_left:
-        raise NoSafeSchedule(
-            "no outside left-2 waiting pose clears right-1 pickup-to-withdrawal by required clearance"
-        )
-    preferred = []
-    for axis, (side, owner, begin, end) in enumerate(
-        [
-            (0, 1, own[1][0]["approach_start"], own[1][0]["release_frame"]),
-            (1, 0, own[0][0]["approach_start"], own[0][0]["release_frame"]),
-            (1, 0, own[0][0]["release_frame"] + 1, own[0][1]["retract_end"]),
-        ]
+    # The box defines waiting poses only. Withdrawal is not an admission gate.
+    lo, hi = np.asarray(config["minimum_m"]), np.asarray(config["maximum_m"])
+    radius = config["ee_radius_m"] + config["waiting_padding_m"]
+    if (
+        lo.shape != (3,)
+        or hi.shape != (3,)
+        or not np.isfinite([lo, hi]).all()
+        or np.any(hi <= lo)
+        or not np.isfinite(radius)
+        or radius < 0
     ):
-        choice = 0
-        for index, stop in enumerate(candidates[axis]):
-            if all(
-                c.configuration_safe(stop, t)
-                if side == 0
-                else c.configuration_safe(t, stop)
-                for t in range(begin, end + 1)
-                for c in source_geometry
-            ):
-                choice = index
-                break
-        preferred.append(choice)
-    preferred = tuple(preferred)
-    del source_geometry
-    print(f"workspace clearance candidates: {[len(c) for c in candidates]}", flush=True)
-    outermost = tuple(len(c) - 1 for c in candidates)
-    frontier = [(0, preferred), (1, (0, 0, 0)), (2, outermost)]
-    seen = {preferred, outermost, (0, 0, 0)}
-    attempts = 0
-    from ..collision.continuous import ContinuousClearance
-
+        raise ValueError("invalid waiting volume geometry")
+    tcp = np.array([[p[4] for p in arm] for arm in fk.poses])
+    inside = np.all((tcp >= lo - radius) & (tcp <= hi + radius), axis=-1)
+    stops = [[], []]
+    for side, cycle in [(0, 1), (1, 0), (1, 1)]:
+        event = own[side][cycle]
+        start = event["approach_start"]
+        hits = np.flatnonzero(inside[side, start : event["pickup_frame"] + 1]) + start
+        if not len(hits) or hits[0] <= start:
+            raise ValueError("no outside approach for fixed-volume waiting pose")
+        stops[side].append(int(hits[0]) - 1)
+    clocks, holds, ramps = source_clocks(own, stops, timeline["fps"])
     pose_cache = [{float(i): p for i, p in enumerate(arm)} for arm in fk.poses]
     configuration_cache = {}
-    while frontier:
-        _, choice = heappop(frontier)
-        stops = [
-            [candidates[0][choice[0]]],
-            [candidates[1][choice[1]], candidates[2][choice[2]]],
-        ]
-        clocks, holds, ramps = source_clocks(own, stops, fps)
-        checks = [
-            ContinuousClearance.on_source_clocks(
-                fk, clocks, pose_cache, configuration_cache, clearance
-            )
-        ]
+    check = ContinuousClearance.on_source_clocks(
+        fk, clocks, pose_cache, configuration_cache, clearance
+    )
+    pickups = [
+        [int(np.searchsorted(clocks[s], e["pickup_frame"])) for e in own[s]]
+        for s in range(2)
+    ]
+    gates = [
+        (1, pickups[1][0], 0, pickups[0][0]),
+        (0, pickups[0][1], 1, pickups[1][0]),
+        (1, pickups[1][1], 0, pickups[0][1]),
+    ]
+    rejected = set()
 
-        def dependency(i, j):
-            l, r = clocks[0][i], clocks[1][j]
-            return (
-                (j <= holds[1][0] or l >= events[0][0]["withdrawal_frame"])
-                and (i <= holds[0][0] or r >= events[1][0]["withdrawal_frame"])
-                and (j <= holds[1][1] or l >= events[0][1]["withdrawal_frame"])
-            )
-
-        rejected_edges = set()
-
-        def safe(i, j, ni, nj):
-            current, following = (i, j), (ni, nj)
-            if any(
-                current[side] <= stop < following[side] and current[owner] < release
-                for side, stop, owner, release in indexed_gates
-            ):
-                return False
-            if (i, j, ni, nj) in rejected_edges:
-                return False
-            return all(
-                c.checker.configuration_safe(i, j)
-                and c.checker.configuration_safe(ni, nj)
-                for c in checks
-            )
-
-        indexed_gates = [
-            (
-                1,
-                holds[1][0],
-                0,
-                int(np.searchsorted(clocks[0], events[0][0]["withdrawal_frame"])),
-            ),
-            (
-                0,
-                holds[0][0],
-                1,
-                int(np.searchsorted(clocks[1], events[1][0]["withdrawal_frame"])),
-            ),
-            (
-                1,
-                holds[1][1],
-                0,
-                int(np.searchsorted(clocks[0], events[0][1]["withdrawal_frame"])),
-            ),
-        ]
-        bound = admission_remaining_bound(list(map(len, clocks)), indexed_gates)
-        attempts += 1
-        if attempts == 1 or attempts % 25 == 0:
-            print(f"workspace clearance search {attempts}: {stops}", flush=True)
-        try:
-            while True:
-                schedule = schedule_sources(
-                    len(clocks[0]),
-                    len(clocks[1]),
-                    safe,
-                    dependency=dependency,
-                    remaining_lower_bound=bound,
-                    left_priority=False,
-                    can_wait=lambda side, i: (
-                        i in holds[side] or i == len(clocks[side]) - 1
-                    ),
-                )
-                failed = []
-                for edge in zip(
-                    schedule.left[:-1],
-                    schedule.right[:-1],
-                    schedule.left[1:],
-                    schedule.right[1:],
-                ):
-                    edge = tuple(map(int, edge))
-                    if not all(c(*edge) for c in checks):
-                        failed.append(edge)
-                if not failed:
-                    break
-                rejected_edges.update(failed)
-            left, right = clocks[0][schedule.left], clocks[1][schedule.right]
-            break
-        except NoSafeSchedule:
-            for axis in range(3):
-                neighbor = list(choice)
-                neighbor[axis] += 1
-                neighbor = tuple(neighbor)
-                if neighbor[axis] < len(candidates[axis]) and neighbor not in seen:
-                    seen.add(neighbor)
-                    heappush(
-                        frontier,
-                        (
-                            sum(c[0] - c[i] for c, i in zip(candidates, neighbor)),
-                            neighbor,
-                        ),
-                    )
-        finally:
-            for c in checks:
-                c.__call__.cache_clear()
-    else:
-        raise NoSafeSchedule(
-            "no required clearance mesh-clearance schedule preserves uninterrupted execution"
+    def safe(i, j, ni, nj):
+        current, following = (i, j), (ni, nj)
+        if any(
+            current[s] < crossing <= following[s] and current[o] < prior
+            for s, crossing, o, prior in gates
+        ):
+            return False
+        return (
+            (i, j, ni, nj) not in rejected
+            and check.checker.configuration_safe(i, j)
+            and check.checker.configuration_safe(ni, nj)
         )
-    stages = dict(
-        policy="backdated_3cm_withdrawal_with_strict_mesh_clearance",
-        workspace=config,
-        events=events,
-        wait_source_frames=dict(left=stops[0], right=stops[1]),
-        nominal_wait_source_frames=dict(
-            left=original_stops[0], right=original_stops[1]
-        ),
-        initial_source_frames=[c[0] for c in clocks],
-        onset_delay_frames=[0, 0],
-        right_preparation=dict(source_end_frame=stops[1][0]),
-        protected_source_intervals=dict(
-            left=[
+
+    attempts = 0
+    while True:
+        attempts += 1
+        schedule = schedule_sources(
+            len(clocks[0]),
+            len(clocks[1]),
+            safe,
+            left_priority=False,
+            can_wait=lambda side, index: (
+                index in holds[side] or index == len(clocks[side]) - 1
+            ),
+            earliest_right_admissions=tuple(holds[1]),
+        )
+        edges = [
+            tuple(map(int, e))
+            for e in zip(
+                schedule.left[:-1],
+                schedule.right[:-1],
+                schedule.left[1:],
+                schedule.right[1:],
+            )
+        ]
+        failed = [e for e in edges if not check(*e)]
+        print(
+            f"admission search {attempts}: {len(configuration_cache)} pose pairs, {len(failed)} rejected swept edges",
+            flush=True,
+        )
+        if not failed:
+            break
+        rejected.update(failed)
+    left, right = clocks[0][schedule.left], clocks[1][schedule.right]
+    up = round(round(timeline["fps"] * 0.3) / 2)
+    stages = {
+        "policy": "earliest_right_mesh_clearance_admission",
+        "workspace": config,
+        "base_spacing_m": DEFAULT_BASE_SPACING_M,
+        "wait_source_frames": {"left": stops[0], "right": stops[1]},
+        "initial_source_frames": [c[0] for c in clocks],
+        "onset_delay_frames": [0, 0],
+        "right_preparation": {"source_end_frame": stops[1][0]},
+        "protected_source_intervals": {
+            "left": [
                 [own[0][0]["approach_start"], own[0][0]["release_frame"]],
                 [stops[0][0] + up, own[0][1]["retract_end"]],
             ],
-            right=[
+            "right": [
                 [stops[1][0] + up, own[1][0]["release_frame"]],
                 [stops[1][1] + up, own[1][1]["retract_end"]],
             ],
-        ),
-        collision_search_attempts=attempts,
-        ramps=dict(left=ramps[0], right=ramps[1]),
-    )
-    verify_uninterrupted(left, right, stages)
-    final_checks = mesh_checkers(joints, (left, right), clearance, include_action=True)
-    audit = {
-        name: dict(
-            passed=all(c(i, i, i + 1, i + 1) for i in range(len(left) - 1)),
-            checked_interior_samples=c.checked_samples,
-        )
-        for name, c in zip(("observation.state", "action"), final_checks)
+        },
+        "ramps": {"left": ramps[0], "right": ramps[1]},
+        "admissions": [
+            {
+                "arm": "right",
+                "cycle": k + 1,
+                "output_frame": int(np.flatnonzero(schedule.right > hold)[0]) - 1,
+            }
+            for k, hold in enumerate(holds[1])
+        ],
     }
-    if not audit["observation.state"]["passed"]:
-        raise ValueError("final mesh-clearance audit failed")
-    stages["admissions"] = []
-    for side, cycle, owner, owner_cycle in [(1, 0, 0, 0), (0, 1, 1, 0), (1, 1, 0, 1)]:
-        clock = (left, right)[side]
-        partner = (left, right)[owner]
-        stop = stops[side][cycle if side == 1 else 0]
-        started = int(np.flatnonzero(clock > stop)[0]) - 1
-        release = int(
-            np.flatnonzero(partner >= events[owner][owner_cycle]["withdrawal_frame"])[0]
-        )
-        stages["admissions"].append(
-            dict(
-                arm=("left", "right")[side],
-                cycle=cycle + 1,
-                retreat_start_output_frame=release,
-                actual_start_output_frame=started,
-                additional_wait_frames=started - release,
-            )
-        )
-    pickups = sorted(
+    verify_uninterrupted(left, right, stages)
+    ordered = sorted(
         [
-            dict(
-                arm=("left", "right")[side],
-                source_frame=e["pickup_frame"],
-                output_frame=int(
+            {
+                "arm": ["left", "right"][side],
+                "source_frame": e["pickup_frame"],
+                "output_frame": int(
                     np.flatnonzero((left, right)[side] >= e["pickup_frame"])[0]
                 ),
-            )
+            }
             for side in range(2)
-            for e in events[side]
+            for e in own[side]
         ],
         key=lambda e: e["output_frame"],
     )
-    if [e["arm"] for e in pickups] != ["left", "right", "left", "right"]:
+    if [e["arm"] for e in ordered] != ["left", "right", "left", "right"]:
         raise ValueError("pickup order violated")
+    samples = check.checked_samples
+    check.__call__.cache_clear()
     return (
         left,
         right,
-        dict(
-            stages=stages,
-            output_frames=len(left),
-            pickup_order=pickups,
-            collision_scope="cross-arm URDF meshes from measured state; action diagnostic only",
-            nominal_collision_failures=nominal_failures,
-            mesh_audit=audit,
-            clearance_requirement_m=clearance,
-            numerical_clearance_guard_m=1e-6,
-            continuous_audit_method="adaptive midpoint FK with conservative motion bounds",
-            commanded_action_is_acceptance_gate=False,
-            simultaneous_workspace_occupancy_allowed=True,
-        ),
+        {
+            "stages": stages,
+            "output_frames": len(left),
+            "pickup_order": ordered,
+            "collision_scope": "cross-arm URDF meshes from measured state",
+            "mesh_audit": {
+                "observation.state": {
+                    "passed": True,
+                    "checked_interior_samples": samples,
+                }
+            },
+            "clearance_requirement_m": clearance,
+            "numerical_clearance_guard_m": 1e-6,
+            "continuous_audit_method": "adaptive midpoint FK with conservative motion bounds",
+            "simultaneous_workspace_occupancy_allowed": True,
+            "optimization_objective": "earliest right-1 admission, then right-2 admission, then duration; fixed waiting poses and 30Hz clocks",
+            "search_seconds": perf_counter() - began,
+            "evaluated_pose_pairs": len(configuration_cache),
+            "rejected_swept_edges": len(rejected),
+            "search_attempts": attempts,
+        },
     )

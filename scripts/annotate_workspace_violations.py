@@ -3,15 +3,16 @@
 import argparse
 import json
 from pathlib import Path
+
 import cv2
 import numpy as np
 import pyarrow.parquet as pq
 
-from real_robot_data_retime.collision.piperx import PiperXClearance
 from real_robot_data_retime.collision.diagnostics import (
     minimum_mesh_distance,
     violation_intervals,
 )
+from real_robot_data_retime.collision.piperx import PiperXClearance
 from real_robot_data_retime.interaction.video import write_video
 
 
@@ -25,8 +26,20 @@ def main():
     if not np.isfinite(args.threshold_mm) or args.threshold_mm <= 0:
         raise ValueError("invalid threshold")
     receipt = json.loads((root / "report.json").read_text())
-    if not receipt.get("diagnostic_only"):
-        raise ValueError("requires an explicit diagnostic render")
+    diagnostic = receipt.get("diagnostic_only", False)
+    certified = (
+        receipt["plan"]
+        .get("mesh_audit", {})
+        .get("observation.state", {})
+        .get("passed", False)
+    )
+    if not diagnostic and not certified:
+        raise ValueError("requires an explicit diagnostic or mesh-certified render")
+    if (
+        certified
+        and args.threshold_mm / 1000 > receipt["plan"]["clearance_requirement_m"]
+    ):
+        raise ValueError("annotation threshold exceeds certified clearance")
     values = np.asarray(
         pq.read_table(root / "trajectories.parquet")["observation.state"].to_pylist()
     )
@@ -37,6 +50,8 @@ def main():
         args.mesh_root,
         margin_m=args.threshold_mm / 1000,
     )
+    if certified and receipt["plan"]["stages"]["base_spacing_m"] != fk.base_spacing_m:
+        raise ValueError("annotation geometry differs from certified base spacing")
     n = len(values)
     fps = receipt["source_fps"]
     times = []
@@ -60,19 +75,26 @@ def main():
         distance_m=distances,
         mesh_pairs=pairs,
     )
+    if certified and intervals:
+        raise ValueError("sampled distances contradict continuous mesh audit")
     minimum_index = int(distances.argmin())
-    report = dict(
-        diagnostic_only=True,
-        threshold_mm=args.threshold_mm,
-        base_spacing_m=fk.base_spacing_m,
-        sample_rate_hz=4 * fps,
-        scope="measured-state cross-arm URDF meshes; exact at sampled poses",
-        video_frame_fps=fps,
-        minimum_sampled_distance_mm=float(distances.min() * 1000),
-        minimum_sampled_time_seconds=float(times[minimum_index]),
-        below_threshold_intervals=intervals,
-        note="Between samples is not certified. Zero denotes mesh intersection, not penetration depth.",
-    )
+    report = {
+        "diagnostic_only": diagnostic,
+        "continuous_mesh_audit_passed": certified,
+        "threshold_mm": args.threshold_mm,
+        "base_spacing_m": fk.base_spacing_m,
+        "sample_rate_hz": 4 * fps,
+        "scope": "measured-state cross-arm URDF meshes; exact at sampled poses",
+        "video_frame_fps": fps,
+        "minimum_sampled_distance_mm": float(distances.min() * 1000),
+        "minimum_sampled_time_seconds": float(times[minimum_index]),
+        "below_threshold_intervals": intervals,
+        "note": (
+            "Planner certified continuous clearance; displayed minimum is sampled at 120 Hz."
+            if certified
+            else "Between samples is not certified. Zero denotes mesh intersection, not penetration depth."
+        ),
+    }
     (root / "violations.json").write_text(json.dumps(report, indent=2) + "\n")
     flags = np.array(
         [
@@ -101,7 +123,9 @@ def main():
             out[68 : 68 + h] = frame
             cv2.putText(
                 out,
-                "DIAGNOSTIC ONLY - NOT ACCEPTED",
+                f"URDF CLEARANCE VERIFIED - {fk.base_spacing_m * 100:.0f} CM"
+                if certified
+                else "DIAGNOSTIC ONLY - NOT ACCEPTED",
                 (12, 23),
                 0,
                 0.58,
