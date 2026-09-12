@@ -1,0 +1,157 @@
+{
+  "code_commit": "07bd8d53661a53b7df23a107e66610a071f5eaf5",
+  "episodes": [
+    {
+      "episode": 0,
+      "duration_seconds": 21.233333333333334,
+      "source_start_frames": [
+        63.0,
+        547.0
+      ],
+      "first_source_advances": [
+        1.0,
+        1.0
+      ],
+      "both_approaches_start_at_output_frame_zero": true,
+      "waiting_clearance_width_fraction": 0.02,
+      "right_preparation": {
+        "source_start_frame": 547,
+        "source_end_frame": 579,
+        "output_start_frame": 0,
+        "output_end_frame": 39
+      },
+      "uninterrupted_execution_verified": true,
+      "origin_duplicates": 0,
+      "foreground_overlap_pixels": 0,
+      "video_sha256": "721330e1c33718c0f7e70bdf7e87c07c8fd4739c48f414769d2af6d073f38d9b",
+      "source_sha256": "6ba3ebc680e1b310cde385ac48100ea68d239ae71a6e21919739098a42a15dbc",
+      "render_code_producer": "acd45f5bcb632068a38b8ec94f2cfb8af69ca962a9560a1cda0365580dcbc9e4",
+      "visual_review": {
+        "status": "reviewed",
+        "frames": [
+          0,
+          1,
+          6,
+          15,
+          30,
+          39,
+          107,
+          193,
+          278,
+          449,
+          636
+        ]
+      },
+      "waiting_source_frames": {
+        "left": [
+          287
+        ],
+        "right": [
+          579,
+          779
+        ]
+      }
+    },
+    {
+      "episode": 1,
+      "duration_seconds": 20.866666666666667,
+      "source_start_frames": [
+        31.0,
+        532.0
+      ],
+      "first_source_advances": [
+        1.0,
+        1.0
+      ],
+      "both_approaches_start_at_output_frame_zero": true,
+      "waiting_clearance_width_fraction": 0.02,
+      "right_preparation": {
+        "source_start_frame": 532,
+        "source_end_frame": 558,
+        "output_start_frame": 0,
+        "output_end_frame": 33
+      },
+      "uninterrupted_execution_verified": true,
+      "origin_duplicates": 0,
+      "foreground_overlap_pixels": 0,
+      "video_sha256": "9e42d8eb1622d4fff4578ba52e6123fc31260accdd958f66186e7778e69c75fd",
+      "source_sha256": "933a61f65d8a3fe0308c55b9587dff329f9c4c47e6d0b84f0d09a328c493d56f",
+      "render_code_producer": "acd45f5bcb632068a38b8ec94f2cfb8af69ca962a9560a1cda0365580dcbc9e4",
+      "visual_review": {
+        "status": "reviewed",
+        "frames": [
+          0,
+          1,
+          6,
+          15,
+          30,
+          33,
+          105,
+          151,
+          291,
+          421,
+          625
+        ]
+      },
+      "waiting_source_frames": {
+        "left": [
+          258
+        ],
+        "right": [
+          558,
+          695
+        ]
+      }
+    },
+    {
+      "episode": 2,
+      "duration_seconds": 22.333333333333332,
+      "source_start_frames": [
+        50.0,
+        674.0
+      ],
+      "first_source_advances": [
+        1.0,
+        0.9745370370370665
+      ],
+      "both_approaches_start_at_output_frame_zero": true,
+      "waiting_clearance_width_fraction": 0.02,
+      "right_preparation": {
+        "source_start_frame": 674,
+        "source_end_frame": 677,
+        "output_start_frame": 0,
+        "output_end_frame": 6
+      },
+      "uninterrupted_execution_verified": true,
+      "origin_duplicates": 0,
+      "foreground_overlap_pixels": 0,
+      "video_sha256": "4680a6b929ff56db37484143a183767df89413cf3e0d2cad8bdd53d9a00872ee",
+      "source_sha256": "d93601b523bbc21c6253de97d2503de9eb3aee90fb93414d48fd3689b7677835",
+      "render_code_producer": "acd45f5bcb632068a38b8ec94f2cfb8af69ca962a9560a1cda0365580dcbc9e4",
+      "visual_review": {
+        "status": "reviewed",
+        "frames": [
+          0,
+          1,
+          6,
+          15,
+          30,
+          108,
+          210,
+          385,
+          466,
+          669
+        ]
+      },
+      "waiting_source_frames": {
+        "left": [
+          271
+        ],
+        "right": [
+          677,
+          816
+        ]
+      }
+    }
+  ]
+}
