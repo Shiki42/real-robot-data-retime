@@ -44,9 +44,23 @@ def source_map_digest(left, right):
     return digest.hexdigest()
 
 
+def source_cohort(config, total):
+    """Ordered original source IDs; dense output ranks define the uniform grid."""
+    indices = list(config.get("source_indices", range(total)))
+    if (
+        not indices
+        or any(type(i) is not int or not 0 <= i < total for i in indices)
+        or indices != sorted(set(indices))
+    ):
+        raise ValueError("source_indices must be nonempty sorted unique source IDs")
+    return indices
+
+
 def source_inputs(config, index):
     source = Path(config["source"])
     info = read_json(source / "meta/info.json")
+    if index not in source_cohort(config, info["total_episodes"]):
+        raise ValueError("source Episode is excluded from this cohort")
     row = source_episodes(source)[index]
     ep = row["episode_index"]
     video = source / info["video_path"].format(
@@ -90,7 +104,8 @@ def plan_episode(config, index):
             != manifest["inputs"]
         ):
             raise ValueError("analysis frame geometry or registration differs")
-        positions = uniform_samples(index, info["total_episodes"])
+        cohort = source_cohort(config, info["total_episodes"])
+        positions = uniform_samples(cohort.index(index), len(cohort))
         width = int(segmentation["frame_shape"][1])
         robots = np.unpackbits(segmentation["robots"], axis=-1, count=width).astype(
             bool
@@ -171,6 +186,7 @@ def plan_episode(config, index):
             plan["synthetic_terminal_hold"] = dict(start_frame=len(left), frames=0)
             plan["source_episode_index"] = int(row["episode_index"])
             plan["variant"] = variant
+            plan["source_cohort"] = cohort
             plan["source_sha256"] = sha256(video)
             plan["joint_data_sha256"] = sha256(table_path)
             plan["analysis_report_sha256"] = sha256(analysis / "report.json")
@@ -211,9 +227,12 @@ def render_episode(config, index):
         native, masks, transforms = native_render_inputs(
             video, tracks["registration"], segmentation
         )
+    cohort = source_cohort(config, info["total_episodes"])
     for variant in range(2):
-        ep = index + info["total_episodes"] * variant
+        ep = cohort.index(index) + len(cohort) * variant
         plan = read_json(work / f"plan_{variant}.json")
+        if plan["source_cohort"] != cohort:
+            raise ValueError("source cohort changed since planning")
         if plan["producer"] != producer_fingerprint() or plan[
             "source_sha256"
         ] != sha256(video):
@@ -282,15 +301,17 @@ def render_episode(config, index):
 
 def finalize_dataset(config):
     source, output = Path(config["source"]), Path(config["output"])
-    count = read_json(source / "meta/info.json")["total_episodes"]
+    original_count = read_json(source / "meta/info.json")["total_episodes"]
+    cohort = source_cohort(config, original_count)
+    count = len(cohort)
     rows = source_episodes(source)
     info = read_json(source / "meta/info.json")
     producer = producer_fingerprint()
-    for index in range(count):
+    for rank, index in enumerate(cohort):
         original = read_episode(source, info, rows[index])
         pair = []
         for variant in range(2):
-            ep = index + count * variant
+            ep = rank + count * variant
             receipt = read_json(output / f"meta/retime_receipts/episode_{ep:03d}.json")
             if receipt.get("visual_review", {}).get("passed") is False:
                 raise ValueError(f"output {ep}: explicitly rejected by visual review")
@@ -298,6 +319,8 @@ def finalize_dataset(config):
                 raise ValueError(
                     f"output {ep}: stale producer; replan and render with current code"
                 )
+            if receipt["plan"]["source_cohort"] != cohort:
+                raise ValueError("receipt source cohort differs from current config")
             stages = receipt["plan"]["stages"]
             if (
                 stages["scene_geometry"]
@@ -378,7 +401,7 @@ def finalize_dataset(config):
                     raise ValueError("output timestamps differ from frame clock")
             if (
                 receipt["plan"]["stages"]["uniform"]["position"]
-                != uniform_samples(index, count)[variant]
+                != uniform_samples(rank, count)[variant]
             ):
                 raise ValueError("sample position differs from global uniform grid")
             pair.append(receipt["plan"]["stages"]["uniform"])
@@ -398,14 +421,16 @@ def finalize_dataset(config):
             **result,
             source=config["source_provenance"],
             source_episodes=count,
+            original_source_episodes=original_count,
+            selected_source_episodes=cohort,
             variants_per_source=2,
             interval="A entirely before B to B entirely before A",
-            grid="u=(source_episode + variant*N)/(2*N), [0,1)",
+            grid="u=(retained_source_rank + variant*N)/(2*N), [0,1)",
             pair_spacing=0.5,
             frame_rounding="nearest frame; at most 0.5 frame per onset",
             dependency="C starts only after A and B complete",
             producer=producer_fingerprint(),
-            collision_scope="arm mesh versus drawer proxy at held peak and during braking/waiting; no held-object sphere or projected-overlap rejection",
+            collision_scope="arm mesh at held peak/braking, plus arm/arm and full drawer sweep checks for closing before the original full-exit gate; no held-object sphere or projected-overlap rejection",
             compositing_scope="registered raw metric depth; existing stable-right ordering where depth is missing",
             source_config=config,
         ),

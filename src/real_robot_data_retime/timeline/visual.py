@@ -125,6 +125,7 @@ def plan_visual(
         if not outside:
             raise ValueError("left withdrawal from drawer is not visible")
         withdrawal = outside[0]
+        full_withdrawal = withdrawal
         sources[0] = np.arange(min(e["approach_start"] for e in events), n)
 
         if joints is not None and drawer:
@@ -171,6 +172,11 @@ def plan_visual(
                     )
                 geometry = prepared.geometry
                 checker, tcp, volume = prepared.checker, prepared.tcp, prepared.volume
+                from .drawer_retreat import retreat_start
+
+                withdrawal = retreat_start(
+                    tcp[0], event, full_withdrawal, timeline["fps"]
+                )
                 grasp, held_end, aperture = (
                     prepared.grasp,
                     prepared.held_end,
@@ -271,6 +277,19 @@ def plan_visual(
         # tasks retain their silhouette constraint; rendering audits stay active.
         return uniform_position is not None or not np.any(mask(0, i) & mask(1, j))
 
+    @lru_cache(maxsize=8192)
+    def early_close_clear(i, j, ni, nj):
+        from .drawer_retreat import early_closing_clear
+
+        return early_closing_clear(
+            checker,
+            state,
+            action,
+            volume,
+            (float(sources[0][i]), float(sources[0][ni])),
+            (float(sources[1][j]), float(sources[1][nj])),
+        )
+
     def safe(i, j, ni, nj):
         # Sweep union of adjacent silhouettes; this is a projected-occlusion
         # constraint, never reported as a metric robot collision guarantee.
@@ -279,6 +298,13 @@ def plan_visual(
                 return False
             if sources[1][nj] >= b and sources[0][i] < withdrawal:
                 return False
+        if (
+            uniform_position is not None
+            and sources[1][nj] >= b
+            and sources[0][i] < full_withdrawal
+            and not early_close_clear(i, j, ni, nj)
+        ):
+            return False
         if uniform_position is not None and original_pair_edge(
             float(sources[0][i]),
             float(sources[1][j]),
@@ -448,6 +474,7 @@ def plan_visual(
             stop_index += left_delay
             mask.cache_clear()
             clear.cache_clear()
+            early_close_clear.cache_clear()
             schedule = search()
             stages.update(ramps)
             if uniform_position is not None:
@@ -494,6 +521,7 @@ def plan_visual(
                         )
                     mask.cache_clear()
                     clear.cache_clear()
+                    early_close_clear.cache_clear()
                     schedule = search()
                 if right_ramp_report is not None:
                     phases = []
@@ -587,6 +615,12 @@ def plan_visual(
         )
         stages["open_source_frame"] = a
         stages["withdrawal_source_frame"] = withdrawal
+        stages["full_withdrawal_source_frame"] = full_withdrawal
+        stages["closing_gate_policy"] = (
+            "post_release_retreat_with_additional_early_mesh_checks"
+            if uniform_position is not None
+            else "full_visual_withdrawal"
+        )
         stages["close_source_frame"] = b
     left, right = sources[0][schedule.left], sources[1][schedule.right]
     smoothing = dict(transitions=[])

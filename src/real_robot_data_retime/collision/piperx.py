@@ -102,10 +102,10 @@ class PiperXClearance:
             self.model.tcp_transform().translation.copy(),
         )
 
-    def _clear(self, left, right):
+    def _clear(self, left, right, *, extra_margin=0.0):
         lm, lc, le, left_excess, _ = left
         rm, rc, re, right_excess, _ = right
-        margin = self.margin + left_excess + right_excess
+        margin = self.margin + extra_margin + left_excess + right_excess
         bounds = (
             np.linalg.norm(lc[:, None] - rc[None, :], axis=-1)
             - self.radii[:, None]

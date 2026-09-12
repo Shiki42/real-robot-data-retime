@@ -42,10 +42,9 @@ def prepare_uniform_lift(
         if max(state[t, 6], action[t, 6]) > aperture:
             continue
         commanded = checker._pose(action[t, :7], 0)
-        eligible[t] = (
-            checker.arm_clears_volume(0, t, volume, margin=0.005)
-            and checker.pose_clears_volume(commanded, volume, margin=0.005)
-        )
+        eligible[t] = checker.arm_clears_volume(
+            0, t, volume, margin=0.005
+        ) and checker.pose_clears_volume(commanded, volume, margin=0.005)
     recorded_peak_height = float(np.max(tcp[0, grasp:end, 2]))
     # A must finish at the recorded lift apex, not at a convenient low grasp
     # pose. Search only the established two-millimetre peak band.
@@ -65,11 +64,6 @@ def prepare_uniform_lift(
         fps,
         minimum_seconds=3 / fps,
         guard_seconds=0.2,
-    )
-    # Retain the recorded joint timeline through C. This lets the scheduler
-    # replay existing paired occlusions verbatim instead of inventing pixels.
-    right = np.union1d(
-        right, np.arange(max(opening + 1, min(candidates) - 2), len(state))
     )
     return SimpleNamespace(
         checker=checker,
