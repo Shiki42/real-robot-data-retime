@@ -1,7 +1,8 @@
 {
   "schema_version": 1,
-  "policy": "retiming_waits_except_required_drawer_open_wait",
-  "supervised_wait": "Left arm holding at the lift peak until the right arm opens the drawer remains supervised (loss=1).",
+  "policy": "task_aware_waits",
+  "supervised_wait": "Left lift-peak waiting for opening and right waiting for left withdrawal remain supervised (loss=1).",
+  "excess_wait": "Right-arm source-trajectory quiet intervals after left withdrawal and before closing are idle. Reuses stationary_pose_mask: 0.2s window, measured AND commanded ranges <=0.3deg joints and <=0.5mm gripper; both source interpolation endpoints must be quiet.",
   "training_status": "not_connected_to_training",
   "fps": 30,
   "interval_convention": "[start, end), zero-based output frames",
@@ -18,15 +19,18 @@
           244
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          244,
+          367
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [],
       "right": [
         [
           0,
           37
-        ],
-        [
-          292,
-          362
         ],
         [
           625,
@@ -44,6 +48,38 @@
           368
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          368,
+          429
+        ]
+      ],
+      "right_excess_quiet_wait": [
+        [
+          438,
+          440
+        ],
+        [
+          445,
+          446
+        ],
+        [
+          455,
+          467
+        ],
+        [
+          470,
+          476
+        ],
+        [
+          484,
+          501
+        ],
+        [
+          509,
+          527
+        ]
+      ],
       "left": [
         [
           636,
@@ -54,6 +90,30 @@
         [
           0,
           107
+        ],
+        [
+          438,
+          440
+        ],
+        [
+          445,
+          446
+        ],
+        [
+          455,
+          467
+        ],
+        [
+          470,
+          476
+        ],
+        [
+          484,
+          501
+        ],
+        [
+          509,
+          527
         ]
       ]
     },
@@ -67,6 +127,30 @@
           388
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          388,
+          453
+        ]
+      ],
+      "right_excess_quiet_wait": [
+        [
+          456,
+          463
+        ],
+        [
+          472,
+          475
+        ],
+        [
+          483,
+          500
+        ],
+        [
+          504,
+          512
+        ]
+      ],
       "left": [
         [
           691,
@@ -77,6 +161,22 @@
         [
           0,
           136
+        ],
+        [
+          456,
+          463
+        ],
+        [
+          472,
+          475
+        ],
+        [
+          483,
+          500
+        ],
+        [
+          504,
+          512
         ]
       ]
     },
@@ -90,15 +190,18 @@
           380
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          380,
+          457
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [],
       "right": [
         [
           0,
           134
-        ],
-        [
-          444,
-          452
         ],
         [
           673,
@@ -116,6 +219,13 @@
           318
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          318,
+          388
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [],
       "right": [
         [
@@ -138,6 +248,13 @@
           309
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          309,
+          371
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [],
       "right": [
         [
@@ -160,15 +277,18 @@
           300
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          300,
+          408
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [],
       "right": [
         [
           0,
           120
-        ],
-        [
-          366,
-          403
         ],
         [
           559,
@@ -186,6 +306,13 @@
           321
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          321,
+          386
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [],
       "right": [
         [
@@ -208,6 +335,22 @@
           335
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          335,
+          395
+        ]
+      ],
+      "right_excess_quiet_wait": [
+        [
+          395,
+          404
+        ],
+        [
+          409,
+          417
+        ]
+      ],
       "left": [
         [
           568,
@@ -218,6 +361,14 @@
         [
           0,
           120
+        ],
+        [
+          395,
+          404
+        ],
+        [
+          409,
+          417
         ]
       ]
     },
@@ -231,15 +382,18 @@
           307
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          307,
+          406
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [],
       "right": [
         [
           0,
           111
-        ],
-        [
-          346,
-          401
         ],
         [
           557,
@@ -257,6 +411,26 @@
           336
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          336,
+          397
+        ]
+      ],
+      "right_excess_quiet_wait": [
+        [
+          397,
+          398
+        ],
+        [
+          402,
+          404
+        ],
+        [
+          415,
+          447
+        ]
+      ],
       "left": [
         [
           682,
@@ -267,6 +441,18 @@
         [
           0,
           132
+        ],
+        [
+          397,
+          398
+        ],
+        [
+          402,
+          404
+        ],
+        [
+          415,
+          447
         ]
       ]
     },
@@ -280,6 +466,22 @@
           290
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          290,
+          328
+        ]
+      ],
+      "right_excess_quiet_wait": [
+        [
+          328,
+          334
+        ],
+        [
+          337,
+          343
+        ]
+      ],
       "left": [
         [
           472,
@@ -290,6 +492,14 @@
         [
           0,
           113
+        ],
+        [
+          328,
+          334
+        ],
+        [
+          337,
+          343
         ]
       ]
     },
@@ -303,15 +513,18 @@
           274
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          274,
+          316
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [],
       "right": [
         [
           0,
           85
-        ],
-        [
-          309,
-          312
         ],
         [
           441,
@@ -329,6 +542,13 @@
           315
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          315,
+          371
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [],
       "right": [
         [
@@ -351,6 +571,22 @@
           285
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          285,
+          327
+        ]
+      ],
+      "right_excess_quiet_wait": [
+        [
+          327,
+          328
+        ],
+        [
+          339,
+          358
+        ]
+      ],
       "left": [
         [
           568,
@@ -361,6 +597,14 @@
         [
           0,
           99
+        ],
+        [
+          327,
+          328
+        ],
+        [
+          339,
+          358
         ]
       ]
     },
@@ -374,11 +618,43 @@
           311
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          311,
+          359
+        ]
+      ],
+      "right_excess_quiet_wait": [
+        [
+          359,
+          363
+        ],
+        [
+          368,
+          369
+        ],
+        [
+          371,
+          393
+        ]
+      ],
       "left": [],
       "right": [
         [
           0,
           113
+        ],
+        [
+          359,
+          363
+        ],
+        [
+          368,
+          369
+        ],
+        [
+          371,
+          393
         ],
         [
           525,
@@ -396,6 +672,13 @@
           256
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          256,
+          312
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [],
       "right": [
         [
@@ -418,6 +701,13 @@
           272
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          272,
+          328
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           510,
@@ -441,6 +731,22 @@
           329
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          329,
+          372
+        ]
+      ],
+      "right_excess_quiet_wait": [
+        [
+          372,
+          376
+        ],
+        [
+          380,
+          388
+        ]
+      ],
       "left": [
         [
           563,
@@ -451,6 +757,14 @@
         [
           0,
           137
+        ],
+        [
+          372,
+          376
+        ],
+        [
+          380,
+          388
         ]
       ]
     },
@@ -464,6 +778,13 @@
           210
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          210,
+          261
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [],
       "right": [
         [
@@ -486,6 +807,13 @@
           334
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          334,
+          376
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [],
       "right": [
         [
@@ -508,6 +836,13 @@
           308
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          308,
+          351
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [],
       "right": [
         [
@@ -530,15 +865,18 @@
           306
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          306,
+          364
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [],
       "right": [
         [
           0,
           126
-        ],
-        [
-          337,
-          359
         ],
         [
           502,
@@ -556,11 +894,27 @@
           269
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          269,
+          311
+        ]
+      ],
+      "right_excess_quiet_wait": [
+        [
+          311,
+          326
+        ]
+      ],
       "left": [],
       "right": [
         [
           0,
           119
+        ],
+        [
+          311,
+          326
         ],
         [
           449,
@@ -578,6 +932,13 @@
           261
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          261,
+          327
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [],
       "right": [
         [
@@ -600,6 +961,13 @@
           292
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          292,
+          345
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [],
       "right": [
         [
@@ -622,6 +990,26 @@
           268
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          268,
+          315
+        ]
+      ],
+      "right_excess_quiet_wait": [
+        [
+          315,
+          341
+        ],
+        [
+          351,
+          359
+        ],
+        [
+          364,
+          371
+        ]
+      ],
       "left": [
         [
           497,
@@ -632,6 +1020,18 @@
         [
           0,
           89
+        ],
+        [
+          315,
+          341
+        ],
+        [
+          351,
+          359
+        ],
+        [
+          364,
+          371
         ]
       ]
     },
@@ -645,6 +1045,30 @@
           246
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          246,
+          281
+        ]
+      ],
+      "right_excess_quiet_wait": [
+        [
+          306,
+          311
+        ],
+        [
+          398,
+          405
+        ],
+        [
+          407,
+          426
+        ],
+        [
+          430,
+          435
+        ]
+      ],
       "left": [
         [
           471,
@@ -655,6 +1079,22 @@
         [
           0,
           81
+        ],
+        [
+          306,
+          311
+        ],
+        [
+          398,
+          405
+        ],
+        [
+          407,
+          426
+        ],
+        [
+          430,
+          435
         ]
       ]
     },
@@ -668,15 +1108,18 @@
           246
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          246,
+          363
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [],
       "right": [
         [
           0,
           90
-        ],
-        [
-          302,
-          358
         ],
         [
           495,
@@ -694,6 +1137,18 @@
           300
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          300,
+          357
+        ]
+      ],
+      "right_excess_quiet_wait": [
+        [
+          381,
+          383
+        ]
+      ],
       "left": [
         [
           560,
@@ -704,6 +1159,10 @@
         [
           0,
           123
+        ],
+        [
+          381,
+          383
         ]
       ]
     },
@@ -717,6 +1176,13 @@
           249
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          249,
+          304
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [],
       "right": [
         [
@@ -739,11 +1205,35 @@
           263
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          263,
+          309
+        ]
+      ],
+      "right_excess_quiet_wait": [
+        [
+          309,
+          310
+        ],
+        [
+          319,
+          326
+        ]
+      ],
       "left": [],
       "right": [
         [
           0,
           86
+        ],
+        [
+          309,
+          310
+        ],
+        [
+          319,
+          326
         ],
         [
           476,
@@ -761,11 +1251,27 @@
           252
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          252,
+          296
+        ]
+      ],
+      "right_excess_quiet_wait": [
+        [
+          306,
+          311
+        ]
+      ],
       "left": [],
       "right": [
         [
           0,
           102
+        ],
+        [
+          306,
+          311
         ],
         [
           499,
@@ -783,15 +1289,18 @@
           250
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          250,
+          305
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [],
       "right": [
         [
           0,
           76
-        ],
-        [
-          286,
-          302
         ],
         [
           498,
@@ -809,6 +1318,26 @@
           218
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          218,
+          260
+        ]
+      ],
+      "right_excess_quiet_wait": [
+        [
+          264,
+          283
+        ],
+        [
+          294,
+          297
+        ],
+        [
+          298,
+          309
+        ]
+      ],
       "left": [
         [
           444,
@@ -819,6 +1348,18 @@
         [
           0,
           75
+        ],
+        [
+          264,
+          283
+        ],
+        [
+          294,
+          297
+        ],
+        [
+          298,
+          309
         ]
       ]
     },
@@ -832,6 +1373,13 @@
           241
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          241,
+          292
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [],
       "right": [
         [
@@ -854,6 +1402,13 @@
           235
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          235,
+          293
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [],
       "right": [
         [
@@ -876,6 +1431,13 @@
           265
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          265,
+          305
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [],
       "right": [
         [
@@ -898,15 +1460,18 @@
           227
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          227,
+          321
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [],
       "right": [
         [
           0,
           44
-        ],
-        [
-          280,
-          316
         ],
         [
           512,
@@ -924,6 +1489,13 @@
           189
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          189,
+          262
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -931,10 +1503,6 @@
         ]
       ],
       "right": [
-        [
-          214,
-          257
-        ],
         [
           438,
           558
@@ -951,15 +1519,18 @@
           268
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          268,
+          387
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [],
       "right": [
         [
           0,
           79
-        ],
-        [
-          335,
-          382
         ],
         [
           600,
@@ -977,15 +1548,18 @@
           276
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          276,
+          379
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [],
       "right": [
         [
           0,
           90
-        ],
-        [
-          312,
-          374
         ],
         [
           554,
@@ -1003,6 +1577,13 @@
           192
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          192,
+          288
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -1010,10 +1591,6 @@
         ]
       ],
       "right": [
-        [
-          246,
-          283
-        ],
         [
           555,
           581
@@ -1030,6 +1607,13 @@
           180
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          180,
+          280
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -1037,10 +1621,6 @@
         ]
       ],
       "right": [
-        [
-          232,
-          275
-        ],
         [
           511,
           513
@@ -1057,6 +1637,13 @@
           195
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          195,
+          290
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -1064,10 +1651,6 @@
         ]
       ],
       "right": [
-        [
-          250,
-          285
-        ],
         [
           521,
           574
@@ -1084,15 +1667,18 @@
           284
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          284,
+          370
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [],
       "right": [
         [
           0,
           53
-        ],
-        [
-          349,
-          365
         ],
         [
           570,
@@ -1110,15 +1696,18 @@
           250
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          250,
+          350
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [],
       "right": [
         [
           0,
           64
-        ],
-        [
-          319,
-          345
         ],
         [
           513,
@@ -1136,6 +1725,13 @@
           204
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          204,
+          291
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -1143,10 +1739,6 @@
         ]
       ],
       "right": [
-        [
-          242,
-          286
-        ],
         [
           532,
           548
@@ -1163,6 +1755,13 @@
           210
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          210,
+          326
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -1170,10 +1769,6 @@
         ]
       ],
       "right": [
-        [
-          287,
-          321
-        ],
         [
           555,
           563
@@ -1190,6 +1785,13 @@
           253
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          253,
+          352
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [],
       "right": [
         [
@@ -1212,15 +1814,18 @@
           258
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          258,
+          355
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [],
       "right": [
         [
           0,
           39
-        ],
-        [
-          346,
-          350
         ],
         [
           522,
@@ -1238,15 +1843,18 @@
           256
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          256,
+          343
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [],
       "right": [
         [
           0,
           34
-        ],
-        [
-          320,
-          338
         ],
         [
           556,
@@ -1264,15 +1872,18 @@
           263
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          263,
+          353
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [],
       "right": [
         [
           0,
           56
-        ],
-        [
-          306,
-          348
         ],
         [
           545,
@@ -1290,6 +1901,18 @@
           258
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          258,
+          356
+        ]
+      ],
+      "right_excess_quiet_wait": [
+        [
+          356,
+          357
+        ]
+      ],
       "left": [],
       "right": [
         [
@@ -1297,8 +1920,8 @@
           54
         ],
         [
-          327,
-          356
+          356,
+          357
         ],
         [
           533,
@@ -1316,6 +1939,18 @@
           201
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          201,
+          310
+        ]
+      ],
+      "right_excess_quiet_wait": [
+        [
+          336,
+          337
+        ]
+      ],
       "left": [
         [
           0,
@@ -1323,6 +1958,10 @@
         ]
       ],
       "right": [
+        [
+          336,
+          337
+        ],
         [
           614,
           616
@@ -1339,15 +1978,18 @@
           241
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          241,
+          339
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [],
       "right": [
         [
           0,
           31
-        ],
-        [
-          327,
-          334
         ],
         [
           528,
@@ -1365,15 +2007,18 @@
           229
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          229,
+          321
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [],
       "right": [
         [
           0,
           34
-        ],
-        [
-          279,
-          316
         ],
         [
           511,
@@ -1391,6 +2036,13 @@
           285
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          285,
+          355
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -1399,7 +2051,7 @@
       ],
       "right": [
         [
-          342,
+          355,
           359
         ],
         [
@@ -1418,6 +2070,18 @@
           192
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          192,
+          244
+        ]
+      ],
+      "right_excess_quiet_wait": [
+        [
+          244,
+          245
+        ]
+      ],
       "left": [],
       "right": [
         [
@@ -1425,8 +2089,8 @@
           7
         ],
         [
-          204,
-          244
+          244,
+          245
         ],
         [
           401,
@@ -1444,6 +2108,13 @@
           189
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          189,
+          238
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [],
       "right": [
         [
@@ -1466,6 +2137,26 @@
           191
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          191,
+          232
+        ]
+      ],
+      "right_excess_quiet_wait": [
+        [
+          233,
+          261
+        ],
+        [
+          270,
+          273
+        ],
+        [
+          276,
+          280
+        ]
+      ],
       "left": [
         [
           489,
@@ -1476,6 +2167,18 @@
         [
           0,
           17
+        ],
+        [
+          233,
+          261
+        ],
+        [
+          270,
+          273
+        ],
+        [
+          276,
+          280
         ]
       ]
     },
@@ -1489,6 +2192,13 @@
           168
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          168,
+          227
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [],
       "right": [
         [
@@ -1511,6 +2221,13 @@
           172
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          172,
+          236
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           438,
@@ -1534,11 +2251,27 @@
           191
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          191,
+          243
+        ]
+      ],
+      "right_excess_quiet_wait": [
+        [
+          251,
+          258
+        ]
+      ],
       "left": [],
       "right": [
         [
           0,
           20
+        ],
+        [
+          251,
+          258
         ],
         [
           434,
@@ -1556,15 +2289,18 @@
           188
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          188,
+          295
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [],
       "right": [
         [
           0,
           26
-        ],
-        [
-          284,
-          290
         ],
         [
           452,
@@ -1582,11 +2318,27 @@
           167
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          167,
+          238
+        ]
+      ],
+      "right_excess_quiet_wait": [
+        [
+          245,
+          247
+        ]
+      ],
       "left": [],
       "right": [
         [
           0,
           26
+        ],
+        [
+          245,
+          247
         ]
       ]
     },
@@ -1600,6 +2352,13 @@
           175
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          175,
+          213
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [],
       "right": [
         [
@@ -1622,6 +2381,13 @@
           144
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          144,
+          191
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -1645,6 +2411,13 @@
           165
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          165,
+          206
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [],
       "right": [
         [
@@ -1667,11 +2440,35 @@
           178
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          178,
+          220
+        ]
+      ],
+      "right_excess_quiet_wait": [
+        [
+          220,
+          227
+        ],
+        [
+          231,
+          239
+        ]
+      ],
       "left": [],
       "right": [
         [
           0,
           31
+        ],
+        [
+          220,
+          227
+        ],
+        [
+          231,
+          239
         ],
         [
           426,
@@ -1689,6 +2486,13 @@
           151
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          151,
+          208
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [],
       "right": [
         [
@@ -1711,13 +2515,30 @@
           196
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          196,
+          247
+        ]
+      ],
+      "right_excess_quiet_wait": [
+        [
+          248,
+          274
+        ]
+      ],
       "left": [
         [
           414,
           436
         ]
       ],
-      "right": []
+      "right": [
+        [
+          248,
+          274
+        ]
+      ]
     },
     {
       "output": 72,
@@ -1727,6 +2548,22 @@
         [
           164,
           215
+        ]
+      ],
+      "right_required_withdrawal_wait": [
+        [
+          215,
+          265
+        ]
+      ],
+      "right_excess_quiet_wait": [
+        [
+          265,
+          266
+        ],
+        [
+          273,
+          311
         ]
       ],
       "left": [
@@ -1739,13 +2576,38 @@
           512
         ]
       ],
-      "right": []
+      "right": [
+        [
+          265,
+          266
+        ],
+        [
+          273,
+          311
+        ]
+      ]
     },
     {
       "output": 73,
       "source": 82,
       "frames": 503,
       "left_required_open_wait": [],
+      "right_required_withdrawal_wait": [
+        [
+          196,
+          270
+        ]
+      ],
+      "right_excess_quiet_wait": [
+        [
+          270,
+          275
+        ],
+        [
+          286,
+          318
+        ]
+      ],
       "left": [
         [
           444,
@@ -1756,6 +2618,14 @@
         [
           0,
           34
+        ],
+        [
+          270,
+          275
+        ],
+        [
+          286,
+          318
         ]
       ]
     },
@@ -1769,6 +2639,30 @@
           161
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          161,
+          206
+        ]
+      ],
+      "right_excess_quiet_wait": [
+        [
+          223,
+          242
+        ],
+        [
+          260,
+          267
+        ],
+        [
+          284,
+          291
+        ],
+        [
+          297,
+          304
+        ]
+      ],
       "left": [
         [
           502,
@@ -1779,6 +2673,22 @@
         [
           0,
           5
+        ],
+        [
+          223,
+          242
+        ],
+        [
+          260,
+          267
+        ],
+        [
+          284,
+          291
+        ],
+        [
+          297,
+          304
         ]
       ]
     },
@@ -1787,15 +2697,18 @@
       "source": 84,
       "frames": 389,
       "left_required_open_wait": [],
+      "right_required_withdrawal_wait": [
+        [
+          118,
+          218
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [],
       "right": [
         [
           0,
           43
-        ],
-        [
-          178,
-          213
         ],
         [
           386,
@@ -1813,6 +2726,13 @@
           165
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          165,
+          231
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [],
       "right": [
         [
@@ -1831,6 +2751,13 @@
           156
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          156,
+          203
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -1854,6 +2781,13 @@
           207
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          207,
+          330
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -1861,10 +2795,6 @@
         ]
       ],
       "right": [
-        [
-          255,
-          325
-        ],
         [
           588,
           661
@@ -1881,6 +2811,38 @@
           261
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          261,
+          322
+        ]
+      ],
+      "right_excess_quiet_wait": [
+        [
+          331,
+          333
+        ],
+        [
+          338,
+          339
+        ],
+        [
+          348,
+          360
+        ],
+        [
+          363,
+          369
+        ],
+        [
+          377,
+          394
+        ],
+        [
+          402,
+          420
+        ]
+      ],
       "left": [
         [
           0,
@@ -1891,7 +2853,32 @@
           632
         ]
       ],
-      "right": []
+      "right": [
+        [
+          331,
+          333
+        ],
+        [
+          338,
+          339
+        ],
+        [
+          348,
+          360
+        ],
+        [
+          363,
+          369
+        ],
+        [
+          377,
+          394
+        ],
+        [
+          402,
+          420
+        ]
+      ]
     },
     {
       "output": 80,
@@ -1901,6 +2888,30 @@
         [
           202,
           252
+        ]
+      ],
+      "right_required_withdrawal_wait": [
+        [
+          252,
+          317
+        ]
+      ],
+      "right_excess_quiet_wait": [
+        [
+          320,
+          327
+        ],
+        [
+          336,
+          339
+        ],
+        [
+          347,
+          364
+        ],
+        [
+          368,
+          376
         ]
       ],
       "left": [
@@ -1913,7 +2924,24 @@
           579
         ]
       ],
-      "right": []
+      "right": [
+        [
+          320,
+          327
+        ],
+        [
+          336,
+          339
+        ],
+        [
+          347,
+          364
+        ],
+        [
+          368,
+          376
+        ]
+      ]
     },
     {
       "output": 81,
@@ -1925,6 +2953,13 @@
           246
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          246,
+          323
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -1932,10 +2967,6 @@
         ]
       ],
       "right": [
-        [
-          310,
-          318
-        ],
         [
           539,
           600
@@ -1952,6 +2983,13 @@
           180
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          180,
+          250
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -1975,6 +3013,13 @@
           198
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          198,
+          260
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -1998,6 +3043,13 @@
           180
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          180,
+          288
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -2005,10 +3057,6 @@
         ]
       ],
       "right": [
-        [
-          246,
-          283
-        ],
         [
           439,
           463
@@ -2020,6 +3068,13 @@
       "source": 10,
       "frames": 454,
       "left_required_open_wait": [],
+      "right_required_withdrawal_wait": [
+        [
+          183,
+          248
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -2043,6 +3098,22 @@
           215
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          215,
+          275
+        ]
+      ],
+      "right_excess_quiet_wait": [
+        [
+          275,
+          284
+        ],
+        [
+          289,
+          297
+        ]
+      ],
       "left": [
         [
           0,
@@ -2053,7 +3124,16 @@
           478
         ]
       ],
-      "right": []
+      "right": [
+        [
+          275,
+          284
+        ],
+        [
+          289,
+          297
+        ]
+      ]
     },
     {
       "output": 87,
@@ -2065,6 +3145,13 @@
           196
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          196,
+          295
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -2072,10 +3159,6 @@
         ]
       ],
       "right": [
-        [
-          235,
-          290
-        ],
         [
           446,
           451
@@ -2092,6 +3175,26 @@
           204
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          204,
+          265
+        ]
+      ],
+      "right_excess_quiet_wait": [
+        [
+          265,
+          266
+        ],
+        [
+          270,
+          272
+        ],
+        [
+          283,
+          315
+        ]
+      ],
       "left": [
         [
           0,
@@ -2102,13 +3205,42 @@
           582
         ]
       ],
-      "right": []
+      "right": [
+        [
+          265,
+          266
+        ],
+        [
+          270,
+          272
+        ],
+        [
+          283,
+          315
+        ]
+      ]
     },
     {
       "output": 89,
       "source": 14,
       "frames": 361,
       "left_required_open_wait": [],
+      "right_required_withdrawal_wait": [
+        [
+          177,
+          216
+        ]
+      ],
+      "right_excess_quiet_wait": [
+        [
+          216,
+          221
+        ],
+        [
+          224,
+          230
+        ]
+      ],
       "left": [
         [
           0,
@@ -2119,7 +3251,16 @@
           361
         ]
       ],
-      "right": []
+      "right": [
+        [
+          216,
+          221
+        ],
+        [
+          224,
+          230
+        ]
+      ]
     },
     {
       "output": 90,
@@ -2131,6 +3272,13 @@
           189
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          189,
+          231
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -2138,10 +3286,6 @@
         ]
       ],
       "right": [
-        [
-          224,
-          227
-        ],
         [
           356,
           399
@@ -2153,6 +3297,13 @@
       "source": 16,
       "frames": 412,
       "left_required_open_wait": [],
+      "right_required_withdrawal_wait": [
+        [
+          183,
+          257
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -2160,10 +3311,6 @@
         ]
       ],
       "right": [
-        [
-          242,
-          252
-        ],
         [
           381,
           412
@@ -2180,6 +3327,22 @@
           186
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          186,
+          228
+        ]
+      ],
+      "right_excess_quiet_wait": [
+        [
+          228,
+          229
+        ],
+        [
+          240,
+          259
+        ]
+      ],
       "left": [
         [
           0,
@@ -2190,13 +3353,38 @@
           483
         ]
       ],
-      "right": []
+      "right": [
+        [
+          228,
+          229
+        ],
+        [
+          240,
+          259
+        ]
+      ]
     },
     {
       "output": 93,
       "source": 18,
       "frames": 452,
       "left_required_open_wait": [],
+      "right_required_withdrawal_wait": [
+        [
+          198,
+          253
+        ]
+      ],
+      "right_excess_quiet_wait": [
+        [
+          255,
+          256
+        ],
+        [
+          258,
+          280
+        ]
+      ],
       "left": [
         [
           0,
@@ -2204,6 +3392,14 @@
         ]
       ],
       "right": [
+        [
+          255,
+          256
+        ],
+        [
+          258,
+          280
+        ],
         [
           412,
           452
@@ -2215,6 +3411,13 @@
       "source": 19,
       "frames": 452,
       "left_required_open_wait": [],
+      "right_required_withdrawal_wait": [
+        [
+          162,
+          228
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -2222,10 +3425,6 @@
         ]
       ],
       "right": [
-        [
-          213,
-          223
-        ],
         [
           402,
           452
@@ -2237,6 +3436,13 @@
       "source": 20,
       "frames": 424,
       "left_required_open_wait": [],
+      "right_required_withdrawal_wait": [
+        [
+          177,
+          242
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -2255,6 +3461,13 @@
       "source": 22,
       "frames": 463,
       "left_required_open_wait": [],
+      "right_required_withdrawal_wait": [
+        [
+          192,
+          272
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -2278,6 +3491,13 @@
           159
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          159,
+          210
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -2296,6 +3516,13 @@
       "source": 24,
       "frames": 496,
       "left_required_open_wait": [],
+      "right_required_withdrawal_wait": [
+        [
+          210,
+          283
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -2303,10 +3530,6 @@
         ]
       ],
       "right": [
-        [
-          247,
-          278
-        ],
         [
           482,
           496
@@ -2318,6 +3541,13 @@
       "source": 25,
       "frames": 420,
       "left_required_open_wait": [],
+      "right_required_withdrawal_wait": [
+        [
+          180,
+          269
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -2325,10 +3555,6 @@
         ]
       ],
       "right": [
-        [
-          234,
-          264
-        ],
         [
           413,
           420
@@ -2340,6 +3566,13 @@
       "source": 26,
       "frames": 472,
       "left_required_open_wait": [],
+      "right_required_withdrawal_wait": [
+        [
+          180,
+          286
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -2347,10 +3580,6 @@
         ]
       ],
       "right": [
-        [
-          211,
-          281
-        ],
         [
           424,
           472
@@ -2362,6 +3591,13 @@
       "source": 27,
       "frames": 414,
       "left_required_open_wait": [],
+      "right_required_withdrawal_wait": [
+        [
+          150,
+          246
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -2369,10 +3605,6 @@
         ]
       ],
       "right": [
-        [
-          221,
-          241
-        ],
         [
           362,
           414
@@ -2384,6 +3616,13 @@
       "source": 29,
       "frames": 413,
       "left_required_open_wait": [],
+      "right_required_withdrawal_wait": [
+        [
+          144,
+          267
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -2391,10 +3630,6 @@
         ]
       ],
       "right": [
-        [
-          228,
-          262
-        ],
         [
           395,
           413
@@ -2406,6 +3641,13 @@
       "source": 30,
       "frames": 445,
       "left_required_open_wait": [],
+      "right_required_withdrawal_wait": [
+        [
+          156,
+          283
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -2413,10 +3655,6 @@
         ]
       ],
       "right": [
-        [
-          214,
-          278
-        ],
         [
           426,
           445
@@ -2428,6 +3666,22 @@
       "source": 31,
       "frames": 443,
       "left_required_open_wait": [],
+      "right_required_withdrawal_wait": [
+        [
+          179,
+          261
+        ]
+      ],
+      "right_excess_quiet_wait": [
+        [
+          262,
+          270
+        ],
+        [
+          275,
+          282
+        ]
+      ],
       "left": [
         [
           0,
@@ -2435,6 +3689,14 @@
         ]
       ],
       "right": [
+        [
+          262,
+          270
+        ],
+        [
+          275,
+          282
+        ],
         [
           418,
           443
@@ -2446,6 +3708,26 @@
       "source": 32,
       "frames": 513,
       "left_required_open_wait": [],
+      "right_required_withdrawal_wait": [
+        [
+          165,
+          235
+        ]
+      ],
+      "right_excess_quiet_wait": [
+        [
+          317,
+          324
+        ],
+        [
+          326,
+          345
+        ],
+        [
+          349,
+          354
+        ]
+      ],
       "left": [
         [
           0,
@@ -2456,13 +3738,33 @@
           513
         ]
       ],
-      "right": []
+      "right": [
+        [
+          317,
+          324
+        ],
+        [
+          326,
+          345
+        ],
+        [
+          349,
+          354
+        ]
+      ]
     },
     {
       "output": 106,
       "source": 33,
       "frames": 458,
       "left_required_open_wait": [],
+      "right_required_withdrawal_wait": [
+        [
+          156,
+          321
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -2470,10 +3772,6 @@
         ]
       ],
       "right": [
-        [
-          212,
-          316
-        ],
         [
           453,
           458
@@ -2485,6 +3783,13 @@
       "source": 34,
       "frames": 513,
       "left_required_open_wait": [],
+      "right_required_withdrawal_wait": [
+        [
+          177,
+          310
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -2492,10 +3797,6 @@
         ]
       ],
       "right": [
-        [
-          268,
-          305
-        ],
         [
           489,
           513
@@ -2507,6 +3808,13 @@
       "source": 37,
       "frames": 494,
       "left_required_open_wait": [],
+      "right_required_withdrawal_wait": [
+        [
+          165,
+          268
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -2514,10 +3822,6 @@
         ]
       ],
       "right": [
-        [
-          228,
-          263
-        ],
         [
           485,
           494
@@ -2529,6 +3833,13 @@
       "source": 38,
       "frames": 452,
       "left_required_open_wait": [],
+      "right_required_withdrawal_wait": [
+        [
+          177,
+          275
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -2536,10 +3847,6 @@
         ]
       ],
       "right": [
-        [
-          249,
-          270
-        ],
         [
           423,
           452
@@ -2551,6 +3858,13 @@
       "source": 39,
       "frames": 511,
       "left_required_open_wait": [],
+      "right_required_withdrawal_wait": [
+        [
+          150,
+          268
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -2558,10 +3872,6 @@
         ]
       ],
       "right": [
-        [
-          227,
-          263
-        ],
         [
           445,
           511
@@ -2573,6 +3883,13 @@
       "source": 40,
       "frames": 487,
       "left_required_open_wait": [],
+      "right_required_withdrawal_wait": [
+        [
+          174,
+          281
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -2580,10 +3897,6 @@
         ]
       ],
       "right": [
-        [
-          210,
-          278
-        ],
         [
           474,
           487
@@ -2595,6 +3908,13 @@
       "source": 41,
       "frames": 426,
       "left_required_open_wait": [],
+      "right_required_withdrawal_wait": [
+        [
+          143,
+          242
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -2613,6 +3933,13 @@
       "source": 42,
       "frames": 464,
       "left_required_open_wait": [],
+      "right_required_withdrawal_wait": [
+        [
+          162,
+          276
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -2620,10 +3947,6 @@
         ]
       ],
       "right": [
-        [
-          223,
-          271
-        ],
         [
           414,
           464
@@ -2635,6 +3958,13 @@
       "source": 43,
       "frames": 480,
       "left_required_open_wait": [],
+      "right_required_withdrawal_wait": [
+        [
+          153,
+          282
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -2642,10 +3972,6 @@
         ]
       ],
       "right": [
-        [
-          210,
-          277
-        ],
         [
           422,
           480
@@ -2657,6 +3983,13 @@
       "source": 44,
       "frames": 490,
       "left_required_open_wait": [],
+      "right_required_withdrawal_wait": [
+        [
+          173,
+          296
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -2664,10 +3997,6 @@
         ]
       ],
       "right": [
-        [
-          242,
-          294
-        ],
         [
           452,
           490
@@ -2679,6 +4008,13 @@
       "source": 46,
       "frames": 589,
       "left_required_open_wait": [],
+      "right_required_withdrawal_wait": [
+        [
+          183,
+          317
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -2686,10 +4022,6 @@
         ]
       ],
       "right": [
-        [
-          236,
-          312
-        ],
         [
           508,
           589
@@ -2706,6 +4038,13 @@
           189
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          189,
+          262
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -2713,10 +4052,6 @@
         ]
       ],
       "right": [
-        [
-          214,
-          257
-        ],
         [
           438,
           558
@@ -2728,6 +4063,13 @@
       "source": 48,
       "frames": 698,
       "left_required_open_wait": [],
+      "right_required_withdrawal_wait": [
+        [
+          189,
+          392
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -2735,10 +4077,6 @@
         ]
       ],
       "right": [
-        [
-          256,
-          387
-        ],
         [
           605,
           698
@@ -2750,6 +4088,13 @@
       "source": 49,
       "frames": 568,
       "left_required_open_wait": [],
+      "right_required_withdrawal_wait": [
+        [
+          186,
+          389
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -2757,10 +4102,6 @@
         ]
       ],
       "right": [
-        [
-          222,
-          384
-        ],
         [
           564,
           568
@@ -2777,6 +4118,13 @@
           192
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          192,
+          288
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -2784,10 +4132,6 @@
         ]
       ],
       "right": [
-        [
-          246,
-          283
-        ],
         [
           555,
           581
@@ -2804,6 +4148,13 @@
           180
         ]
       ],
+      "right_required_withdrawal_wait": [
+        [
+          180,
+          280
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -2811,10 +4162,6 @@
         ]
       ],
       "right": [
-        [
-          232,
-          275
-        ],
         [
           511,
           513
@@ -2826,6 +4173,13 @@
       "source": 52,
       "frames": 575,
       "left_required_open_wait": [],
+      "right_required_withdrawal_wait": [
+        [
+          195,
+          291
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -2833,10 +4187,6 @@
         ]
       ],
       "right": [
-        [
-          250,
-          286
-        ],
         [
           522,
           575
@@ -2848,6 +4198,13 @@
       "source": 53,
       "frames": 619,
       "left_required_open_wait": [],
+      "right_required_withdrawal_wait": [
+        [
+          231,
+          401
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -2855,10 +4212,6 @@
         ]
       ],
       "right": [
-        [
-          296,
-          396
-        ],
         [
           601,
           619
@@ -2870,6 +4223,13 @@
       "source": 54,
       "frames": 561,
       "left_required_open_wait": [],
+      "right_required_withdrawal_wait": [
+        [
+          186,
+          381
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -2877,10 +4237,6 @@
         ]
       ],
       "right": [
-        [
-          255,
-          376
-        ],
         [
           544,
           561
@@ -2892,6 +4248,13 @@
       "source": 55,
       "frames": 555,
       "left_required_open_wait": [],
+      "right_required_withdrawal_wait": [
+        [
+          204,
+          298
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -2899,10 +4262,6 @@
         ]
       ],
       "right": [
-        [
-          242,
-          293
-        ],
         [
           539,
           555
@@ -2914,6 +4273,13 @@
       "source": 56,
       "frames": 584,
       "left_required_open_wait": [],
+      "right_required_withdrawal_wait": [
+        [
+          210,
+          347
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -2921,10 +4287,6 @@
         ]
       ],
       "right": [
-        [
-          287,
-          342
-        ],
         [
           576,
           584
@@ -2936,6 +4298,13 @@
       "source": 57,
       "frames": 623,
       "left_required_open_wait": [],
+      "right_required_withdrawal_wait": [
+        [
+          204,
+          399
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -2943,10 +4312,6 @@
         ]
       ],
       "right": [
-        [
-          311,
-          394
-        ],
         [
           608,
           623
@@ -2958,6 +4323,13 @@
       "source": 58,
       "frames": 660,
       "left_required_open_wait": [],
+      "right_required_withdrawal_wait": [
+        [
+          219,
+          408
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -2965,10 +4337,6 @@
         ]
       ],
       "right": [
-        [
-          307,
-          403
-        ],
         [
           575,
           660
@@ -2980,6 +4348,13 @@
       "source": 59,
       "frames": 616,
       "left_required_open_wait": [],
+      "right_required_withdrawal_wait": [
+        [
+          222,
+          402
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -2987,10 +4362,6 @@
         ]
       ],
       "right": [
-        [
-          286,
-          397
-        ],
         [
           615,
           616
@@ -3002,6 +4373,13 @@
       "source": 60,
       "frames": 622,
       "left_required_open_wait": [],
+      "right_required_withdrawal_wait": [
+        [
+          207,
+          419
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -3009,10 +4387,6 @@
         ]
       ],
       "right": [
-        [
-          250,
-          414
-        ],
         [
           611,
           622
@@ -3024,6 +4398,18 @@
       "source": 61,
       "frames": 630,
       "left_required_open_wait": [],
+      "right_required_withdrawal_wait": [
+        [
+          204,
+          425
+        ]
+      ],
+      "right_excess_quiet_wait": [
+        [
+          425,
+          426
+        ]
+      ],
       "left": [
         [
           0,
@@ -3032,8 +4418,8 @@
       ],
       "right": [
         [
-          273,
-          425
+          425,
+          426
         ],
         [
           602,
@@ -3046,6 +4432,18 @@
       "source": 62,
       "frames": 632,
       "left_required_open_wait": [],
+      "right_required_withdrawal_wait": [
+        [
+          201,
+          326
+        ]
+      ],
+      "right_excess_quiet_wait": [
+        [
+          336,
+          337
+        ]
+      ],
       "left": [
         [
           0,
@@ -3053,6 +4451,10 @@
         ]
       ],
       "right": [
+        [
+          336,
+          337
+        ],
         [
           614,
           632
@@ -3064,6 +4466,13 @@
       "source": 63,
       "frames": 605,
       "left_required_open_wait": [],
+      "right_required_withdrawal_wait": [
+        [
+          210,
+          415
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -3071,10 +4480,6 @@
         ]
       ],
       "right": [
-        [
-          296,
-          410
-        ],
         [
           604,
           605
@@ -3086,6 +4491,13 @@
       "source": 64,
       "frames": 604,
       "left_required_open_wait": [],
+      "right_required_withdrawal_wait": [
+        [
+          195,
+          399
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -3093,10 +4505,6 @@
         ]
       ],
       "right": [
-        [
-          245,
-          394
-        ],
         [
           589,
           604
@@ -3108,6 +4516,13 @@
       "source": 65,
       "frames": 617,
       "left_required_open_wait": [],
+      "right_required_withdrawal_wait": [
+        [
+          285,
+          361
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -3116,7 +4531,7 @@
       ],
       "right": [
         [
-          342,
+          361,
           365
         ],
         [
@@ -3130,6 +4545,18 @@
       "source": 66,
       "frames": 478,
       "left_required_open_wait": [],
+      "right_required_withdrawal_wait": [
+        [
+          185,
+          318
+        ]
+      ],
+      "right_excess_quiet_wait": [
+        [
+          318,
+          319
+        ]
+      ],
       "left": [
         [
           0,
@@ -3138,8 +4565,8 @@
       ],
       "right": [
         [
-          197,
-          318
+          318,
+          319
         ],
         [
           475,
@@ -3152,6 +4579,13 @@
       "source": 68,
       "frames": 591,
       "left_required_open_wait": [],
+      "right_required_withdrawal_wait": [
+        [
+          159,
+          316
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -3159,10 +4593,6 @@
         ]
       ],
       "right": [
-        [
-          235,
-          313
-        ],
         [
           540,
           591
@@ -3174,6 +4604,13 @@
       "source": 69,
       "frames": 572,
       "left_required_open_wait": [],
+      "right_required_withdrawal_wait": [
+        [
+          174,
+          315
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -3181,10 +4618,6 @@
         ]
       ],
       "right": [
-        [
-          275,
-          315
-        ],
         [
           541,
           572
@@ -3196,6 +4629,13 @@
       "source": 70,
       "frames": 473,
       "left_required_open_wait": [],
+      "right_required_withdrawal_wait": [
+        [
+          144,
+          305
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -3203,10 +4643,6 @@
         ]
       ],
       "right": [
-        [
-          243,
-          300
-        ],
         [
           426,
           473
@@ -3218,6 +4654,13 @@
       "source": 71,
       "frames": 523,
       "left_required_open_wait": [],
+      "right_required_withdrawal_wait": [
+        [
+          156,
+          321
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -3225,10 +4668,6 @@
         ]
       ],
       "right": [
-        [
-          282,
-          316
-        ],
         [
           484,
           523
@@ -3240,6 +4679,13 @@
       "source": 72,
       "frames": 583,
       "left_required_open_wait": [],
+      "right_required_withdrawal_wait": [
+        [
+          171,
+          342
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -3247,10 +4693,6 @@
         ]
       ],
       "right": [
-        [
-          258,
-          337
-        ],
         [
           505,
           583
@@ -3262,6 +4704,13 @@
       "source": 73,
       "frames": 571,
       "left_required_open_wait": [],
+      "right_required_withdrawal_wait": [
+        [
+          162,
+          397
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -3269,10 +4718,6 @@
         ]
       ],
       "right": [
-        [
-          258,
-          392
-        ],
         [
           554,
           571
@@ -3284,6 +4729,13 @@
       "source": 74,
       "frames": 642,
       "left_required_open_wait": [],
+      "right_required_withdrawal_wait": [
+        [
+          141,
+          334
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -3291,10 +4743,6 @@
         ]
       ],
       "right": [
-        [
-          244,
-          329
-        ],
         [
           617,
           642
@@ -3306,6 +4754,13 @@
       "source": 75,
       "frames": 498,
       "left_required_open_wait": [],
+      "right_required_withdrawal_wait": [
+        [
+          162,
+          318
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -3313,10 +4768,6 @@
         ]
       ],
       "right": [
-        [
-          206,
-          316
-        ],
         [
           463,
           498
@@ -3328,6 +4779,13 @@
       "source": 76,
       "frames": 556,
       "left_required_open_wait": [],
+      "right_required_withdrawal_wait": [
+        [
+          144,
+          241
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -3335,10 +4793,6 @@
         ]
       ],
       "right": [
-        [
-          187,
-          236
-        ],
         [
           532,
           556
@@ -3350,6 +4804,13 @@
       "source": 77,
       "frames": 617,
       "left_required_open_wait": [],
+      "right_required_withdrawal_wait": [
+        [
+          159,
+          315
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -3357,10 +4818,6 @@
         ]
       ],
       "right": [
-        [
-          223,
-          313
-        ],
         [
           576,
           617
@@ -3372,6 +4829,13 @@
       "source": 78,
       "frames": 554,
       "left_required_open_wait": [],
+      "right_required_withdrawal_wait": [
+        [
+          147,
+          343
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -3379,10 +4843,6 @@
         ]
       ],
       "right": [
-        [
-          247,
-          341
-        ],
         [
           501,
           554
@@ -3394,6 +4854,13 @@
       "source": 79,
       "frames": 481,
       "left_required_open_wait": [],
+      "right_required_withdrawal_wait": [
+        [
+          141,
+          317
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -3401,10 +4868,6 @@
         ]
       ],
       "right": [
-        [
-          193,
-          312
-        ],
         [
           476,
           481
@@ -3416,6 +4879,13 @@
       "source": 80,
       "frames": 562,
       "left_required_open_wait": [],
+      "right_required_withdrawal_wait": [
+        [
+          196,
+          395
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -3423,10 +4893,6 @@
         ]
       ],
       "right": [
-        [
-          307,
-          392
-        ],
         [
           533,
           562
@@ -3438,6 +4904,13 @@
       "source": 81,
       "frames": 597,
       "left_required_open_wait": [],
+      "right_required_withdrawal_wait": [
+        [
+          215,
+          391
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -3445,10 +4918,6 @@
         ]
       ],
       "right": [
-        [
-          337,
-          390
-        ],
         [
           577,
           597
@@ -3460,6 +4929,13 @@
       "source": 82,
       "frames": 594,
       "left_required_open_wait": [],
+      "right_required_withdrawal_wait": [
+        [
+          162,
+          420
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -3467,10 +4943,6 @@
         ]
       ],
       "right": [
-        [
-          308,
-          415
-        ],
         [
           588,
           594
@@ -3482,6 +4954,13 @@
       "source": 83,
       "frames": 640,
       "left_required_open_wait": [],
+      "right_required_withdrawal_wait": [
+        [
+          156,
+          344
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -3489,10 +4968,6 @@
         ]
       ],
       "right": [
-        [
-          331,
-          339
-        ],
         [
           550,
           640
@@ -3504,6 +4979,13 @@
       "source": 84,
       "frames": 460,
       "left_required_open_wait": [],
+      "right_required_withdrawal_wait": [
+        [
+          75,
+          289
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -3511,10 +4993,6 @@
         ]
       ],
       "right": [
-        [
-          135,
-          284
-        ],
         [
           457,
           460
@@ -3526,6 +5004,13 @@
       "source": 85,
       "frames": 629,
       "left_required_open_wait": [],
+      "right_required_withdrawal_wait": [
+        [
+          165,
+          384
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -3534,7 +5019,7 @@
       ],
       "right": [
         [
-          245,
+          384,
           385
         ],
         [
@@ -3548,6 +5033,13 @@
       "source": 86,
       "frames": 606,
       "left_required_open_wait": [],
+      "right_required_withdrawal_wait": [
+        [
+          156,
+          341
+        ]
+      ],
+      "right_excess_quiet_wait": [],
       "left": [
         [
           0,
@@ -3555,10 +5047,6 @@
         ]
       ],
       "right": [
-        [
-          236,
-          337
-        ],
         [
           503,
           606

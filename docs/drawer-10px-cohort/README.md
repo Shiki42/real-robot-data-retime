@@ -44,10 +44,18 @@ Leading/interior clock plateaus retain one departure sample; terminal plateaus
 retain the arrival sample. Positive source-clock movement, including arbitrarily
 slow ramps, remains supervised. Original stationary poses with advancing source
 clocks are not classified as inserted idle. Left holding at the lift peak before drawer opening is a required task wait and remains supervised. Explicit synthetic terminal holds
-are excluded. Totals: left 8,885 frames; right 14,591 frames.
+are excluded. Totals: left 8,885 frames; right 10,089 frames.
 This correction restores 8,552 left-arm frames across 92 outputs; right-arm masks and all other left-arm intervals are unchanged.
 
 Deploy `web/review/idle-timeline.js` and `.css` alongside the review's index.html
 and idle-masks.json. Existing browser localStorage keys and notes are unchanged.
 The original archive remains an immutable snapshot; the local review is updated
 with these additional files after Git synchronization.
+
+Right-arm mask correction: waiting for left withdrawal is supervised. After the
+withdrawal gate and before close_source_frame, original-source quiet samples are
+masked using the existing stationary_pose_mask (0.2s measured/action pose range
+window: 0.3 degrees per joint, 0.5 mm gripper). Both floor/ceil source samples
+must be quiet, so output slow-motion ramps do not create false idle labels.
+Actual source adjustments remain supervised. Per-output dependency and excess
+quiet intervals are included in idle-masks.json.

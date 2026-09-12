@@ -1,4 +1,4 @@
-"""Export retiming-inserted waits for review; no training hook is implied."""
+"""Export task-aware idle masks for review; no training hook is implied."""
 import argparse
 import json
 from pathlib import Path
@@ -6,6 +6,7 @@ from pathlib import Path
 import numpy as np
 import pyarrow.parquet as pq
 from real_robot_data_retime.retime import boolean_ranges
+from real_robot_data_retime.timeline.holds import stationary_pose_mask
 
 
 def clock_idle_mask(clock):
@@ -38,9 +39,22 @@ def required_open_wait(left, right, stages):
             & (np.asarray(right) < stages['open_source_frame']))
 
 
+def right_wait_masks(left, right, stages, source_quiet):
+    """Separate dependency waiting from excess quiet time before closing."""
+    left, right = np.asarray(left), np.asarray(right)
+    opened = right >= stages['open_source_frame']
+    withdrawn = left >= stages['withdrawal_source_frame']
+    required = opened & ~withdrawn
+    quiet = source_quiet[np.floor(right).astype(int)] & source_quiet[np.ceil(right).astype(int)]
+    excess = opened & withdrawn & (right < stages['close_source_frame']) & quiet
+    return required, excess
+
+
 def export(dataset, manifest, output):
     dataset, output = Path(dataset), Path(output)
     review = json.loads(Path(manifest).read_text())
+    source = Path(json.loads((dataset / 'uniform_manifest.json').read_text())['source_config']['source'])
+    source_quiet = {}
     records = []
     for row in review['episodes_data']:
         ep = row['output']
@@ -51,10 +65,18 @@ def export(dataset, manifest, output):
         receipt = json.loads((dataset / f'meta/retime_receipts/episode_{ep:03d}.json').read_text())
         if receipt['source_episode_index'] != row['source']:
             raise ValueError(f'Video and numeric source IDs differ: {ep}')
+        if row['source'] not in source_quiet:
+            original = pq.read_table(source / f"data/chunk-000/file-{row['source']:03d}.parquet", columns=['observation.state', 'action'])
+            source_quiet[row['source']] = stationary_pose_mask(
+                np.asarray(original['observation.state'].to_pylist())[:, 7:],
+                np.asarray(original['action'].to_pylist())[:, 7:], review['fps'])
         record = dict(output=ep, source=row['source'], frames=len(table))
         with np.load(dataset / f'meta/retime_source_indices/episode_{ep:03d}.npz') as maps:
             required_wait = required_open_wait(maps['left'], maps['right'], receipt['plan']['stages'])
             record['left_required_open_wait'] = [[span.start, span.end] for span in boolean_ranges(required_wait)]
+            required_close, excess_close = right_wait_masks(maps['left'], maps['right'], receipt['plan']['stages'], source_quiet[row['source']])
+            record['right_required_withdrawal_wait'] = [[span.start, span.end] for span in boolean_ranges(required_close)]
+            record['right_excess_quiet_wait'] = [[span.start, span.end] for span in boolean_ranges(excess_close)]
             for arm in ['left', 'right']:
                 clock = table[f'retime.{arm}_source_frame'].to_numpy()
                 if not np.array_equal(clock, maps[arm]):
@@ -62,10 +84,14 @@ def export(dataset, manifest, output):
                 idle = clock_idle_mask(clock) | table['retime.synthetic_hold'].to_numpy()
                 if arm == 'left':
                     idle[required_wait] = False
+                else:
+                    idle[required_close] = False
+                    idle |= excess_close
                 record[arm] = [[span.start, span.end] for span in boolean_ranges(idle)]
         records.append(record)
-    result = dict(schema_version=1, policy='retiming_waits_except_required_drawer_open_wait',
-                  supervised_wait='Left arm holding at the lift peak until the right arm opens the drawer remains supervised (loss=1).',
+    result = dict(schema_version=1, policy='task_aware_waits',
+                  supervised_wait='Left lift-peak waiting for opening and right waiting for left withdrawal remain supervised (loss=1).',
+                  excess_wait='Right-arm source-trajectory quiet intervals after left withdrawal and before closing are idle. Reuses stationary_pose_mask: 0.2s window, measured AND commanded ranges <=0.3deg joints and <=0.5mm gripper; both source interpolation endpoints must be quiet.',
                   training_status='not_connected_to_training', fps=review['fps'],
                   interval_convention='[start, end), zero-based output frames',
                   mask_semantics='idle=true means exclude that arm from action loss; left action[0:7], right action[7:14]',

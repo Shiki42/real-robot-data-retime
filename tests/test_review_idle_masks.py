@@ -38,3 +38,15 @@ def test_required_open_wait_is_supervised_but_other_idle_is_unchanged():
     idle[required] = False
     np.testing.assert_array_equal(np.flatnonzero(idle), [0, 9])
     assert not module.required_open_wait(left, right, dict(peak_source_frame=2, open_source_frame=2)).any()
+
+
+def test_close_wait_preserves_dependency_and_masks_only_excess_quiet():
+    left = np.array([1, 2, 3, 4, 5, 6, 7, 8])
+    right = np.array([0, 1, 2, 3, 4, 5.5, 6, 7])
+    stages = dict(open_source_frame=1, withdrawal_source_frame=4, close_source_frame=6)
+    quiet = np.array([1, 1, 1, 1, 0, 1, 0, 1], bool)
+    required, excess = module.right_wait_masks(left, right, stages, quiet)
+    np.testing.assert_array_equal(np.flatnonzero(required), [1, 2])
+    np.testing.assert_array_equal(np.flatnonzero(excess), [3])
+    # Adjustment frame 4, interpolation into moving source 6, and closing stay supervised.
+    assert not excess[4:].any()
