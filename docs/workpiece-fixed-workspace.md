@@ -11,15 +11,16 @@ source clocks. Cached exact URDF pose checks screen candidate paths. Adaptive
 midpoint motion bounds certify every complete interpolated transition; rejected
 transitions are excluded before repeating the search. This is offline planning
 with known recorded trajectories, not a guarantee for unobserved live motion.
-The minimum accepted measured-state mesh gap is 0.0155 m plus a 1e-6 m guard.
+The minimum accepted measured-state mesh gap is 0.05 m plus a 1e-6 m guard.
 
 `waiting_padding_m` enlarges the waiting envelope without changing robot meshes
-or the physical EE radius. The three revised examples use padding 0 / 0 / 0.03 m
+or the physical EE radius. The three revised examples use padding 0 / 0.04 / 0.09 m
 for Episodes 0 / 1 / 2. An earliest-time claim is conditional on those waiting
 poses; it is not a global optimum over arbitrary new arm trajectories.
 `render_interaction_checkpoint.py --fixed-workspace --workspace CONFIG.json`
-uses the same continuously validated planner for rendering. Episode 2 uses
-`configs/workpiece-wait-padding-3cm.json`; Episodes 0 and 1 use the defaults.
+uses the same continuously validated planner for rendering. Episode 0 uses the defaults; Episodes 1 and 2 use
+`configs/workpiece-wait-padding-4cm.json` and
+`configs/workpiece-wait-padding-9cm.json`, respectively.
 
 ## Historical experiments (superseded geometry and release rules)
 

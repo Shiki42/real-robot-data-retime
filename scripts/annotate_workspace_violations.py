@@ -20,7 +20,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     for name in ("render", "urdf", "mesh-root"):
         parser.add_argument("--" + name, type=Path, required=True)
-    parser.add_argument("--threshold-mm", type=float, default=15.5)
+    parser.add_argument("--threshold-mm", type=float, default=50.0)
     args = parser.parse_args()
     root = args.render
     if not np.isfinite(args.threshold_mm) or args.threshold_mm <= 0:

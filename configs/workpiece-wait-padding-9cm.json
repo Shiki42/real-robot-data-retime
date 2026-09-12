@@ -1,0 +1,16 @@
+{
+  "minimum_m": [
+    0.27,
+    -0.12,
+    -0.04
+  ],
+  "maximum_m": [
+    0.46,
+    0.12,
+    0.18
+  ],
+  "ee_radius_m": 0.025,
+  "waiting_padding_m": 0.09,
+  "retreat_distance_m": 0.03,
+  "minimum_clearance_m": 0.05
+}

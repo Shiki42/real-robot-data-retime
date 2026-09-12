@@ -14,7 +14,7 @@ DEFAULT_WORKSPACE = {
     "ee_radius_m": 0.025,
     "waiting_padding_m": 0.0,
     "retreat_distance_m": 0.03,
-    "minimum_clearance_m": 0.0155,
+    "minimum_clearance_m": 0.05,
 }
 
 

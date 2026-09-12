@@ -1,0 +1,89 @@
+[
+  {
+    "episode": 0,
+    "base_spacing_m": 0.59,
+    "required_clearance_m": 0.05,
+    "minimum_sampled_gap_mm": 51.70817515804792,
+    "below_threshold_intervals": [],
+    "continuous_mesh_audit": {
+      "observation.state": {
+        "passed": true,
+        "checked_interior_samples": 994
+      }
+    },
+    "source_origin_passed": true,
+    "admissions": [
+      {
+        "arm": "right",
+        "cycle": 1,
+        "output_frame": 90
+      },
+      {
+        "arm": "right",
+        "cycle": 2,
+        "output_frame": 314
+      }
+    ],
+    "search_seconds": 29.61072751879692,
+    "waiting_padding_m": 0.0,
+    "video_sha256": "84ad2d8170f4911546ea3894ca27c1f49a72d059c6712fecc028021fd88bd962"
+  },
+  {
+    "episode": 1,
+    "base_spacing_m": 0.59,
+    "required_clearance_m": 0.05,
+    "minimum_sampled_gap_mm": 51.8854858695698,
+    "below_threshold_intervals": [],
+    "continuous_mesh_audit": {
+      "observation.state": {
+        "passed": true,
+        "checked_interior_samples": 1954
+      }
+    },
+    "source_origin_passed": true,
+    "admissions": [
+      {
+        "arm": "right",
+        "cycle": 1,
+        "output_frame": 106
+      },
+      {
+        "arm": "right",
+        "cycle": 2,
+        "output_frame": 337
+      }
+    ],
+    "search_seconds": 9.832160785794258,
+    "waiting_padding_m": 0.04,
+    "video_sha256": "9e556864561b323a4a8946ba5f335cced1565abcd9a67ff0c282dccee0d87300"
+  },
+  {
+    "episode": 2,
+    "base_spacing_m": 0.59,
+    "required_clearance_m": 0.05,
+    "minimum_sampled_gap_mm": 53.21541547440544,
+    "below_threshold_intervals": [],
+    "continuous_mesh_audit": {
+      "observation.state": {
+        "passed": true,
+        "checked_interior_samples": 1196
+      }
+    },
+    "source_origin_passed": true,
+    "admissions": [
+      {
+        "arm": "right",
+        "cycle": 1,
+        "output_frame": 100
+      },
+      {
+        "arm": "right",
+        "cycle": 2,
+        "output_frame": 391
+      }
+    ],
+    "search_seconds": 5.1913241147994995,
+    "waiting_padding_m": 0.09,
+    "video_sha256": "e5558eadd01c7e051630a9700bce60f0b1d8cd359956cded7abfa377147870f1"
+  }
+]
