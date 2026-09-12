@@ -8,7 +8,7 @@ from .scheduler import schedule_sources, NoSafeSchedule
 from .bounds import drawer_remaining_bound
 from .holds import append_terminal_hold, compress_static_spans
 from ..retime import detect_arm_segments
-from ..collision.piperx import PiperXClearance
+from ..collision.piperx import PiperXClearance, DEFAULT_BASE_SPACING_M
 from ..collision.drawer import drawer_sweep, outside_box, drawer_body
 from ..tasks.drawer_constraints import precedence_gate
 
@@ -39,7 +39,7 @@ def plan_joints(
     receipt = dict(
         task=task,
         margin_m=margin,
-        base_spacing_m=0.49,
+        base_spacing_m=DEFAULT_BASE_SPACING_M,
         constraint_model="RoboVisualize cross-arm meshes",
         source_frames=len(state),
         dependencies={},

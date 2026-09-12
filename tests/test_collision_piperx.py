@@ -58,7 +58,7 @@ def test_oriented_scene_volume_broad_phase_preserves_collision_decision():
             [0, 0, 1],
         ]
     )
-    center = np.array([0.0, 0.245, 0.0]) @ rotation
+    center = np.array([0.0, checker.base_spacing_m / 2, 0.0]) @ rotation
     assert not checker.arm_clears_volume(0, 0, (rotation, center - 0.15, center + 0.15))
     center = np.array([3.0, 3.0, 3.0]) @ rotation
     assert checker.arm_clears_volume(0, 0, (rotation, center - 0.15, center + 0.15))

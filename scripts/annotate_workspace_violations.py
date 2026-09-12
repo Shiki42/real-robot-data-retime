@@ -64,6 +64,7 @@ def main():
     report = dict(
         diagnostic_only=True,
         threshold_mm=args.threshold_mm,
+        base_spacing_m=fk.base_spacing_m,
         sample_rate_hz=4 * fps,
         scope="measured-state cross-arm URDF meshes; exact at sampled poses",
         video_frame_fps=fps,

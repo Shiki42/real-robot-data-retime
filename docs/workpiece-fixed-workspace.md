@@ -115,3 +115,12 @@ Zero means model mesh intersection, not a measured penetration depth. Intervals
 are sampled observations, not continuous safe certificates between samples.
 
 Artifacts are under `/home/coder/share/retime-workpiece-violations-20260912`.
+
+## Measured base spacing correction — 2026-09-12
+
+The user remeasured the physical base spacing as **0.59 m**, replacing the
+previous 0.49 m assumption. Bases are at Y = +0.295 and -0.295 m.
+Earlier clearance numbers and infeasibility results at 0.49 m do not apply
+to this corrected geometry. Recompute before accepting any schedule.
+The first 0.59 m diagnostic replay retains the existing source clocks and
+changes only geometry and distance annotations; it is not a replanned schedule.

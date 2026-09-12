@@ -5,6 +5,9 @@ from tempfile import TemporaryDirectory
 import numpy as np
 
 
+DEFAULT_BASE_SPACING_M = 0.59
+
+
 class PiperXClearance:
     """Cross-arm mesh clearance using RoboVisualize FK and its exact meshes.
 
@@ -21,7 +24,7 @@ class PiperXClearance:
         urdf: Path,
         mesh_root: Path,
         margin_m=0.02,
-        base_spacing_m=0.49,
+        base_spacing_m=DEFAULT_BASE_SPACING_M,
     ):
         from robo_visualize.arms.piperx.model import PiperXModel, GRIPPER_STROKE_M
         import hppfcl
