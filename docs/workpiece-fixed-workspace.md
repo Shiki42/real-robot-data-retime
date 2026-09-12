@@ -51,3 +51,11 @@ The original full-link audit is retained in
 [the earlier experiment receipt](workpiece-fixed-workspace-audit.json), but its
 link failures are not acceptance gates for the user-requested EE-only mode.
 Current artifacts are under `/home/coder/share/retime-workpiece-ee-only-20260912`.
+
+## Verified previews
+
+185 tests passed, 4 skipped. Episodes 0/1/2 rendered in 25.20/23.07/23.80
+seconds. EE occupancy and object-origin checks passed; startup, wait, withdrawal,
+pickup and final-scene keyframes were reviewed. Episode 2 includes projected
+link overlap, intentionally not an admission failure. See
+[the EE-only receipt](workpiece-ee-only-verification.json).

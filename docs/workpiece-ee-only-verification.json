@@ -1,0 +1,215 @@
+[
+  {
+    "episode": 0,
+    "duration_seconds": 25.2,
+    "ee_audit": {
+      "passed": true,
+      "failed_output_edges": [],
+      "substeps_per_output_interval": 4,
+      "method": "interpolated_joint_FK_EE_envelope",
+      "minimum_sampled_ee_distance_m": 0.09626392512300543,
+      "link_collision_check": false
+    },
+    "origin_audit": {
+      "passed": true,
+      "objects": [
+        {
+          "object_id": 2,
+          "appearance_method": "template_correlation",
+          "robot_id": "left",
+          "clear_origin_observations": 630,
+          "duplicate_observations": 0,
+          "passed": true
+        },
+        {
+          "object_id": 1,
+          "appearance_method": "chromatic_occupancy",
+          "robot_id": "left",
+          "clear_origin_observations": 340,
+          "duplicate_observations": 0,
+          "passed": true
+        },
+        {
+          "object_id": 3,
+          "appearance_method": "template_correlation",
+          "robot_id": "right",
+          "clear_origin_observations": 459,
+          "duplicate_observations": 0,
+          "passed": true
+        },
+        {
+          "object_id": 0,
+          "appearance_method": "template_correlation",
+          "robot_id": "right",
+          "clear_origin_observations": 182,
+          "duplicate_observations": 0,
+          "passed": true
+        }
+      ],
+      "method": "rendered_origin_appearance_against_observed_source_absence"
+    },
+    "projected_overlap_pixel_frames": 0,
+    "sampled_review_frames": [
+      0,
+      15,
+      24,
+      26,
+      30,
+      107,
+      141,
+      196,
+      240,
+      293,
+      360,
+      375,
+      432,
+      568,
+      608,
+      755
+    ],
+    "video_sha256": "64554c46ca9d379d0a9ee0fb20cca170c02993504e906ad0d3022919bc734a40",
+    "visual_review": "keyframes reviewed; link overlap allowed under EE-only scope"
+  },
+  {
+    "episode": 1,
+    "duration_seconds": 23.066666666666666,
+    "ee_audit": {
+      "passed": true,
+      "failed_output_edges": [],
+      "substeps_per_output_interval": 4,
+      "method": "interpolated_joint_FK_EE_envelope",
+      "minimum_sampled_ee_distance_m": 0.09233277247637244,
+      "link_collision_check": false
+    },
+    "origin_audit": {
+      "passed": true,
+      "objects": [
+        {
+          "object_id": 2,
+          "appearance_method": "template_correlation",
+          "robot_id": "left",
+          "clear_origin_observations": 515,
+          "duplicate_observations": 0,
+          "passed": true
+        },
+        {
+          "object_id": 1,
+          "appearance_method": "chromatic_occupancy",
+          "robot_id": "left",
+          "clear_origin_observations": 311,
+          "duplicate_observations": 0,
+          "passed": true
+        },
+        {
+          "object_id": 3,
+          "appearance_method": "template_correlation",
+          "robot_id": "right",
+          "clear_origin_observations": 462,
+          "duplicate_observations": 0,
+          "passed": true
+        },
+        {
+          "object_id": 0,
+          "appearance_method": "template_correlation",
+          "robot_id": "right",
+          "clear_origin_observations": 176,
+          "duplicate_observations": 0,
+          "passed": true
+        }
+      ],
+      "method": "rendered_origin_appearance_against_observed_source_absence"
+    },
+    "projected_overlap_pixel_frames": 0,
+    "sampled_review_frames": [
+      0,
+      15,
+      16,
+      30,
+      43,
+      105,
+      148,
+      193,
+      210,
+      250,
+      309,
+      331,
+      401,
+      487,
+      522,
+      691
+    ],
+    "video_sha256": "077ae198bb33e5df03c26b61875f0d183faf2f9a03378fc2b57e85cdc0eda9b0",
+    "visual_review": "keyframes reviewed; link overlap allowed under EE-only scope"
+  },
+  {
+    "episode": 2,
+    "duration_seconds": 23.8,
+    "ee_audit": {
+      "passed": true,
+      "failed_output_edges": [],
+      "substeps_per_output_interval": 4,
+      "method": "interpolated_joint_FK_EE_envelope",
+      "minimum_sampled_ee_distance_m": 0.0705899442669775,
+      "link_collision_check": false
+    },
+    "origin_audit": {
+      "passed": true,
+      "objects": [
+        {
+          "object_id": 3,
+          "appearance_method": "template_correlation",
+          "robot_id": "left",
+          "clear_origin_observations": 583,
+          "duplicate_observations": 0,
+          "passed": true
+        },
+        {
+          "object_id": 0,
+          "appearance_method": "template_correlation",
+          "robot_id": "left",
+          "clear_origin_observations": 288,
+          "duplicate_observations": 0,
+          "passed": true
+        },
+        {
+          "object_id": 1,
+          "appearance_method": "template_correlation",
+          "robot_id": "right",
+          "clear_origin_observations": 466,
+          "duplicate_observations": 0,
+          "passed": true
+        },
+        {
+          "object_id": 2,
+          "appearance_method": "template_correlation",
+          "robot_id": "right",
+          "clear_origin_observations": 180,
+          "duplicate_observations": 0,
+          "passed": true
+        }
+      ],
+      "method": "rendered_origin_appearance_against_observed_source_absence"
+    },
+    "projected_overlap_pixel_frames": 25152,
+    "sampled_review_frames": [
+      0,
+      15,
+      18,
+      30,
+      44,
+      108,
+      142,
+      199,
+      220,
+      232,
+      288,
+      397,
+      436,
+      510,
+      553,
+      713
+    ],
+    "video_sha256": "d91147e45ded29e8f080769a7bfee9e089a340e97ca3bc4000ead6afaad61346",
+    "visual_review": "keyframes reviewed; link overlap allowed under EE-only scope"
+  }
+]
