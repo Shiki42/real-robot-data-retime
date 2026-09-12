@@ -1,0 +1,9 @@
+{
+  "sources": {
+    "4": {
+      "close_preparation_source_frame": 454,
+      "evidence": "Reviewed output 001 frames 431,500,527,535,547,551. Right gripper command begins a sustained change at output 528 / source455 (17.92 to17.43mm), so retain preceding departure frame527 / source454 and subsequent preparation. Drawer close marker is source474 / output547.",
+      "scope": "Both timing variants of original source4; other sources retain their existing masks pending phase-boundary review."
+    }
+  }
+}

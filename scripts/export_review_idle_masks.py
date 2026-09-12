@@ -39,22 +39,29 @@ def required_open_wait(left, right, stages):
             & (np.asarray(right) < stages['open_source_frame']))
 
 
-def right_wait_masks(left, right, stages, source_quiet):
+def right_wait_masks(left, right, stages, source_quiet, close_preparation):
     """Separate dependency waiting from excess quiet time before closing."""
     left, right = np.asarray(left), np.asarray(right)
     opened = right >= stages['open_source_frame']
     withdrawn = left >= stages['withdrawal_source_frame']
     required = opened & ~withdrawn
     quiet = source_quiet[np.floor(right).astype(int)] & source_quiet[np.ceil(right).astype(int)]
-    excess = opened & withdrawn & (right < stages['close_source_frame']) & quiet
+    if close_preparation is None:
+        excess = opened & withdrawn & (right < stages['close_source_frame']) & quiet
+    else:
+        boundary = close_preparation['close_preparation_source_frame']
+        if not stages['open_source_frame'] <= boundary <= stages['close_source_frame']:
+            raise ValueError('Reviewed close preparation lies outside open/close phase')
+        excess = opened & withdrawn & (right < boundary)
     return required, excess
 
 
-def export(dataset, manifest, output):
+def export(dataset, manifest, output, phase_boundaries):
     dataset, output = Path(dataset), Path(output)
     review = json.loads(Path(manifest).read_text())
     source = Path(json.loads((dataset / 'uniform_manifest.json').read_text())['source_config']['source'])
     source_quiet = {}
+    boundaries = json.loads(Path(phase_boundaries).read_text())['sources']
     records = []
     for row in review['episodes_data']:
         ep = row['output']
@@ -74,9 +81,10 @@ def export(dataset, manifest, output):
         with np.load(dataset / f'meta/retime_source_indices/episode_{ep:03d}.npz') as maps:
             required_wait = required_open_wait(maps['left'], maps['right'], receipt['plan']['stages'])
             record['left_required_open_wait'] = [[span.start, span.end] for span in boolean_ranges(required_wait)]
-            required_close, excess_close = right_wait_masks(maps['left'], maps['right'], receipt['plan']['stages'], source_quiet[row['source']])
+            required_close, excess_close = right_wait_masks(maps['left'], maps['right'], receipt['plan']['stages'], source_quiet[row['source']], boundaries.get(str(row['source'])))
             record['right_required_withdrawal_wait'] = [[span.start, span.end] for span in boolean_ranges(required_close)]
-            record['right_excess_quiet_wait'] = [[span.start, span.end] for span in boolean_ranges(excess_close)]
+            record['right_excess_wait'] = [[span.start, span.end] for span in boolean_ranges(excess_close)]
+            record['right_wait_boundary'] = boundaries.get(str(row['source']))
             for arm in ['left', 'right']:
                 clock = table[f'retime.{arm}_source_frame'].to_numpy()
                 if not np.array_equal(clock, maps[arm]):
@@ -91,7 +99,7 @@ def export(dataset, manifest, output):
         records.append(record)
     result = dict(schema_version=1, policy='task_aware_waits',
                   supervised_wait='Left lift-peak waiting for opening and right waiting for left withdrawal remain supervised (loss=1).',
-                  excess_wait='Right-arm source-trajectory quiet intervals after left withdrawal and before closing are idle. Reuses stationary_pose_mask: 0.2s window, measured AND commanded ranges <=0.3deg joints and <=0.5mm gripper; both source interpolation endpoints must be quiet.',
+                  excess_wait='Reviewed sources use a continuous interval from withdrawal permission to the reviewed close-preparation boundary; preparation remains supervised. Other sources retain source-quiet masks pending phase review.',
                   training_status='not_connected_to_training', fps=review['fps'],
                   interval_convention='[start, end), zero-based output frames',
                   mask_semantics='idle=true means exclude that arm from action loss; left action[0:7], right action[7:14]',
@@ -106,6 +114,7 @@ if __name__ == '__main__':
     parser.add_argument('--dataset', type=Path, required=True)
     parser.add_argument('--manifest', type=Path, required=True)
     parser.add_argument('--output', type=Path, required=True)
+    parser.add_argument('--phase-boundaries', type=Path, required=True)
     args = parser.parse_args()
-    result = export(args.dataset, args.manifest, args.output)
+    result = export(args.dataset, args.manifest, args.output, args.phase_boundaries)
     print(f'Exported {len(result["episodes"])} episodes to {args.output}')

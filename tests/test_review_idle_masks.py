@@ -45,8 +45,20 @@ def test_close_wait_preserves_dependency_and_masks_only_excess_quiet():
     right = np.array([0, 1, 2, 3, 4, 5.5, 6, 7])
     stages = dict(open_source_frame=1, withdrawal_source_frame=4, close_source_frame=6)
     quiet = np.array([1, 1, 1, 1, 0, 1, 0, 1], bool)
-    required, excess = module.right_wait_masks(left, right, stages, quiet)
+    required, excess = module.right_wait_masks(left, right, stages, quiet, None)
     np.testing.assert_array_equal(np.flatnonzero(required), [1, 2])
     np.testing.assert_array_equal(np.flatnonzero(excess), [3])
     # Adjustment frame 4, interpolation into moving source 6, and closing stay supervised.
     assert not excess[4:].any()
+
+
+def test_reviewed_wait_is_continuous_and_preparation_is_supervised():
+    left = np.arange(10)
+    right = np.arange(10)
+    stages = dict(open_source_frame=1, withdrawal_source_frame=3, close_source_frame=9)
+    quiet = np.array([True, False] * 5)
+    required, excess = module.right_wait_masks(left, right, stages, quiet, {'close_preparation_source_frame': 7})
+    np.testing.assert_array_equal(np.flatnonzero(excess), [3, 4, 5, 6])
+    assert not excess[7:].any()
+    with pytest.raises(ValueError):
+        module.right_wait_masks(left, right, stages, quiet, {'close_preparation_source_frame': 10})

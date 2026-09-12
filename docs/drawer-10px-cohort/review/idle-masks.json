@@ -2,7 +2,7 @@
   "schema_version": 1,
   "policy": "task_aware_waits",
   "supervised_wait": "Left lift-peak waiting for opening and right waiting for left withdrawal remain supervised (loss=1).",
-  "excess_wait": "Right-arm source-trajectory quiet intervals after left withdrawal and before closing are idle. Reuses stationary_pose_mask: 0.2s window, measured AND commanded ranges <=0.3deg joints and <=0.5mm gripper; both source interpolation endpoints must be quiet.",
+  "excess_wait": "Reviewed sources use a continuous interval from withdrawal permission to the reviewed close-preparation boundary; preparation remains supervised. Other sources retain source-quiet masks pending phase review.",
   "training_status": "not_connected_to_training",
   "fps": 30,
   "interval_convention": "[start, end), zero-based output frames",
@@ -25,7 +25,8 @@
           367
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [],
       "right": [
         [
@@ -54,32 +55,17 @@
           429
         ]
       ],
-      "right_excess_quiet_wait": [
+      "right_excess_wait": [
         [
-          438,
-          440
-        ],
-        [
-          445,
-          446
-        ],
-        [
-          455,
-          467
-        ],
-        [
-          470,
-          476
-        ],
-        [
-          484,
-          501
-        ],
-        [
-          509,
+          429,
           527
         ]
       ],
+      "right_wait_boundary": {
+        "close_preparation_source_frame": 454,
+        "evidence": "Reviewed output 001 frames 431,500,527,535,547,551. Right gripper command begins a sustained change at output 528 / source455 (17.92 to17.43mm), so retain preceding departure frame527 / source454 and subsequent preparation. Drawer close marker is source474 / output547.",
+        "scope": "Both timing variants of original source4; other sources retain their existing masks pending phase-boundary review."
+      },
       "left": [
         [
           636,
@@ -92,27 +78,7 @@
           107
         ],
         [
-          438,
-          440
-        ],
-        [
-          445,
-          446
-        ],
-        [
-          455,
-          467
-        ],
-        [
-          470,
-          476
-        ],
-        [
-          484,
-          501
-        ],
-        [
-          509,
+          429,
           527
         ]
       ]
@@ -133,7 +99,7 @@
           453
         ]
       ],
-      "right_excess_quiet_wait": [
+      "right_excess_wait": [
         [
           456,
           463
@@ -151,6 +117,7 @@
           512
         ]
       ],
+      "right_wait_boundary": null,
       "left": [
         [
           691,
@@ -196,7 +163,8 @@
           457
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [],
       "right": [
         [
@@ -225,7 +193,8 @@
           388
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [],
       "right": [
         [
@@ -254,7 +223,8 @@
           371
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [],
       "right": [
         [
@@ -283,7 +253,8 @@
           408
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [],
       "right": [
         [
@@ -312,7 +283,8 @@
           386
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [],
       "right": [
         [
@@ -341,7 +313,7 @@
           395
         ]
       ],
-      "right_excess_quiet_wait": [
+      "right_excess_wait": [
         [
           395,
           404
@@ -351,6 +323,7 @@
           417
         ]
       ],
+      "right_wait_boundary": null,
       "left": [
         [
           568,
@@ -388,7 +361,8 @@
           406
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [],
       "right": [
         [
@@ -417,7 +391,7 @@
           397
         ]
       ],
-      "right_excess_quiet_wait": [
+      "right_excess_wait": [
         [
           397,
           398
@@ -431,6 +405,7 @@
           447
         ]
       ],
+      "right_wait_boundary": null,
       "left": [
         [
           682,
@@ -472,7 +447,7 @@
           328
         ]
       ],
-      "right_excess_quiet_wait": [
+      "right_excess_wait": [
         [
           328,
           334
@@ -482,6 +457,7 @@
           343
         ]
       ],
+      "right_wait_boundary": null,
       "left": [
         [
           472,
@@ -519,7 +495,8 @@
           316
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [],
       "right": [
         [
@@ -548,7 +525,8 @@
           371
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [],
       "right": [
         [
@@ -577,7 +555,7 @@
           327
         ]
       ],
-      "right_excess_quiet_wait": [
+      "right_excess_wait": [
         [
           327,
           328
@@ -587,6 +565,7 @@
           358
         ]
       ],
+      "right_wait_boundary": null,
       "left": [
         [
           568,
@@ -624,7 +603,7 @@
           359
         ]
       ],
-      "right_excess_quiet_wait": [
+      "right_excess_wait": [
         [
           359,
           363
@@ -638,6 +617,7 @@
           393
         ]
       ],
+      "right_wait_boundary": null,
       "left": [],
       "right": [
         [
@@ -678,7 +658,8 @@
           312
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [],
       "right": [
         [
@@ -707,7 +688,8 @@
           328
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           510,
@@ -737,7 +719,7 @@
           372
         ]
       ],
-      "right_excess_quiet_wait": [
+      "right_excess_wait": [
         [
           372,
           376
@@ -747,6 +729,7 @@
           388
         ]
       ],
+      "right_wait_boundary": null,
       "left": [
         [
           563,
@@ -784,7 +767,8 @@
           261
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [],
       "right": [
         [
@@ -813,7 +797,8 @@
           376
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [],
       "right": [
         [
@@ -842,7 +827,8 @@
           351
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [],
       "right": [
         [
@@ -871,7 +857,8 @@
           364
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [],
       "right": [
         [
@@ -900,12 +887,13 @@
           311
         ]
       ],
-      "right_excess_quiet_wait": [
+      "right_excess_wait": [
         [
           311,
           326
         ]
       ],
+      "right_wait_boundary": null,
       "left": [],
       "right": [
         [
@@ -938,7 +926,8 @@
           327
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [],
       "right": [
         [
@@ -967,7 +956,8 @@
           345
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [],
       "right": [
         [
@@ -996,7 +986,7 @@
           315
         ]
       ],
-      "right_excess_quiet_wait": [
+      "right_excess_wait": [
         [
           315,
           341
@@ -1010,6 +1000,7 @@
           371
         ]
       ],
+      "right_wait_boundary": null,
       "left": [
         [
           497,
@@ -1051,7 +1042,7 @@
           281
         ]
       ],
-      "right_excess_quiet_wait": [
+      "right_excess_wait": [
         [
           306,
           311
@@ -1069,6 +1060,7 @@
           435
         ]
       ],
+      "right_wait_boundary": null,
       "left": [
         [
           471,
@@ -1114,7 +1106,8 @@
           363
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [],
       "right": [
         [
@@ -1143,12 +1136,13 @@
           357
         ]
       ],
-      "right_excess_quiet_wait": [
+      "right_excess_wait": [
         [
           381,
           383
         ]
       ],
+      "right_wait_boundary": null,
       "left": [
         [
           560,
@@ -1182,7 +1176,8 @@
           304
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [],
       "right": [
         [
@@ -1211,7 +1206,7 @@
           309
         ]
       ],
-      "right_excess_quiet_wait": [
+      "right_excess_wait": [
         [
           309,
           310
@@ -1221,6 +1216,7 @@
           326
         ]
       ],
+      "right_wait_boundary": null,
       "left": [],
       "right": [
         [
@@ -1257,12 +1253,13 @@
           296
         ]
       ],
-      "right_excess_quiet_wait": [
+      "right_excess_wait": [
         [
           306,
           311
         ]
       ],
+      "right_wait_boundary": null,
       "left": [],
       "right": [
         [
@@ -1295,7 +1292,8 @@
           305
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [],
       "right": [
         [
@@ -1324,7 +1322,7 @@
           260
         ]
       ],
-      "right_excess_quiet_wait": [
+      "right_excess_wait": [
         [
           264,
           283
@@ -1338,6 +1336,7 @@
           309
         ]
       ],
+      "right_wait_boundary": null,
       "left": [
         [
           444,
@@ -1379,7 +1378,8 @@
           292
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [],
       "right": [
         [
@@ -1408,7 +1408,8 @@
           293
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [],
       "right": [
         [
@@ -1437,7 +1438,8 @@
           305
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [],
       "right": [
         [
@@ -1466,7 +1468,8 @@
           321
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [],
       "right": [
         [
@@ -1495,7 +1498,8 @@
           262
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -1525,7 +1529,8 @@
           387
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [],
       "right": [
         [
@@ -1554,7 +1559,8 @@
           379
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [],
       "right": [
         [
@@ -1583,7 +1589,8 @@
           288
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -1613,7 +1620,8 @@
           280
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -1643,7 +1651,8 @@
           290
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -1673,7 +1682,8 @@
           370
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [],
       "right": [
         [
@@ -1702,7 +1712,8 @@
           350
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [],
       "right": [
         [
@@ -1731,7 +1742,8 @@
           291
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -1761,7 +1773,8 @@
           326
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -1791,7 +1804,8 @@
           352
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [],
       "right": [
         [
@@ -1820,7 +1834,8 @@
           355
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [],
       "right": [
         [
@@ -1849,7 +1864,8 @@
           343
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [],
       "right": [
         [
@@ -1878,7 +1894,8 @@
           353
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [],
       "right": [
         [
@@ -1907,12 +1924,13 @@
           356
         ]
       ],
-      "right_excess_quiet_wait": [
+      "right_excess_wait": [
         [
           356,
           357
         ]
       ],
+      "right_wait_boundary": null,
       "left": [],
       "right": [
         [
@@ -1945,12 +1963,13 @@
           310
         ]
       ],
-      "right_excess_quiet_wait": [
+      "right_excess_wait": [
         [
           336,
           337
         ]
       ],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -1984,7 +2003,8 @@
           339
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [],
       "right": [
         [
@@ -2013,7 +2033,8 @@
           321
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [],
       "right": [
         [
@@ -2042,7 +2063,8 @@
           355
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -2076,12 +2098,13 @@
           244
         ]
       ],
-      "right_excess_quiet_wait": [
+      "right_excess_wait": [
         [
           244,
           245
         ]
       ],
+      "right_wait_boundary": null,
       "left": [],
       "right": [
         [
@@ -2114,7 +2137,8 @@
           238
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [],
       "right": [
         [
@@ -2143,7 +2167,7 @@
           232
         ]
       ],
-      "right_excess_quiet_wait": [
+      "right_excess_wait": [
         [
           233,
           261
@@ -2157,6 +2181,7 @@
           280
         ]
       ],
+      "right_wait_boundary": null,
       "left": [
         [
           489,
@@ -2198,7 +2223,8 @@
           227
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [],
       "right": [
         [
@@ -2227,7 +2253,8 @@
           236
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           438,
@@ -2257,12 +2284,13 @@
           243
         ]
       ],
-      "right_excess_quiet_wait": [
+      "right_excess_wait": [
         [
           251,
           258
         ]
       ],
+      "right_wait_boundary": null,
       "left": [],
       "right": [
         [
@@ -2295,7 +2323,8 @@
           295
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [],
       "right": [
         [
@@ -2324,12 +2353,13 @@
           238
         ]
       ],
-      "right_excess_quiet_wait": [
+      "right_excess_wait": [
         [
           245,
           247
         ]
       ],
+      "right_wait_boundary": null,
       "left": [],
       "right": [
         [
@@ -2358,7 +2388,8 @@
           213
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [],
       "right": [
         [
@@ -2387,7 +2418,8 @@
           191
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -2417,7 +2449,8 @@
           206
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [],
       "right": [
         [
@@ -2446,7 +2479,7 @@
           220
         ]
       ],
-      "right_excess_quiet_wait": [
+      "right_excess_wait": [
         [
           220,
           227
@@ -2456,6 +2489,7 @@
           239
         ]
       ],
+      "right_wait_boundary": null,
       "left": [],
       "right": [
         [
@@ -2492,7 +2526,8 @@
           208
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [],
       "right": [
         [
@@ -2521,12 +2556,13 @@
           247
         ]
       ],
-      "right_excess_quiet_wait": [
+      "right_excess_wait": [
         [
           248,
           274
         ]
       ],
+      "right_wait_boundary": null,
       "left": [
         [
           414,
@@ -2556,7 +2592,7 @@
           265
         ]
       ],
-      "right_excess_quiet_wait": [
+      "right_excess_wait": [
         [
           265,
           266
@@ -2566,6 +2602,7 @@
           311
         ]
       ],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -2598,7 +2635,7 @@
           270
         ]
       ],
-      "right_excess_quiet_wait": [
+      "right_excess_wait": [
         [
           270,
           275
@@ -2608,6 +2645,7 @@
           318
         ]
       ],
+      "right_wait_boundary": null,
       "left": [
         [
           444,
@@ -2645,7 +2683,7 @@
           206
         ]
       ],
-      "right_excess_quiet_wait": [
+      "right_excess_wait": [
         [
           223,
           242
@@ -2663,6 +2701,7 @@
           304
         ]
       ],
+      "right_wait_boundary": null,
       "left": [
         [
           502,
@@ -2703,7 +2742,8 @@
           218
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [],
       "right": [
         [
@@ -2732,7 +2772,8 @@
           231
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [],
       "right": [
         [
@@ -2757,7 +2798,8 @@
           203
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -2787,7 +2829,8 @@
           330
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -2817,32 +2860,17 @@
           322
         ]
       ],
-      "right_excess_quiet_wait": [
+      "right_excess_wait": [
         [
-          331,
-          333
-        ],
-        [
-          338,
-          339
-        ],
-        [
-          348,
-          360
-        ],
-        [
-          363,
-          369
-        ],
-        [
-          377,
-          394
-        ],
-        [
-          402,
+          322,
           420
         ]
       ],
+      "right_wait_boundary": {
+        "close_preparation_source_frame": 454,
+        "evidence": "Reviewed output 001 frames 431,500,527,535,547,551. Right gripper command begins a sustained change at output 528 / source455 (17.92 to17.43mm), so retain preceding departure frame527 / source454 and subsequent preparation. Drawer close marker is source474 / output547.",
+        "scope": "Both timing variants of original source4; other sources retain their existing masks pending phase-boundary review."
+      },
       "left": [
         [
           0,
@@ -2855,27 +2883,7 @@
       ],
       "right": [
         [
-          331,
-          333
-        ],
-        [
-          338,
-          339
-        ],
-        [
-          348,
-          360
-        ],
-        [
-          363,
-          369
-        ],
-        [
-          377,
-          394
-        ],
-        [
-          402,
+          322,
           420
         ]
       ]
@@ -2896,7 +2904,7 @@
           317
         ]
       ],
-      "right_excess_quiet_wait": [
+      "right_excess_wait": [
         [
           320,
           327
@@ -2914,6 +2922,7 @@
           376
         ]
       ],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -2959,7 +2968,8 @@
           323
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -2989,7 +2999,8 @@
           250
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -3019,7 +3030,8 @@
           260
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -3049,7 +3061,8 @@
           288
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -3074,7 +3087,8 @@
           248
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -3104,7 +3118,7 @@
           275
         ]
       ],
-      "right_excess_quiet_wait": [
+      "right_excess_wait": [
         [
           275,
           284
@@ -3114,6 +3128,7 @@
           297
         ]
       ],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -3151,7 +3166,8 @@
           295
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -3181,7 +3197,7 @@
           265
         ]
       ],
-      "right_excess_quiet_wait": [
+      "right_excess_wait": [
         [
           265,
           266
@@ -3195,6 +3211,7 @@
           315
         ]
       ],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -3231,7 +3248,7 @@
           216
         ]
       ],
-      "right_excess_quiet_wait": [
+      "right_excess_wait": [
         [
           216,
           221
@@ -3241,6 +3258,7 @@
           230
         ]
       ],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -3278,7 +3296,8 @@
           231
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -3303,7 +3322,8 @@
           257
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -3333,7 +3353,7 @@
           228
         ]
       ],
-      "right_excess_quiet_wait": [
+      "right_excess_wait": [
         [
           228,
           229
@@ -3343,6 +3363,7 @@
           259
         ]
       ],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -3375,7 +3396,7 @@
           253
         ]
       ],
-      "right_excess_quiet_wait": [
+      "right_excess_wait": [
         [
           255,
           256
@@ -3385,6 +3406,7 @@
           280
         ]
       ],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -3417,7 +3439,8 @@
           228
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -3442,7 +3465,8 @@
           242
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -3467,7 +3491,8 @@
           272
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -3497,7 +3522,8 @@
           210
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -3522,7 +3548,8 @@
           283
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -3547,7 +3574,8 @@
           269
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -3572,7 +3600,8 @@
           286
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -3597,7 +3626,8 @@
           246
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -3622,7 +3652,8 @@
           267
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -3647,7 +3678,8 @@
           283
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -3672,7 +3704,7 @@
           261
         ]
       ],
-      "right_excess_quiet_wait": [
+      "right_excess_wait": [
         [
           262,
           270
@@ -3682,6 +3714,7 @@
           282
         ]
       ],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -3714,7 +3747,7 @@
           235
         ]
       ],
-      "right_excess_quiet_wait": [
+      "right_excess_wait": [
         [
           317,
           324
@@ -3728,6 +3761,7 @@
           354
         ]
       ],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -3764,7 +3798,8 @@
           321
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -3789,7 +3824,8 @@
           310
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -3814,7 +3850,8 @@
           268
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -3839,7 +3876,8 @@
           275
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -3864,7 +3902,8 @@
           268
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -3889,7 +3928,8 @@
           281
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -3914,7 +3954,8 @@
           242
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -3939,7 +3980,8 @@
           276
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -3964,7 +4006,8 @@
           282
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -3989,7 +4032,8 @@
           296
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -4014,7 +4058,8 @@
           317
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -4044,7 +4089,8 @@
           262
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -4069,7 +4115,8 @@
           392
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -4094,7 +4141,8 @@
           389
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -4124,7 +4172,8 @@
           288
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -4154,7 +4203,8 @@
           280
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -4179,7 +4229,8 @@
           291
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -4204,7 +4255,8 @@
           401
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -4229,7 +4281,8 @@
           381
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -4254,7 +4307,8 @@
           298
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -4279,7 +4333,8 @@
           347
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -4304,7 +4359,8 @@
           399
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -4329,7 +4385,8 @@
           408
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -4354,7 +4411,8 @@
           402
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -4379,7 +4437,8 @@
           419
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -4404,12 +4463,13 @@
           425
         ]
       ],
-      "right_excess_quiet_wait": [
+      "right_excess_wait": [
         [
           425,
           426
         ]
       ],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -4438,12 +4498,13 @@
           326
         ]
       ],
-      "right_excess_quiet_wait": [
+      "right_excess_wait": [
         [
           336,
           337
         ]
       ],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -4472,7 +4533,8 @@
           415
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -4497,7 +4559,8 @@
           399
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -4522,7 +4585,8 @@
           361
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -4551,12 +4615,13 @@
           318
         ]
       ],
-      "right_excess_quiet_wait": [
+      "right_excess_wait": [
         [
           318,
           319
         ]
       ],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -4585,7 +4650,8 @@
           316
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -4610,7 +4676,8 @@
           315
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -4635,7 +4702,8 @@
           305
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -4660,7 +4728,8 @@
           321
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -4685,7 +4754,8 @@
           342
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -4710,7 +4780,8 @@
           397
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -4735,7 +4806,8 @@
           334
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -4760,7 +4832,8 @@
           318
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -4785,7 +4858,8 @@
           241
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -4810,7 +4884,8 @@
           315
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -4835,7 +4910,8 @@
           343
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -4860,7 +4936,8 @@
           317
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -4885,7 +4962,8 @@
           395
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -4910,7 +4988,8 @@
           391
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -4935,7 +5014,8 @@
           420
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -4960,7 +5040,8 @@
           344
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -4985,7 +5066,8 @@
           289
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -5010,7 +5092,8 @@
           384
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
@@ -5039,7 +5122,8 @@
           341
         ]
       ],
-      "right_excess_quiet_wait": [],
+      "right_excess_wait": [],
+      "right_wait_boundary": null,
       "left": [
         [
           0,
