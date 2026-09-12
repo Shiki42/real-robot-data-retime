@@ -22,6 +22,22 @@ uses the same continuously validated planner for rendering. Episode 0 uses the d
 `configs/workpiece-wait-padding-4cm.json` and
 `configs/workpiece-wait-padding-9cm.json`, respectively.
 
+## Full preparation onset correction
+
+Visual `approach_start` annotations locate approach near the work area; they are
+not source motion onsets. The planner now reuses measured-joint motion energy
+and the original sequential phase split to find each preparation onset, with
+boundary padding, before constructing both source clocks. No cumulative-energy
+fraction is used to trim the beginning. Both clocks advance from output frame 0.
+The first right waiting pose remains outside the configured volume.
+
+For Episodes 0 / 1 / 2, the right source starts are 507 / 497 / 643, replacing
+547 / 532 / 674. This restores 40 / 35 / 31 source frames before the prior visual
+approach annotations. Left source starts are likewise 0 / 0 / 28 rather than
+63 / 31 / 50. Stage receipts report both the motion onsets and the old annotation
+anchors; regression coverage checks that a late visual annotation cannot cut
+off the measured preparation motion.
+
 ## Historical experiments (superseded geometry and release rules)
 
 # Backdated withdrawal with 1.55 cm measured-state URDF clearance

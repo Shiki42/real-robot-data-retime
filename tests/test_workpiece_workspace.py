@@ -92,3 +92,27 @@ def test_short_brake_preserves_every_frame_through_placement():
     assert ramps[0]["brake_intervals"] == 2
     assert clock[holds[0]] == 31
     assert ramps[0]["brake_source_start"] == 30
+
+
+def test_joint_onsets_restore_preparation_before_late_visual_annotations():
+    from real_robot_data_retime.timeline.workpiece_workspace import (
+        preparation_onsets,
+        source_clocks,
+    )
+
+    state = np.zeros((220, 14))
+    state[:60, :6] = np.arange(60)[:, None]
+    state[60:, :6] = 59
+    state[90:, 7:13] = np.arange(130)[:, None]
+    own = [
+        [{"approach_start": 20, "release_frame": 55}, {"retract_end": 80}],
+        [{"approach_start": 125, "release_frame": 155}, {"retract_end": 195}],
+    ]
+    starts = preparation_onsets(state, state.copy(), own)
+    assert starts[0] == 0
+    assert 60 < starts[1] <= 90
+    assert own[1][0]["approach_start"] == 125
+    clocks, _, _ = source_clocks(own, [[65], [135, 175]], 30, starts=starts)
+    assert clocks[1][0] == starts[1]
+    assert np.max(np.diff(clocks[1])) <= 1 + 1e-8
+    assert np.all(np.diff(clocks[1][: 125 - starts[1]]) > 0)

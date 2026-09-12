@@ -1,0 +1,113 @@
+[
+  {
+    "episode": 0,
+    "base_spacing_m": 0.59,
+    "required_clearance_m": 0.05,
+    "minimum_sampled_gap_mm": 51.70817515804792,
+    "continuous_mesh_audit": {
+      "observation.state": {
+        "passed": true,
+        "checked_interior_samples": 970
+      }
+    },
+    "source_origin_passed": true,
+    "initial_source_frames": [
+      0.0,
+      507.0
+    ],
+    "preparation_onsets": {
+      "method": "first smoothed measured-joint motion in each sequential source phase, with boundary padding",
+      "event_approach_start_frames": [
+        63,
+        547
+      ],
+      "restored_source_frames": [
+        63,
+        40
+      ]
+    },
+    "right_preparation": {
+      "source_start_frame": 507,
+      "source_end_frame": 566,
+      "output_start_frame": 0,
+      "output_end_frame": 66
+    },
+    "initial_joint_rows_match_source": true,
+    "no_source_clock_skips": true,
+    "video_sha256": "7caf7af194ae5d0452aeb4e75dc7f78cec3d37e3ae7febd8d88aecb1b8adbdba"
+  },
+  {
+    "episode": 1,
+    "base_spacing_m": 0.59,
+    "required_clearance_m": 0.05,
+    "minimum_sampled_gap_mm": 51.8854858695698,
+    "continuous_mesh_audit": {
+      "observation.state": {
+        "passed": true,
+        "checked_interior_samples": 1954
+      }
+    },
+    "source_origin_passed": true,
+    "initial_source_frames": [
+      0.0,
+      497.0
+    ],
+    "preparation_onsets": {
+      "method": "first smoothed measured-joint motion in each sequential source phase, with boundary padding",
+      "event_approach_start_frames": [
+        31,
+        532
+      ],
+      "restored_source_frames": [
+        31,
+        35
+      ]
+    },
+    "right_preparation": {
+      "source_start_frame": 497,
+      "source_end_frame": 535,
+      "output_start_frame": 0,
+      "output_end_frame": 45
+    },
+    "initial_joint_rows_match_source": true,
+    "no_source_clock_skips": true,
+    "video_sha256": "64bacbf5a51c81f5600ddb605dd3a79d47cf7f1880bd94b6a0fcf20279ed54b3"
+  },
+  {
+    "episode": 2,
+    "base_spacing_m": 0.59,
+    "required_clearance_m": 0.05,
+    "minimum_sampled_gap_mm": 53.21541547440544,
+    "continuous_mesh_audit": {
+      "observation.state": {
+        "passed": true,
+        "checked_interior_samples": 1196
+      }
+    },
+    "source_origin_passed": true,
+    "initial_source_frames": [
+      28.0,
+      643.0
+    ],
+    "preparation_onsets": {
+      "method": "first smoothed measured-joint motion in each sequential source phase, with boundary padding",
+      "event_approach_start_frames": [
+        50,
+        674
+      ],
+      "restored_source_frames": [
+        22,
+        31
+      ]
+    },
+    "right_preparation": {
+      "source_start_frame": 643,
+      "source_end_frame": 676,
+      "output_start_frame": 0,
+      "output_end_frame": 40
+    },
+    "initial_joint_rows_match_source": true,
+    "no_source_clock_skips": true,
+    "video_sha256": "10a5f2ddaa06e0dd2fd2b802901ec010de2b452ee7b68c8ebebab843d294627f"
+  }
+]

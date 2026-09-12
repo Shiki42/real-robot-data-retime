@@ -77,11 +77,33 @@ def workspace_events(tcp, events, config):
     return records
 
 
-def source_clocks(own, stops, fps):
+def preparation_onsets(state, action, own):
+    """Recover motion before visual work-area approach annotations."""
+    from ..retime import MotionHeuristic, arm_motion_energy, detect_arm_segments
+
+    heuristic = MotionHeuristic()
+    segments = detect_arm_segments(state, action, heuristic)
+    starts = []
+    for side, phase_start in enumerate((0, segments.split)):
+        anchor = own[side][0]["approach_start"]
+        energy = arm_motion_energy(state, ("left", "right")[side], heuristic)
+        active = np.flatnonzero(energy[phase_start : anchor + 1] > 0)
+        if not len(active):
+            raise ValueError("no preparation motion before approach annotation")
+        starts.append(
+            max(
+                phase_start,
+                phase_start + int(active[0]) - heuristic.boundary_padding_frames,
+            )
+        )
+    return starts
+
+
+def source_clocks(own, stops, fps, *, starts):
     clocks, holds, ramps = [], [], []
     for side in range(2):
         clock, hold, ramp = approach_clock(
-            own[side][0]["approach_start"],
+            starts[side],
             own[side][-1]["retract_end"],
             stops[side],
             fps,
@@ -132,12 +154,13 @@ def plan_workspace(timeline, joints, config=DEFAULT_WORKSPACE):
     from .scheduler import schedule_sources
 
     began = perf_counter()
-    state, _, urdf, mesh_root = joints
+    state, action, urdf, mesh_root = joints
     clearance = config["minimum_clearance_m"]
     fk = PiperXClearance(
         state[:, :7], state[:, 7:], Path(urdf), Path(mesh_root), margin_m=clearance
     )
     own = workpiece_events(timeline["episodes"])
+    starts = preparation_onsets(state, action, own)
     # The box defines waiting poses only. Withdrawal is not an admission gate.
     lo, hi = np.asarray(config["minimum_m"]), np.asarray(config["maximum_m"])
     radius = config["ee_radius_m"] + config["waiting_padding_m"]
@@ -155,12 +178,12 @@ def plan_workspace(timeline, joints, config=DEFAULT_WORKSPACE):
     stops = [[], []]
     for side, cycle in [(0, 1), (1, 0), (1, 1)]:
         event = own[side][cycle]
-        start = event["approach_start"]
+        start = starts[side] if cycle == 0 else event["approach_start"]
         hits = np.flatnonzero(inside[side, start : event["pickup_frame"] + 1]) + start
         if not len(hits) or hits[0] <= start:
             raise ValueError("no outside approach for fixed-volume waiting pose")
         stops[side].append(int(hits[0]) - 1)
-    clocks, holds, ramps = source_clocks(own, stops, timeline["fps"])
+    clocks, holds, ramps = source_clocks(own, stops, timeline["fps"], starts=starts)
     pose_cache = [{float(i): p for i, p in enumerate(arm)} for arm in fk.poses]
     configuration_cache = {}
     check = ContinuousClearance.on_source_clocks(
@@ -229,10 +252,24 @@ def plan_workspace(timeline, joints, config=DEFAULT_WORKSPACE):
         "wait_source_frames": {"left": stops[0], "right": stops[1]},
         "initial_source_frames": [c[0] for c in clocks],
         "onset_delay_frames": [0, 0],
-        "right_preparation": {"source_end_frame": stops[1][0]},
+        "right_preparation": {
+            "source_start_frame": starts[1],
+            "source_end_frame": stops[1][0],
+            "output_start_frame": 0,
+            "output_end_frame": int(np.flatnonzero(right >= stops[1][0])[0]),
+        },
+        "preparation_onsets": {
+            "method": "first smoothed measured-joint motion in each sequential source phase, with boundary padding",
+            "event_approach_start_frames": [
+                group[0]["approach_start"] for group in own
+            ],
+            "restored_source_frames": [
+                group[0]["approach_start"] - start for group, start in zip(own, starts)
+            ],
+        },
         "protected_source_intervals": {
             "left": [
-                [own[0][0]["approach_start"], own[0][0]["release_frame"]],
+                [starts[0], own[0][0]["release_frame"]],
                 [stops[0][0] + up, own[0][1]["retract_end"]],
             ],
             "right": [
