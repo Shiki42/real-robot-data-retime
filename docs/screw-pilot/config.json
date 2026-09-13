@@ -357,156 +357,166 @@
   "restart_seconds": 0.3,
   "ready_pose_method": "candidate waiting poses for the earlier arm; later arm flows through; short leads use positive-speed approach adjustment",
   "right_payload_prompts": [
-    {
-      "pickup_frame": 259,
-      "source_frame": 350,
-      "bbox": [
-        309,
-        115,
-        62,
-        150
-      ],
-      "positive_points": [
-        [
-          337,
-          148
+    [
+      {
+        "pickup_frame": 259,
+        "source_frame": 350,
+        "bbox": [
+          309,
+          115,
+          62,
+          150
         ],
-        [
-          327,
-          234
+        "positive_points": [
+          [
+            337,
+            148
+          ],
+          [
+            327,
+            234
+          ]
+        ],
+        "negative_points": [
+          [
+            380,
+            210
+          ],
+          [
+            330,
+            187
+          ]
         ]
-      ],
-      "negative_points": [
-        [
+      }
+    ],
+    [
+      {
+        "pickup_frame": 718,
+        "source_frame": 790,
+        "bbox": [
+          350,
+          170,
+          110,
+          160
+        ],
+        "positive_points": [
+          [
+            427,
+            207
+          ],
+          [
+            374,
+            300
+          ]
+        ],
+        "negative_points": [
+          [
+            470,
+            275
+          ],
+          [
+            408,
+            250
+          ]
+        ]
+      }
+    ],
+    [
+      {
+        "pickup_frame": 1230,
+        "source_frame": 1295,
+        "bbox": [
+          322,
+          60,
+          78,
+          202
+        ],
+        "positive_points": [
+          [
+            367,
+            95
+          ],
+          [
+            343,
+            224
+          ]
+        ],
+        "negative_points": [
+          [
+            425,
+            170
+          ],
+          [
+            354,
+            152
+          ]
+        ]
+      }
+    ],
+    [
+      {
+        "pickup_frame": 1716,
+        "source_frame": 1778,
+        "bbox": [
           380,
-          210
+          78,
+          106,
+          213
         ],
-        [
-          330,
-          187
-        ]
-      ]
-    },
-    {
-      "pickup_frame": 718,
-      "source_frame": 790,
-      "bbox": [
-        350,
-        170,
-        110,
-        160
-      ],
-      "positive_points": [
-        [
-          427,
-          207
+        "positive_points": [
+          [
+            445,
+            117
+          ],
+          [
+            402,
+            257
+          ]
         ],
-        [
-          374,
-          300
+        "negative_points": [
+          [
+            480,
+            210
+          ],
+          [
+            429,
+            190
+          ]
         ]
-      ],
-      "negative_points": [
-        [
-          470,
-          275
+      }
+    ],
+    [
+      {
+        "pickup_frame": 2311,
+        "source_frame": 2390,
+        "bbox": [
+          300,
+          0,
+          70,
+          193
         ],
-        [
-          408,
-          250
-        ]
-      ]
-    },
-    {
-      "pickup_frame": 1230,
-      "source_frame": 1295,
-      "bbox": [
-        322,
-        60,
-        78,
-        202
-      ],
-      "positive_points": [
-        [
-          367,
-          95
+        "positive_points": [
+          [
+            332,
+            28
+          ],
+          [
+            324,
+            157
+          ]
         ],
-        [
-          343,
-          224
+        "negative_points": [
+          [
+            355,
+            90
+          ],
+          [
+            420,
+            120
+          ]
         ]
-      ],
-      "negative_points": [
-        [
-          425,
-          170
-        ],
-        [
-          354,
-          152
-        ]
-      ]
-    },
-    {
-      "pickup_frame": 1716,
-      "source_frame": 1778,
-      "bbox": [
-        380,
-        78,
-        106,
-        213
-      ],
-      "positive_points": [
-        [
-          445,
-          117
-        ],
-        [
-          402,
-          257
-        ]
-      ],
-      "negative_points": [
-        [
-          480,
-          210
-        ],
-        [
-          429,
-          190
-        ]
-      ]
-    },
-    {
-      "pickup_frame": 2311,
-      "source_frame": 2390,
-      "bbox": [
-        300,
-        0,
-        70,
-        193
-      ],
-      "positive_points": [
-        [
-          332,
-          28
-        ],
-        [
-          324,
-          157
-        ]
-      ],
-      "negative_points": [
-        [
-          355,
-          90
-        ],
-        [
-          420,
-          120
-        ]
-      ]
-    }
+      }
+    ]
   ],
   "right_retreat_ends": [
     469,
@@ -515,5 +525,231 @@
     2063,
     2607
   ],
-  "right_retreat_end_method": "reviewed settled pose after downward withdrawal; final cycle retains the recorded episode end"
+  "right_retreat_end_method": "reviewed settled pose after downward withdrawal; final cycle retains the recorded episode end",
+  "preparation_frames": [
+    [
+      316,
+      349
+    ],
+    [
+      773,
+      790
+    ],
+    [
+      1296,
+      1294
+    ],
+    [
+      1778,
+      1778
+    ],
+    [
+      2376,
+      2384
+    ]
+  ],
+  "readiness_evidence": [
+    [
+      {
+        "reference_source_frame": 361,
+        "ready_source_frame": 316,
+        "position_tolerance_mm": 5.0,
+        "orientation_tolerance_deg": 2.0,
+        "gripper_tolerance_mm": 0.5,
+        "measured_and_commanded": [
+          {
+            "max_position_mm": 4.020608237867027,
+            "max_orientation_deg": 0.7377259628063486,
+            "max_gripper_mm": 0.0
+          },
+          {
+            "max_position_mm": 1.6312544653610839,
+            "max_orientation_deg": 0.3690013885307402,
+            "max_gripper_mm": 0.0
+          }
+        ]
+      },
+      {
+        "reference_source_frame": 350,
+        "ready_source_frame": 349,
+        "position_tolerance_mm": 5.0,
+        "orientation_tolerance_deg": 2.0,
+        "gripper_tolerance_mm": 0.5,
+        "measured_and_commanded": [
+          {
+            "max_position_mm": 3.3085056910708186,
+            "max_orientation_deg": 0.53649363112508,
+            "max_gripper_mm": 0.0
+          },
+          {
+            "max_position_mm": 0.0411029191867388,
+            "max_orientation_deg": 0.02143693875599639,
+            "max_gripper_mm": 0.0
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "reference_source_frame": 801,
+        "ready_source_frame": 773,
+        "position_tolerance_mm": 5.0,
+        "orientation_tolerance_deg": 2.0,
+        "gripper_tolerance_mm": 0.5,
+        "measured_and_commanded": [
+          {
+            "max_position_mm": 3.5682136637078496,
+            "max_orientation_deg": 0.8729606313756915,
+            "max_gripper_mm": 0.0
+          },
+          {
+            "max_position_mm": 6.797818862303594,
+            "max_orientation_deg": 2.277037143809004,
+            "max_gripper_mm": 0.0
+          }
+        ]
+      },
+      {
+        "reference_source_frame": 790,
+        "ready_source_frame": 790,
+        "position_tolerance_mm": 5.0,
+        "orientation_tolerance_deg": 2.0,
+        "gripper_tolerance_mm": 0.5,
+        "measured_and_commanded": [
+          {
+            "max_position_mm": 0.0,
+            "max_orientation_deg": 0.0,
+            "max_gripper_mm": 0.0
+          },
+          {
+            "max_position_mm": 0.0,
+            "max_orientation_deg": 0.0,
+            "max_gripper_mm": 0.0
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "reference_source_frame": 1306,
+        "ready_source_frame": 1296,
+        "position_tolerance_mm": 5.0,
+        "orientation_tolerance_deg": 2.0,
+        "gripper_tolerance_mm": 0.5,
+        "measured_and_commanded": [
+          {
+            "max_position_mm": 4.3304168750629035,
+            "max_orientation_deg": 1.4224573985908051,
+            "max_gripper_mm": 0.0
+          },
+          {
+            "max_position_mm": 8.10308615714955,
+            "max_orientation_deg": 2.437815410595136,
+            "max_gripper_mm": 0.0
+          }
+        ]
+      },
+      {
+        "reference_source_frame": 1295,
+        "ready_source_frame": 1294,
+        "position_tolerance_mm": 5.0,
+        "orientation_tolerance_deg": 2.0,
+        "gripper_tolerance_mm": 0.5,
+        "measured_and_commanded": [
+          {
+            "max_position_mm": 2.3958635728262103,
+            "max_orientation_deg": 0.4703002227622609,
+            "max_gripper_mm": 0.0
+          },
+          {
+            "max_position_mm": 0.9854951530708039,
+            "max_orientation_deg": 0.7742556332988986,
+            "max_gripper_mm": 0.0
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "reference_source_frame": 1781,
+        "ready_source_frame": 1778,
+        "position_tolerance_mm": 5.0,
+        "orientation_tolerance_deg": 2.0,
+        "gripper_tolerance_mm": 0.5,
+        "measured_and_commanded": [
+          {
+            "max_position_mm": 4.883398874187701,
+            "max_orientation_deg": 1.3941902567064695,
+            "max_gripper_mm": 0.0
+          },
+          {
+            "max_position_mm": 1.0165259426448852,
+            "max_orientation_deg": 0.34099960325015377,
+            "max_gripper_mm": 0.0
+          }
+        ]
+      },
+      {
+        "reference_source_frame": 1778,
+        "ready_source_frame": 1778,
+        "position_tolerance_mm": 5.0,
+        "orientation_tolerance_deg": 2.0,
+        "gripper_tolerance_mm": 0.5,
+        "measured_and_commanded": [
+          {
+            "max_position_mm": 0.0,
+            "max_orientation_deg": 0.0,
+            "max_gripper_mm": 0.0
+          },
+          {
+            "max_position_mm": 0.0,
+            "max_orientation_deg": 0.0,
+            "max_gripper_mm": 0.0
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "reference_source_frame": 2401,
+        "ready_source_frame": 2376,
+        "position_tolerance_mm": 5.0,
+        "orientation_tolerance_deg": 2.0,
+        "gripper_tolerance_mm": 0.5,
+        "measured_and_commanded": [
+          {
+            "max_position_mm": 4.5198071327717235,
+            "max_orientation_deg": 1.0527163289679304,
+            "max_gripper_mm": 0.0
+          },
+          {
+            "max_position_mm": 0.5918549550440122,
+            "max_orientation_deg": 0.14700031275849987,
+            "max_gripper_mm": 0.0
+          }
+        ]
+      },
+      {
+        "reference_source_frame": 2390,
+        "ready_source_frame": 2384,
+        "position_tolerance_mm": 5.0,
+        "orientation_tolerance_deg": 2.0,
+        "gripper_tolerance_mm": 0.5,
+        "measured_and_commanded": [
+          {
+            "max_position_mm": 2.8880169425853413,
+            "max_orientation_deg": 0.3865842393555356,
+            "max_gripper_mm": 0.0
+          },
+          {
+            "max_position_mm": 3.768497702511356,
+            "max_orientation_deg": 0.5919566775889632,
+            "max_gripper_mm": 0.0
+          }
+        ]
+      }
+    ]
+  ],
+  "readiness_source_data_sha256": "ca3f91e6352542587231b5885d43a3dfe322f03018418842c8bd969413d2fdb2",
+  "readiness_urdf_sha256": "ff79435a5a849a5a783d68d2603a17c2329ff6c5bff654f3f8aedc5e71d0b865"
 }

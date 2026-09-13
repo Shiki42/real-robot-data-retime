@@ -1,0 +1,31 @@
+{
+  "artifact_directory": "/home/coder/share/screw-retiming-20260912/cohort",
+  "episodes": [
+    0,
+    1,
+    2,
+    12,
+    24
+  ],
+  "timings": [
+    0.15,
+    0.5,
+    0.85
+  ],
+  "visual_sampling": "per cycle insertion start minus 12 frames, right retreat end minus 6 frames; all timings",
+  "fixes": [
+    "episode 0 round 3 high-arm foreground seed",
+    "episode 2 round 5 complete right gripper foreground"
+  ],
+  "limitations": [
+    "visual sampling is not an exhaustive frame-by-frame segmentation audit",
+    "episode 24 has visible background brightness seams around scene ownership boundaries"
+  ],
+  "regression": {
+    "episode": 1,
+    "case": "screw-50",
+    "output_frame": 709,
+    "left_source": 807,
+    "right_source": 807
+  }
+}

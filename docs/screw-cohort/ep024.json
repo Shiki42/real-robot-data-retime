@@ -1,0 +1,1048 @@
+{
+  "source_repo": "Shiki42/piperx-screw-0910-25ep-raw",
+  "source_revision": "824b6382ef4858213e6ea42ea61104110d911448",
+  "episode_index": 24,
+  "camera": "observation.images.right_environment_1",
+  "coupled_intervals": [
+    [
+      328,
+      395
+    ],
+    [
+      715,
+      781
+    ],
+    [
+      1110,
+      1159
+    ],
+    [
+      1495,
+      1545
+    ],
+    [
+      1900,
+      1997
+    ]
+  ],
+  "positions": [
+    0.15,
+    0.5,
+    0.85
+  ],
+  "boundary_method": "reviewed pre-contact coupled boundaries; independent pickup includes approach to per-arm ready poses; restart finishes before original coupled insertion",
+  "workspace_split_x": 330,
+  "collision_policy": "independent pickup workspaces assumed disjoint as specified by user; no new metric collision claim",
+  "left_scene_boxes": [
+    [
+      245,
+      160,
+      175,
+      130
+    ]
+  ],
+  "right_segmentation_prompts": [
+    {
+      "source_frame": 364,
+      "bbox": [
+        290,
+        0,
+        350,
+        480
+      ],
+      "positive_points": [
+        [
+          407.0,
+          292.0
+        ],
+        [
+          472.0,
+          259.5
+        ],
+        [
+          539.0,
+          316.5
+        ],
+        [
+          579.0,
+          257.0
+        ],
+        [
+          629.0,
+          285.0
+        ]
+      ],
+      "negative_points": [
+        [
+          160,
+          350
+        ],
+        [
+          240,
+          340
+        ]
+      ]
+    },
+    {
+      "source_frame": 744,
+      "bbox": [
+        290,
+        0,
+        350,
+        480
+      ],
+      "positive_points": [
+        [
+          429.0,
+          239.0
+        ],
+        [
+          496.0,
+          294.5
+        ],
+        [
+          548.0,
+          264.0
+        ],
+        [
+          595.0,
+          269.5
+        ],
+        [
+          630.0,
+          268.5
+        ]
+      ],
+      "negative_points": [
+        [
+          160,
+          350
+        ],
+        [
+          240,
+          340
+        ]
+      ]
+    },
+    {
+      "source_frame": 1134,
+      "bbox": [
+        290,
+        0,
+        350,
+        480
+      ],
+      "positive_points": [
+        [
+          441.0,
+          230.5
+        ],
+        [
+          491.0,
+          249.5
+        ],
+        [
+          542.0,
+          245.0
+        ],
+        [
+          590.0,
+          252.5
+        ],
+        [
+          625.0,
+          244.5
+        ]
+      ],
+      "negative_points": [
+        [
+          160,
+          350
+        ],
+        [
+          240,
+          340
+        ]
+      ]
+    },
+    {
+      "source_frame": 1522,
+      "bbox": [
+        290,
+        0,
+        350,
+        480
+      ],
+      "positive_points": [
+        [
+          586.0,
+          239.0
+        ],
+        [
+          596.0,
+          255.5
+        ],
+        [
+          606.0,
+          291.5
+        ],
+        [
+          621.0,
+          321.0
+        ],
+        [
+          636.0,
+          342.0
+        ]
+      ],
+      "negative_points": [
+        [
+          160,
+          350
+        ],
+        [
+          240,
+          340
+        ]
+      ]
+    },
+    {
+      "source_frame": 1953,
+      "bbox": [
+        290,
+        0,
+        350,
+        480
+      ],
+      "positive_points": [
+        [
+          454.0,
+          243.5
+        ],
+        [
+          512.0,
+          236.0
+        ],
+        [
+          565.0,
+          248.5
+        ],
+        [
+          606.0,
+          258.5
+        ],
+        [
+          633.0,
+          265.0
+        ]
+      ],
+      "negative_points": [
+        [
+          160,
+          350
+        ],
+        [
+          240,
+          340
+        ]
+      ]
+    }
+  ],
+  "prompt_method": "automatic left prompts in rounds 1-2; reviewed manual left prompts in rounds 3-5 and right prompts in every round; all recorded explicitly",
+  "left_segmentation_prompts": [
+    {
+      "source_frame": 310,
+      "bbox": [
+        0,
+        120,
+        360,
+        360
+      ],
+      "positive_points": [
+        [
+          10.0,
+          322.5
+        ],
+        [
+          62.0,
+          338.0
+        ],
+        [
+          139.0,
+          319.0
+        ],
+        [
+          219.0,
+          336.0
+        ],
+        [
+          277.0,
+          225.0
+        ]
+      ],
+      "negative_points": [
+        [
+          540,
+          350
+        ]
+      ]
+    },
+    {
+      "source_frame": 697,
+      "bbox": [
+        0,
+        120,
+        360,
+        360
+      ],
+      "positive_points": [
+        [
+          11.0,
+          367.5
+        ],
+        [
+          58.0,
+          292.5
+        ],
+        [
+          135.0,
+          301.0
+        ],
+        [
+          215.0,
+          297.0
+        ],
+        [
+          276.0,
+          213.0
+        ]
+      ],
+      "negative_points": [
+        [
+          540,
+          350
+        ]
+      ]
+    },
+    {
+      "source_frame": 1092,
+      "bbox": [
+        0,
+        120,
+        360,
+        360
+      ],
+      "positive_points": [
+        [
+          10.0,
+          290.0
+        ],
+        [
+          63.0,
+          290.0
+        ],
+        [
+          137.0,
+          275.0
+        ],
+        [
+          211.0,
+          293.5
+        ],
+        [
+          278.0,
+          213.0
+        ]
+      ],
+      "negative_points": [
+        [
+          540,
+          350
+        ]
+      ]
+    },
+    {
+      "source_frame": 1477,
+      "bbox": [
+        0,
+        120,
+        360,
+        360
+      ],
+      "positive_points": [
+        [
+          13.0,
+          232.5
+        ],
+        [
+          71.0,
+          223.5
+        ],
+        [
+          154.0,
+          209.5
+        ],
+        [
+          234.0,
+          239.0
+        ],
+        [
+          284.0,
+          236.5
+        ]
+      ],
+      "negative_points": [
+        [
+          540,
+          350
+        ]
+      ]
+    },
+    {
+      "source_frame": 1882,
+      "bbox": [
+        0,
+        120,
+        360,
+        360
+      ],
+      "positive_points": [
+        [
+          12.0,
+          276.5
+        ],
+        [
+          64.0,
+          269.5
+        ],
+        [
+          133.0,
+          251.5
+        ],
+        [
+          219.0,
+          257.0
+        ],
+        [
+          284.0,
+          220.5
+        ]
+      ],
+      "negative_points": [
+        [
+          540,
+          350
+        ]
+      ]
+    }
+  ],
+  "segmentation_overrides": [
+    {
+      "source_frame": 395,
+      "bbox": [
+        290,
+        0,
+        350,
+        480
+      ],
+      "positive_points": [
+        [
+          425.0,
+          254.5
+        ],
+        [
+          467.0,
+          314.0
+        ],
+        [
+          508.0,
+          304.5
+        ],
+        [
+          580.0,
+          275.0
+        ],
+        [
+          631.0,
+          283.5
+        ]
+      ],
+      "negative_points": [
+        [
+          160,
+          350
+        ],
+        [
+          240,
+          340
+        ]
+      ],
+      "cycle": 1,
+      "side": 1,
+      "start": 395,
+      "stop": 676
+    },
+    {
+      "source_frame": 781,
+      "bbox": [
+        290,
+        0,
+        350,
+        480
+      ],
+      "positive_points": [
+        [
+          427.0,
+          262.5
+        ],
+        [
+          475.0,
+          321.0
+        ],
+        [
+          518.0,
+          308.5
+        ],
+        [
+          577.0,
+          284.5
+        ],
+        [
+          628.0,
+          289.5
+        ]
+      ],
+      "negative_points": [
+        [
+          160,
+          350
+        ],
+        [
+          240,
+          340
+        ]
+      ],
+      "cycle": 2,
+      "side": 1,
+      "start": 781,
+      "stop": 1059
+    },
+    {
+      "source_frame": 1159,
+      "bbox": [
+        290,
+        0,
+        350,
+        480
+      ],
+      "positive_points": [
+        [
+          415.0,
+          248.0
+        ],
+        [
+          484.0,
+          282.0
+        ],
+        [
+          540.0,
+          257.5
+        ],
+        [
+          592.0,
+          263.5
+        ],
+        [
+          630.0,
+          267.5
+        ]
+      ],
+      "negative_points": [
+        [
+          160,
+          350
+        ],
+        [
+          240,
+          340
+        ]
+      ],
+      "cycle": 3,
+      "side": 1,
+      "start": 1159,
+      "stop": 1429
+    },
+    {
+      "source_frame": 1545,
+      "bbox": [
+        290,
+        0,
+        350,
+        480
+      ],
+      "positive_points": [
+        [
+          411.0,
+          237.0
+        ],
+        [
+          524.0,
+          225.0
+        ],
+        [
+          584.0,
+          262.0
+        ],
+        [
+          608.0,
+          239.5
+        ],
+        [
+          633.0,
+          243.0
+        ]
+      ],
+      "negative_points": [
+        [
+          160,
+          350
+        ],
+        [
+          240,
+          340
+        ]
+      ],
+      "cycle": 4,
+      "side": 1,
+      "start": 1545,
+      "stop": 1849
+    }
+  ],
+  "ready_frames": [
+    [
+      324,
+      313
+    ],
+    [
+      711,
+      700
+    ],
+    [
+      1106,
+      1095
+    ],
+    [
+      1491,
+      1480
+    ],
+    [
+      1896,
+      1885
+    ]
+  ],
+  "brake_seconds": 0.5,
+  "restart_seconds": 0.3,
+  "ready_pose_method": "candidate waiting poses for the earlier arm; later arm flows through; short leads use positive-speed approach adjustment",
+  "right_payload_prompts": [
+    [
+      {
+        "pickup_frame": 254,
+        "source_frame": 320,
+        "bbox": [
+          268,
+          65,
+          95,
+          185
+        ],
+        "positive_points": [
+          [
+            313,
+            90
+          ]
+        ],
+        "negative_points": [
+          [
+            600,
+            400
+          ],
+          [
+            150,
+            350
+          ]
+        ]
+      }
+    ],
+    [
+      {
+        "pickup_frame": 660,
+        "source_frame": 707,
+        "bbox": [
+          357,
+          85,
+          95,
+          185
+        ],
+        "positive_points": [
+          [
+            402,
+            110
+          ]
+        ],
+        "negative_points": [
+          [
+            600,
+            400
+          ],
+          [
+            150,
+            350
+          ]
+        ]
+      }
+    ],
+    [
+      {
+        "pickup_frame": 1043,
+        "source_frame": 1102,
+        "bbox": [
+          315,
+          63,
+          95,
+          185
+        ],
+        "positive_points": [
+          [
+            360,
+            88
+          ]
+        ],
+        "negative_points": [
+          [
+            600,
+            400
+          ],
+          [
+            150,
+            350
+          ]
+        ]
+      }
+    ],
+    [
+      {
+        "pickup_frame": 1413,
+        "source_frame": 1487,
+        "bbox": [
+          284,
+          60,
+          95,
+          185
+        ],
+        "positive_points": [
+          [
+            329,
+            85
+          ]
+        ],
+        "negative_points": [
+          [
+            600,
+            400
+          ],
+          [
+            150,
+            350
+          ]
+        ]
+      }
+    ],
+    [
+      {
+        "pickup_frame": 1833,
+        "source_frame": 1910,
+        "bbox": [
+          303,
+          80,
+          95,
+          185
+        ],
+        "positive_points": [
+          [
+            348,
+            105
+          ]
+        ],
+        "negative_points": [
+          [
+            600,
+            400
+          ],
+          [
+            150,
+            350
+          ]
+        ]
+      }
+    ]
+  ],
+  "right_retreat_ends": [
+    428,
+    807,
+    1231,
+    1609,
+    2178
+  ],
+  "right_retreat_end_method": "reviewed settled pose after downward withdrawal; final cycle retains the recorded episode end",
+  "release_frames": [
+    379,
+    759,
+    1149,
+    1537,
+    1968
+  ],
+  "preparation_frames": [
+    [
+      233,
+      312
+    ],
+    [
+      596,
+      700
+    ],
+    [
+      1020,
+      1095
+    ],
+    [
+      1408,
+      1474
+    ],
+    [
+      1761,
+      1884
+    ]
+  ],
+  "readiness_evidence": [
+    [
+      {
+        "reference_source_frame": 324,
+        "ready_source_frame": 233,
+        "position_tolerance_mm": 5.0,
+        "command_position_tolerance_mm": 10.0,
+        "command_orientation_tolerance_deg": 3.0,
+        "orientation_tolerance_deg": 2.0,
+        "gripper_tolerance_mm": 0.5,
+        "measured_and_commanded": [
+          {
+            "max_position_mm": 4.3015025274097365,
+            "max_orientation_deg": 1.9402020191687814,
+            "max_gripper_mm": 0.0
+          },
+          {
+            "max_position_mm": 4.112218060557747,
+            "max_orientation_deg": 1.4454074188816057,
+            "max_gripper_mm": 0.0
+          }
+        ]
+      },
+      {
+        "reference_source_frame": 313,
+        "ready_source_frame": 312,
+        "position_tolerance_mm": 5.0,
+        "command_position_tolerance_mm": 10.0,
+        "command_orientation_tolerance_deg": 3.0,
+        "orientation_tolerance_deg": 2.0,
+        "gripper_tolerance_mm": 0.5,
+        "measured_and_commanded": [
+          {
+            "max_position_mm": 4.715632085078866,
+            "max_orientation_deg": 0.3486979670934899,
+            "max_gripper_mm": 0.0
+          },
+          {
+            "max_position_mm": 0.7743020929065192,
+            "max_orientation_deg": 0.46533656558184505,
+            "max_gripper_mm": 0.0
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "reference_source_frame": 711,
+        "ready_source_frame": 596,
+        "position_tolerance_mm": 5.0,
+        "command_position_tolerance_mm": 10.0,
+        "command_orientation_tolerance_deg": 3.0,
+        "orientation_tolerance_deg": 2.0,
+        "gripper_tolerance_mm": 0.5,
+        "measured_and_commanded": [
+          {
+            "max_position_mm": 4.457552314320782,
+            "max_orientation_deg": 1.7493876042400471,
+            "max_gripper_mm": 0.0
+          },
+          {
+            "max_position_mm": 2.019164381540973,
+            "max_orientation_deg": 0.6503342092671897,
+            "max_gripper_mm": 0.0
+          }
+        ]
+      },
+      {
+        "reference_source_frame": 700,
+        "ready_source_frame": 700,
+        "position_tolerance_mm": 5.0,
+        "command_position_tolerance_mm": 10.0,
+        "command_orientation_tolerance_deg": 3.0,
+        "orientation_tolerance_deg": 2.0,
+        "gripper_tolerance_mm": 0.5,
+        "measured_and_commanded": [
+          {
+            "max_position_mm": 0.0,
+            "max_orientation_deg": 0.0,
+            "max_gripper_mm": 0.0
+          },
+          {
+            "max_position_mm": 0.0,
+            "max_orientation_deg": 0.0,
+            "max_gripper_mm": 0.0
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "reference_source_frame": 1106,
+        "ready_source_frame": 1020,
+        "position_tolerance_mm": 5.0,
+        "command_position_tolerance_mm": 10.0,
+        "command_orientation_tolerance_deg": 3.0,
+        "orientation_tolerance_deg": 2.0,
+        "gripper_tolerance_mm": 0.5,
+        "measured_and_commanded": [
+          {
+            "max_position_mm": 0.0,
+            "max_orientation_deg": 1.9639997482265785,
+            "max_gripper_mm": 0.0
+          },
+          {
+            "max_position_mm": 1.89583900631552,
+            "max_orientation_deg": 0.4800196108304707,
+            "max_gripper_mm": 0.0
+          }
+        ]
+      },
+      {
+        "reference_source_frame": 1095,
+        "ready_source_frame": 1095,
+        "position_tolerance_mm": 5.0,
+        "command_position_tolerance_mm": 10.0,
+        "command_orientation_tolerance_deg": 3.0,
+        "orientation_tolerance_deg": 2.0,
+        "gripper_tolerance_mm": 0.5,
+        "measured_and_commanded": [
+          {
+            "max_position_mm": 0.0,
+            "max_orientation_deg": 0.0,
+            "max_gripper_mm": 0.0
+          },
+          {
+            "max_position_mm": 0.0,
+            "max_orientation_deg": 0.0,
+            "max_gripper_mm": 0.0
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "reference_source_frame": 1491,
+        "ready_source_frame": 1408,
+        "position_tolerance_mm": 5.0,
+        "command_position_tolerance_mm": 10.0,
+        "command_orientation_tolerance_deg": 3.0,
+        "orientation_tolerance_deg": 2.0,
+        "gripper_tolerance_mm": 0.5,
+        "measured_and_commanded": [
+          {
+            "max_position_mm": 4.602555440478112,
+            "max_orientation_deg": 1.9740198795179567,
+            "max_gripper_mm": 0.0
+          },
+          {
+            "max_position_mm": 4.551887704012481,
+            "max_orientation_deg": 1.7471399843121738,
+            "max_gripper_mm": 0.0
+          }
+        ]
+      },
+      {
+        "reference_source_frame": 1480,
+        "ready_source_frame": 1474,
+        "position_tolerance_mm": 5.0,
+        "command_position_tolerance_mm": 10.0,
+        "command_orientation_tolerance_deg": 3.0,
+        "orientation_tolerance_deg": 2.0,
+        "gripper_tolerance_mm": 0.5,
+        "measured_and_commanded": [
+          {
+            "max_position_mm": 2.751030053429307,
+            "max_orientation_deg": 1.1607435176484926,
+            "max_gripper_mm": 0.0
+          },
+          {
+            "max_position_mm": 3.4780236895352954,
+            "max_orientation_deg": 2.1155763882297243,
+            "max_gripper_mm": 0.0
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "reference_source_frame": 1896,
+        "ready_source_frame": 1761,
+        "position_tolerance_mm": 5.0,
+        "command_position_tolerance_mm": 10.0,
+        "command_orientation_tolerance_deg": 3.0,
+        "orientation_tolerance_deg": 2.0,
+        "gripper_tolerance_mm": 0.5,
+        "measured_and_commanded": [
+          {
+            "max_position_mm": 3.144268619894639,
+            "max_orientation_deg": 0.7917777007732502,
+            "max_gripper_mm": 0.0
+          },
+          {
+            "max_position_mm": 2.0869952768010775,
+            "max_orientation_deg": 0.5141908275718408,
+            "max_gripper_mm": 0.0
+          }
+        ]
+      },
+      {
+        "reference_source_frame": 1885,
+        "ready_source_frame": 1884,
+        "position_tolerance_mm": 5.0,
+        "command_position_tolerance_mm": 10.0,
+        "command_orientation_tolerance_deg": 3.0,
+        "orientation_tolerance_deg": 2.0,
+        "gripper_tolerance_mm": 0.5,
+        "measured_and_commanded": [
+          {
+            "max_position_mm": 4.553853916705555,
+            "max_orientation_deg": 1.1491294792187963,
+            "max_gripper_mm": 0.0
+          },
+          {
+            "max_position_mm": 3.6071782883881647,
+            "max_orientation_deg": 0.8039625522837425,
+            "max_gripper_mm": 0.0
+          }
+        ]
+      }
+    ]
+  ],
+  "readiness_source_data_sha256": "642420499c29fd3f00564949ea7fdc2881a571f3a40ce89f836e7b31dd59aea6"
+}

@@ -63,7 +63,9 @@ def mask_proposal(spec, shape):
 
 def segment_carried_screw(model, frames, robots, cursor, begin, spec):
     """Track the visible bolt head and shaft only after its recorded pickup."""
-    if not cursor <= spec["pickup_frame"] <= spec["source_frame"] <= begin:
+    if not cursor <= spec["pickup_frame"] <= begin or not spec["pickup_frame"] <= spec[
+        "source_frame"
+    ] < len(frames):
         raise ValueError("held screw prompt is outside its pickup/approach interval")
     proposal = mask_proposal(spec, frames.shape[1:3])
     for reverse, stop in [(False, begin + 1), (True, spec["pickup_frame"] - 1)]:
@@ -74,7 +76,8 @@ def segment_carried_screw(model, frames, robots, cursor, begin, spec):
             reverse=reverse,
             stop_frame=stop,
         ):
-            robots[t - cursor, 1] |= mask[0]
+            if t <= begin:
+                robots[t - cursor, 1] |= mask[0]
 
 
 def prepare(frames, config, trim, work, identity):
@@ -127,9 +130,8 @@ def prepare(frames, config, trim, work, identity):
                 stop_frame=spec["stop"],
             ):
                 robots[t - cursor, spec["side"]] = mask[0]
-        segment_carried_screw(
-            model, frames, robots, cursor, begin, config["right_payload_prompts"][cycle]
-        )
+        for spec in config["right_payload_prompts"][cycle]:
+            segment_carried_screw(model, frames, robots, cursor, begin, spec)
         valid = begin - cursor + 1
         np.savez_compressed(
             work / f"masks_{cycle}.npz",
@@ -270,6 +272,7 @@ def render(source, work, frames, config, values):
             config["right_retreat_ends"],
             position,
             info["fps"],
+            preparation_frames=config["preparation_frames"],
             brake_seconds=config["brake_seconds"],
             restart_seconds=config["restart_seconds"],
         )

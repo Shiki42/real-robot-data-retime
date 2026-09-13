@@ -1,576 +1,534 @@
-{
-  "source_repo": "Shiki42/piperx-screw-0910-25ep-raw",
-  "source_revision": "824b6382ef4858213e6ea42ea61104110d911448",
-  "episode_index": 1,
-  "cases": [
-    {
-      "name": "screw-15",
-      "position": 0.15,
-      "seconds": 106.96666666666667,
-      "frames": 3209,
-      "validation": {
-        "passed": true,
-        "frames": {
-          "parallel.mp4": 3209,
-          "left_wrist.mp4": 3209,
-          "right_wrist.mp4": 3209,
-          "preview.webm": 3209
+[
+  {
+    "episode": 1,
+    "case": "screw-15",
+    "frames": 3209,
+    "validation": {
+      "passed": true,
+      "frames": {
+        "parallel.mp4": 3209,
+        "left_wrist.mp4": 3209,
+        "right_wrist.mp4": 3209,
+        "preview.webm": 3209
+      },
+      "action_state_exact": true,
+      "camera_timestamps_match": true,
+      "wrist_pixels": {
+        "left": {
+          "samples": 3209,
+          "maximum_mean_absolute_pixel_error": 3.099870876736111
         },
-        "action_state_exact": true,
-        "camera_timestamps_match": true,
-        "wrist_pixels": {
-          "left": {
-            "samples": 3209,
-            "maximum_mean_absolute_pixel_error": 3.099870876736111
-          },
-          "right": {
-            "samples": 3209,
-            "maximum_mean_absolute_pixel_error": 3.889541015625
-          }
-        },
-        "protected_main_pixels": {
-          "samples": 30,
-          "maximum_mean_absolute_pixel_error": 2.6183507442474365,
-          "passed": true
+        "right": {
+          "samples": 3209,
+          "maximum_mean_absolute_pixel_error": 3.889541015625
         }
       },
-      "timeline_validation": {
-        "passed": true,
-        "protected_intervals": [
-          {
-            "kind": "coupled",
-            "cycle": 1,
-            "frames": 71,
-            "passed": true
-          },
-          {
-            "kind": "coupled",
-            "cycle": 2,
-            "frames": 91,
-            "passed": true
-          },
-          {
-            "kind": "coupled",
-            "cycle": 3,
-            "frames": 61,
-            "passed": true
-          },
-          {
-            "kind": "coupled",
-            "cycle": 4,
-            "frames": 201,
-            "passed": true
-          },
-          {
-            "kind": "coupled",
-            "cycle": 5,
-            "frames": 56,
-            "passed": true
-          },
-          {
-            "kind": "final_storage",
-            "cycle": null,
-            "frames": 148,
-            "passed": true
-          }
-        ],
-        "smooth_ready_waits": [
-          {
-            "cycle": 1,
-            "arm": "left",
-            "hold_frames": 125,
-            "brake_first_rate": 0.9970409876543158,
-            "brake_last_rate": 0.005633580246922065,
-            "restart_first_rate": 0.0058934105573484885,
-            "restart_last_rate": 0.9825737946451341,
-            "passed": true
-          },
-          {
-            "cycle": 2,
-            "arm": "left",
-            "hold_frames": 170,
-            "brake_first_rate": 0.9970409876543727,
-            "brake_last_rate": 0.005633580246922065,
-            "restart_first_rate": 0.005893410557291645,
-            "restart_last_rate": 0.9825737946450772,
-            "passed": true
-          },
-          {
-            "cycle": 3,
-            "arm": "left",
-            "hold_frames": 198,
-            "brake_first_rate": 0.9970409876543727,
-            "brake_last_rate": 0.005633580246922065,
-            "restart_first_rate": 0.005893410557291645,
-            "restart_last_rate": 0.9825737946450772,
-            "passed": true
-          },
-          {
-            "cycle": 4,
-            "arm": "left",
-            "hold_frames": 98,
-            "brake_first_rate": 0.9970409876543727,
-            "brake_last_rate": 0.005633580246922065,
-            "restart_first_rate": 0.005893410557291645,
-            "restart_last_rate": 0.9825737946450772,
-            "passed": true
-          },
-          {
-            "cycle": 5,
-            "arm": "left",
-            "hold_frames": 188,
-            "brake_first_rate": 0.9970409876541453,
-            "brake_last_rate": 0.005633580246922065,
-            "restart_first_rate": 0.005893410557291645,
-            "restart_last_rate": 0.9825737946453046,
-            "passed": true
-          }
-        ],
-        "mandatory_right_retreats": [
-          {
-            "previous_cycle": 0,
-            "source_start": 4,
-            "source_end": 4,
-            "output_start": 0,
-            "output_end": 0,
-            "passed": true
-          },
-          {
-            "previous_cycle": 1,
-            "source_start": 435,
-            "source_end": 469,
-            "output_start": 543,
-            "output_end": 577,
-            "passed": true
-          },
-          {
-            "previous_cycle": 2,
-            "source_start": 895,
-            "source_end": 989,
-            "output_start": 1164,
-            "output_end": 1258,
-            "passed": true
-          },
-          {
-            "previous_cycle": 3,
-            "source_start": 1370,
-            "source_end": 1427,
-            "output_start": 1795,
-            "output_end": 1852,
-            "passed": true
-          },
-          {
-            "previous_cycle": 4,
-            "source_start": 1985,
-            "source_end": 2063,
-            "output_start": 2473,
-            "output_end": 2551,
-            "passed": true
-          },
-          {
-            "previous_cycle": 5,
-            "source_start": 2460,
-            "source_end": 2607,
-            "output_start": 3061,
-            "output_end": 3208,
-            "passed": true
-          }
-        ],
-        "late_arm_continuous_through_insertion": true,
-        "skipped_bounded_static_frames": [
-          234,
-          390
-        ],
-        "all_nonstationary_source_motion_retained": true,
-        "interpolated_frames": {
-          "left": 110,
-          "right": 0
-        }
-      },
-      "unresolved_scene_patch_pixels": [
-        0,
-        0,
-        0,
-        0,
-        0
-      ]
+      "protected_main_pixels": {
+        "samples": 30,
+        "maximum_mean_absolute_pixel_error": 2.6183507442474365,
+        "passed": true
+      }
     },
-    {
-      "name": "screw-50",
-      "position": 0.5,
-      "seconds": 82.43333333333334,
-      "frames": 2473,
-      "validation": {
-        "passed": true,
-        "frames": {
-          "parallel.mp4": 2473,
-          "left_wrist.mp4": 2473,
-          "right_wrist.mp4": 2473,
-          "preview.webm": 2473
+    "timeline": {
+      "passed": true,
+      "protected_intervals": [
+        {
+          "kind": "coupled",
+          "cycle": 1,
+          "frames": 71,
+          "passed": true
         },
-        "action_state_exact": true,
-        "camera_timestamps_match": true,
-        "wrist_pixels": {
-          "left": {
-            "samples": 2473,
-            "maximum_mean_absolute_pixel_error": 3.0922233072916665
-          },
-          "right": {
-            "samples": 2473,
-            "maximum_mean_absolute_pixel_error": 3.751984592013889
-          }
+        {
+          "kind": "coupled",
+          "cycle": 2,
+          "frames": 91,
+          "passed": true
         },
-        "protected_main_pixels": {
-          "samples": 30,
-          "maximum_mean_absolute_pixel_error": 2.630094289779663,
+        {
+          "kind": "coupled",
+          "cycle": 3,
+          "frames": 61,
+          "passed": true
+        },
+        {
+          "kind": "coupled",
+          "cycle": 4,
+          "frames": 201,
+          "passed": true
+        },
+        {
+          "kind": "coupled",
+          "cycle": 5,
+          "frames": 56,
+          "passed": true
+        },
+        {
+          "kind": "final_storage",
+          "cycle": null,
+          "frames": 148,
           "passed": true
         }
-      },
-      "timeline_validation": {
-        "passed": true,
-        "protected_intervals": [
-          {
-            "kind": "coupled",
-            "cycle": 1,
-            "frames": 71,
-            "passed": true
-          },
-          {
-            "kind": "coupled",
-            "cycle": 2,
-            "frames": 91,
-            "passed": true
-          },
-          {
-            "kind": "coupled",
-            "cycle": 3,
-            "frames": 61,
-            "passed": true
-          },
-          {
-            "kind": "coupled",
-            "cycle": 4,
-            "frames": 201,
-            "passed": true
-          },
-          {
-            "kind": "coupled",
-            "cycle": 5,
-            "frames": 56,
-            "passed": true
-          },
-          {
-            "kind": "final_storage",
-            "cycle": null,
-            "frames": 148,
-            "passed": true
-          }
-        ],
-        "smooth_ready_waits": [
-          {
-            "cycle": 1,
-            "arm": "right",
-            "hold_frames": 25,
-            "brake_first_rate": 0.9970409876543158,
-            "brake_last_rate": 0.005633580246922065,
-            "restart_first_rate": 0.005893410557291645,
-            "restart_last_rate": 0.9825737946451341,
-            "passed": true
-          },
-          {
-            "cycle": 2,
-            "arm": "right",
-            "hold_frames": 18,
-            "brake_first_rate": 0.9970409876543727,
-            "brake_last_rate": 0.005633580246922065,
-            "restart_first_rate": 0.005893410557291645,
-            "restart_last_rate": 0.9825737946450772,
-            "passed": true
-          },
-          {
-            "cycle": 3,
-            "arm": "right",
-            "hold_frames": 7,
-            "brake_first_rate": 0.9970409876543727,
-            "brake_last_rate": 0.005633580246922065,
-            "restart_first_rate": 0.005893410557291645,
-            "restart_last_rate": 0.9825737946450772,
-            "passed": true
-          },
-          {
-            "cycle": 4,
-            "arm": "right",
-            "hold_frames": 72,
-            "brake_first_rate": 0.9970409876543727,
-            "brake_last_rate": 0.005633580246922065,
-            "restart_first_rate": 0.005893410557291645,
-            "restart_last_rate": 0.9825737946450772,
-            "passed": true
-          }
-        ],
-        "mandatory_right_retreats": [
-          {
-            "previous_cycle": 0,
-            "source_start": 4,
-            "source_end": 4,
-            "output_start": 0,
-            "output_end": 0,
-            "passed": true
-          },
-          {
-            "previous_cycle": 1,
-            "source_start": 435,
-            "source_end": 469,
-            "output_start": 392,
-            "output_end": 426,
-            "passed": true
-          },
-          {
-            "previous_cycle": 2,
-            "source_start": 895,
-            "source_end": 989,
-            "output_start": 831,
-            "output_end": 925,
-            "passed": true
-          },
-          {
-            "previous_cycle": 3,
-            "source_start": 1370,
-            "source_end": 1427,
-            "output_start": 1316,
-            "output_end": 1373,
-            "passed": true
-          },
-          {
-            "previous_cycle": 4,
-            "source_start": 1985,
-            "source_end": 2063,
-            "output_start": 1884,
-            "output_end": 1962,
-            "passed": true
-          },
-          {
-            "previous_cycle": 5,
-            "source_start": 2460,
-            "source_end": 2607,
-            "output_start": 2325,
-            "output_end": 2472,
-            "passed": true
-          }
-        ],
-        "late_arm_continuous_through_insertion": true,
-        "skipped_bounded_static_frames": [
-          259,
-          390
-        ],
-        "all_nonstationary_source_motion_retained": true,
-        "interpolated_frames": {
-          "left": 0,
-          "right": 112
-        }
-      },
-      "unresolved_scene_patch_pixels": [
-        0,
-        0,
-        0,
-        0,
-        0
-      ]
-    },
-    {
-      "name": "screw-85",
-      "position": 0.85,
-      "seconds": 114.16666666666667,
-      "frames": 3425,
-      "validation": {
-        "passed": true,
-        "frames": {
-          "parallel.mp4": 3425,
-          "left_wrist.mp4": 3425,
-          "right_wrist.mp4": 3425,
-          "preview.webm": 3425
+      ],
+      "smooth_ready_waits": [
+        {
+          "cycle": 1,
+          "arm": "left",
+          "hold_frames": 125,
+          "brake_first_rate": 0.9970409876543158,
+          "brake_last_rate": 0.005633580246922065,
+          "restart_first_rate": 0.0058934105573484885,
+          "restart_last_rate": 0.9825737946451341,
+          "passed": true
         },
-        "action_state_exact": true,
-        "camera_timestamps_match": true,
-        "wrist_pixels": {
-          "left": {
-            "samples": 3425,
-            "maximum_mean_absolute_pixel_error": 3.0948838975694444
-          },
-          "right": {
-            "samples": 3425,
-            "maximum_mean_absolute_pixel_error": 3.745061848958333
-          }
+        {
+          "cycle": 2,
+          "arm": "left",
+          "hold_frames": 170,
+          "brake_first_rate": 0.9970409876543727,
+          "brake_last_rate": 0.005633580246922065,
+          "restart_first_rate": 0.005893410557291645,
+          "restart_last_rate": 0.9825737946450772,
+          "passed": true
         },
-        "protected_main_pixels": {
-          "samples": 30,
-          "maximum_mean_absolute_pixel_error": 2.5916547775268555,
+        {
+          "cycle": 3,
+          "arm": "left",
+          "hold_frames": 198,
+          "brake_first_rate": 0.9970409876543727,
+          "brake_last_rate": 0.005633580246922065,
+          "restart_first_rate": 0.005893410557291645,
+          "restart_last_rate": 0.9825737946450772,
+          "passed": true
+        },
+        {
+          "cycle": 4,
+          "arm": "left",
+          "hold_frames": 98,
+          "brake_first_rate": 0.9970409876543727,
+          "brake_last_rate": 0.005633580246922065,
+          "restart_first_rate": 0.005893410557291645,
+          "restart_last_rate": 0.9825737946450772,
+          "passed": true
+        },
+        {
+          "cycle": 5,
+          "arm": "left",
+          "hold_frames": 188,
+          "brake_first_rate": 0.9970409876541453,
+          "brake_last_rate": 0.005633580246922065,
+          "restart_first_rate": 0.005893410557291645,
+          "restart_last_rate": 0.9825737946453046,
           "passed": true
         }
-      },
-      "timeline_validation": {
-        "passed": true,
-        "protected_intervals": [
-          {
-            "kind": "coupled",
-            "cycle": 1,
-            "frames": 71,
-            "passed": true
-          },
-          {
-            "kind": "coupled",
-            "cycle": 2,
-            "frames": 91,
-            "passed": true
-          },
-          {
-            "kind": "coupled",
-            "cycle": 3,
-            "frames": 61,
-            "passed": true
-          },
-          {
-            "kind": "coupled",
-            "cycle": 4,
-            "frames": 201,
-            "passed": true
-          },
-          {
-            "kind": "coupled",
-            "cycle": 5,
-            "frames": 56,
-            "passed": true
-          },
-          {
-            "kind": "final_storage",
-            "cycle": null,
-            "frames": 148,
-            "passed": true
-          }
-        ],
-        "smooth_ready_waits": [
-          {
-            "cycle": 1,
-            "arm": "right",
-            "hold_frames": 214,
-            "brake_first_rate": 0.9970409876543158,
-            "brake_last_rate": 0.005633580246922065,
-            "restart_first_rate": 0.005893410557291645,
-            "restart_last_rate": 0.9825737946451341,
-            "passed": true
-          },
-          {
-            "cycle": 2,
-            "arm": "right",
-            "hold_frames": 231,
-            "brake_first_rate": 0.9970409876543727,
-            "brake_last_rate": 0.005633580246922065,
-            "restart_first_rate": 0.005893410557291645,
-            "restart_last_rate": 0.9825737946450772,
-            "passed": true
-          },
-          {
-            "cycle": 3,
-            "arm": "right",
-            "hold_frames": 236,
-            "brake_first_rate": 0.9970409876543727,
-            "brake_last_rate": 0.005633580246922065,
-            "restart_first_rate": 0.005893410557291645,
-            "restart_last_rate": 0.9825737946450772,
-            "passed": true
-          },
-          {
-            "cycle": 4,
-            "arm": "right",
-            "hold_frames": 266,
-            "brake_first_rate": 0.9970409876543727,
-            "brake_last_rate": 0.005633580246922065,
-            "restart_first_rate": 0.005893410557291645,
-            "restart_last_rate": 0.9825737946450772,
-            "passed": true
-          },
-          {
-            "cycle": 5,
-            "arm": "right",
-            "hold_frames": 204,
-            "brake_first_rate": 0.9970409876541453,
-            "brake_last_rate": 0.005633580246922065,
-            "restart_first_rate": 0.005893410557291645,
-            "restart_last_rate": 0.9825737946453046,
-            "passed": true
-          }
-        ],
-        "mandatory_right_retreats": [
-          {
-            "previous_cycle": 0,
-            "source_start": 4,
-            "source_end": 4,
-            "output_start": 0,
-            "output_end": 0,
-            "passed": true
-          },
-          {
-            "previous_cycle": 1,
-            "source_start": 435,
-            "source_end": 469,
-            "output_start": 532,
-            "output_end": 566,
-            "passed": true
-          },
-          {
-            "previous_cycle": 2,
-            "source_start": 895,
-            "source_end": 989,
-            "output_start": 1176,
-            "output_end": 1270,
-            "passed": true
-          },
-          {
-            "previous_cycle": 3,
-            "source_start": 1370,
-            "source_end": 1427,
-            "output_start": 1890,
-            "output_end": 1947,
-            "passed": true
-          },
-          {
-            "previous_cycle": 4,
-            "source_start": 1985,
-            "source_end": 2063,
-            "output_start": 2622,
-            "output_end": 2700,
-            "passed": true
-          },
-          {
-            "previous_cycle": 5,
-            "source_start": 2460,
-            "source_end": 2607,
-            "output_start": 3277,
-            "output_end": 3424,
-            "passed": true
-          }
-        ],
-        "late_arm_continuous_through_insertion": true,
-        "skipped_bounded_static_frames": [
-          259,
-          390
-        ],
-        "all_nonstationary_source_motion_retained": true,
-        "interpolated_frames": {
-          "left": 0,
-          "right": 110
+      ],
+      "mandatory_right_retreats": [
+        {
+          "previous_cycle": 0,
+          "source_start": 4,
+          "source_end": 4,
+          "output_start": 0,
+          "output_end": 0,
+          "passed": true
+        },
+        {
+          "previous_cycle": 1,
+          "source_start": 435,
+          "source_end": 469,
+          "output_start": 543,
+          "output_end": 577,
+          "passed": true
+        },
+        {
+          "previous_cycle": 2,
+          "source_start": 895,
+          "source_end": 989,
+          "output_start": 1164,
+          "output_end": 1258,
+          "passed": true
+        },
+        {
+          "previous_cycle": 3,
+          "source_start": 1370,
+          "source_end": 1427,
+          "output_start": 1795,
+          "output_end": 1852,
+          "passed": true
+        },
+        {
+          "previous_cycle": 4,
+          "source_start": 1985,
+          "source_end": 2063,
+          "output_start": 2473,
+          "output_end": 2551,
+          "passed": true
+        },
+        {
+          "previous_cycle": 5,
+          "source_start": 2460,
+          "source_end": 2607,
+          "output_start": 3061,
+          "output_end": 3208,
+          "passed": true
         }
-      },
-      "unresolved_scene_patch_pixels": [
-        0,
-        0,
-        0,
-        0,
-        0
-      ]
+      ],
+      "late_arm_continuous_through_insertion": true,
+      "skipped_bounded_static_frames": [
+        234,
+        390
+      ],
+      "all_nonstationary_source_motion_retained": true,
+      "interpolated_frames": {
+        "left": 110,
+        "right": 0
+      }
     }
-  ],
-  "tests": {
-    "passed": 35
+  },
+  {
+    "episode": 1,
+    "case": "screw-50",
+    "frames": 2448,
+    "validation": {
+      "passed": true,
+      "frames": {
+        "parallel.mp4": 2448,
+        "left_wrist.mp4": 2448,
+        "right_wrist.mp4": 2448,
+        "preview.webm": 2448
+      },
+      "action_state_exact": true,
+      "camera_timestamps_match": true,
+      "wrist_pixels": {
+        "left": {
+          "samples": 2448,
+          "maximum_mean_absolute_pixel_error": 3.0922233072916665
+        },
+        "right": {
+          "samples": 2448,
+          "maximum_mean_absolute_pixel_error": 3.7505696614583335
+        }
+      },
+      "protected_main_pixels": {
+        "samples": 30,
+        "maximum_mean_absolute_pixel_error": 2.6194217205047607,
+        "passed": true
+      }
+    },
+    "timeline": {
+      "passed": true,
+      "protected_intervals": [
+        {
+          "kind": "coupled",
+          "cycle": 1,
+          "frames": 71,
+          "passed": true
+        },
+        {
+          "kind": "coupled",
+          "cycle": 2,
+          "frames": 91,
+          "passed": true
+        },
+        {
+          "kind": "coupled",
+          "cycle": 3,
+          "frames": 61,
+          "passed": true
+        },
+        {
+          "kind": "coupled",
+          "cycle": 4,
+          "frames": 201,
+          "passed": true
+        },
+        {
+          "kind": "coupled",
+          "cycle": 5,
+          "frames": 56,
+          "passed": true
+        },
+        {
+          "kind": "final_storage",
+          "cycle": null,
+          "frames": 148,
+          "passed": true
+        }
+      ],
+      "smooth_ready_waits": [
+        {
+          "cycle": 1,
+          "arm": "right",
+          "hold_frames": 10,
+          "brake_first_rate": 0.9970409876543158,
+          "brake_last_rate": 0.005633580246922065,
+          "restart_first_rate": 0.005893410557291645,
+          "restart_last_rate": 0.9825737946451341,
+          "passed": true
+        },
+        {
+          "cycle": 3,
+          "arm": "right",
+          "hold_frames": 13,
+          "brake_first_rate": 0.9970409876543727,
+          "brake_last_rate": 0.005633580246922065,
+          "restart_first_rate": 0.005893410557291645,
+          "restart_last_rate": 0.9825737946450772,
+          "passed": true
+        },
+        {
+          "cycle": 4,
+          "arm": "right",
+          "hold_frames": 77,
+          "brake_first_rate": 0.9970409876543727,
+          "brake_last_rate": 0.005633580246922065,
+          "restart_first_rate": 0.005893410557291645,
+          "restart_last_rate": 0.9825737946450772,
+          "passed": true
+        }
+      ],
+      "mandatory_right_retreats": [
+        {
+          "previous_cycle": 0,
+          "source_start": 4,
+          "source_end": 4,
+          "output_start": 0,
+          "output_end": 0,
+          "passed": true
+        },
+        {
+          "previous_cycle": 1,
+          "source_start": 435,
+          "source_end": 469,
+          "output_start": 377,
+          "output_end": 411,
+          "passed": true
+        },
+        {
+          "previous_cycle": 2,
+          "source_start": 895,
+          "source_end": 989,
+          "output_start": 797,
+          "output_end": 891,
+          "passed": true
+        },
+        {
+          "previous_cycle": 3,
+          "source_start": 1370,
+          "source_end": 1427,
+          "output_start": 1288,
+          "output_end": 1345,
+          "passed": true
+        },
+        {
+          "previous_cycle": 4,
+          "source_start": 1985,
+          "source_end": 2063,
+          "output_start": 1861,
+          "output_end": 1939,
+          "passed": true
+        },
+        {
+          "previous_cycle": 5,
+          "source_start": 2460,
+          "source_end": 2607,
+          "output_start": 2300,
+          "output_end": 2447,
+          "passed": true
+        }
+      ],
+      "late_arm_continuous_through_insertion": true,
+      "skipped_bounded_static_frames": [
+        234,
+        390
+      ],
+      "all_nonstationary_source_motion_retained": true,
+      "interpolated_frames": {
+        "left": 70,
+        "right": 91
+      }
+    }
+  },
+  {
+    "episode": 1,
+    "case": "screw-85",
+    "frames": 3411,
+    "validation": {
+      "passed": true,
+      "frames": {
+        "parallel.mp4": 3411,
+        "left_wrist.mp4": 3411,
+        "right_wrist.mp4": 3411,
+        "preview.webm": 3411
+      },
+      "action_state_exact": true,
+      "camera_timestamps_match": true,
+      "wrist_pixels": {
+        "left": {
+          "samples": 3411,
+          "maximum_mean_absolute_pixel_error": 3.1041373697916668
+        },
+        "right": {
+          "samples": 3411,
+          "maximum_mean_absolute_pixel_error": 3.7767545572916665
+        }
+      },
+      "protected_main_pixels": {
+        "samples": 30,
+        "maximum_mean_absolute_pixel_error": 2.5825207233428955,
+        "passed": true
+      }
+    },
+    "timeline": {
+      "passed": true,
+      "protected_intervals": [
+        {
+          "kind": "coupled",
+          "cycle": 1,
+          "frames": 71,
+          "passed": true
+        },
+        {
+          "kind": "coupled",
+          "cycle": 2,
+          "frames": 91,
+          "passed": true
+        },
+        {
+          "kind": "coupled",
+          "cycle": 3,
+          "frames": 61,
+          "passed": true
+        },
+        {
+          "kind": "coupled",
+          "cycle": 4,
+          "frames": 201,
+          "passed": true
+        },
+        {
+          "kind": "coupled",
+          "cycle": 5,
+          "frames": 56,
+          "passed": true
+        },
+        {
+          "kind": "final_storage",
+          "cycle": null,
+          "frames": 148,
+          "passed": true
+        }
+      ],
+      "smooth_ready_waits": [
+        {
+          "cycle": 1,
+          "arm": "right",
+          "hold_frames": 199,
+          "brake_first_rate": 0.9970409876543158,
+          "brake_last_rate": 0.005633580246922065,
+          "restart_first_rate": 0.005893410557291645,
+          "restart_last_rate": 0.9825737946451341,
+          "passed": true
+        },
+        {
+          "cycle": 2,
+          "arm": "right",
+          "hold_frames": 219,
+          "brake_first_rate": 0.9970409876543727,
+          "brake_last_rate": 0.005633580246922065,
+          "restart_first_rate": 0.005893410557291645,
+          "restart_last_rate": 0.9825737946450772,
+          "passed": true
+        },
+        {
+          "cycle": 3,
+          "arm": "right",
+          "hold_frames": 242,
+          "brake_first_rate": 0.9970409876543727,
+          "brake_last_rate": 0.005633580246922065,
+          "restart_first_rate": 0.005893410557291645,
+          "restart_last_rate": 0.9825737946450772,
+          "passed": true
+        },
+        {
+          "cycle": 4,
+          "arm": "right",
+          "hold_frames": 271,
+          "brake_first_rate": 0.9970409876543727,
+          "brake_last_rate": 0.005633580246922065,
+          "restart_first_rate": 0.005893410557291645,
+          "restart_last_rate": 0.9825737946450772,
+          "passed": true
+        },
+        {
+          "cycle": 5,
+          "arm": "right",
+          "hold_frames": 206,
+          "brake_first_rate": 0.9970409876541453,
+          "brake_last_rate": 0.005633580246922065,
+          "restart_first_rate": 0.005893410557291645,
+          "restart_last_rate": 0.9825737946453046,
+          "passed": true
+        }
+      ],
+      "mandatory_right_retreats": [
+        {
+          "previous_cycle": 0,
+          "source_start": 4,
+          "source_end": 4,
+          "output_start": 0,
+          "output_end": 0,
+          "passed": true
+        },
+        {
+          "previous_cycle": 1,
+          "source_start": 435,
+          "source_end": 469,
+          "output_start": 517,
+          "output_end": 551,
+          "passed": true
+        },
+        {
+          "previous_cycle": 2,
+          "source_start": 895,
+          "source_end": 989,
+          "output_start": 1149,
+          "output_end": 1243,
+          "passed": true
+        },
+        {
+          "previous_cycle": 3,
+          "source_start": 1370,
+          "source_end": 1427,
+          "output_start": 1869,
+          "output_end": 1926,
+          "passed": true
+        },
+        {
+          "previous_cycle": 4,
+          "source_start": 1985,
+          "source_end": 2063,
+          "output_start": 2606,
+          "output_end": 2684,
+          "passed": true
+        },
+        {
+          "previous_cycle": 5,
+          "source_start": 2460,
+          "source_end": 2607,
+          "output_start": 3263,
+          "output_end": 3410,
+          "passed": true
+        }
+      ],
+      "late_arm_continuous_through_insertion": true,
+      "skipped_bounded_static_frames": [
+        234,
+        390
+      ],
+      "all_nonstationary_source_motion_retained": true,
+      "interpolated_frames": {
+        "left": 80,
+        "right": 110
+      }
+    }
   }
-}
+]

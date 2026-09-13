@@ -38,6 +38,7 @@ for(const [i,c] of cases.entries()){
  }
  let current=0;
  function armPhase(tr){
+  if(tr.mode==='ready_alignment' && current>=tr.alignment_start_output_frame)return '连续微调';
   if(tr.mode!=='ready_wait')return current>=tr.arrival_output_frame?'连续衔接':'';
   return current>=tr.brake_start_output_frame&&current<tr.arrival_output_frame?'减速':current>=tr.arrival_output_frame&&current<tr.restart_start_output_frame?'就位等待':current>=tr.restart_start_output_frame&&current<tr.restart_end_output_frame?'启动':'';
  }

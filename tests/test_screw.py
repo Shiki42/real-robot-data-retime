@@ -15,7 +15,16 @@ RETREATS = [end + 4 for _, end in WINDOWS]
 def test_five_coupled_windows_and_all_moving_frames_survive(position):
     values = np.arange(220)[:, None] * np.ones((1, 14))
     left, right, plan = screw_schedule(
-        values, values, 0, 220, WINDOWS, READY, RETREATS, position, 30
+        values,
+        values,
+        0,
+        220,
+        WINDOWS,
+        READY,
+        RETREATS,
+        position,
+        30,
+        preparation_frames=READY,
     )
     for clock in (left, right):
         assert clock[0] == 0 and clock[-1] == 219
@@ -39,7 +48,16 @@ def test_five_coupled_windows_and_all_moving_frames_survive(position):
 def test_state_motion_cannot_be_discarded_by_static_commands():
     state = np.arange(220)[:, None] * np.ones((1, 14))
     left, right, _ = screw_schedule(
-        state, np.zeros_like(state), 0, 220, WINDOWS, READY, RETREATS, 0.5, 30
+        state,
+        np.zeros_like(state),
+        0,
+        220,
+        WINDOWS,
+        READY,
+        RETREATS,
+        0.5,
+        30,
+        preparation_frames=READY,
     )
     assert np.diff(left).max() <= 1 + 1e-9
     assert np.diff(right).max() <= 1 + 1e-9
@@ -48,7 +66,16 @@ def test_state_motion_cannot_be_discarded_by_static_commands():
 def test_validator_rejects_changed_insertion_clock():
     state = np.arange(220)[:, None] * np.ones((1, 14))
     left, right, plan = screw_schedule(
-        state, state, 0, 220, WINDOWS, READY, RETREATS, 0.5, 30
+        state,
+        state,
+        0,
+        220,
+        WINDOWS,
+        READY,
+        RETREATS,
+        0.5,
+        30,
+        preparation_frames=READY,
     )
     stage = plan["stages"][1]
     right[stage["output_start"] + 2] -= 1
@@ -63,7 +90,18 @@ def test_validator_rejects_changed_insertion_clock():
 def test_rejects_invalid_rounds(windows):
     state = np.zeros((220, 14))
     with pytest.raises(ValueError):
-        screw_schedule(state, state, 0, 220, windows, READY, RETREATS, 0.5, 30)
+        screw_schedule(
+            state,
+            state,
+            0,
+            220,
+            windows,
+            READY,
+            RETREATS,
+            0.5,
+            30,
+            preparation_frames=READY,
+        )
 
 
 def test_compositor_keeps_whole_crossing_arm_and_left_owned_bin():
@@ -109,7 +147,16 @@ def test_stage_receipt_serializes_and_rejects_internal_pause():
 
     values = np.arange(220)[:, None] * np.ones((1, 14))
     left, right, plan = screw_schedule(
-        values, values, 0, 220, WINDOWS, READY, RETREATS, 0.5, 30
+        values,
+        values,
+        0,
+        220,
+        WINDOWS,
+        READY,
+        RETREATS,
+        0.5,
+        30,
+        preparation_frames=READY,
     )
     json.dumps(plan, allow_nan=False)
     left[10] = left[9]
@@ -122,10 +169,29 @@ def test_right_lead_waits_near_contact_and_restarts_before_coupling():
 
     values = np.arange(220)[:, None] * np.ones((1, 14))
     left, right, plan = screw_schedule(
-        values, values, 0, 220, WINDOWS, READY, RETREATS, 0.85, 30
+        values,
+        values,
+        0,
+        220,
+        WINDOWS,
+        READY,
+        RETREATS,
+        0.85,
+        30,
+        preparation_frames=READY,
     )
     assert np.count_nonzero(right != np.floor(right)) == 110
-    assert np.count_nonzero(left != np.floor(left)) == 0
+    assert (
+        np.diff(
+            left[
+                plan["stages"][0]["pickup_start_output_frames"][0] : plan["stages"][0][
+                    "output_end"
+                ]
+                + 1
+            ]
+        )
+        > 0
+    ).all()
     motion = sample_rows(values[:, 7:], right)
     for stage in plan["stages"]:
         if stage["kind"] != "independent":
@@ -212,7 +278,16 @@ def test_carried_screw_mask_does_not_claim_objects_before_pickup():
 def test_right_retreat_is_immediate_native_and_precedes_new_pickup(position):
     values = np.arange(220)[:, None] * np.ones((1, 14))
     left, right, plan = screw_schedule(
-        values, values, 0, 220, WINDOWS, READY, RETREATS, position, 30
+        values,
+        values,
+        0,
+        220,
+        WINDOWS,
+        READY,
+        RETREATS,
+        position,
+        30,
+        preparation_frames=READY,
     )
     for stage in plan["stages"]:
         if "mandatory_previous_right_retreat" not in stage:
@@ -234,10 +309,19 @@ def test_right_retreat_is_immediate_native_and_precedes_new_pickup(position):
 def test_small_lead_flows_through_without_full_stop():
     values = np.arange(220)[:, None] * np.ones((1, 14))
     left, right, plan = screw_schedule(
-        values, values, 0, 220, WINDOWS, READY, RETREATS, 0.48, 30
+        values,
+        values,
+        0,
+        220,
+        WINDOWS,
+        READY,
+        RETREATS,
+        0.48,
+        30,
+        preparation_frames=READY,
     )
     stage = plan["stages"][0]
-    assert stage["transitions"][0]["mode"] == "flow_through"
+    assert all(t["mode"] != "ready_wait" for t in stage["transitions"])
     for side, clock in enumerate((left, right)):
         onset = stage["pickup_start_output_frames"][side]
         assert (np.diff(clock[onset : stage["output_end"] + 1]) > 0).all()
