@@ -142,10 +142,10 @@ search evidence. See [workpiece priority and verification](docs/workpiece-altern
 
 ## Five-round screw insertion pilot
 
-The [screw pilot](docs/screw-pilot/README.md) includes pickup and approach to
-separate left/right ready poses. Each arm decelerates over 0.5 seconds, holds
-its ready pose, and accelerates over 0.3 seconds before rejoining the original
-coupled insertion. Main/wrist videos and action/state share continuous source
-clocks and the existing interpolation implementation. Left storage plus the
-next pickup/approach remains one continuous stage. Reviewed boundaries and
-segmentation prompts are explicit in the pilot config.
+The [screw pilot](docs/screw-pilot/README.md) lets the later arm flow directly
+into insertion while only the earlier arm waits or adjusts its approach speed.
+The right arm must complete its original insertion and downward retreat as one
+continuous task before its next pickup can be retimed. Left storage plus the
+next pickup remains continuous. Videos and action/state share the existing
+continuous source-clock interpolation. Reviewed boundaries and segmentation
+prompts are explicit in the pilot config.

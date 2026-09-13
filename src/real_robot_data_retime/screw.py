@@ -217,7 +217,7 @@ def render_frames(frames, compositors, left, right, stages):
         while t > stages[stage_index]["output_end"]:
             stage_index += 1
         stage = stages[stage_index]
-        if stage["kind"] in ("independent", "approach"):
+        if stage["kind"] == "independent":
             yield compositors[stage["cycle"] - 1].frame(
                 l - stage["source_start"], r - stage["source_start"]
             )
@@ -267,6 +267,7 @@ def render(source, work, frames, config, values):
             trim["stop"],
             config["coupled_intervals"],
             config["ready_frames"],
+            config["right_retreat_ends"],
             position,
             info["fps"],
             brake_seconds=config["brake_seconds"],

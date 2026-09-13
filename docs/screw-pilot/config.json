@@ -355,7 +355,7 @@
   ],
   "brake_seconds": 0.5,
   "restart_seconds": 0.3,
-  "ready_pose_method": "left waits near center four original frames before coupling; right waits before contact on its original approach; both use existing monotone clock ramps",
+  "ready_pose_method": "candidate waiting poses for the earlier arm; later arm flows through; short leads use positive-speed approach adjustment",
   "right_payload_prompts": [
     {
       "pickup_frame": 259,
@@ -507,5 +507,13 @@
         ]
       ]
     }
-  ]
+  ],
+  "right_retreat_ends": [
+    469,
+    989,
+    1427,
+    2063,
+    2607
+  ],
+  "right_retreat_end_method": "reviewed settled pose after downward withdrawal; final cycle retains the recorded episode end"
 }

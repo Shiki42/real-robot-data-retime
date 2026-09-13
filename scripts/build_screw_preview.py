@@ -2,6 +2,7 @@
 
 import argparse
 import json
+import subprocess
 from pathlib import Path
 
 import numpy as np
@@ -22,6 +23,33 @@ def build(root):
             case["right"] = data["right"].tolist()
         case["stages"] = report["plan"]["stages"]
         case["fps"] = report["plan"]["fps"]
+        probe = json.loads(
+            subprocess.check_output(
+                [
+                    "ffprobe",
+                    "-v",
+                    "error",
+                    "-select_streams",
+                    "v:0",
+                    "-show_frames",
+                    "-show_entries",
+                    "frame=best_effort_timestamp_time",
+                    "-of",
+                    "json",
+                    str(folder / "preview.webm"),
+                ]
+            )
+        )
+        case["video_pts"] = [
+            float(frame["best_effort_timestamp_time"]) for frame in probe["frames"]
+        ]
+        if len(case["video_pts"]) != case["frames"] or not np.allclose(
+            case["video_pts"],
+            np.arange(case["frames"]) / case["fps"],
+            atol=0.00051,
+            rtol=0,
+        ):
+            raise ValueError("browser video timestamps do not match the source mapping")
     template = (
         Path(__file__).parents[1] / "src/real_robot_data_retime/preview/screw.html"
     )

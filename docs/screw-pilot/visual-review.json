@@ -1,126 +1,35 @@
 {
-  "frames": [
-    {
-      "case": "screw-85",
-      "cycle": 1,
-      "frames": [
-        228,
-        355,
-        486,
-        514
-      ],
-      "hold_frames": 254
-    },
-    {
-      "case": "screw-85",
-      "cycle": 2,
-      "frames": [
-        874,
-        1001,
-        1132,
-        1160
-      ],
-      "hold_frames": 254
-    },
-    {
-      "case": "screw-85",
-      "cycle": 3,
-      "frames": [
-        1636,
-        1761,
-        1890,
-        1918
-      ],
-      "hold_frames": 250
-    },
-    {
-      "case": "screw-85",
-      "cycle": 4,
-      "frames": [
-        2218,
-        2357,
-        2500,
-        2520
-      ],
-      "hold_frames": 278
-    },
-    {
-      "case": "screw-85",
-      "cycle": 5,
-      "frames": [
-        3080,
-        3195,
-        3314,
-        3342
-      ],
-      "hold_frames": 230
-    },
-    {
-      "case": "screw-15",
-      "cycle": 1,
-      "frames": [
-        339,
-        416,
-        497,
-        514
-      ],
-      "hold_frames": 154
-    },
-    {
-      "case": "screw-15",
-      "cycle": 2,
-      "frames": [
-        924,
-        1031,
-        1143,
-        1160
-      ],
-      "hold_frames": 215
-    },
-    {
-      "case": "screw-15",
-      "cycle": 3,
-      "frames": [
-        1602,
-        1749,
-        1901,
-        1918
-      ],
-      "hold_frames": 295
-    },
-    {
-      "case": "screw-15",
-      "cycle": 4,
-      "frames": [
-        2337,
-        2418,
-        2503,
-        2520
-      ],
-      "hold_frames": 162
-    },
-    {
-      "case": "screw-15",
-      "cycle": 5,
-      "frames": [
-        3044,
-        3182,
-        3325,
-        3342
-      ],
-      "hold_frames": 277
-    }
+  "artifact_directory": "/home/coder/share/screw-retiming-20260912/flow-v3",
+  "source_retreat_frames": [
+    [
+      435,
+      452,
+      469
+    ],
+    [
+      895,
+      942,
+      989
+    ],
+    [
+      1370,
+      1398,
+      1427
+    ],
+    [
+      1985,
+      2024,
+      2063
+    ],
+    [
+      2460,
+      2533,
+      2607
+    ]
   ],
-  "checks": [
-    "left approaches center before waiting",
-    "right waits before contact",
-    "stop/restart source clocks match exported video",
-    "carried screw head and shaft removed from wrong source background"
-  ],
-  "artifact_directory": "/home/coder/share/screw-retiming-20260912/approach-v2",
   "browser_checks": [
-    "right deceleration: output 213 -> 214, right source 342 -> 342.997 (display rounded), left source 74 -> 75",
-    "right hold: output 228 -> 229, right source remains 350, left source 89 -> 90",
-    "left ready jump: output 339, left source 361, right source 214"
+    "late-arm approach and insertion playback",
+    "right-leading sample: output 532 to 533, right source 435 to 436 while left remains 435",
+    "frame stepping uses recorded WebM presentation timestamps"
   ]
 }

@@ -6,31 +6,31 @@
     {
       "name": "screw-15",
       "position": 0.15,
-      "seconds": 117.76666666666667,
-      "frames": 3533,
+      "seconds": 106.96666666666667,
+      "frames": 3209,
       "validation": {
         "passed": true,
         "frames": {
-          "parallel.mp4": 3533,
-          "left_wrist.mp4": 3533,
-          "right_wrist.mp4": 3533,
-          "preview.webm": 3533
+          "parallel.mp4": 3209,
+          "left_wrist.mp4": 3209,
+          "right_wrist.mp4": 3209,
+          "preview.webm": 3209
         },
         "action_state_exact": true,
         "camera_timestamps_match": true,
         "wrist_pixels": {
           "left": {
-            "samples": 3533,
-            "maximum_mean_absolute_pixel_error": 3.097156032986111
+            "samples": 3209,
+            "maximum_mean_absolute_pixel_error": 3.099870876736111
           },
           "right": {
-            "samples": 3533,
-            "maximum_mean_absolute_pixel_error": 3.7624012586805557
+            "samples": 3209,
+            "maximum_mean_absolute_pixel_error": 3.889541015625
           }
         },
         "protected_main_pixels": {
           "samples": 30,
-          "maximum_mean_absolute_pixel_error": 2.619873046875,
+          "maximum_mean_absolute_pixel_error": 2.6183507442474365,
           "passed": true
         }
       },
@@ -78,7 +78,7 @@
           {
             "cycle": 1,
             "arm": "left",
-            "hold_frames": 154,
+            "hold_frames": 125,
             "brake_first_rate": 0.9970409876543158,
             "brake_last_rate": 0.005633580246922065,
             "restart_first_rate": 0.0058934105573484885,
@@ -86,29 +86,9 @@
             "passed": true
           },
           {
-            "cycle": 1,
-            "arm": "right",
-            "hold_frames": 0,
-            "brake_first_rate": 0.9970409876543158,
-            "brake_last_rate": 0.005633580246922065,
-            "restart_first_rate": 0.005893410557291645,
-            "restart_last_rate": 0.9825737946451341,
-            "passed": true
-          },
-          {
             "cycle": 2,
             "arm": "left",
-            "hold_frames": 215,
-            "brake_first_rate": 0.9970409876543727,
-            "brake_last_rate": 0.005633580246922065,
-            "restart_first_rate": 0.005893410557291645,
-            "restart_last_rate": 0.9825737946450772,
-            "passed": true
-          },
-          {
-            "cycle": 2,
-            "arm": "right",
-            "hold_frames": 0,
+            "hold_frames": 170,
             "brake_first_rate": 0.9970409876543727,
             "brake_last_rate": 0.005633580246922065,
             "restart_first_rate": 0.005893410557291645,
@@ -118,17 +98,7 @@
           {
             "cycle": 3,
             "arm": "left",
-            "hold_frames": 295,
-            "brake_first_rate": 0.9970409876543727,
-            "brake_last_rate": 0.005633580246922065,
-            "restart_first_rate": 0.005893410557291645,
-            "restart_last_rate": 0.9825737946450772,
-            "passed": true
-          },
-          {
-            "cycle": 3,
-            "arm": "right",
-            "hold_frames": 0,
+            "hold_frames": 198,
             "brake_first_rate": 0.9970409876543727,
             "brake_last_rate": 0.005633580246922065,
             "restart_first_rate": 0.005893410557291645,
@@ -138,17 +108,7 @@
           {
             "cycle": 4,
             "arm": "left",
-            "hold_frames": 162,
-            "brake_first_rate": 0.9970409876543727,
-            "brake_last_rate": 0.005633580246922065,
-            "restart_first_rate": 0.005893410557291645,
-            "restart_last_rate": 0.9825737946450772,
-            "passed": true
-          },
-          {
-            "cycle": 4,
-            "arm": "right",
-            "hold_frames": 0,
+            "hold_frames": 98,
             "brake_first_rate": 0.9970409876543727,
             "brake_last_rate": 0.005633580246922065,
             "restart_first_rate": 0.005893410557291645,
@@ -158,17 +118,7 @@
           {
             "cycle": 5,
             "arm": "left",
-            "hold_frames": 277,
-            "brake_first_rate": 0.9970409876541453,
-            "brake_last_rate": 0.005633580246922065,
-            "restart_first_rate": 0.005893410557291645,
-            "restart_last_rate": 0.9825737946453046,
-            "passed": true
-          },
-          {
-            "cycle": 5,
-            "arm": "right",
-            "hold_frames": 0,
+            "hold_frames": 188,
             "brake_first_rate": 0.9970409876541453,
             "brake_last_rate": 0.005633580246922065,
             "restart_first_rate": 0.005893410557291645,
@@ -176,14 +126,65 @@
             "passed": true
           }
         ],
+        "mandatory_right_retreats": [
+          {
+            "previous_cycle": 0,
+            "source_start": 4,
+            "source_end": 4,
+            "output_start": 0,
+            "output_end": 0,
+            "passed": true
+          },
+          {
+            "previous_cycle": 1,
+            "source_start": 435,
+            "source_end": 469,
+            "output_start": 543,
+            "output_end": 577,
+            "passed": true
+          },
+          {
+            "previous_cycle": 2,
+            "source_start": 895,
+            "source_end": 989,
+            "output_start": 1164,
+            "output_end": 1258,
+            "passed": true
+          },
+          {
+            "previous_cycle": 3,
+            "source_start": 1370,
+            "source_end": 1427,
+            "output_start": 1795,
+            "output_end": 1852,
+            "passed": true
+          },
+          {
+            "previous_cycle": 4,
+            "source_start": 1985,
+            "source_end": 2063,
+            "output_start": 2473,
+            "output_end": 2551,
+            "passed": true
+          },
+          {
+            "previous_cycle": 5,
+            "source_start": 2460,
+            "source_end": 2607,
+            "output_start": 3061,
+            "output_end": 3208,
+            "passed": true
+          }
+        ],
+        "late_arm_continuous_through_insertion": true,
         "skipped_bounded_static_frames": [
           234,
-          397
+          390
         ],
         "all_nonstationary_source_motion_retained": true,
         "interpolated_frames": {
           "left": 110,
-          "right": 110
+          "right": 0
         }
       },
       "unresolved_scene_patch_pixels": [
@@ -197,31 +198,31 @@
     {
       "name": "screw-50",
       "position": 0.5,
-      "seconds": 84.9,
-      "frames": 2547,
+      "seconds": 82.43333333333334,
+      "frames": 2473,
       "validation": {
         "passed": true,
         "frames": {
-          "parallel.mp4": 2547,
-          "left_wrist.mp4": 2547,
-          "right_wrist.mp4": 2547,
-          "preview.webm": 2547
+          "parallel.mp4": 2473,
+          "left_wrist.mp4": 2473,
+          "right_wrist.mp4": 2473,
+          "preview.webm": 2473
         },
         "action_state_exact": true,
         "camera_timestamps_match": true,
         "wrist_pixels": {
           "left": {
-            "samples": 2547,
-            "maximum_mean_absolute_pixel_error": 3.0986653645833333
+            "samples": 2473,
+            "maximum_mean_absolute_pixel_error": 3.0922233072916665
           },
           "right": {
-            "samples": 2547,
-            "maximum_mean_absolute_pixel_error": 3.757954644097222
+            "samples": 2473,
+            "maximum_mean_absolute_pixel_error": 3.751984592013889
           }
         },
         "protected_main_pixels": {
           "samples": 30,
-          "maximum_mean_absolute_pixel_error": 2.641700267791748,
+          "maximum_mean_absolute_pixel_error": 2.630094289779663,
           "passed": true
         }
       },
@@ -268,48 +269,18 @@
         "smooth_ready_waits": [
           {
             "cycle": 1,
-            "arm": "left",
-            "hold_frames": 11,
-            "brake_first_rate": 0.9970409876543158,
-            "brake_last_rate": 0.005633580246922065,
-            "restart_first_rate": 0.0058934105573484885,
-            "restart_last_rate": 0.9825737946451341,
-            "passed": true
-          },
-          {
-            "cycle": 1,
-            "arm": "right",
-            "hold_frames": 55,
-            "brake_first_rate": 0.9970409876543158,
-            "brake_last_rate": 0.005633580246922065,
-            "restart_first_rate": 0.005893410557291645,
-            "restart_last_rate": 0.9825737946451341,
-            "passed": true
-          },
-          {
-            "cycle": 2,
-            "arm": "left",
-            "hold_frames": 11,
-            "brake_first_rate": 0.9970409876543727,
-            "brake_last_rate": 0.005633580246922065,
-            "restart_first_rate": 0.005893410557291645,
-            "restart_last_rate": 0.9825737946450772,
-            "passed": true
-          },
-          {
-            "cycle": 2,
             "arm": "right",
             "hold_frames": 25,
-            "brake_first_rate": 0.9970409876543727,
+            "brake_first_rate": 0.9970409876543158,
             "brake_last_rate": 0.005633580246922065,
             "restart_first_rate": 0.005893410557291645,
-            "restart_last_rate": 0.9825737946450772,
+            "restart_last_rate": 0.9825737946451341,
             "passed": true
           },
           {
-            "cycle": 3,
-            "arm": "left",
-            "hold_frames": 28,
+            "cycle": 2,
+            "arm": "right",
+            "hold_frames": 18,
             "brake_first_rate": 0.9970409876543727,
             "brake_last_rate": 0.005633580246922065,
             "restart_first_rate": 0.005893410557291645,
@@ -319,17 +290,7 @@
           {
             "cycle": 3,
             "arm": "right",
-            "hold_frames": 0,
-            "brake_first_rate": 0.9970409876543727,
-            "brake_last_rate": 0.005633580246922065,
-            "restart_first_rate": 0.005893410557291645,
-            "restart_last_rate": 0.9825737946450772,
-            "passed": true
-          },
-          {
-            "cycle": 4,
-            "arm": "left",
-            "hold_frames": 3,
+            "hold_frames": 7,
             "brake_first_rate": 0.9970409876543727,
             "brake_last_rate": 0.005633580246922065,
             "restart_first_rate": 0.005893410557291645,
@@ -339,42 +300,73 @@
           {
             "cycle": 4,
             "arm": "right",
-            "hold_frames": 59,
+            "hold_frames": 72,
             "brake_first_rate": 0.9970409876543727,
             "brake_last_rate": 0.005633580246922065,
             "restart_first_rate": 0.005893410557291645,
             "restart_last_rate": 0.9825737946450772,
-            "passed": true
-          },
-          {
-            "cycle": 5,
-            "arm": "left",
-            "hold_frames": 29,
-            "brake_first_rate": 0.9970409876541453,
-            "brake_last_rate": 0.005633580246922065,
-            "restart_first_rate": 0.005893410557291645,
-            "restart_last_rate": 0.9825737946453046,
-            "passed": true
-          },
-          {
-            "cycle": 5,
-            "arm": "right",
-            "hold_frames": 0,
-            "brake_first_rate": 0.9970409876541453,
-            "brake_last_rate": 0.005633580246922065,
-            "restart_first_rate": 0.005893410557291645,
-            "restart_last_rate": 0.9825737946453046,
             "passed": true
           }
         ],
+        "mandatory_right_retreats": [
+          {
+            "previous_cycle": 0,
+            "source_start": 4,
+            "source_end": 4,
+            "output_start": 0,
+            "output_end": 0,
+            "passed": true
+          },
+          {
+            "previous_cycle": 1,
+            "source_start": 435,
+            "source_end": 469,
+            "output_start": 392,
+            "output_end": 426,
+            "passed": true
+          },
+          {
+            "previous_cycle": 2,
+            "source_start": 895,
+            "source_end": 989,
+            "output_start": 831,
+            "output_end": 925,
+            "passed": true
+          },
+          {
+            "previous_cycle": 3,
+            "source_start": 1370,
+            "source_end": 1427,
+            "output_start": 1316,
+            "output_end": 1373,
+            "passed": true
+          },
+          {
+            "previous_cycle": 4,
+            "source_start": 1985,
+            "source_end": 2063,
+            "output_start": 1884,
+            "output_end": 1962,
+            "passed": true
+          },
+          {
+            "previous_cycle": 5,
+            "source_start": 2460,
+            "source_end": 2607,
+            "output_start": 2325,
+            "output_end": 2472,
+            "passed": true
+          }
+        ],
+        "late_arm_continuous_through_insertion": true,
         "skipped_bounded_static_frames": [
-          234,
-          397
+          259,
+          390
         ],
         "all_nonstationary_source_motion_retained": true,
         "interpolated_frames": {
-          "left": 110,
-          "right": 110
+          "left": 0,
+          "right": 112
         }
       },
       "unresolved_scene_patch_pixels": [
@@ -388,31 +380,31 @@
     {
       "name": "screw-85",
       "position": 0.85,
-      "seconds": 117.76666666666667,
-      "frames": 3533,
+      "seconds": 114.16666666666667,
+      "frames": 3425,
       "validation": {
         "passed": true,
         "frames": {
-          "parallel.mp4": 3533,
-          "left_wrist.mp4": 3533,
-          "right_wrist.mp4": 3533,
-          "preview.webm": 3533
+          "parallel.mp4": 3425,
+          "left_wrist.mp4": 3425,
+          "right_wrist.mp4": 3425,
+          "preview.webm": 3425
         },
         "action_state_exact": true,
         "camera_timestamps_match": true,
         "wrist_pixels": {
           "left": {
-            "samples": 3533,
-            "maximum_mean_absolute_pixel_error": 3.099870876736111
+            "samples": 3425,
+            "maximum_mean_absolute_pixel_error": 3.0948838975694444
           },
           "right": {
-            "samples": 3533,
+            "samples": 3425,
             "maximum_mean_absolute_pixel_error": 3.745061848958333
           }
         },
         "protected_main_pixels": {
           "samples": 30,
-          "maximum_mean_absolute_pixel_error": 2.611384630203247,
+          "maximum_mean_absolute_pixel_error": 2.5916547775268555,
           "passed": true
         }
       },
@@ -459,18 +451,8 @@
         "smooth_ready_waits": [
           {
             "cycle": 1,
-            "arm": "left",
-            "hold_frames": 11,
-            "brake_first_rate": 0.9970409876543158,
-            "brake_last_rate": 0.005633580246922065,
-            "restart_first_rate": 0.0058934105573484885,
-            "restart_last_rate": 0.9825737946451341,
-            "passed": true
-          },
-          {
-            "cycle": 1,
             "arm": "right",
-            "hold_frames": 254,
+            "hold_frames": 214,
             "brake_first_rate": 0.9970409876543158,
             "brake_last_rate": 0.005633580246922065,
             "restart_first_rate": 0.005893410557291645,
@@ -479,28 +461,8 @@
           },
           {
             "cycle": 2,
-            "arm": "left",
-            "hold_frames": 11,
-            "brake_first_rate": 0.9970409876543727,
-            "brake_last_rate": 0.005633580246922065,
-            "restart_first_rate": 0.005893410557291645,
-            "restart_last_rate": 0.9825737946450772,
-            "passed": true
-          },
-          {
-            "cycle": 2,
             "arm": "right",
-            "hold_frames": 254,
-            "brake_first_rate": 0.9970409876543727,
-            "brake_last_rate": 0.005633580246922065,
-            "restart_first_rate": 0.005893410557291645,
-            "restart_last_rate": 0.9825737946450772,
-            "passed": true
-          },
-          {
-            "cycle": 3,
-            "arm": "left",
-            "hold_frames": 11,
+            "hold_frames": 231,
             "brake_first_rate": 0.9970409876543727,
             "brake_last_rate": 0.005633580246922065,
             "restart_first_rate": 0.005893410557291645,
@@ -510,17 +472,7 @@
           {
             "cycle": 3,
             "arm": "right",
-            "hold_frames": 250,
-            "brake_first_rate": 0.9970409876543727,
-            "brake_last_rate": 0.005633580246922065,
-            "restart_first_rate": 0.005893410557291645,
-            "restart_last_rate": 0.9825737946450772,
-            "passed": true
-          },
-          {
-            "cycle": 4,
-            "arm": "left",
-            "hold_frames": 3,
+            "hold_frames": 236,
             "brake_first_rate": 0.9970409876543727,
             "brake_last_rate": 0.005633580246922065,
             "restart_first_rate": 0.005893410557291645,
@@ -530,7 +482,7 @@
           {
             "cycle": 4,
             "arm": "right",
-            "hold_frames": 278,
+            "hold_frames": 266,
             "brake_first_rate": 0.9970409876543727,
             "brake_last_rate": 0.005633580246922065,
             "restart_first_rate": 0.005893410557291645,
@@ -539,18 +491,8 @@
           },
           {
             "cycle": 5,
-            "arm": "left",
-            "hold_frames": 11,
-            "brake_first_rate": 0.9970409876541453,
-            "brake_last_rate": 0.005633580246922065,
-            "restart_first_rate": 0.005893410557291645,
-            "restart_last_rate": 0.9825737946453046,
-            "passed": true
-          },
-          {
-            "cycle": 5,
             "arm": "right",
-            "hold_frames": 230,
+            "hold_frames": 204,
             "brake_first_rate": 0.9970409876541453,
             "brake_last_rate": 0.005633580246922065,
             "restart_first_rate": 0.005893410557291645,
@@ -558,13 +500,64 @@
             "passed": true
           }
         ],
+        "mandatory_right_retreats": [
+          {
+            "previous_cycle": 0,
+            "source_start": 4,
+            "source_end": 4,
+            "output_start": 0,
+            "output_end": 0,
+            "passed": true
+          },
+          {
+            "previous_cycle": 1,
+            "source_start": 435,
+            "source_end": 469,
+            "output_start": 532,
+            "output_end": 566,
+            "passed": true
+          },
+          {
+            "previous_cycle": 2,
+            "source_start": 895,
+            "source_end": 989,
+            "output_start": 1176,
+            "output_end": 1270,
+            "passed": true
+          },
+          {
+            "previous_cycle": 3,
+            "source_start": 1370,
+            "source_end": 1427,
+            "output_start": 1890,
+            "output_end": 1947,
+            "passed": true
+          },
+          {
+            "previous_cycle": 4,
+            "source_start": 1985,
+            "source_end": 2063,
+            "output_start": 2622,
+            "output_end": 2700,
+            "passed": true
+          },
+          {
+            "previous_cycle": 5,
+            "source_start": 2460,
+            "source_end": 2607,
+            "output_start": 3277,
+            "output_end": 3424,
+            "passed": true
+          }
+        ],
+        "late_arm_continuous_through_insertion": true,
         "skipped_bounded_static_frames": [
-          234,
-          397
+          259,
+          390
         ],
         "all_nonstationary_source_motion_retained": true,
         "interpolated_frames": {
-          "left": 110,
+          "left": 0,
           "right": 110
         }
       },
@@ -578,7 +571,6 @@
     }
   ],
   "tests": {
-    "command": "python -m pytest -q tests/test_screw.py tests/test_general_smoothing.py tests/test_smooth_stages.py tests/test_hold_compression.py",
-    "passed": 31
+    "passed": 35
   }
 }

@@ -1,0 +1,107 @@
+[
+  {
+    "case": "screw-15",
+    "cycle": 1,
+    "late_arm": "right",
+    "previous_min_source_clock_step": 0.005633580246922065,
+    "new_min_source_clock_step": 1.0
+  },
+  {
+    "case": "screw-15",
+    "cycle": 2,
+    "late_arm": "right",
+    "previous_min_source_clock_step": 0.005633580246922065,
+    "new_min_source_clock_step": 1.0
+  },
+  {
+    "case": "screw-15",
+    "cycle": 3,
+    "late_arm": "right",
+    "previous_min_source_clock_step": 0.005633580246922065,
+    "new_min_source_clock_step": 1.0
+  },
+  {
+    "case": "screw-15",
+    "cycle": 4,
+    "late_arm": "right",
+    "previous_min_source_clock_step": 0.005633580246922065,
+    "new_min_source_clock_step": 1.0
+  },
+  {
+    "case": "screw-15",
+    "cycle": 5,
+    "late_arm": "right",
+    "previous_min_source_clock_step": 0.005633580246922065,
+    "new_min_source_clock_step": 1.0
+  },
+  {
+    "case": "screw-50",
+    "cycle": 1,
+    "late_arm": "left",
+    "previous_min_source_clock_step": 0.0,
+    "new_min_source_clock_step": 1.0
+  },
+  {
+    "case": "screw-50",
+    "cycle": 2,
+    "late_arm": "left",
+    "previous_min_source_clock_step": 0.0,
+    "new_min_source_clock_step": 1.0
+  },
+  {
+    "case": "screw-50",
+    "cycle": 3,
+    "late_arm": "left",
+    "previous_min_source_clock_step": 0.0,
+    "new_min_source_clock_step": 1.0
+  },
+  {
+    "case": "screw-50",
+    "cycle": 4,
+    "late_arm": "left",
+    "previous_min_source_clock_step": 0.0,
+    "new_min_source_clock_step": 1.0
+  },
+  {
+    "case": "screw-50",
+    "cycle": 5,
+    "late_arm": "left",
+    "previous_min_source_clock_step": 0.0,
+    "new_min_source_clock_step": 1.0
+  },
+  {
+    "case": "screw-85",
+    "cycle": 1,
+    "late_arm": "left",
+    "previous_min_source_clock_step": 0.0,
+    "new_min_source_clock_step": 1.0
+  },
+  {
+    "case": "screw-85",
+    "cycle": 2,
+    "late_arm": "left",
+    "previous_min_source_clock_step": 0.0,
+    "new_min_source_clock_step": 1.0
+  },
+  {
+    "case": "screw-85",
+    "cycle": 3,
+    "late_arm": "left",
+    "previous_min_source_clock_step": 0.0,
+    "new_min_source_clock_step": 1.0
+  },
+  {
+    "case": "screw-85",
+    "cycle": 4,
+    "late_arm": "left",
+    "previous_min_source_clock_step": 0.0,
+    "new_min_source_clock_step": 1.0
+  },
+  {
+    "case": "screw-85",
+    "cycle": 5,
+    "late_arm": "left",
+    "previous_min_source_clock_step": 0.0,
+    "new_min_source_clock_step": 1.0
+  }
+]
