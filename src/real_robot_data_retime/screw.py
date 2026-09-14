@@ -254,6 +254,17 @@ def render(source, work, frames, config, values):
                 config["left_scene_boxes"],
             )
         )
+        for reference in config.get("foreground_references", []):
+            if reference["cycle"] == cycle:
+                side = reference["side"]
+                compositors[-1].restore_foreground(
+                    side,
+                    reference["source_start"] - cursor,
+                    reference["source_stop"] - cursor,
+                    reference["reference_frame"] - cursor,
+                    state[cursor : begin + 1, side * 7 : side * 7 + 7],
+                    register=reference.get("register", False),
+                )
         print("compositor ready", cycle + 1, flush=True)
         cursor = end
     cases = []

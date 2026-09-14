@@ -21,6 +21,7 @@ def build(root):
         with np.load(folder / "source_mapping.npz") as data:
             case["left"] = data["left"].tolist()
             case["right"] = data["right"].tolist()
+        case["media_version"] = str((folder / "preview.webm").stat().st_mtime_ns)
         case["stages"] = report["plan"]["stages"]
         case["fps"] = report["plan"]["fps"]
         probe = json.loads(

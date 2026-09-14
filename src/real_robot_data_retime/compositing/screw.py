@@ -10,6 +10,7 @@ from ..background.clean_plate import (
     temporal_plate,
 )
 from ..interaction.video import components
+from .foreground_reference import register_foreground
 from .interpolation import FlowFrames
 
 
@@ -29,6 +30,10 @@ class ScrewStageCompositor:
             self.left_scene[y : y + bh, x : x + bw] = True
         # Preserve disconnected gripper pieces visible beyond an occluder.
         # Entry-edge filtering would remove those real foreground fragments.
+        self.observed_packed = np.packbits(robots, axis=-1)
+        self.foreground_images = {}
+        self.foreground_pairs = {}
+        self.foreground_references = []
         self.layers = np.array([[dilate(mask, 3) for mask in row] for row in robots])
         excluded = self.layers.any(axis=1)
         moving_scene = np.zeros((h, w), bool)
@@ -61,6 +66,63 @@ class ScrewStageCompositor:
         self.missing_pixels = 0
         self.overlap_pixels = 0
         self.paired_frames = 0
+
+    def restore_foreground(
+        self, side, start, stop, reference, state, *, register=False
+    ):
+        """Reveal an occluded arm with a reviewed real foreground reference.
+
+        This only repairs that arm's foreground. Original synchronized frames,
+        the other arm's pixels and both motion clocks remain untouched.
+        """
+        n = len(self.frames)
+        state = np.asarray(state)
+        if side not in (0, 1) or not 0 <= start < stop <= n or not 0 <= reference < n:
+            raise ValueError("foreground reference outside stage")
+        if state.shape != (n, 7) or not np.isfinite(state).all():
+            raise ValueError("invalid measured foreground poses")
+        delta = np.abs(state[start:stop] - state[reference])
+        limit = [0.05] * 4 + ([3.0, 3.0] if register else [0.05, 0.05]) + [0.1]
+        if np.any(delta > np.array(limit)):
+            raise ValueError("foreground donor exceeds measured arm pose bounds")
+        observed = np.unpackbits(
+            self.observed_packed, axis=-1, count=self.frames.shape[2]
+        ).astype(bool)
+        visible = observed[reference, side] & ~dilate(observed[reference, 1 - side], 1)
+        repaired = []
+        for t in range(start, stop):
+            donor, support = self.frames[reference], visible
+            registration = None
+            if register:
+                target_visible = observed[t, side] & ~self.layers[t, 1 - side]
+                donor, support, registration = register_foreground(
+                    donor, self.frames[t], visible, target_visible
+                )
+            region = support & self.layers[t, 1 - side] & ~observed[t, side]
+            if not region.any():
+                continue
+            key = (side, t)
+            image = self.foreground_images.get(key, self.frames[t]).copy()
+            image[region] = donor[region]
+            self.foreground_images[key] = image
+            self.layers[t, side] |= region
+            repaired.append(
+                {
+                    "source_frame": t,
+                    "pixels": int(region.sum()),
+                    "registration": registration,
+                }
+            )
+        self.foreground_pairs.clear()
+        self.foreground_references.append(
+            {
+                "side": side,
+                "registered": register,
+                "reference_frame": reference,
+                "max_measured_pose_difference": delta.max(axis=0).tolist(),
+                "repairs": repaired,
+            }
+        )
 
     def _scene(self, source, side):
         key = (int(source), side)
@@ -106,11 +168,28 @@ class ScrewStageCompositor:
         for side, source in enumerate(sources):
             lo, hi = int(np.floor(source)), int(np.ceil(source))
             if lo == hi:
-                image, mask = self.frames[lo], self.layers[lo, side]
+                image = self.foreground_images.get((side, lo), self.frames[lo])
+                mask = self.layers[lo, side]
             else:
-                image, mask = self.flow_frames.sample(
-                    source, [self.layers[lo, side], self.layers[hi, side]]
-                )
+                masks_pair = [self.layers[lo, side], self.layers[hi, side]]
+                if (side, lo) in self.foreground_images or (
+                    side,
+                    hi,
+                ) in self.foreground_images:
+                    key = (side, lo)
+                    if key not in self.foreground_pairs:
+                        pair = np.stack(
+                            [
+                                self.foreground_images.get((side, t), self.frames[t])
+                                for t in (lo, hi)
+                            ]
+                        )
+                        self.foreground_pairs[key] = FlowFrames(pair)
+                    image, mask = self.foreground_pairs[key].sample(
+                        source - lo, masks_pair
+                    )
+                else:
+                    image, mask = self.flow_frames.sample(source, masks_pair)
                 self.interpolated_frames[side] += 1
             images.append(image)
             masks.append(mask)
@@ -122,6 +201,7 @@ class ScrewStageCompositor:
     def report(self):
         return {
             "paired_source_frames": self.paired_frames,
+            "foreground_references": self.foreground_references,
             "arm_overlap_pixel_frames": self.overlap_pixels,
             "unresolved_scene_patch_pixels": self.missing_pixels,
             "real_plate_coverage_fraction": float((self.coverage > 0).mean()),
