@@ -30,3 +30,14 @@ Old reviews and their notes remain unchanged. The new review has an independent
 localStorage key and a next-uninterrupted-lift button. Training mask integration
 is still not connected. Numerical checks do not certify flawless compositing;
 source exposure/color and segmentation quality notes remain visible for review.
+
+## Training dataset on Hugging Face
+
+Private dataset: Shiki42/piperx-put-cube-in-drawer-20260908-87ep-ctr.
+The independent LeRobot v3 export materializes retime.left_idle and
+retime.right_idle boolean columns in every Parquet row, with matching feature
+declarations, global stats and per-episode stats. True excludes the corresponding
+arm's seven action dimensions. The training loader must explicitly apply them.
+156 episodes,82,569 frames,468 camera videos; original columns and video hashes
+unchanged. Arrow loader passed; remote sizes, LFS hashes and downloaded samples
+verified. See hf-dataset-upload.json for immutable HF revision and details.

@@ -1,0 +1,16 @@
+{
+  "passed": true,
+  "repo_id": "Shiki42/piperx-put-cube-in-drawer-20260908-87ep-ctr",
+  "codebase_version": "v3.0",
+  "episodes": 156,
+  "frames": 82569,
+  "fps": 30,
+  "videos": 468,
+  "original_columns_unchanged": true,
+  "video_sha256_unchanged": true,
+  "idle_true_counts": {
+    "retime.left_idle": 16711,
+    "retime.right_idle": 10252
+  },
+  "training_hook": "Consumer must apply idle masks explicitly; LeRobot does not automatically exclude custom idle fields from loss."
+}
