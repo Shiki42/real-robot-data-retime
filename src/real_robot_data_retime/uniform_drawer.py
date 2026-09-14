@@ -406,8 +406,7 @@ def finalize_dataset(config):
                 raise ValueError("sample position differs from global uniform grid")
             pair.append(receipt["plan"]["stages"]["uniform"])
         if (
-            pair[0]["a_frames"] != pair[1]["a_frames"]
-            or pair[0]["b_frames"] != pair[1]["b_frames"]
+            pair[0]["b_frames"] != pair[1]["b_frames"]
         ):
             raise ValueError("prerequisite durations differ between variants")
         if not np.isclose(pair[1]["position"] - pair[0]["position"], 0.5):

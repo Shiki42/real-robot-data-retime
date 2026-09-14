@@ -39,6 +39,21 @@ def stage_delays(a_frames, b_frames, position):
     )
 
 
+def uniform_lift_profile(start, stop, peak, opening, position, fps):
+    """Use recorded-speed lift unless B finishes after natural lift arrival."""
+    from .smooth import lift_clock
+    clock = np.arange(start, stop + 1, dtype=float)
+    peak_index = int(peak - start)
+    timing = stage_delays(peak_index, opening, position)
+    needs_wait = (timing['right_delay_frames'] + opening
+                  > timing['left_delay_frames'] + peak_index)
+    ramps = None
+    if needs_wait:
+        clock, peak_index, ramps = lift_clock(start, stop, peak, fps)
+        timing = stage_delays(peak_index, opening, position)
+    return clock, peak_index, ramps, timing
+
+
 def validate_stage_schedule(left, right, stages):
     left, right = np.asarray(left), np.asarray(right)
     if (

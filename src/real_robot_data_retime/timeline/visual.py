@@ -236,16 +236,16 @@ def plan_visual(
                 "arm_mesh_and_configured_held_object_clear_of_drawer_sweep"
             )
             if uniform_position is not None:
-                from .uniform import stage_delays
+                from .uniform import uniform_lift_profile
 
                 if left_delay_seconds or right_delay_seconds:
                     raise ValueError(
                         "uniform position and explicit delays are mutually exclusive"
                     )
-                _, peak_index, _ = lift_clock(
-                    sources[0][0], sources[0][-1], gate, timeline["fps"]
+                uniform_clock, peak_index, uniform_ramps, uniform = uniform_lift_profile(
+                    sources[0][0], sources[0][-1], gate, a,
+                    uniform_position, timeline["fps"]
                 )
-                uniform = stage_delays(peak_index, a, uniform_position)
                 left_delay_seconds = uniform["left_delay_frames"] / timeline["fps"]
                 right_delay_seconds = uniform["right_delay_frames"] / timeline["fps"]
                 stages["uniform"] = uniform
@@ -418,65 +418,70 @@ def plan_visual(
     else:
         schedule = search() if uniform_position is None else None
     if joints is not None and drawer:
-        smooth_stop = uniform_position is not None or bool(
+        smooth_stop = (uniform_ramps is not None) if uniform_position is not None else bool(
             np.any((np.diff(schedule.left) == 0) & (schedule.left[:-1] == stop_index))
         )
         stages["smooth_stop_required"] = smooth_stop
-        if smooth_stop:
-            clock, stop_index, ramps = lift_clock(
-                sources[0][0], sources[0][-1], gate, timeline["fps"]
-            )
-            begin = int(np.floor(ramps["brake_source_start"]))
-            if uniform_position is None and (
-                begin < candidate_start or not eligible[begin : gate + 1].all()
-            ):
-                raise ValueError("0.5 second braking path leaves safe held interval")
-            # Recheck the interpolated braking poses, not only recorded endpoints.
-            samples = np.linspace(
-                ramps["brake_source_start"],
-                gate,
-                max(2, int(np.ceil((gate - ramps["brake_source_start"]) * 4)) + 1),
-            )
-            if uniform_position is None:
-                for source_time, row in zip(
-                    np.tile(samples, 2),
-                    np.concatenate(
-                        [
-                            sample_rows(values[:, :7], samples)
-                            for values in (state, action)
-                        ]
-                    ),
-                ):
-                    pose = checker._pose(row, 0)
-                    if not (
-                        (
-                            source_time < event["pickup_frame"]
-                            or outside_box(
-                                pose[4], volume, radius=geometry.held_object_radius_m
-                            )
-                        )
-                        and checker.pose_clears_volume(pose, volume, margin=0.005)
-                    ):
-                        raise ValueError(
-                            "interpolated braking pose enters drawer sweep"
-                        )
-            end = int(ramps["restart_source_end"])
-            if (
-                end
-                >= (
-                    held_end if uniform_position is not None else event["release_frame"]
+        if smooth_stop or uniform_position is not None:
+            if uniform_position is not None:
+                clock, stop_index, ramps = uniform_clock, peak_index, uniform_ramps
+            else:
+                clock, stop_index, ramps = lift_clock(
+                    sources[0][0], sources[0][-1], gate, timeline["fps"]
                 )
-                or np.maximum(state[gate : end + 1, 6], action[gate : end + 1, 6]).max()
-                > aperture
-            ):
-                raise ValueError("restart ramp must retain the held object")
+            if smooth_stop:
+                begin = int(np.floor(ramps["brake_source_start"]))
+                if uniform_position is None and (
+                    begin < candidate_start or not eligible[begin : gate + 1].all()
+                ):
+                    raise ValueError("0.5 second braking path leaves safe held interval")
+                # Recheck the interpolated braking poses, not only recorded endpoints.
+                samples = np.linspace(
+                    ramps["brake_source_start"],
+                    gate,
+                    max(2, int(np.ceil((gate - ramps["brake_source_start"]) * 4)) + 1),
+                )
+                if uniform_position is None:
+                    for source_time, row in zip(
+                        np.tile(samples, 2),
+                        np.concatenate(
+                            [
+                                sample_rows(values[:, :7], samples)
+                                for values in (state, action)
+                            ]
+                        ),
+                    ):
+                        pose = checker._pose(row, 0)
+                        if not (
+                            (
+                                source_time < event["pickup_frame"]
+                                or outside_box(
+                                    pose[4], volume, radius=geometry.held_object_radius_m
+                                )
+                            )
+                            and checker.pose_clears_volume(pose, volume, margin=0.005)
+                        ):
+                            raise ValueError(
+                                "interpolated braking pose enters drawer sweep"
+                            )
+                end = int(ramps["restart_source_end"])
+                if (
+                    end
+                    >= (
+                        held_end if uniform_position is not None else event["release_frame"]
+                    )
+                    or np.maximum(state[gate : end + 1, 6], action[gate : end + 1, 6]).max()
+                    > aperture
+                ):
+                    raise ValueError("restart ramp must retain the held object")
             sources[0] = np.r_[np.full(left_delay, clock[0]), clock]
             stop_index += left_delay
             mask.cache_clear()
             clear.cache_clear()
             early_close_clear.cache_clear()
             schedule = search()
-            stages.update(ramps)
+            if smooth_stop:
+                stages.update(ramps)
             if uniform_position is not None:
                 # B is already complete before these right-arm ramps begin.
                 # Discover collision waits, ease only the post-B right path,
@@ -606,8 +611,8 @@ def plan_visual(
                 event,
                 sources[0][schedule.left],
                 sources[1][schedule.right],
-                stages["brake_start_output_frame"],
-                stages["restart_start_output_frame"],
+                stages["brake_start_output_frame"] if smooth_stop else stages["stop_output_frames"][0],
+                stages["restart_start_output_frame"] if smooth_stop else stages["stop_output_frames"][0],
                 geometry=geometry,
             )
         stages["held_output_intervals"] = int(
