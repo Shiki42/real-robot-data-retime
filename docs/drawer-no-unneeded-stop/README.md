@@ -41,3 +41,14 @@ arm's seven action dimensions. The training loader must explicitly apply them.
 156 episodes,82,569 frames,468 camera videos; original columns and video hashes
 unchanged. Arrow loader passed; remote sizes, LFS hashes and downloaded samples
 verified. See hf-dataset-upload.json for immutable HF revision and details.
+
+## Three-camera review
+
+The local review shows synchronized top, left-wrist and right-wrist video.
+Top-camera controls own playback, rate, seeking and frame stepping; wrist views
+follow, including pause and episode changes. Each panel can be enlarged and
+restored without reloading the videos. Both wrist streams are the full640x480
+exports from HF revision349f0e3fb9da0fbe3a8191ca54d426d011606ba9.
+Deploy web/review/multi-camera.js beside index.html. Wrist files use
+videos/{left_wrist,right_wrist}/episode_NNN.mp4. The localStorage review key
+and existing notes stay unchanged.
