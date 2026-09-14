@@ -16,6 +16,17 @@ validation. This includes reported outputs100–103, whose source clocks advance
 exactly1 frame per output frame around the peak with the drawer already open.
 
 Run root: /home/coder/share/drawer-no-unneeded-stop-20260915
-The156 old review videos at localhost:38770 are unchanged. Only the8 pilot
-outputs are rendered in the new root; this is not a fully regenerated dataset.
-Any full regeneration must export masks again against its new output clocks.
+All156 episodes are now regenerated and finalized:82,569 frames,468 videos,
+156 Action/State Parquet files. Every camera video decoded successfully; source
+clock numeric comparisons, global metadata and stage checks passed.61 outputs
+have no unnecessary lift stop. The four originally reported outputs100–103
+are among them. Idle masks were re-exported against the new clocks, including
+continuous pre-close waits and per-arm final-rest caps of45 supervised frames.
+
+Local review: http://127.0.0.1:38771/
+Local package: /Users/shuyuan/Downloads/drawer-no-stop-review-156-20260915
+Main-camera copies:640x362,30FPS,H264 CRF23,85,445,713 bytes with all frames kept.
+Old reviews and their notes remain unchanged. The new review has an independent
+localStorage key and a next-uninterrupted-lift button. Training mask integration
+is still not connected. Numerical checks do not certify flawless compositing;
+source exposure/color and segmentation quality notes remain visible for review.

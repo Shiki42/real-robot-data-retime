@@ -1,0 +1,9 @@
+{
+  "episodes": 156,
+  "frames": 82569,
+  "uninterrupted_lift_outputs": 61,
+  "review_bytes": 85445713,
+  "archive_sha256": "6e86dd5c5d5d6ca3822e5cdc2c38d904539a77c53cafe42170d945bc33d804f5",
+  "dataset": "/home/coder/share/drawer-no-unneeded-stop-20260915/dataset",
+  "review_archive": "/home/coder/share/drawer-no-unneeded-stop-20260915/local-review-package/review.tar"
+}
