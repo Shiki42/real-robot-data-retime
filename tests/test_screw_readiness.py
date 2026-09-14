@@ -1,91 +1,141 @@
+import json
+from pathlib import Path
+
 import numpy as np
+import pytest
 
-from real_robot_data_retime.timeline.readiness import (
-    align_ready_suffix,
-    sustained_ready_frame,
+from real_robot_data_retime.timeline.readiness import final_left_pose
+from real_robot_data_retime.timeline.screw import (
+    screw_schedule,
+    validate_screw_schedule,
 )
-from real_robot_data_retime.timeline.screw import screw_schedule
+from real_robot_data_retime.timeline.smooth import sample_rows
 
 
-def poses(n):
-    return np.repeat(np.eye(4)[None], n, axis=0)
-
-
-def test_readiness_requires_sustained_position_orientation_and_closed_gripper():
-    state = np.zeros((20, 7))
+def test_final_pose_is_after_adjustment_not_the_intermediate_wait():
+    state = np.zeros((60, 7))
+    state[10:30, 0] = 1
+    state[30:40, 0] = np.linspace(1, 2, 10)
+    state[40:, 0] = 2
     action = state.copy()
-    sp = poses(20)
-    ap = poses(20)
-    sp[:5, 0, 3] = 0.02
-    angle = np.radians(5)
-    sp[8, :2, :2] = [[np.cos(angle), -np.sin(angle)], [np.sin(angle), np.cos(angle)]]
-    state[12, 6] = 3
-    ap[14, 0, 3] = 0.02
-    ready, e = sustained_ready_frame(state, action, sp, ap, 0, 19)
-    assert ready == 15
-    assert e["measured_and_commanded"][0]["max_position_mm"] == 0
+    action[45, 1] = 0.2
+    frame, evidence = final_left_pose(state, action, 0, 55)
+    assert frame == 46
+    assert evidence["final_left_source_frame"] > 40
 
 
-def test_micro_adjustments_remain_on_source_path_when_retimed():
-    clock = np.arange(100, dtype=float)
-    for end in [76, 130]:
-        mapped = align_ready_suffix(clock, 60, end)
-        np.testing.assert_array_equal(mapped[:60], clock[:60])
-        assert mapped[-1] == 99
-        assert np.diff(mapped).min() > 0
-        assert np.diff(mapped).max() <= 3
-
-
-def test_ready_arm_residual_duration_cannot_force_active_arm_to_stop():
-    # Two poses are physically ready at different times; the left has a long
-    # recorded micro-alignment tail. It must not become a false preparation wait.
-    values = np.arange(600)[:, None] * np.ones((1, 14))
-    coupled = [(100, 110), (210, 220), (320, 330), (430, 440), (540, 550)]
-    ready = [(a - 4, a - 15) for a, b in coupled]
-    physical = [(a - 35, a - 15) for a, b in coupled]
-    retreat = [b + 4 for a, b in coupled]
-    _l, r, p = screw_schedule(
-        values,
-        values,
-        0,
-        600,
-        coupled,
-        ready,
-        retreat,
-        0.5,
-        30,
-        preparation_frames=physical,
-    )
-    for s in p["stages"]:
-        if s["kind"] == "independent":
-            assert s["transitions"][1]["hold_frames"] == 0
-            start = s["pickup_start_output_frames"][1]
-            assert (np.diff(r[start : s["output_end"] + 1]) > 0).all()
-
-
-def test_episode_one_second_insertion_has_no_false_right_wait():
-    import json
-    from pathlib import Path
-
+def episode_two(position):
     root = Path(__file__).parents[1]
-    config = json.loads((root / "docs/screw-pilot/config.json").read_text())
-    with np.load(root / "tests/fixtures/screw_ep001.npz") as data:
-        left, right, plan = screw_schedule(
-            data["state"],
-            data["action"],
-            int(data["start"]),
-            int(data["stop"]),
-            config["coupled_intervals"],
-            config["ready_frames"],
-            config["right_retreat_ends"],
+    config = json.loads((root / "docs/screw-cohort/ep002.json").read_text())
+    with np.load(root / "tests/fixtures/screw_ep002.npz") as data:
+        state, action = data["state"], data["action"]
+        start, stop = int(data["start"]), int(data["stop"])
+    left, right, plan = screw_schedule(
+        state,
+        action,
+        start,
+        stop,
+        config["coupled_intervals"],
+        config["ready_frames"],
+        config["right_retreat_ends"],
+        position,
+        30,
+    )
+    return left, right, plan, state, action, start, stop
+
+
+@pytest.mark.parametrize("position", [0.15, 0.5, 0.85])
+def test_episode_two_only_one_waiter_and_no_left_adjustment_after_wait(position):
+    left, right, plan, state, action, _, _ = episode_two(position)
+    for stage in plan["stages"]:
+        if stage["kind"] != "independent":
+            continue
+        assert sum(tr["hold_frames"] > 0 for tr in stage["transitions"]) <= 1
+        final = stage["final_ready_source_frames"][0]
+        for values in [state, action]:
+            assert np.all(
+                np.ptp(values[final : stage["source_end"] + 1, :7], axis=0)
+                <= np.array([0.1] * 6 + [0.2])
+            )
+        tr = stage["transitions"][0]
+        if tr["mode"] == "final_pose_wait":
+            a, b = tr["arrival_output_frame"], stage["output_end"]
+            assert np.all(left[a:b] == final)
+            for values in [state, action]:
+                held = sample_rows(values[:, :7], left[a : b + 1])
+                assert np.all(np.ptp(held, axis=0) <= np.array([0.1] * 6 + [0.2]))
+        late = 0 if stage["late_preparation_arm"] == "left" else 1
+        clock = (left, right)[late]
+        a, b = stage["pickup_start_output_frames"][late], stage["output_end"]
+        assert np.all(np.diff(clock[a : b + 1]) > 0)
+    # The earlier fourth-round attempt/correction must remain protected.
+    assert plan["stages"][7]["source_start"] == 1740
+
+
+def test_validator_rejects_adjustment_after_final_wait():
+    left, right, plan, state, action, start, stop = episode_two(0.15)
+    tr = plan["stages"][0]["transitions"][0]
+    left[tr["arrival_output_frame"]] -= 0.01
+    with pytest.raises(ValueError, match="left moved again"):
+        validate_screw_schedule(left, right, plan["stages"], state, action, start, stop)
+
+
+def test_final_pose_rejects_nonfinite_motion():
+    values = np.zeros((20, 7))
+    values[3, 0] = np.nan
+    with pytest.raises(ValueError):
+        final_left_pose(values, values, 0, 19)
+
+
+def test_episode_one_preserves_single_waiter_regression():
+    root = Path(__file__).parents[1]
+    c = json.loads((root / "docs/screw-pilot/config.json").read_text())
+    with np.load(root / "tests/fixtures/screw_ep001.npz") as d:
+        _, _, p = screw_schedule(
+            d["state"],
+            d["action"],
+            int(d["start"]),
+            int(d["stop"]),
+            c["coupled_intervals"],
+            c["ready_frames"],
+            c["right_retreat_ends"],
             0.5,
             30,
-            preparation_frames=config["preparation_frames"],
         )
-    stage = plan["stages"][2]
-    assert stage["transitions"][1]["hold_frames"] == 0
-    assert np.all(
-        np.diff(right[stage["pickup_start_output_frames"][1] : stage["output_end"] + 1])
-        > 0
-    )
-    assert left[709] == right[709] == 807
+    assert p["validation"]["at_most_one_preparation_waiter"]
+    assert p["validation"]["no_left_adjustment_after_final_wait"]
+
+
+def test_ep002_middle_has_no_long_hidden_both_arm_wait():
+    left, right, plan, state, action, _, _ = episode_two(0.5)
+    motion = [
+        np.c_[sample_rows(v[:, :7], left), sample_rows(v[:, 7:], right)]
+        for v in (state, action)
+    ]
+    change = np.maximum(*[np.max(np.abs(np.diff(v, axis=0)), axis=1) for v in motion])
+    for stage in plan["stages"]:
+        if stage["kind"] != "independent":
+            continue
+        a, b = max(stage["pickup_start_output_frames"]), stage["output_end"]
+        edges = np.diff(np.r_[False, change[a:b] < 0.01, False].astype(int))
+        lengths = np.flatnonzero(edges == -1) - np.flatnonzero(edges == 1)
+        assert not len(lengths) or lengths.max() <= 3
+
+
+def test_ep002_rejects_the_old_intermediate_ready_pose():
+    _, _, _, state, action, start, stop = episode_two(0.5)
+    root = Path(__file__).parents[1]
+    c = json.loads((root / "docs/screw-cohort/ep002.json").read_text())
+    c["ready_frames"][0][0] = 309
+    with pytest.raises(ValueError, match="still contains an adjustment"):
+        screw_schedule(
+            state,
+            action,
+            start,
+            stop,
+            c["coupled_intervals"],
+            c["ready_frames"],
+            c["right_retreat_ends"],
+            0.5,
+            30,
+        )

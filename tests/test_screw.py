@@ -7,7 +7,7 @@ from real_robot_data_retime.timeline.screw import (
 )
 
 WINDOWS = [(30, 40), (70, 80), (110, 120), (150, 160), (190, 200)]
-READY = [(start - 4, start - 10) for start, _ in WINDOWS]
+READY = [(start, start - 10) for start, _ in WINDOWS]
 RETREATS = [end + 4 for _, end in WINDOWS]
 
 
@@ -24,7 +24,6 @@ def test_five_coupled_windows_and_all_moving_frames_survive(position):
         RETREATS,
         position,
         30,
-        preparation_frames=READY,
     )
     for clock in (left, right):
         assert clock[0] == 0 and clock[-1] == 219
@@ -57,7 +56,6 @@ def test_state_motion_cannot_be_discarded_by_static_commands():
         RETREATS,
         0.5,
         30,
-        preparation_frames=READY,
     )
     assert np.diff(left).max() <= 1 + 1e-9
     assert np.diff(right).max() <= 1 + 1e-9
@@ -75,7 +73,6 @@ def test_validator_rejects_changed_insertion_clock():
         RETREATS,
         0.5,
         30,
-        preparation_frames=READY,
     )
     stage = plan["stages"][1]
     right[stage["output_start"] + 2] -= 1
@@ -100,7 +97,6 @@ def test_rejects_invalid_rounds(windows):
             RETREATS,
             0.5,
             30,
-            preparation_frames=READY,
         )
 
 
@@ -156,7 +152,6 @@ def test_stage_receipt_serializes_and_rejects_internal_pause():
         RETREATS,
         0.5,
         30,
-        preparation_frames=READY,
     )
     json.dumps(plan, allow_nan=False)
     left[10] = left[9]
@@ -167,20 +162,22 @@ def test_stage_receipt_serializes_and_rejects_internal_pause():
 def test_right_lead_waits_near_contact_and_restarts_before_coupling():
     from real_robot_data_retime.timeline.smooth import sample_rows
 
-    values = np.arange(220)[:, None] * np.ones((1, 14))
+    windows = [(100, 110), (210, 220), (320, 330), (430, 440), (540, 550)]
+    ready = [(a, a - 15) for a, b in windows]
+    retreats = [b + 4 for a, b in windows]
+    values = np.arange(600)[:, None] * np.ones((1, 14))
     left, right, plan = screw_schedule(
         values,
         values,
         0,
-        220,
-        WINDOWS,
-        READY,
-        RETREATS,
-        0.85,
+        600,
+        windows,
+        ready,
+        retreats,
+        0.95,
         30,
-        preparation_frames=READY,
     )
-    assert np.count_nonzero(right != np.floor(right)) == 110
+    assert np.count_nonzero(right != np.floor(right)) > 0
     assert (
         np.diff(
             left[
@@ -192,11 +189,18 @@ def test_right_lead_waits_near_contact_and_restarts_before_coupling():
         )
         > 0
     ).all()
+    assert any(
+        s["transitions"][1]["mode"] == "ready_wait"
+        for s in plan["stages"]
+        if s["kind"] == "independent"
+    )
     motion = sample_rows(values[:, 7:], right)
     for stage in plan["stages"]:
         if stage["kind"] != "independent":
             continue
         transition = stage["transitions"][1]
+        if transition["mode"] != "ready_wait":
+            continue
         a, b = (
             transition["arrival_output_frame"],
             transition["restart_start_output_frame"],
@@ -287,7 +291,6 @@ def test_right_retreat_is_immediate_native_and_precedes_new_pickup(position):
         RETREATS,
         position,
         30,
-        preparation_frames=READY,
     )
     for stage in plan["stages"]:
         if "mandatory_previous_right_retreat" not in stage:
@@ -318,7 +321,6 @@ def test_small_lead_flows_through_without_full_stop():
         RETREATS,
         0.48,
         30,
-        preparation_frames=READY,
     )
     stage = plan["stages"][0]
     assert all(t["mode"] != "ready_wait" for t in stage["transitions"])

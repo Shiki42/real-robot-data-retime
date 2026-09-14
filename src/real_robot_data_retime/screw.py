@@ -272,7 +272,6 @@ def render(source, work, frames, config, values):
             config["right_retreat_ends"],
             position,
             info["fps"],
-            preparation_frames=config["preparation_frames"],
             brake_seconds=config["brake_seconds"],
             restart_seconds=config["restart_seconds"],
         )

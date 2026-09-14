@@ -1,5 +1,5 @@
 {
-  "artifact_directory": "/home/coder/share/screw-retiming-20260912/cohort",
+  "artifact_directory": "/home/coder/share/screw-retiming-20260912/final-ready",
   "episodes": [
     0,
     1,
@@ -12,20 +12,17 @@
     0.5,
     0.85
   ],
-  "visual_sampling": "per cycle insertion start minus 12 frames, right retreat end minus 6 frames; all timings",
-  "fixes": [
-    "episode 0 round 3 high-arm foreground seed",
-    "episode 2 round 5 complete right gripper foreground"
-  ],
+  "visual_sampling": "all five rounds at insertion minus 12 output frames in each of 15 rendered videos; browser playback of ep002 middle from round3 to final storage",
+  "boundary_review": "ep002 source grids around all five original insertion entries, fourth round first approach protected from1740",
   "limitations": [
-    "visual sampling is not an exhaustive frame-by-frame segmentation audit",
-    "episode 24 has visible background brightness seams around scene ownership boundaries"
+    "sampling is not exhaustive pixel-level segmentation validation",
+    "existing background brightness seams and foreground edge residues remain"
   ],
-  "regression": {
-    "episode": 1,
-    "case": "screw-50",
-    "output_frame": 709,
-    "left_source": 807,
-    "right_source": 807
-  }
+  "checks": [
+    "final left waiting uses one settled source pose until synchronized entry",
+    "at most one scheduled preparation waiter",
+    "measured and commanded motion inspected in addition to source-time progression"
+  ],
+  "maximum_both_near_still_frames": 3,
+  "near_still_definition": "maximum absolute per-frame change across all fourteen measured and commanded values below0.01; only after both pickup onsets and before synchronized entry"
 }

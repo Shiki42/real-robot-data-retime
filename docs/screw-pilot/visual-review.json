@@ -1,35 +1,14 @@
 {
-  "artifact_directory": "/home/coder/share/screw-retiming-20260912/flow-v3",
-  "source_retreat_frames": [
-    [
-      435,
-      452,
-      469
-    ],
-    [
-      895,
-      942,
-      989
-    ],
-    [
-      1370,
-      1398,
-      1427
-    ],
-    [
-      1985,
-      2024,
-      2063
-    ],
-    [
-      2460,
-      2533,
-      2607
-    ]
+  "artifact_directory": "/home/coder/share/screw-retiming-20260912/final-ready/ep001",
+  "episode": 1,
+  "timings": [
+    0.15,
+    0.5,
+    0.85
   ],
-  "browser_checks": [
-    "late-arm approach and insertion playback",
-    "right-leading sample: output 532 to 533, right source 435 to 436 while left remains 435",
-    "frame stepping uses recorded WebM presentation timestamps"
+  "visual_sampling": "five insertion-entry-minus12 frames per timing",
+  "cohort_review": "../screw-cohort/visual-review.json",
+  "limitations": [
+    "not an exhaustive pixel-level audit"
   ]
 }

@@ -1,51 +1,63 @@
-# 插螺丝多 episode 验证
+# 插螺丝：最后就位后只等待一次
 
-数据集与 revision 同 `../screw-pilot/config.json`。选择 episode 0、1、2、12、24，
-覆盖开头、中间和末尾示范；每条生成 u=0.15、0.50、0.85，共 15 条完整视频。
-每条包含 5 次插入，合计检查 75 个插入衔接和右臂撤回区间。
+数据集 `Shiki42/piperx-screw-0910-25ep-raw`，revision
+`824b6382ef4858213e6ea42ea61104110d911448`。
+本轮重做 episode 0、1、2、12、24，每条 u=0.15、0.50、0.85，共 15 条。
+新版工作目录 `/home/coder/share/screw-retiming-20260912/final-ready`（coder a），
+预览 `http://127.0.0.1:38779/final-ready/`。旧 `cohort/` 保留作比较。
 
-## 修复
+## 调整完成与同步边界
 
-旧调度把左臂已经就位后的微调/静止时长也计入准备时长，导致右臂错误刹停。
-现在通过 measured state 和 commanded action 的 PiperX 正运动学分别判断持续就位：
-测量 TCP 位置 5 mm、方向 2°；命令位置 10 mm、方向 3°；夹爪开度 0.5 mm。
-必须从候选帧一直到参考帧都满足条件，不能仅凭瞬时接近判断。
-这些阈值用于当前示范的就位判定，仍需人工确认任务边界。
+旧版用宽松 TCP 就位容差提前宣布左臂到位，又把其后剩余源帧称为连续微调，
+导致原片中的「中途等待→最后调整」仍被带入输出。源时间前进不能证明机械臂在动。
 
-准备后的微调沿原轨迹做正速度重映射；相对于压缩静止后的原时钟最多 3 倍速，
-用已有 speed_ramp/sample_rows 衔接。没有删掉微调路径，也不改变真实插入区间。
-只在确实能形成至少 0.3 秒等待时才生成完整停车，采用原有 0.5 秒减速和 0.3 秒启动。
-右臂等待不得延续到左臂物理准备完成之后；插入及强制撤回逐帧保持原速。
+现在以人工核查的协同入口姿态为参考，寻找左臂最后一次调整的结束：从候选帧到协同入口，
+所有 measured state 和 commanded action 的关节偏差都不超过 0.05 度、开度偏差不超过 0.1 mm。
+必须整个后缀满足条件，不能把中间的暂时停顿当作终点。`final_left_pose` 负责此判断，
+`final_left_pose_evidence` 保存逐通道差异和参考帧。
 
-Episode 1 的中间时序，第 2 轮不再有额外右臂 hold；新视频在输出 707 帧进入
-源帧 805 的同步插入，709 帧两臂均对应源帧 807。视频时长改变，因此旧帧号与新帧号
-不代表相同动作阶段。小型原始 state/action 回归数据保存在 tests/fixtures/screw_ep001.npz，
-来源为上述 HF revision 的 episode 1，未包含视频。
+左臂先完成全部接触前调整，到最终插入姿态后才允许减速等待。等待后不再执行额外调整，
+仅将已核查为静止的源时间尾段并入原始同步入口。右臂到位较早时，复用原有减速/启动插帧，
+让启动后的剩余接近段与左臂动作同时结束。每轮最多一臂被安排等待。
 
-## 重现
+左臂未出现可确认的稳定终点（检测结果等于同步入口）时，不强行添加停车；
+通过连续减速消化提前量。此时部分左臂先行样例会连续接近，而不是提前固定在一个未经确认的姿态。
+不再使用旧版宽松 readiness 与三倍速残余对齐；两臂共用原来的有界静止压缩和视频/动作插值。
+准备段静止压缩至少 0.2 秒、两端各保留 1 帧，避免每处原始等待都留下 0.4 秒尾巴。
 
-在 coder a 的 `/home/coder/share/real-robot-data-retime-screw` 运行：
+### ep002 的边界
+
+| 轮次 | 左臂最后就位源帧 | 同步入口源帧 |
+| --- | ---: | ---: |
+| 1 | 327 | 345 |
+| 2 | 805 | 807 |
+| 3 | 1171 | 1282 |
+| 4 | 1715 | 1740 |
+| 5 | 2263 | 2285 |
+
+这里两个源帧不同并不意味着输出要走完整段等待：中间经验证不再含左臂调整的尾段被压缩，
+最终仍在相同的原始双臂帧进入同步阶段。
+第四轮原来的同步入口是 1785，但 1740 之后已有首次接近/尝试、退开和再调整；
+因此将保护入口前移至 1740。接触可能已发生的调整不能独立提前，这部分保留原始双臂同步。
+所有轮次的右臂插入后撤回仍是上一轮的强制原速后缀。
+
+## 重现与检查
 
 ```sh
+PYTHONPATH=src python scripts/analyze_screw_readiness.py \
+ --source /home/coder/share/screw-retiming-20260912/raw \
+ --config docs/screw-cohort/ep002.json
 PYTHONPATH=src python -m real_robot_data_retime.screw \
  --source /home/coder/share/screw-retiming-20260912/raw \
- --work /home/coder/share/screw-retiming-20260912/cohort/ep000 \
- --config docs/screw-cohort/ep000.json --prepare
-python scripts/build_screw_cohort_preview.py /home/coder/share/screw-retiming-20260912/cohort
+ --work /home/coder/share/screw-retiming-20260912/final-ready/ep002 \
+ --config docs/screw-cohort/ep002.json --prepare
+python scripts/build_screw_cohort_preview.py /home/coder/share/screw-retiming-20260912/final-ready
 ```
 
-其余配置为 ep002.json、ep012.json、ep024.json 和 ../screw-pilot/config.json。
-配置记录每轮人工接触边界、右臂撤回、分割提示和持续就位证据。
-`scripts/analyze_screw_readiness.py` 可从原始 state/action 和 PiperX URDF 重新计算就位帧。
-分割复用既有 SAM 视频传播；新增样本修正了高举右臂时背景误选及接近时夹爪漏分割。
-细长携带物允许独立提示，必要时从其稍后可见帧反向传播到拾取点。
+其余配置为 ep000.json、ep012.json、ep024.json 和 ../screw-pilot/config.json。
+`verify_screw_cohort.py` 重算源时间并逐帧与生成映射核对，同时检查 action/state 与四条视频时间戳；
+汇总见 validation.json。44 项相关测试覆盖最后调整判定、每轮仅一臂等待、等待后无左臂调整、
+右臂强制撤回及不合法改动负例，并使用原始 episode 1、2 的动作数据做回归。
 
-## 验证范围
-
-validation.json 汇总逐条运动映射、视频帧数/PTS、双腕逐帧像素误差及保护段检查。
-主视角同步保护段每条抽查 30 帧；非同步段另外查看每轮插入前和撤回附近画面。
-这属于 5 条示范的回归检查，不等于所有 25 条已完成自动标注，也不保证分割每个像素无误。
-
-预览：`http://127.0.0.1:38779/cohort/`。原始 flow-v3 保留用于前后对照。
-
-画面仍存在少量背景亮度接缝（尤其 episode 24）及前景边缘残影；这些属于合成画质限制，不能把数值同步通过等同于像素级无瑕疵。
+主视角插入与最终收纳每条抽查 30 帧；腕视角逐帧检查。视觉检查仍是抽样，
+背景亮度接缝和前景边缘残影等合成限制未因此消失。没有把这 5 条示范的结果泛化为全部 25 条。

@@ -30,7 +30,7 @@
     0.5,
     0.85
   ],
-  "boundary_method": "reviewed pre-contact coupled boundaries; independent pickup includes approach to per-arm ready poses; restart finishes before original coupled insertion",
+  "boundary_method": "left final pre-contact adjustment is completed before waiting; ep002 round4 first approach and correction protected from frame1740",
   "workspace_split_x": 330,
   "collision_policy": "independent pickup workspaces assumed disjoint as specified by user; no new metric collision claim",
   "left_scene_boxes": [
@@ -620,23 +620,23 @@
   ],
   "ready_frames": [
     [
-      398,
+      402,
       387
     ],
     [
-      806,
+      810,
       795
     ],
     [
-      1336,
+      1340,
       1325
     ],
     [
-      1806,
+      1810,
       1795
     ],
     [
-      2396,
+      2388,
       2385
     ]
   ],
@@ -800,249 +800,117 @@
     1914,
     2490
   ],
-  "preparation_frames": [
-    [
-      395,
-      386
-    ],
-    [
-      805,
-      795
-    ],
-    [
-      1330,
-      1324
-    ],
-    [
-      1792,
-      1795
-    ],
-    [
-      2338,
-      2383
-    ]
-  ],
-  "readiness_evidence": [
-    [
-      {
-        "reference_source_frame": 398,
-        "ready_source_frame": 395,
-        "position_tolerance_mm": 5.0,
-        "command_position_tolerance_mm": 10.0,
-        "command_orientation_tolerance_deg": 3.0,
-        "orientation_tolerance_deg": 2.0,
-        "gripper_tolerance_mm": 0.5,
-        "measured_and_commanded": [
-          {
-            "max_position_mm": 4.520262043614086,
-            "max_orientation_deg": 1.5522941357276012,
-            "max_gripper_mm": 0.0
-          },
-          {
-            "max_position_mm": 6.300355181917452,
-            "max_orientation_deg": 1.6039830382678923,
-            "max_gripper_mm": 0.0
-          }
-        ]
-      },
-      {
-        "reference_source_frame": 387,
-        "ready_source_frame": 386,
-        "position_tolerance_mm": 5.0,
-        "command_position_tolerance_mm": 10.0,
-        "command_orientation_tolerance_deg": 3.0,
-        "orientation_tolerance_deg": 2.0,
-        "gripper_tolerance_mm": 0.5,
-        "measured_and_commanded": [
-          {
-            "max_position_mm": 4.639445588139989,
-            "max_orientation_deg": 0.629280495380808,
-            "max_gripper_mm": 0.0
-          },
-          {
-            "max_position_mm": 2.7032995648888942,
-            "max_orientation_deg": 0.2631946574201888,
-            "max_gripper_mm": 0.0
-          }
-        ]
-      }
-    ],
-    [
-      {
-        "reference_source_frame": 806,
-        "ready_source_frame": 805,
-        "position_tolerance_mm": 5.0,
-        "command_position_tolerance_mm": 10.0,
-        "command_orientation_tolerance_deg": 3.0,
-        "orientation_tolerance_deg": 2.0,
-        "gripper_tolerance_mm": 0.5,
-        "measured_and_commanded": [
-          {
-            "max_position_mm": 3.556631757655146,
-            "max_orientation_deg": 0.7422682471289442,
-            "max_gripper_mm": 0.0
-          },
-          {
-            "max_position_mm": 2.4453315354147906,
-            "max_orientation_deg": 0.4699993133427553,
-            "max_gripper_mm": 0.0
-          }
-        ]
-      },
-      {
-        "reference_source_frame": 795,
-        "ready_source_frame": 795,
-        "position_tolerance_mm": 5.0,
-        "command_position_tolerance_mm": 10.0,
-        "command_orientation_tolerance_deg": 3.0,
-        "orientation_tolerance_deg": 2.0,
-        "gripper_tolerance_mm": 0.5,
-        "measured_and_commanded": [
-          {
-            "max_position_mm": 0.0,
-            "max_orientation_deg": 0.0,
-            "max_gripper_mm": 0.0
-          },
-          {
-            "max_position_mm": 0.0,
-            "max_orientation_deg": 0.0,
-            "max_gripper_mm": 0.0
-          }
-        ]
-      }
-    ],
-    [
-      {
-        "reference_source_frame": 1336,
-        "ready_source_frame": 1330,
-        "position_tolerance_mm": 5.0,
-        "command_position_tolerance_mm": 10.0,
-        "command_orientation_tolerance_deg": 3.0,
-        "orientation_tolerance_deg": 2.0,
-        "gripper_tolerance_mm": 0.5,
-        "measured_and_commanded": [
-          {
-            "max_position_mm": 3.49838050172586,
-            "max_orientation_deg": 0.8191280881949164,
-            "max_gripper_mm": 0.0
-          },
-          {
-            "max_position_mm": 1.231868525726638,
-            "max_orientation_deg": 0.4968270476691544,
-            "max_gripper_mm": 0.0
-          }
-        ]
-      },
-      {
-        "reference_source_frame": 1325,
-        "ready_source_frame": 1324,
-        "position_tolerance_mm": 5.0,
-        "command_position_tolerance_mm": 10.0,
-        "command_orientation_tolerance_deg": 3.0,
-        "orientation_tolerance_deg": 2.0,
-        "gripper_tolerance_mm": 0.5,
-        "measured_and_commanded": [
-          {
-            "max_position_mm": 2.7827382865977737,
-            "max_orientation_deg": 0.7666770411778701,
-            "max_gripper_mm": 0.0
-          },
-          {
-            "max_position_mm": 2.666893814826627,
-            "max_orientation_deg": 0.6205225921095915,
-            "max_gripper_mm": 0.0
-          }
-        ]
-      }
-    ],
-    [
-      {
-        "reference_source_frame": 1806,
-        "ready_source_frame": 1792,
-        "position_tolerance_mm": 5.0,
-        "command_position_tolerance_mm": 10.0,
-        "command_orientation_tolerance_deg": 3.0,
-        "orientation_tolerance_deg": 2.0,
-        "gripper_tolerance_mm": 0.5,
-        "measured_and_commanded": [
-          {
-            "max_position_mm": 3.9143704310062075,
-            "max_orientation_deg": 1.2413259329084514,
-            "max_gripper_mm": 0.0
-          },
-          {
-            "max_position_mm": 0.32602072705417057,
-            "max_orientation_deg": 1.475806840951349,
-            "max_gripper_mm": 0.0
-          }
-        ]
-      },
-      {
-        "reference_source_frame": 1795,
-        "ready_source_frame": 1795,
-        "position_tolerance_mm": 5.0,
-        "command_position_tolerance_mm": 10.0,
-        "command_orientation_tolerance_deg": 3.0,
-        "orientation_tolerance_deg": 2.0,
-        "gripper_tolerance_mm": 0.5,
-        "measured_and_commanded": [
-          {
-            "max_position_mm": 0.0,
-            "max_orientation_deg": 0.0,
-            "max_gripper_mm": 0.0
-          },
-          {
-            "max_position_mm": 0.0,
-            "max_orientation_deg": 0.0,
-            "max_gripper_mm": 0.0
-          }
-        ]
-      }
-    ],
-    [
-      {
-        "reference_source_frame": 2396,
-        "ready_source_frame": 2338,
-        "position_tolerance_mm": 5.0,
-        "command_position_tolerance_mm": 10.0,
-        "command_orientation_tolerance_deg": 3.0,
-        "orientation_tolerance_deg": 2.0,
-        "gripper_tolerance_mm": 0.5,
-        "measured_and_commanded": [
-          {
-            "max_position_mm": 3.5651572489464116,
-            "max_orientation_deg": 0.937463319760273,
-            "max_gripper_mm": 0.0
-          },
-          {
-            "max_position_mm": 0.7272895100005708,
-            "max_orientation_deg": 0.700295309043193,
-            "max_gripper_mm": 0.0
-          }
-        ]
-      },
-      {
-        "reference_source_frame": 2385,
-        "ready_source_frame": 2383,
-        "position_tolerance_mm": 5.0,
-        "command_position_tolerance_mm": 10.0,
-        "command_orientation_tolerance_deg": 3.0,
-        "orientation_tolerance_deg": 2.0,
-        "gripper_tolerance_mm": 0.5,
-        "measured_and_commanded": [
-          {
-            "max_position_mm": 4.357966751470239,
-            "max_orientation_deg": 0.7040059094890008,
-            "max_gripper_mm": 0.0
-          },
-          {
-            "max_position_mm": 2.876915674158481,
-            "max_orientation_deg": 0.8667417741925815,
-            "max_gripper_mm": 0.0
-          }
-        ]
-      }
-    ]
-  ],
-  "readiness_source_data_sha256": "ca3f91e6352542587231b5885d43a3dfe322f03018418842c8bd969413d2fdb2"
+  "readiness_source_data_sha256": "ca3f91e6352542587231b5885d43a3dfe322f03018418842c8bd969413d2fdb2",
+  "final_left_pose_evidence": [
+    {
+      "source_reference_frame": 402,
+      "final_left_source_frame": 402,
+      "joint_tolerance_deg": 0.05,
+      "gripper_tolerance_mm": 0.1,
+      "max_state_action_difference": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "source_reference_frame": 810,
+      "final_left_source_frame": 810,
+      "joint_tolerance_deg": 0.05,
+      "gripper_tolerance_mm": 0.1,
+      "max_state_action_difference": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "source_reference_frame": 1340,
+      "final_left_source_frame": 1340,
+      "joint_tolerance_deg": 0.05,
+      "gripper_tolerance_mm": 0.1,
+      "max_state_action_difference": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "source_reference_frame": 1810,
+      "final_left_source_frame": 1810,
+      "joint_tolerance_deg": 0.05,
+      "gripper_tolerance_mm": 0.1,
+      "max_state_action_difference": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "source_reference_frame": 2400,
+      "final_left_source_frame": 2388,
+      "joint_tolerance_deg": 0.05,
+      "gripper_tolerance_mm": 0.1,
+      "max_state_action_difference": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.014999866485595703,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  ]
 }

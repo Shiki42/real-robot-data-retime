@@ -24,8 +24,8 @@ def build_cohort(root):
 body{background:#11161c;color:#eef2f6;font:18px system-ui;margin:48px auto;max-width:900px;padding:24px}
 a{display:block;background:#202a35;color:#9fd4ff;padding:20px;margin:12px 0;border-radius:12px;text-decoration:none}p{line-height:1.8;color:#bcc7d4}
 </style><h1>插螺丝 · 多 episode 检查</h1>
-<p>每条示范提供左臂先行、中间时序、右臂先行三个版本。准备末尾的微调连续衔接，插入后的右臂撤回保持原速。</p>
-<p>Episode 1 是原第 709 帧问题的修复版本。可在每条视频下逐帧检查，或跳转到各轮插入和撤回。</p>
+<p>每条示范提供左臂先行、中间时序、右臂先行三个版本。左臂完成最后调整后才等待，每轮最多一臂等待，插入后的右臂撤回保持原速。</p>
+<p>建议先查看 Episode 2 的中间时序。可在每条视频下逐帧检查，或跳转到各轮插入和撤回。</p>
 """
         + "".join(links)
         + "</html>"

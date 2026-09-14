@@ -2,32 +2,17 @@
   {
     "episode": 0,
     "case": "screw-15",
-    "frames": 3191,
-    "validation": {
+    "frames": 2983,
+    "media": {
       "passed": true,
       "frames": {
-        "parallel.mp4": 3191,
-        "left_wrist.mp4": 3191,
-        "right_wrist.mp4": 3191,
-        "preview.webm": 3191
+        "parallel.mp4": 2983,
+        "left_wrist.mp4": 2983,
+        "right_wrist.mp4": 2983,
+        "preview.webm": 2983
       },
       "action_state_exact": true,
-      "camera_timestamps_match": true,
-      "wrist_pixels": {
-        "left": {
-          "samples": 3191,
-          "maximum_mean_absolute_pixel_error": 2.9125868055555557
-        },
-        "right": {
-          "samples": 3191,
-          "maximum_mean_absolute_pixel_error": 3.809287109375
-        }
-      },
-      "protected_main_pixels": {
-        "samples": 30,
-        "maximum_mean_absolute_pixel_error": 2.549290418624878,
-        "passed": true
-      }
+      "camera_timestamps_match": true
     },
     "timeline": {
       "passed": true,
@@ -69,58 +54,7 @@
           "passed": true
         }
       ],
-      "smooth_ready_waits": [
-        {
-          "cycle": 1,
-          "arm": "left",
-          "hold_frames": 106,
-          "brake_first_rate": 0.9970409876543158,
-          "brake_last_rate": 0.005633580246922065,
-          "restart_first_rate": 0.0058934105573484885,
-          "restart_last_rate": 0.9825737946451341,
-          "passed": true
-        },
-        {
-          "cycle": 2,
-          "arm": "left",
-          "hold_frames": 119,
-          "brake_first_rate": 0.9970409876543727,
-          "brake_last_rate": 0.005633580246922065,
-          "restart_first_rate": 0.005893410557291645,
-          "restart_last_rate": 0.9825737946450772,
-          "passed": true
-        },
-        {
-          "cycle": 3,
-          "arm": "left",
-          "hold_frames": 110,
-          "brake_first_rate": 0.9970409876543727,
-          "brake_last_rate": 0.005633580246922065,
-          "restart_first_rate": 0.005893410557291645,
-          "restart_last_rate": 0.9825737946450772,
-          "passed": true
-        },
-        {
-          "cycle": 4,
-          "arm": "left",
-          "hold_frames": 98,
-          "brake_first_rate": 0.9970409876543727,
-          "brake_last_rate": 0.005633580246922065,
-          "restart_first_rate": 0.005893410557291645,
-          "restart_last_rate": 0.9825737946450772,
-          "passed": true
-        },
-        {
-          "cycle": 5,
-          "arm": "left",
-          "hold_frames": 173,
-          "brake_first_rate": 0.9970409876541453,
-          "brake_last_rate": 0.005633580246922065,
-          "restart_first_rate": 0.005893410557291645,
-          "restart_last_rate": 0.9825737946453046,
-          "passed": true
-        }
-      ],
+      "smooth_ready_waits": [],
       "mandatory_right_retreats": [
         {
           "previous_cycle": 0,
@@ -134,84 +68,130 @@
           "previous_cycle": 1,
           "source_start": 456,
           "source_end": 543,
-          "output_start": 498,
-          "output_end": 585,
+          "output_start": 469,
+          "output_end": 556,
           "passed": true
         },
         {
           "previous_cycle": 2,
           "source_start": 912,
           "source_end": 974,
-          "output_start": 1080,
-          "output_end": 1142,
+          "output_start": 1001,
+          "output_end": 1063,
           "passed": true
         },
         {
           "previous_cycle": 3,
           "source_start": 1428,
           "source_end": 1485,
-          "output_start": 1712,
-          "output_end": 1769,
+          "output_start": 1600,
+          "output_end": 1657,
           "passed": true
         },
         {
           "previous_cycle": 4,
           "source_start": 1935,
           "source_end": 2046,
-          "output_start": 2291,
-          "output_end": 2402,
+          "output_start": 2157,
+          "output_end": 2268,
           "passed": true
         },
         {
           "previous_cycle": 5,
           "source_start": 2517,
           "source_end": 2677,
-          "output_start": 3030,
-          "output_end": 3190,
+          "output_start": 2822,
+          "output_end": 2982,
           "passed": true
         }
       ],
       "late_arm_continuous_through_insertion": true,
+      "at_most_one_preparation_waiter": true,
+      "no_left_adjustment_after_final_wait": true,
       "skipped_bounded_static_frames": [
-        128,
-        567
+        283,
+        677
       ],
       "all_nonstationary_source_motion_retained": true,
       "interpolated_frames": {
-        "left": 110,
+        "left": 1685,
         "right": 0
       }
+    },
+    "rounds": [
+      {
+        "cycle": 1,
+        "final_left_source": 402,
+        "insertion_source": 402,
+        "insertion_output": 415,
+        "waiter": [],
+        "longest_both_near_still_frames": 0
+      },
+      {
+        "cycle": 2,
+        "final_left_source": 810,
+        "insertion_source": 810,
+        "insertion_output": 899,
+        "waiter": [],
+        "longest_both_near_still_frames": 0
+      },
+      {
+        "cycle": 3,
+        "final_left_source": 1340,
+        "insertion_source": 1340,
+        "insertion_output": 1512,
+        "waiter": [],
+        "longest_both_near_still_frames": 0
+      },
+      {
+        "cycle": 4,
+        "final_left_source": 1810,
+        "insertion_source": 1810,
+        "insertion_output": 2032,
+        "waiter": [],
+        "longest_both_near_still_frames": 0
+      },
+      {
+        "cycle": 5,
+        "final_left_source": 2388,
+        "insertion_source": 2400,
+        "insertion_output": 2705,
+        "waiter": [
+          "left"
+        ],
+        "longest_both_near_still_frames": 0
+      }
+    ],
+    "wrist_pixels": {
+      "left": {
+        "samples": 2983,
+        "maximum_mean_absolute_pixel_error": 2.951809895833333
+      },
+      "right": {
+        "samples": 2983,
+        "maximum_mean_absolute_pixel_error": 3.809287109375
+      }
+    },
+    "protected_main_pixels": {
+      "samples": 30,
+      "maximum_mean_absolute_pixel_error": 2.56257700920105,
+      "passed": true
     }
   },
   {
     "episode": 0,
     "case": "screw-50",
-    "frames": 2587,
-    "validation": {
+    "frames": 2423,
+    "media": {
       "passed": true,
       "frames": {
-        "parallel.mp4": 2587,
-        "left_wrist.mp4": 2587,
-        "right_wrist.mp4": 2587,
-        "preview.webm": 2587
+        "parallel.mp4": 2423,
+        "left_wrist.mp4": 2423,
+        "right_wrist.mp4": 2423,
+        "preview.webm": 2423
       },
       "action_state_exact": true,
-      "camera_timestamps_match": true,
-      "wrist_pixels": {
-        "left": {
-          "samples": 2587,
-          "maximum_mean_absolute_pixel_error": 2.911027560763889
-        },
-        "right": {
-          "samples": 2587,
-          "maximum_mean_absolute_pixel_error": 3.9152408854166665
-        }
-      },
-      "protected_main_pixels": {
-        "samples": 30,
-        "maximum_mean_absolute_pixel_error": 2.561830520629883,
-        "passed": true
-      }
+      "camera_timestamps_match": true
     },
     "timeline": {
       "passed": true,
@@ -257,7 +237,7 @@
         {
           "cycle": 1,
           "arm": "right",
-          "hold_frames": 59,
+          "hold_frames": 35,
           "brake_first_rate": 0.9970409876543158,
           "brake_last_rate": 0.005633580246922065,
           "restart_first_rate": 0.005893410557291645,
@@ -267,7 +247,7 @@
         {
           "cycle": 2,
           "arm": "right",
-          "hold_frames": 63,
+          "hold_frames": 50,
           "brake_first_rate": 0.9970409876543727,
           "brake_last_rate": 0.005633580246922065,
           "restart_first_rate": 0.005893410557291645,
@@ -277,7 +257,7 @@
         {
           "cycle": 3,
           "arm": "right",
-          "hold_frames": 94,
+          "hold_frames": 80,
           "brake_first_rate": 0.9970409876543727,
           "brake_last_rate": 0.005633580246922065,
           "restart_first_rate": 0.005893410557291645,
@@ -287,7 +267,7 @@
         {
           "cycle": 4,
           "arm": "right",
-          "hold_frames": 60,
+          "hold_frames": 51,
           "brake_first_rate": 0.9970409876543727,
           "brake_last_rate": 0.005633580246922065,
           "restart_first_rate": 0.005893410557291645,
@@ -297,7 +277,7 @@
         {
           "cycle": 5,
           "arm": "right",
-          "hold_frames": 25,
+          "hold_frames": 40,
           "brake_first_rate": 0.9970409876541453,
           "brake_last_rate": 0.005633580246922065,
           "restart_first_rate": 0.005893410557291645,
@@ -318,84 +298,138 @@
           "previous_cycle": 1,
           "source_start": 456,
           "source_end": 543,
-          "output_start": 393,
-          "output_end": 480,
+          "output_start": 352,
+          "output_end": 439,
           "passed": true
         },
         {
           "previous_cycle": 2,
           "source_start": 912,
           "source_end": 974,
-          "output_start": 874,
-          "output_end": 936,
+          "output_start": 785,
+          "output_end": 847,
           "passed": true
         },
         {
           "previous_cycle": 3,
           "source_start": 1428,
           "source_end": 1485,
-          "output_start": 1394,
-          "output_end": 1451,
+          "output_start": 1272,
+          "output_end": 1329,
           "passed": true
         },
         {
           "previous_cycle": 4,
           "source_start": 1935,
           "source_end": 2046,
-          "output_start": 1865,
-          "output_end": 1976,
+          "output_start": 1721,
+          "output_end": 1832,
           "passed": true
         },
         {
           "previous_cycle": 5,
           "source_start": 2517,
           "source_end": 2677,
-          "output_start": 2426,
-          "output_end": 2586,
+          "output_start": 2262,
+          "output_end": 2422,
           "passed": true
         }
       ],
       "late_arm_continuous_through_insertion": true,
+      "at_most_one_preparation_waiter": true,
+      "no_left_adjustment_after_final_wait": true,
       "skipped_bounded_static_frames": [
-        114,
-        567
+        283,
+        677
       ],
       "all_nonstationary_source_motion_retained": true,
       "interpolated_frames": {
-        "left": 92,
+        "left": 0,
         "right": 110
       }
+    },
+    "rounds": [
+      {
+        "cycle": 1,
+        "final_left_source": 402,
+        "insertion_source": 402,
+        "insertion_output": 298,
+        "waiter": [
+          "right"
+        ],
+        "longest_both_near_still_frames": 0
+      },
+      {
+        "cycle": 2,
+        "final_left_source": 810,
+        "insertion_source": 810,
+        "insertion_output": 683,
+        "waiter": [
+          "right"
+        ],
+        "longest_both_near_still_frames": 0
+      },
+      {
+        "cycle": 3,
+        "final_left_source": 1340,
+        "insertion_source": 1340,
+        "insertion_output": 1184,
+        "waiter": [
+          "right"
+        ],
+        "longest_both_near_still_frames": 1
+      },
+      {
+        "cycle": 4,
+        "final_left_source": 1810,
+        "insertion_source": 1810,
+        "insertion_output": 1596,
+        "waiter": [
+          "right"
+        ],
+        "longest_both_near_still_frames": 0
+      },
+      {
+        "cycle": 5,
+        "final_left_source": 2388,
+        "insertion_source": 2400,
+        "insertion_output": 2145,
+        "waiter": [
+          "right"
+        ],
+        "longest_both_near_still_frames": 0
+      }
+    ],
+    "wrist_pixels": {
+      "left": {
+        "samples": 2423,
+        "maximum_mean_absolute_pixel_error": 2.926529947916667
+      },
+      "right": {
+        "samples": 2423,
+        "maximum_mean_absolute_pixel_error": 3.797183159722222
+      }
+    },
+    "protected_main_pixels": {
+      "samples": 30,
+      "maximum_mean_absolute_pixel_error": 2.5482866764068604,
+      "passed": true
     }
   },
   {
     "episode": 0,
     "case": "screw-85",
-    "frames": 3465,
-    "validation": {
+    "frames": 3225,
+    "media": {
       "passed": true,
       "frames": {
-        "parallel.mp4": 3465,
-        "left_wrist.mp4": 3465,
-        "right_wrist.mp4": 3465,
-        "preview.webm": 3465
+        "parallel.mp4": 3225,
+        "left_wrist.mp4": 3225,
+        "right_wrist.mp4": 3225,
+        "preview.webm": 3225
       },
       "action_state_exact": true,
-      "camera_timestamps_match": true,
-      "wrist_pixels": {
-        "left": {
-          "samples": 3465,
-          "maximum_mean_absolute_pixel_error": 2.927905815972222
-        },
-        "right": {
-          "samples": 3465,
-          "maximum_mean_absolute_pixel_error": 3.807189670138889
-        }
-      },
-      "protected_main_pixels": {
-        "samples": 30,
-        "maximum_mean_absolute_pixel_error": 2.5507259368896484,
-        "passed": true
-      }
+      "camera_timestamps_match": true
     },
     "timeline": {
       "passed": true,
@@ -441,7 +475,7 @@
         {
           "cycle": 1,
           "arm": "right",
-          "hold_frames": 236,
+          "hold_frames": 200,
           "brake_first_rate": 0.9970409876543158,
           "brake_last_rate": 0.005633580246922065,
           "restart_first_rate": 0.005893410557291645,
@@ -451,7 +485,7 @@
         {
           "cycle": 2,
           "arm": "right",
-          "hold_frames": 255,
+          "hold_frames": 221,
           "brake_first_rate": 0.9970409876543727,
           "brake_last_rate": 0.005633580246922065,
           "restart_first_rate": 0.005893410557291645,
@@ -461,7 +495,7 @@
         {
           "cycle": 3,
           "arm": "right",
-          "hold_frames": 312,
+          "hold_frames": 285,
           "brake_first_rate": 0.9970409876543727,
           "brake_last_rate": 0.005633580246922065,
           "restart_first_rate": 0.005893410557291645,
@@ -471,7 +505,7 @@
         {
           "cycle": 4,
           "arm": "right",
-          "hold_frames": 241,
+          "hold_frames": 223,
           "brake_first_rate": 0.9970409876543727,
           "brake_last_rate": 0.005633580246922065,
           "restart_first_rate": 0.005893410557291645,
@@ -481,7 +515,7 @@
         {
           "cycle": 5,
           "arm": "right",
-          "hold_frames": 275,
+          "hold_frames": 260,
           "brake_first_rate": 0.9970409876541453,
           "brake_last_rate": 0.005633580246922065,
           "restart_first_rate": 0.005893410557291645,
@@ -502,84 +536,138 @@
           "previous_cycle": 1,
           "source_start": 456,
           "source_end": 543,
-          "output_start": 500,
-          "output_end": 587,
+          "output_start": 454,
+          "output_end": 541,
           "passed": true
         },
         {
           "previous_cycle": 2,
           "source_start": 912,
           "source_end": 974,
-          "output_start": 1173,
-          "output_end": 1235,
+          "output_start": 1058,
+          "output_end": 1120,
           "passed": true
         },
         {
           "previous_cycle": 3,
           "source_start": 1428,
           "source_end": 1485,
-          "output_start": 1866,
-          "output_end": 1923,
+          "output_start": 1704,
+          "output_end": 1761,
           "passed": true
         },
         {
           "previous_cycle": 4,
           "source_start": 1935,
           "source_end": 2046,
-          "output_start": 2493,
-          "output_end": 2604,
+          "output_start": 2303,
+          "output_end": 2414,
           "passed": true
         },
         {
           "previous_cycle": 5,
           "source_start": 2517,
           "source_end": 2677,
-          "output_start": 3304,
-          "output_end": 3464,
+          "output_start": 3064,
+          "output_end": 3224,
           "passed": true
         }
       ],
       "late_arm_continuous_through_insertion": true,
+      "at_most_one_preparation_waiter": true,
+      "no_left_adjustment_after_final_wait": true,
       "skipped_bounded_static_frames": [
-        114,
-        567
+        283,
+        677
       ],
       "all_nonstationary_source_motion_retained": true,
       "interpolated_frames": {
-        "left": 92,
+        "left": 0,
         "right": 110
       }
+    },
+    "rounds": [
+      {
+        "cycle": 1,
+        "final_left_source": 402,
+        "insertion_source": 402,
+        "insertion_output": 400,
+        "waiter": [
+          "right"
+        ],
+        "longest_both_near_still_frames": 1
+      },
+      {
+        "cycle": 2,
+        "final_left_source": 810,
+        "insertion_source": 810,
+        "insertion_output": 956,
+        "waiter": [
+          "right"
+        ],
+        "longest_both_near_still_frames": 0
+      },
+      {
+        "cycle": 3,
+        "final_left_source": 1340,
+        "insertion_source": 1340,
+        "insertion_output": 1616,
+        "waiter": [
+          "right"
+        ],
+        "longest_both_near_still_frames": 1
+      },
+      {
+        "cycle": 4,
+        "final_left_source": 1810,
+        "insertion_source": 1810,
+        "insertion_output": 2178,
+        "waiter": [
+          "right"
+        ],
+        "longest_both_near_still_frames": 0
+      },
+      {
+        "cycle": 5,
+        "final_left_source": 2388,
+        "insertion_source": 2400,
+        "insertion_output": 2947,
+        "waiter": [
+          "right"
+        ],
+        "longest_both_near_still_frames": 0
+      }
+    ],
+    "wrist_pixels": {
+      "left": {
+        "samples": 3225,
+        "maximum_mean_absolute_pixel_error": 2.911027560763889
+      },
+      "right": {
+        "samples": 3225,
+        "maximum_mean_absolute_pixel_error": 3.841214192708333
+      }
+    },
+    "protected_main_pixels": {
+      "samples": 30,
+      "maximum_mean_absolute_pixel_error": 2.546668767929077,
+      "passed": true
     }
   },
   {
     "episode": 1,
     "case": "screw-15",
-    "frames": 3209,
-    "validation": {
+    "frames": 2947,
+    "media": {
       "passed": true,
       "frames": {
-        "parallel.mp4": 3209,
-        "left_wrist.mp4": 3209,
-        "right_wrist.mp4": 3209,
-        "preview.webm": 3209
+        "parallel.mp4": 2947,
+        "left_wrist.mp4": 2947,
+        "right_wrist.mp4": 2947,
+        "preview.webm": 2947
       },
       "action_state_exact": true,
-      "camera_timestamps_match": true,
-      "wrist_pixels": {
-        "left": {
-          "samples": 3209,
-          "maximum_mean_absolute_pixel_error": 3.099870876736111
-        },
-        "right": {
-          "samples": 3209,
-          "maximum_mean_absolute_pixel_error": 3.889541015625
-        }
-      },
-      "protected_main_pixels": {
-        "samples": 30,
-        "maximum_mean_absolute_pixel_error": 2.6183507442474365,
-        "passed": true
-      }
+      "camera_timestamps_match": true
     },
     "timeline": {
       "passed": true,
@@ -621,58 +709,7 @@
           "passed": true
         }
       ],
-      "smooth_ready_waits": [
-        {
-          "cycle": 1,
-          "arm": "left",
-          "hold_frames": 125,
-          "brake_first_rate": 0.9970409876543158,
-          "brake_last_rate": 0.005633580246922065,
-          "restart_first_rate": 0.0058934105573484885,
-          "restart_last_rate": 0.9825737946451341,
-          "passed": true
-        },
-        {
-          "cycle": 2,
-          "arm": "left",
-          "hold_frames": 170,
-          "brake_first_rate": 0.9970409876543727,
-          "brake_last_rate": 0.005633580246922065,
-          "restart_first_rate": 0.005893410557291645,
-          "restart_last_rate": 0.9825737946450772,
-          "passed": true
-        },
-        {
-          "cycle": 3,
-          "arm": "left",
-          "hold_frames": 198,
-          "brake_first_rate": 0.9970409876543727,
-          "brake_last_rate": 0.005633580246922065,
-          "restart_first_rate": 0.005893410557291645,
-          "restart_last_rate": 0.9825737946450772,
-          "passed": true
-        },
-        {
-          "cycle": 4,
-          "arm": "left",
-          "hold_frames": 98,
-          "brake_first_rate": 0.9970409876543727,
-          "brake_last_rate": 0.005633580246922065,
-          "restart_first_rate": 0.005893410557291645,
-          "restart_last_rate": 0.9825737946450772,
-          "passed": true
-        },
-        {
-          "cycle": 5,
-          "arm": "left",
-          "hold_frames": 188,
-          "brake_first_rate": 0.9970409876541453,
-          "brake_last_rate": 0.005633580246922065,
-          "restart_first_rate": 0.005893410557291645,
-          "restart_last_rate": 0.9825737946453046,
-          "passed": true
-        }
-      ],
+      "smooth_ready_waits": [],
       "mandatory_right_retreats": [
         {
           "previous_cycle": 0,
@@ -686,84 +723,132 @@
           "previous_cycle": 1,
           "source_start": 435,
           "source_end": 469,
-          "output_start": 543,
-          "output_end": 577,
+          "output_start": 482,
+          "output_end": 516,
           "passed": true
         },
         {
           "previous_cycle": 2,
           "source_start": 895,
           "source_end": 989,
-          "output_start": 1164,
-          "output_end": 1258,
+          "output_start": 1043,
+          "output_end": 1137,
           "passed": true
         },
         {
           "previous_cycle": 3,
           "source_start": 1370,
           "source_end": 1427,
-          "output_start": 1795,
-          "output_end": 1852,
+          "output_start": 1625,
+          "output_end": 1682,
           "passed": true
         },
         {
           "previous_cycle": 4,
           "source_start": 1985,
           "source_end": 2063,
-          "output_start": 2473,
-          "output_end": 2551,
+          "output_start": 2267,
+          "output_end": 2345,
           "passed": true
         },
         {
           "previous_cycle": 5,
           "source_start": 2460,
           "source_end": 2607,
-          "output_start": 3061,
-          "output_end": 3208,
+          "output_start": 2799,
+          "output_end": 2946,
           "passed": true
         }
       ],
       "late_arm_continuous_through_insertion": true,
+      "at_most_one_preparation_waiter": true,
+      "no_left_adjustment_after_final_wait": true,
       "skipped_bounded_static_frames": [
-        234,
-        390
+        428,
+        550
       ],
       "all_nonstationary_source_motion_retained": true,
       "interpolated_frames": {
-        "left": 110,
+        "left": 1458,
         "right": 0
       }
+    },
+    "rounds": [
+      {
+        "cycle": 1,
+        "final_left_source": 340,
+        "insertion_source": 365,
+        "insertion_output": 412,
+        "waiter": [
+          "left"
+        ],
+        "longest_both_near_still_frames": 0
+      },
+      {
+        "cycle": 2,
+        "final_left_source": 805,
+        "insertion_source": 805,
+        "insertion_output": 953,
+        "waiter": [],
+        "longest_both_near_still_frames": 0
+      },
+      {
+        "cycle": 3,
+        "final_left_source": 1310,
+        "insertion_source": 1310,
+        "insertion_output": 1565,
+        "waiter": [],
+        "longest_both_near_still_frames": 0
+      },
+      {
+        "cycle": 4,
+        "final_left_source": 1785,
+        "insertion_source": 1785,
+        "insertion_output": 2067,
+        "waiter": [],
+        "longest_both_near_still_frames": 0
+      },
+      {
+        "cycle": 5,
+        "final_left_source": 2404,
+        "insertion_source": 2405,
+        "insertion_output": 2744,
+        "waiter": [
+          "left"
+        ],
+        "longest_both_near_still_frames": 0
+      }
+    ],
+    "wrist_pixels": {
+      "left": {
+        "samples": 2947,
+        "maximum_mean_absolute_pixel_error": 3.029267578125
+      },
+      "right": {
+        "samples": 2947,
+        "maximum_mean_absolute_pixel_error": 3.9565364583333333
+      }
+    },
+    "protected_main_pixels": {
+      "samples": 30,
+      "maximum_mean_absolute_pixel_error": 2.639200210571289,
+      "passed": true
     }
   },
   {
     "episode": 1,
     "case": "screw-50",
-    "frames": 2448,
-    "validation": {
+    "frames": 2288,
+    "media": {
       "passed": true,
       "frames": {
-        "parallel.mp4": 2448,
-        "left_wrist.mp4": 2448,
-        "right_wrist.mp4": 2448,
-        "preview.webm": 2448
+        "parallel.mp4": 2288,
+        "left_wrist.mp4": 2288,
+        "right_wrist.mp4": 2288,
+        "preview.webm": 2288
       },
       "action_state_exact": true,
-      "camera_timestamps_match": true,
-      "wrist_pixels": {
-        "left": {
-          "samples": 2448,
-          "maximum_mean_absolute_pixel_error": 3.0922233072916665
-        },
-        "right": {
-          "samples": 2448,
-          "maximum_mean_absolute_pixel_error": 3.7505696614583335
-        }
-      },
-      "protected_main_pixels": {
-        "samples": 30,
-        "maximum_mean_absolute_pixel_error": 2.6194217205047607,
-        "passed": true
-      }
+      "camera_timestamps_match": true
     },
     "timeline": {
       "passed": true,
@@ -807,19 +892,9 @@
       ],
       "smooth_ready_waits": [
         {
-          "cycle": 1,
+          "cycle": 2,
           "arm": "right",
-          "hold_frames": 10,
-          "brake_first_rate": 0.9970409876543158,
-          "brake_last_rate": 0.005633580246922065,
-          "restart_first_rate": 0.005893410557291645,
-          "restart_last_rate": 0.9825737946451341,
-          "passed": true
-        },
-        {
-          "cycle": 3,
-          "arm": "right",
-          "hold_frames": 13,
+          "hold_frames": 22,
           "brake_first_rate": 0.9970409876543727,
           "brake_last_rate": 0.005633580246922065,
           "restart_first_rate": 0.005893410557291645,
@@ -829,7 +904,7 @@
         {
           "cycle": 4,
           "arm": "right",
-          "hold_frames": 77,
+          "hold_frames": 66,
           "brake_first_rate": 0.9970409876543727,
           "brake_last_rate": 0.005633580246922065,
           "restart_first_rate": 0.005893410557291645,
@@ -850,84 +925,132 @@
           "previous_cycle": 1,
           "source_start": 435,
           "source_end": 469,
-          "output_start": 377,
-          "output_end": 411,
+          "output_start": 336,
+          "output_end": 370,
           "passed": true
         },
         {
           "previous_cycle": 2,
           "source_start": 895,
           "source_end": 989,
-          "output_start": 797,
-          "output_end": 891,
+          "output_start": 743,
+          "output_end": 837,
           "passed": true
         },
         {
           "previous_cycle": 3,
           "source_start": 1370,
           "source_end": 1427,
-          "output_start": 1288,
-          "output_end": 1345,
+          "output_start": 1195,
+          "output_end": 1252,
           "passed": true
         },
         {
           "previous_cycle": 4,
           "source_start": 1985,
           "source_end": 2063,
-          "output_start": 1861,
-          "output_end": 1939,
+          "output_start": 1736,
+          "output_end": 1814,
           "passed": true
         },
         {
           "previous_cycle": 5,
           "source_start": 2460,
           "source_end": 2607,
-          "output_start": 2300,
-          "output_end": 2447,
+          "output_start": 2140,
+          "output_end": 2287,
           "passed": true
         }
       ],
       "late_arm_continuous_through_insertion": true,
+      "at_most_one_preparation_waiter": true,
+      "no_left_adjustment_after_final_wait": true,
       "skipped_bounded_static_frames": [
-        234,
-        390
+        428,
+        550
       ],
       "all_nonstationary_source_motion_retained": true,
       "interpolated_frames": {
-        "left": 70,
-        "right": 91
+        "left": 0,
+        "right": 842
       }
+    },
+    "rounds": [
+      {
+        "cycle": 1,
+        "final_left_source": 340,
+        "insertion_source": 365,
+        "insertion_output": 266,
+        "waiter": [],
+        "longest_both_near_still_frames": 0
+      },
+      {
+        "cycle": 2,
+        "final_left_source": 805,
+        "insertion_source": 805,
+        "insertion_output": 653,
+        "waiter": [
+          "right"
+        ],
+        "longest_both_near_still_frames": 0
+      },
+      {
+        "cycle": 3,
+        "final_left_source": 1310,
+        "insertion_source": 1310,
+        "insertion_output": 1135,
+        "waiter": [],
+        "longest_both_near_still_frames": 0
+      },
+      {
+        "cycle": 4,
+        "final_left_source": 1785,
+        "insertion_source": 1785,
+        "insertion_output": 1536,
+        "waiter": [
+          "right"
+        ],
+        "longest_both_near_still_frames": 3
+      },
+      {
+        "cycle": 5,
+        "final_left_source": 2404,
+        "insertion_source": 2405,
+        "insertion_output": 2085,
+        "waiter": [],
+        "longest_both_near_still_frames": 0
+      }
+    ],
+    "wrist_pixels": {
+      "left": {
+        "samples": 2288,
+        "maximum_mean_absolute_pixel_error": 3.099870876736111
+      },
+      "right": {
+        "samples": 2288,
+        "maximum_mean_absolute_pixel_error": 3.8534461805555558
+      }
+    },
+    "protected_main_pixels": {
+      "samples": 30,
+      "maximum_mean_absolute_pixel_error": 2.6070735454559326,
+      "passed": true
     }
   },
   {
     "episode": 1,
     "case": "screw-85",
-    "frames": 3411,
-    "validation": {
+    "frames": 3143,
+    "media": {
       "passed": true,
       "frames": {
-        "parallel.mp4": 3411,
-        "left_wrist.mp4": 3411,
-        "right_wrist.mp4": 3411,
-        "preview.webm": 3411
+        "parallel.mp4": 3143,
+        "left_wrist.mp4": 3143,
+        "right_wrist.mp4": 3143,
+        "preview.webm": 3143
       },
       "action_state_exact": true,
-      "camera_timestamps_match": true,
-      "wrist_pixels": {
-        "left": {
-          "samples": 3411,
-          "maximum_mean_absolute_pixel_error": 3.1041373697916668
-        },
-        "right": {
-          "samples": 3411,
-          "maximum_mean_absolute_pixel_error": 3.7767545572916665
-        }
-      },
-      "protected_main_pixels": {
-        "samples": 30,
-        "maximum_mean_absolute_pixel_error": 2.5825207233428955,
-        "passed": true
-      }
+      "camera_timestamps_match": true
     },
     "timeline": {
       "passed": true,
@@ -973,7 +1096,7 @@
         {
           "cycle": 1,
           "arm": "right",
-          "hold_frames": 199,
+          "hold_frames": 169,
           "brake_first_rate": 0.9970409876543158,
           "brake_last_rate": 0.005633580246922065,
           "restart_first_rate": 0.005893410557291645,
@@ -983,7 +1106,7 @@
         {
           "cycle": 2,
           "arm": "right",
-          "hold_frames": 219,
+          "hold_frames": 210,
           "brake_first_rate": 0.9970409876543727,
           "brake_last_rate": 0.005633580246922065,
           "restart_first_rate": 0.005893410557291645,
@@ -993,7 +1116,7 @@
         {
           "cycle": 3,
           "arm": "right",
-          "hold_frames": 242,
+          "hold_frames": 211,
           "brake_first_rate": 0.9970409876543727,
           "brake_last_rate": 0.005633580246922065,
           "restart_first_rate": 0.005893410557291645,
@@ -1003,7 +1126,7 @@
         {
           "cycle": 4,
           "arm": "right",
-          "hold_frames": 271,
+          "hold_frames": 245,
           "brake_first_rate": 0.9970409876543727,
           "brake_last_rate": 0.005633580246922065,
           "restart_first_rate": 0.005893410557291645,
@@ -1013,7 +1136,7 @@
         {
           "cycle": 5,
           "arm": "right",
-          "hold_frames": 206,
+          "hold_frames": 194,
           "brake_first_rate": 0.9970409876541453,
           "brake_last_rate": 0.005633580246922065,
           "restart_first_rate": 0.005893410557291645,
@@ -1034,268 +1157,138 @@
           "previous_cycle": 1,
           "source_start": 435,
           "source_end": 469,
-          "output_start": 517,
-          "output_end": 551,
+          "output_start": 467,
+          "output_end": 501,
           "passed": true
         },
         {
           "previous_cycle": 2,
           "source_start": 895,
           "source_end": 989,
-          "output_start": 1149,
-          "output_end": 1243,
-          "passed": true
-        },
-        {
-          "previous_cycle": 3,
-          "source_start": 1370,
-          "source_end": 1427,
-          "output_start": 1869,
-          "output_end": 1926,
-          "passed": true
-        },
-        {
-          "previous_cycle": 4,
-          "source_start": 1985,
-          "source_end": 2063,
-          "output_start": 2606,
-          "output_end": 2684,
-          "passed": true
-        },
-        {
-          "previous_cycle": 5,
-          "source_start": 2460,
-          "source_end": 2607,
-          "output_start": 3263,
-          "output_end": 3410,
-          "passed": true
-        }
-      ],
-      "late_arm_continuous_through_insertion": true,
-      "skipped_bounded_static_frames": [
-        234,
-        390
-      ],
-      "all_nonstationary_source_motion_retained": true,
-      "interpolated_frames": {
-        "left": 80,
-        "right": 110
-      }
-    }
-  },
-  {
-    "episode": 2,
-    "case": "screw-15",
-    "frames": 2900,
-    "validation": {
-      "passed": true,
-      "frames": {
-        "parallel.mp4": 2900,
-        "left_wrist.mp4": 2900,
-        "right_wrist.mp4": 2900,
-        "preview.webm": 2900
-      },
-      "action_state_exact": true,
-      "camera_timestamps_match": true,
-      "wrist_pixels": {
-        "left": {
-          "samples": 2900,
-          "maximum_mean_absolute_pixel_error": 3.0643793402777777
-        },
-        "right": {
-          "samples": 2900,
-          "maximum_mean_absolute_pixel_error": 3.708353949652778
-        }
-      },
-      "protected_main_pixels": {
-        "samples": 30,
-        "maximum_mean_absolute_pixel_error": 2.5864334106445312,
-        "passed": true
-      }
-    },
-    "timeline": {
-      "passed": true,
-      "protected_intervals": [
-        {
-          "kind": "coupled",
-          "cycle": 1,
-          "frames": 69,
-          "passed": true
-        },
-        {
-          "kind": "coupled",
-          "cycle": 2,
-          "frames": 84,
-          "passed": true
-        },
-        {
-          "kind": "coupled",
-          "cycle": 3,
-          "frames": 81,
-          "passed": true
-        },
-        {
-          "kind": "coupled",
-          "cycle": 4,
-          "frames": 73,
-          "passed": true
-        },
-        {
-          "kind": "coupled",
-          "cycle": 5,
-          "frames": 84,
-          "passed": true
-        },
-        {
-          "kind": "final_storage",
-          "cycle": null,
-          "frames": 184,
-          "passed": true
-        }
-      ],
-      "smooth_ready_waits": [
-        {
-          "cycle": 1,
-          "arm": "left",
-          "hold_frames": 84,
-          "brake_first_rate": 0.9970409876543158,
-          "brake_last_rate": 0.005633580246922065,
-          "restart_first_rate": 0.0058934105573484885,
-          "restart_last_rate": 0.9825737946451341,
-          "passed": true
-        },
-        {
-          "cycle": 2,
-          "arm": "left",
-          "hold_frames": 131,
-          "brake_first_rate": 0.9970409876543727,
-          "brake_last_rate": 0.005633580246922065,
-          "restart_first_rate": 0.005893410557291645,
-          "restart_last_rate": 0.9825737946450772,
-          "passed": true
-        },
-        {
-          "cycle": 3,
-          "arm": "left",
-          "hold_frames": 153,
-          "brake_first_rate": 0.9970409876543727,
-          "brake_last_rate": 0.005633580246922065,
-          "restart_first_rate": 0.005893410557291645,
-          "restart_last_rate": 0.9825737946450772,
-          "passed": true
-        },
-        {
-          "cycle": 4,
-          "arm": "left",
-          "hold_frames": 149,
-          "brake_first_rate": 0.9970409876543727,
-          "brake_last_rate": 0.005633580246922065,
-          "restart_first_rate": 0.005893410557291645,
-          "restart_last_rate": 0.9825737946450772,
-          "passed": true
-        },
-        {
-          "cycle": 5,
-          "arm": "left",
-          "hold_frames": 152,
-          "brake_first_rate": 0.9970409876541453,
-          "brake_last_rate": 0.005633580246922065,
-          "restart_first_rate": 0.005893410557291645,
-          "restart_last_rate": 0.9825737946453046,
-          "passed": true
-        }
-      ],
-      "mandatory_right_retreats": [
-        {
-          "previous_cycle": 0,
-          "source_start": 3,
-          "source_end": 3,
-          "output_start": 0,
-          "output_end": 0,
-          "passed": true
-        },
-        {
-          "previous_cycle": 1,
-          "source_start": 413,
-          "source_end": 477,
-          "output_start": 503,
-          "output_end": 567,
-          "passed": true
-        },
-        {
-          "previous_cycle": 2,
-          "source_start": 890,
-          "source_end": 964,
-          "output_start": 1067,
+          "output_start": 1047,
           "output_end": 1141,
           "passed": true
         },
         {
           "previous_cycle": 3,
-          "source_start": 1362,
-          "source_end": 1401,
-          "output_start": 1578,
-          "output_end": 1617,
+          "source_start": 1370,
+          "source_end": 1427,
+          "output_start": 1708,
+          "output_end": 1765,
           "passed": true
         },
         {
           "previous_cycle": 4,
-          "source_start": 1857,
-          "source_end": 1934,
-          "output_start": 2131,
-          "output_end": 2208,
+          "source_start": 1985,
+          "source_end": 2063,
+          "output_start": 2400,
+          "output_end": 2478,
           "passed": true
         },
         {
           "previous_cycle": 5,
-          "source_start": 2368,
-          "source_end": 2551,
-          "output_start": 2716,
-          "output_end": 2899,
+          "source_start": 2460,
+          "source_end": 2607,
+          "output_start": 2995,
+          "output_end": 3142,
           "passed": true
         }
       ],
       "late_arm_continuous_through_insertion": true,
+      "at_most_one_preparation_waiter": true,
+      "no_left_adjustment_after_final_wait": true,
       "skipped_bounded_static_frames": [
-        378,
-        535
+        428,
+        550
       ],
       "all_nonstationary_source_motion_retained": true,
       "interpolated_frames": {
-        "left": 110,
-        "right": 0
+        "left": 0,
+        "right": 110
       }
+    },
+    "rounds": [
+      {
+        "cycle": 1,
+        "final_left_source": 340,
+        "insertion_source": 365,
+        "insertion_output": 397,
+        "waiter": [
+          "right"
+        ],
+        "longest_both_near_still_frames": 0
+      },
+      {
+        "cycle": 2,
+        "final_left_source": 805,
+        "insertion_source": 805,
+        "insertion_output": 957,
+        "waiter": [
+          "right"
+        ],
+        "longest_both_near_still_frames": 0
+      },
+      {
+        "cycle": 3,
+        "final_left_source": 1310,
+        "insertion_source": 1310,
+        "insertion_output": 1648,
+        "waiter": [
+          "right"
+        ],
+        "longest_both_near_still_frames": 2
+      },
+      {
+        "cycle": 4,
+        "final_left_source": 1785,
+        "insertion_source": 1785,
+        "insertion_output": 2200,
+        "waiter": [
+          "right"
+        ],
+        "longest_both_near_still_frames": 3
+      },
+      {
+        "cycle": 5,
+        "final_left_source": 2404,
+        "insertion_source": 2405,
+        "insertion_output": 2940,
+        "waiter": [
+          "right"
+        ],
+        "longest_both_near_still_frames": 0
+      }
+    ],
+    "wrist_pixels": {
+      "left": {
+        "samples": 3143,
+        "maximum_mean_absolute_pixel_error": 3.0801378038194445
+      },
+      "right": {
+        "samples": 3143,
+        "maximum_mean_absolute_pixel_error": 3.76689453125
+      }
+    },
+    "protected_main_pixels": {
+      "samples": 30,
+      "maximum_mean_absolute_pixel_error": 2.617968797683716,
+      "passed": true
     }
   },
   {
     "episode": 2,
-    "case": "screw-50",
-    "frames": 2193,
-    "validation": {
+    "case": "screw-15",
+    "frames": 2667,
+    "media": {
       "passed": true,
       "frames": {
-        "parallel.mp4": 2193,
-        "left_wrist.mp4": 2193,
-        "right_wrist.mp4": 2193,
-        "preview.webm": 2193
+        "parallel.mp4": 2667,
+        "left_wrist.mp4": 2667,
+        "right_wrist.mp4": 2667,
+        "preview.webm": 2667
       },
       "action_state_exact": true,
-      "camera_timestamps_match": true,
-      "wrist_pixels": {
-        "left": {
-          "samples": 2193,
-          "maximum_mean_absolute_pixel_error": 3.0671202256944445
-        },
-        "right": {
-          "samples": 2193,
-          "maximum_mean_absolute_pixel_error": 3.695027126736111
-        }
-      },
-      "protected_main_pixels": {
-        "samples": 30,
-        "maximum_mean_absolute_pixel_error": 2.5704872608184814,
-        "passed": true
-      }
+      "camera_timestamps_match": true
     },
     "timeline": {
       "passed": true,
@@ -1321,7 +1314,7 @@
         {
           "kind": "coupled",
           "cycle": 4,
-          "frames": 73,
+          "frames": 118,
           "passed": true
         },
         {
@@ -1337,28 +1330,7 @@
           "passed": true
         }
       ],
-      "smooth_ready_waits": [
-        {
-          "cycle": 1,
-          "arm": "right",
-          "hold_frames": 49,
-          "brake_first_rate": 0.9970409876543158,
-          "brake_last_rate": 0.005633580246922065,
-          "restart_first_rate": 0.005893410557291645,
-          "restart_last_rate": 0.9825737946451341,
-          "passed": true
-        },
-        {
-          "cycle": 2,
-          "arm": "right",
-          "hold_frames": 30,
-          "brake_first_rate": 0.9970409876543727,
-          "brake_last_rate": 0.005633580246922065,
-          "restart_first_rate": 0.005893410557291645,
-          "restart_last_rate": 0.9825737946450772,
-          "passed": true
-        }
-      ],
+      "smooth_ready_waits": [],
       "mandatory_right_retreats": [
         {
           "previous_cycle": 0,
@@ -1372,84 +1344,138 @@
           "previous_cycle": 1,
           "source_start": 413,
           "source_end": 477,
-          "output_start": 391,
-          "output_end": 455,
+          "output_start": 471,
+          "output_end": 535,
           "passed": true
         },
         {
           "previous_cycle": 2,
           "source_start": 890,
           "source_end": 964,
-          "output_start": 810,
-          "output_end": 884,
+          "output_start": 986,
+          "output_end": 1060,
           "passed": true
         },
         {
           "previous_cycle": 3,
           "source_start": 1362,
           "source_end": 1401,
-          "output_start": 1219,
-          "output_end": 1258,
+          "output_start": 1463,
+          "output_end": 1502,
           "passed": true
         },
         {
           "previous_cycle": 4,
           "source_start": 1857,
           "source_end": 1934,
-          "output_start": 1582,
-          "output_end": 1659,
+          "output_start": 1963,
+          "output_end": 2040,
           "passed": true
         },
         {
           "previous_cycle": 5,
           "source_start": 2368,
           "source_end": 2551,
-          "output_start": 2009,
-          "output_end": 2192,
+          "output_start": 2483,
+          "output_end": 2666,
           "passed": true
         }
       ],
       "late_arm_continuous_through_insertion": true,
+      "at_most_one_preparation_waiter": true,
+      "no_left_adjustment_after_final_wait": true,
       "skipped_bounded_static_frames": [
-        31,
-        535
+        542,
+        671
       ],
       "all_nonstationary_source_motion_retained": true,
       "interpolated_frames": {
-        "left": 135,
-        "right": 44
+        "left": 70,
+        "right": 0
       }
+    },
+    "rounds": [
+      {
+        "cycle": 1,
+        "final_left_source": 327,
+        "insertion_source": 345,
+        "insertion_output": 403,
+        "waiter": [
+          "left"
+        ],
+        "longest_both_near_still_frames": 0
+      },
+      {
+        "cycle": 2,
+        "final_left_source": 805,
+        "insertion_source": 807,
+        "insertion_output": 903,
+        "waiter": [
+          "left"
+        ],
+        "longest_both_near_still_frames": 0
+      },
+      {
+        "cycle": 3,
+        "final_left_source": 1171,
+        "insertion_source": 1282,
+        "insertion_output": 1383,
+        "waiter": [
+          "left"
+        ],
+        "longest_both_near_still_frames": 0
+      },
+      {
+        "cycle": 4,
+        "final_left_source": 1715,
+        "insertion_source": 1740,
+        "insertion_output": 1846,
+        "waiter": [
+          "left"
+        ],
+        "longest_both_near_still_frames": 0
+      },
+      {
+        "cycle": 5,
+        "final_left_source": 2263,
+        "insertion_source": 2285,
+        "insertion_output": 2400,
+        "waiter": [
+          "left"
+        ],
+        "longest_both_near_still_frames": 0
+      }
+    ],
+    "wrist_pixels": {
+      "left": {
+        "samples": 2667,
+        "maximum_mean_absolute_pixel_error": 3.075830078125
+      },
+      "right": {
+        "samples": 2667,
+        "maximum_mean_absolute_pixel_error": 3.708353949652778
+      }
+    },
+    "protected_main_pixels": {
+      "samples": 30,
+      "maximum_mean_absolute_pixel_error": 2.621910810470581,
+      "passed": true
     }
   },
   {
     "episode": 2,
-    "case": "screw-85",
-    "frames": 3011,
-    "validation": {
+    "case": "screw-50",
+    "frames": 2117,
+    "media": {
       "passed": true,
       "frames": {
-        "parallel.mp4": 3011,
-        "left_wrist.mp4": 3011,
-        "right_wrist.mp4": 3011,
-        "preview.webm": 3011
+        "parallel.mp4": 2117,
+        "left_wrist.mp4": 2117,
+        "right_wrist.mp4": 2117,
+        "preview.webm": 2117
       },
       "action_state_exact": true,
-      "camera_timestamps_match": true,
-      "wrist_pixels": {
-        "left": {
-          "samples": 3011,
-          "maximum_mean_absolute_pixel_error": 3.0775944010416665
-        },
-        "right": {
-          "samples": 3011,
-          "maximum_mean_absolute_pixel_error": 3.6986241319444444
-        }
-      },
-      "protected_main_pixels": {
-        "samples": 30,
-        "maximum_mean_absolute_pixel_error": 2.586482286453247,
-        "passed": true
-      }
+      "camera_timestamps_match": true
     },
     "timeline": {
       "passed": true,
@@ -1475,7 +1501,7 @@
         {
           "kind": "coupled",
           "cycle": 4,
-          "frames": 73,
+          "frames": 118,
           "passed": true
         },
         {
@@ -1495,7 +1521,7 @@
         {
           "cycle": 1,
           "arm": "right",
-          "hold_frames": 222,
+          "hold_frames": 40,
           "brake_first_rate": 0.9970409876543158,
           "brake_last_rate": 0.005633580246922065,
           "restart_first_rate": 0.005893410557291645,
@@ -1505,17 +1531,7 @@
         {
           "cycle": 2,
           "arm": "right",
-          "hold_frames": 222,
-          "brake_first_rate": 0.9970409876543727,
-          "brake_last_rate": 0.005633580246922065,
-          "restart_first_rate": 0.005893410557291645,
-          "restart_last_rate": 0.9825737946450772,
-          "passed": true
-        },
-        {
-          "cycle": 3,
-          "arm": "right",
-          "hold_frames": 146,
+          "hold_frames": 23,
           "brake_first_rate": 0.9970409876543727,
           "brake_last_rate": 0.005633580246922065,
           "restart_first_rate": 0.005893410557291645,
@@ -1525,7 +1541,7 @@
         {
           "cycle": 4,
           "arm": "right",
-          "hold_frames": 155,
+          "hold_frames": 29,
           "brake_first_rate": 0.9970409876543727,
           "brake_last_rate": 0.005633580246922065,
           "restart_first_rate": 0.005893410557291645,
@@ -1535,7 +1551,7 @@
         {
           "cycle": 5,
           "arm": "right",
-          "hold_frames": 186,
+          "hold_frames": 13,
           "brake_first_rate": 0.9970409876541453,
           "brake_last_rate": 0.005633580246922065,
           "restart_first_rate": 0.005893410557291645,
@@ -1556,84 +1572,374 @@
           "previous_cycle": 1,
           "source_start": 413,
           "source_end": 477,
-          "output_start": 488,
-          "output_end": 552,
+          "output_start": 364,
+          "output_end": 428,
           "passed": true
         },
         {
           "previous_cycle": 2,
           "source_start": 890,
           "source_end": 964,
-          "output_start": 1099,
-          "output_end": 1173,
+          "output_start": 756,
+          "output_end": 830,
           "passed": true
         },
         {
           "previous_cycle": 3,
           "source_start": 1362,
           "source_end": 1401,
-          "output_start": 1666,
-          "output_end": 1705,
+          "output_start": 1135,
+          "output_end": 1174,
           "passed": true
         },
         {
           "previous_cycle": 4,
           "source_start": 1857,
           "source_end": 1934,
-          "output_start": 2202,
-          "output_end": 2279,
+          "output_start": 1525,
+          "output_end": 1602,
           "passed": true
         },
         {
           "previous_cycle": 5,
           "source_start": 2368,
           "source_end": 2551,
-          "output_start": 2827,
-          "output_end": 3010,
+          "output_start": 1933,
+          "output_end": 2116,
           "passed": true
         }
       ],
       "late_arm_continuous_through_insertion": true,
+      "at_most_one_preparation_waiter": true,
+      "no_left_adjustment_after_final_wait": true,
       "skipped_bounded_static_frames": [
-        31,
-        535
+        542,
+        671
       ],
       "all_nonstationary_source_motion_retained": true,
       "interpolated_frames": {
-        "left": 98,
-        "right": 126
+        "left": 239,
+        "right": 88
       }
+    },
+    "rounds": [
+      {
+        "cycle": 1,
+        "final_left_source": 327,
+        "insertion_source": 345,
+        "insertion_output": 296,
+        "waiter": [
+          "right"
+        ],
+        "longest_both_near_still_frames": 2
+      },
+      {
+        "cycle": 2,
+        "final_left_source": 805,
+        "insertion_source": 807,
+        "insertion_output": 673,
+        "waiter": [
+          "right"
+        ],
+        "longest_both_near_still_frames": 1
+      },
+      {
+        "cycle": 3,
+        "final_left_source": 1171,
+        "insertion_source": 1282,
+        "insertion_output": 1055,
+        "waiter": [],
+        "longest_both_near_still_frames": 0
+      },
+      {
+        "cycle": 4,
+        "final_left_source": 1715,
+        "insertion_source": 1740,
+        "insertion_output": 1408,
+        "waiter": [
+          "right"
+        ],
+        "longest_both_near_still_frames": 2
+      },
+      {
+        "cycle": 5,
+        "final_left_source": 2263,
+        "insertion_source": 2285,
+        "insertion_output": 1850,
+        "waiter": [
+          "right"
+        ],
+        "longest_both_near_still_frames": 3
+      }
+    ],
+    "wrist_pixels": {
+      "left": {
+        "samples": 2117,
+        "maximum_mean_absolute_pixel_error": 3.051041666666667
+      },
+      "right": {
+        "samples": 2117,
+        "maximum_mean_absolute_pixel_error": 3.6970279947916667
+      }
+    },
+    "protected_main_pixels": {
+      "samples": 30,
+      "maximum_mean_absolute_pixel_error": 2.573446273803711,
+      "passed": true
+    }
+  },
+  {
+    "episode": 2,
+    "case": "screw-85",
+    "frames": 2846,
+    "media": {
+      "passed": true,
+      "frames": {
+        "parallel.mp4": 2846,
+        "left_wrist.mp4": 2846,
+        "right_wrist.mp4": 2846,
+        "preview.webm": 2846
+      },
+      "action_state_exact": true,
+      "camera_timestamps_match": true
+    },
+    "timeline": {
+      "passed": true,
+      "protected_intervals": [
+        {
+          "kind": "coupled",
+          "cycle": 1,
+          "frames": 69,
+          "passed": true
+        },
+        {
+          "kind": "coupled",
+          "cycle": 2,
+          "frames": 84,
+          "passed": true
+        },
+        {
+          "kind": "coupled",
+          "cycle": 3,
+          "frames": 81,
+          "passed": true
+        },
+        {
+          "kind": "coupled",
+          "cycle": 4,
+          "frames": 118,
+          "passed": true
+        },
+        {
+          "kind": "coupled",
+          "cycle": 5,
+          "frames": 84,
+          "passed": true
+        },
+        {
+          "kind": "final_storage",
+          "cycle": null,
+          "frames": 184,
+          "passed": true
+        }
+      ],
+      "smooth_ready_waits": [
+        {
+          "cycle": 1,
+          "arm": "right",
+          "hold_frames": 200,
+          "brake_first_rate": 0.9970409876543158,
+          "brake_last_rate": 0.005633580246922065,
+          "restart_first_rate": 0.005893410557291645,
+          "restart_last_rate": 0.9825737946451341,
+          "passed": true
+        },
+        {
+          "cycle": 2,
+          "arm": "right",
+          "hold_frames": 195,
+          "brake_first_rate": 0.9970409876543727,
+          "brake_last_rate": 0.005633580246922065,
+          "restart_first_rate": 0.005893410557291645,
+          "restart_last_rate": 0.9825737946450772,
+          "passed": true
+        },
+        {
+          "cycle": 3,
+          "arm": "right",
+          "hold_frames": 145,
+          "brake_first_rate": 0.9970409876543727,
+          "brake_last_rate": 0.005633580246922065,
+          "restart_first_rate": 0.005893410557291645,
+          "restart_last_rate": 0.9825737946450772,
+          "passed": true
+        },
+        {
+          "cycle": 4,
+          "arm": "right",
+          "hold_frames": 181,
+          "brake_first_rate": 0.9970409876543727,
+          "brake_last_rate": 0.005633580246922065,
+          "restart_first_rate": 0.005893410557291645,
+          "restart_last_rate": 0.9825737946450772,
+          "passed": true
+        },
+        {
+          "cycle": 5,
+          "arm": "right",
+          "hold_frames": 187,
+          "brake_first_rate": 0.9970409876541453,
+          "brake_last_rate": 0.005633580246922065,
+          "restart_first_rate": 0.005893410557291645,
+          "restart_last_rate": 0.9825737946453046,
+          "passed": true
+        }
+      ],
+      "mandatory_right_retreats": [
+        {
+          "previous_cycle": 0,
+          "source_start": 3,
+          "source_end": 3,
+          "output_start": 0,
+          "output_end": 0,
+          "passed": true
+        },
+        {
+          "previous_cycle": 1,
+          "source_start": 413,
+          "source_end": 477,
+          "output_start": 456,
+          "output_end": 520,
+          "passed": true
+        },
+        {
+          "previous_cycle": 2,
+          "source_start": 890,
+          "source_end": 964,
+          "output_start": 1020,
+          "output_end": 1094,
+          "passed": true
+        },
+        {
+          "previous_cycle": 3,
+          "source_start": 1362,
+          "source_end": 1401,
+          "output_start": 1556,
+          "output_end": 1595,
+          "passed": true
+        },
+        {
+          "previous_cycle": 4,
+          "source_start": 1857,
+          "source_end": 1934,
+          "output_start": 2080,
+          "output_end": 2157,
+          "passed": true
+        },
+        {
+          "previous_cycle": 5,
+          "source_start": 2368,
+          "source_end": 2551,
+          "output_start": 2662,
+          "output_end": 2845,
+          "passed": true
+        }
+      ],
+      "late_arm_continuous_through_insertion": true,
+      "at_most_one_preparation_waiter": true,
+      "no_left_adjustment_after_final_wait": true,
+      "skipped_bounded_static_frames": [
+        542,
+        671
+      ],
+      "all_nonstationary_source_motion_retained": true,
+      "interpolated_frames": {
+        "left": 0,
+        "right": 110
+      }
+    },
+    "rounds": [
+      {
+        "cycle": 1,
+        "final_left_source": 327,
+        "insertion_source": 345,
+        "insertion_output": 388,
+        "waiter": [
+          "right"
+        ],
+        "longest_both_near_still_frames": 2
+      },
+      {
+        "cycle": 2,
+        "final_left_source": 805,
+        "insertion_source": 807,
+        "insertion_output": 937,
+        "waiter": [
+          "right"
+        ],
+        "longest_both_near_still_frames": 3
+      },
+      {
+        "cycle": 3,
+        "final_left_source": 1171,
+        "insertion_source": 1282,
+        "insertion_output": 1476,
+        "waiter": [
+          "right"
+        ],
+        "longest_both_near_still_frames": 0
+      },
+      {
+        "cycle": 4,
+        "final_left_source": 1715,
+        "insertion_source": 1740,
+        "insertion_output": 1963,
+        "waiter": [
+          "right"
+        ],
+        "longest_both_near_still_frames": 2
+      },
+      {
+        "cycle": 5,
+        "final_left_source": 2263,
+        "insertion_source": 2285,
+        "insertion_output": 2579,
+        "waiter": [
+          "right"
+        ],
+        "longest_both_near_still_frames": 3
+      }
+    ],
+    "wrist_pixels": {
+      "left": {
+        "samples": 2846,
+        "maximum_mean_absolute_pixel_error": 3.0808799913194442
+      },
+      "right": {
+        "samples": 2846,
+        "maximum_mean_absolute_pixel_error": 3.712769097222222
+      }
+    },
+    "protected_main_pixels": {
+      "samples": 30,
+      "maximum_mean_absolute_pixel_error": 2.579944610595703,
+      "passed": true
     }
   },
   {
     "episode": 12,
     "case": "screw-15",
-    "frames": 2275,
-    "validation": {
+    "frames": 2083,
+    "media": {
       "passed": true,
       "frames": {
-        "parallel.mp4": 2275,
-        "left_wrist.mp4": 2275,
-        "right_wrist.mp4": 2275,
-        "preview.webm": 2275
+        "parallel.mp4": 2083,
+        "left_wrist.mp4": 2083,
+        "right_wrist.mp4": 2083,
+        "preview.webm": 2083
       },
       "action_state_exact": true,
-      "camera_timestamps_match": true,
-      "wrist_pixels": {
-        "left": {
-          "samples": 2275,
-          "maximum_mean_absolute_pixel_error": 2.9322645399305554
-        },
-        "right": {
-          "samples": 2275,
-          "maximum_mean_absolute_pixel_error": 3.645986328125
-        }
-      },
-      "protected_main_pixels": {
-        "samples": 30,
-        "maximum_mean_absolute_pixel_error": 2.569711446762085,
-        "passed": true
-      }
+      "camera_timestamps_match": true
     },
     "timeline": {
       "passed": true,
@@ -1675,58 +1981,7 @@
           "passed": true
         }
       ],
-      "smooth_ready_waits": [
-        {
-          "cycle": 1,
-          "arm": "left",
-          "hold_frames": 66,
-          "brake_first_rate": 0.9970409876543158,
-          "brake_last_rate": 0.005633580246922065,
-          "restart_first_rate": 0.005893410557291645,
-          "restart_last_rate": 0.9825737946451341,
-          "passed": true
-        },
-        {
-          "cycle": 2,
-          "arm": "left",
-          "hold_frames": 100,
-          "brake_first_rate": 0.9970409876543727,
-          "brake_last_rate": 0.005633580246922065,
-          "restart_first_rate": 0.005893410557291645,
-          "restart_last_rate": 0.9825737946450772,
-          "passed": true
-        },
-        {
-          "cycle": 3,
-          "arm": "left",
-          "hold_frames": 91,
-          "brake_first_rate": 0.9970409876543727,
-          "brake_last_rate": 0.005633580246922065,
-          "restart_first_rate": 0.005893410557291645,
-          "restart_last_rate": 0.9825737946450772,
-          "passed": true
-        },
-        {
-          "cycle": 4,
-          "arm": "left",
-          "hold_frames": 75,
-          "brake_first_rate": 0.9970409876543727,
-          "brake_last_rate": 0.005633580246922065,
-          "restart_first_rate": 0.005893410557291645,
-          "restart_last_rate": 0.9825737946450772,
-          "passed": true
-        },
-        {
-          "cycle": 5,
-          "arm": "left",
-          "hold_frames": 119,
-          "brake_first_rate": 0.9970409876543727,
-          "brake_last_rate": 0.005633580246922065,
-          "restart_first_rate": 0.005893410557291645,
-          "restart_last_rate": 0.9825737946450772,
-          "passed": true
-        }
-      ],
+      "smooth_ready_waits": [],
       "mandatory_right_retreats": [
         {
           "previous_cycle": 0,
@@ -1740,84 +1995,138 @@
           "previous_cycle": 1,
           "source_start": 347,
           "source_end": 394,
-          "output_start": 381,
-          "output_end": 428,
+          "output_start": 340,
+          "output_end": 387,
           "passed": true
         },
         {
           "previous_cycle": 2,
           "source_start": 737,
           "source_end": 752,
-          "output_start": 800,
-          "output_end": 815,
+          "output_start": 721,
+          "output_end": 736,
           "passed": true
         },
         {
           "previous_cycle": 3,
           "source_start": 1102,
           "source_end": 1143,
-          "output_start": 1218,
-          "output_end": 1259,
+          "output_start": 1098,
+          "output_end": 1139,
           "passed": true
         },
         {
           "previous_cycle": 4,
           "source_start": 1485,
           "source_end": 1508,
-          "output_start": 1608,
-          "output_end": 1631,
+          "output_start": 1462,
+          "output_end": 1485,
           "passed": true
         },
         {
           "previous_cycle": 5,
           "source_start": 1932,
           "source_end": 2092,
-          "output_start": 2114,
-          "output_end": 2274,
+          "output_start": 1922,
+          "output_end": 2082,
           "passed": true
         }
       ],
       "late_arm_continuous_through_insertion": true,
+      "at_most_one_preparation_waiter": true,
+      "no_left_adjustment_after_final_wait": true,
       "skipped_bounded_static_frames": [
-        327,
-        589
+        528,
+        685
       ],
       "all_nonstationary_source_motion_retained": true,
       "interpolated_frames": {
-        "left": 110,
+        "left": 70,
         "right": 0
       }
+    },
+    "rounds": [
+      {
+        "cycle": 1,
+        "final_left_source": 265,
+        "insertion_source": 297,
+        "insertion_output": 290,
+        "waiter": [
+          "left"
+        ],
+        "longest_both_near_still_frames": 0
+      },
+      {
+        "cycle": 2,
+        "final_left_source": 605,
+        "insertion_source": 653,
+        "insertion_output": 637,
+        "waiter": [
+          "left"
+        ],
+        "longest_both_near_still_frames": 0
+      },
+      {
+        "cycle": 3,
+        "final_left_source": 1006,
+        "insertion_source": 1045,
+        "insertion_output": 1041,
+        "waiter": [
+          "left"
+        ],
+        "longest_both_near_still_frames": 0
+      },
+      {
+        "cycle": 4,
+        "final_left_source": 1390,
+        "insertion_source": 1428,
+        "insertion_output": 1405,
+        "waiter": [
+          "left"
+        ],
+        "longest_both_near_still_frames": 0
+      },
+      {
+        "cycle": 5,
+        "final_left_source": 1840,
+        "insertion_source": 1850,
+        "insertion_output": 1840,
+        "waiter": [
+          "left"
+        ],
+        "longest_both_near_still_frames": 0
+      }
+    ],
+    "wrist_pixels": {
+      "left": {
+        "samples": 2083,
+        "maximum_mean_absolute_pixel_error": 2.9363498263888888
+      },
+      "right": {
+        "samples": 2083,
+        "maximum_mean_absolute_pixel_error": 3.653078342013889
+      }
+    },
+    "protected_main_pixels": {
+      "samples": 30,
+      "maximum_mean_absolute_pixel_error": 2.5553700923919678,
+      "passed": true
     }
   },
   {
     "episode": 12,
     "case": "screw-50",
-    "frames": 1725,
-    "validation": {
+    "frames": 1579,
+    "media": {
       "passed": true,
       "frames": {
-        "parallel.mp4": 1725,
-        "left_wrist.mp4": 1725,
-        "right_wrist.mp4": 1725,
-        "preview.webm": 1725
+        "parallel.mp4": 1579,
+        "left_wrist.mp4": 1579,
+        "right_wrist.mp4": 1579,
+        "preview.webm": 1579
       },
       "action_state_exact": true,
-      "camera_timestamps_match": true,
-      "wrist_pixels": {
-        "left": {
-          "samples": 1725,
-          "maximum_mean_absolute_pixel_error": 2.9300640190972222
-        },
-        "right": {
-          "samples": 1725,
-          "maximum_mean_absolute_pixel_error": 3.6524088541666666
-        }
-      },
-      "protected_main_pixels": {
-        "samples": 30,
-        "maximum_mean_absolute_pixel_error": 2.574016809463501,
-        "passed": true
-      }
+      "camera_timestamps_match": true
     },
     "timeline": {
       "passed": true,
@@ -1863,27 +2172,17 @@
         {
           "cycle": 1,
           "arm": "right",
-          "hold_frames": 29,
+          "hold_frames": 9,
           "brake_first_rate": 0.9970409876543158,
           "brake_last_rate": 0.005633580246922065,
-          "restart_first_rate": 0.005893410557291645,
+          "restart_first_rate": 0.0058934105573484885,
           "restart_last_rate": 0.9825737946451341,
-          "passed": true
-        },
-        {
-          "cycle": 3,
-          "arm": "right",
-          "hold_frames": 11,
-          "brake_first_rate": 0.9970409876543727,
-          "brake_last_rate": 0.005633580246922065,
-          "restart_first_rate": 0.005893410557291645,
-          "restart_last_rate": 0.9825737946450772,
           "passed": true
         },
         {
           "cycle": 4,
           "arm": "right",
-          "hold_frames": 20,
+          "hold_frames": 10,
           "brake_first_rate": 0.9970409876543727,
           "brake_last_rate": 0.005633580246922065,
           "restart_first_rate": 0.005893410557291645,
@@ -1893,7 +2192,7 @@
         {
           "cycle": 5,
           "arm": "right",
-          "hold_frames": 15,
+          "hold_frames": 14,
           "brake_first_rate": 0.9970409876543727,
           "brake_last_rate": 0.005633580246922065,
           "restart_first_rate": 0.005893410557291645,
@@ -1914,84 +2213,134 @@
           "previous_cycle": 1,
           "source_start": 347,
           "source_end": 394,
-          "output_start": 292,
-          "output_end": 339,
+          "output_start": 248,
+          "output_end": 295,
           "passed": true
         },
         {
           "previous_cycle": 2,
           "source_start": 737,
           "source_end": 752,
-          "output_start": 609,
-          "output_end": 624,
+          "output_start": 545,
+          "output_end": 560,
           "passed": true
         },
         {
           "previous_cycle": 3,
           "source_start": 1102,
           "source_end": 1143,
-          "output_start": 908,
-          "output_end": 949,
+          "output_start": 811,
+          "output_end": 852,
           "passed": true
         },
         {
           "previous_cycle": 4,
           "source_start": 1485,
           "source_end": 1508,
-          "output_start": 1199,
-          "output_end": 1222,
+          "output_start": 1081,
+          "output_end": 1104,
           "passed": true
         },
         {
           "previous_cycle": 5,
           "source_start": 1932,
           "source_end": 2092,
-          "output_start": 1564,
-          "output_end": 1724,
+          "output_start": 1418,
+          "output_end": 1578,
           "passed": true
         }
       ],
       "late_arm_continuous_through_insertion": true,
+      "at_most_one_preparation_waiter": true,
+      "no_left_adjustment_after_final_wait": true,
       "skipped_bounded_static_frames": [
-        163,
-        589
+        528,
+        685
       ],
       "all_nonstationary_source_motion_retained": true,
       "interpolated_frames": {
-        "left": 82,
-        "right": 88
+        "left": 0,
+        "right": 408
       }
+    },
+    "rounds": [
+      {
+        "cycle": 1,
+        "final_left_source": 265,
+        "insertion_source": 297,
+        "insertion_output": 198,
+        "waiter": [
+          "right"
+        ],
+        "longest_both_near_still_frames": 0
+      },
+      {
+        "cycle": 2,
+        "final_left_source": 605,
+        "insertion_source": 653,
+        "insertion_output": 461,
+        "waiter": [],
+        "longest_both_near_still_frames": 0
+      },
+      {
+        "cycle": 3,
+        "final_left_source": 1006,
+        "insertion_source": 1045,
+        "insertion_output": 754,
+        "waiter": [],
+        "longest_both_near_still_frames": 0
+      },
+      {
+        "cycle": 4,
+        "final_left_source": 1390,
+        "insertion_source": 1428,
+        "insertion_output": 1024,
+        "waiter": [
+          "right"
+        ],
+        "longest_both_near_still_frames": 0
+      },
+      {
+        "cycle": 5,
+        "final_left_source": 1840,
+        "insertion_source": 1850,
+        "insertion_output": 1336,
+        "waiter": [
+          "right"
+        ],
+        "longest_both_near_still_frames": 0
+      }
+    ],
+    "wrist_pixels": {
+      "left": {
+        "samples": 1579,
+        "maximum_mean_absolute_pixel_error": 2.9322645399305554
+      },
+      "right": {
+        "samples": 1579,
+        "maximum_mean_absolute_pixel_error": 3.6519455295138887
+      }
+    },
+    "protected_main_pixels": {
+      "samples": 30,
+      "maximum_mean_absolute_pixel_error": 2.5573067665100098,
+      "passed": true
     }
   },
   {
     "episode": 12,
     "case": "screw-85",
-    "frames": 2340,
-    "validation": {
+    "frames": 2134,
+    "media": {
       "passed": true,
       "frames": {
-        "parallel.mp4": 2340,
-        "left_wrist.mp4": 2340,
-        "right_wrist.mp4": 2340,
-        "preview.webm": 2340
+        "parallel.mp4": 2134,
+        "left_wrist.mp4": 2134,
+        "right_wrist.mp4": 2134,
+        "preview.webm": 2134
       },
       "action_state_exact": true,
-      "camera_timestamps_match": true,
-      "wrist_pixels": {
-        "left": {
-          "samples": 2340,
-          "maximum_mean_absolute_pixel_error": 2.9363498263888888
-        },
-        "right": {
-          "samples": 2340,
-          "maximum_mean_absolute_pixel_error": 3.6438682725694442
-        }
-      },
-      "protected_main_pixels": {
-        "samples": 30,
-        "maximum_mean_absolute_pixel_error": 2.560359239578247,
-        "passed": true
-      }
+      "camera_timestamps_match": true
     },
     "timeline": {
       "passed": true,
@@ -2037,15 +2386,35 @@
         {
           "cycle": 1,
           "arm": "right",
-          "hold_frames": 159,
+          "hold_frames": 122,
           "brake_first_rate": 0.9970409876543158,
           "brake_last_rate": 0.005633580246922065,
-          "restart_first_rate": 0.005893410557291645,
+          "restart_first_rate": 0.0058934105573484885,
           "restart_last_rate": 0.9825737946451341,
           "passed": true
         },
         {
           "cycle": 2,
+          "arm": "right",
+          "hold_frames": 124,
+          "brake_first_rate": 0.9970409876543727,
+          "brake_last_rate": 0.005633580246922065,
+          "restart_first_rate": 0.005893410557291645,
+          "restart_last_rate": 0.9825737946450772,
+          "passed": true
+        },
+        {
+          "cycle": 3,
+          "arm": "right",
+          "hold_frames": 128,
+          "brake_first_rate": 0.9970409876543727,
+          "brake_last_rate": 0.005633580246922065,
+          "restart_first_rate": 0.005893410557291645,
+          "restart_last_rate": 0.9825737946450772,
+          "passed": true
+        },
+        {
+          "cycle": 4,
           "arm": "right",
           "hold_frames": 130,
           "brake_first_rate": 0.9970409876543727,
@@ -2055,29 +2424,9 @@
           "passed": true
         },
         {
-          "cycle": 3,
-          "arm": "right",
-          "hold_frames": 154,
-          "brake_first_rate": 0.9970409876543727,
-          "brake_last_rate": 0.005633580246922065,
-          "restart_first_rate": 0.005893410557291645,
-          "restart_last_rate": 0.9825737946450772,
-          "passed": true
-        },
-        {
-          "cycle": 4,
-          "arm": "right",
-          "hold_frames": 151,
-          "brake_first_rate": 0.9970409876543727,
-          "brake_last_rate": 0.005633580246922065,
-          "restart_first_rate": 0.005893410557291645,
-          "restart_last_rate": 0.9825737946450772,
-          "passed": true
-        },
-        {
           "cycle": 5,
           "arm": "right",
-          "hold_frames": 184,
+          "hold_frames": 164,
           "brake_first_rate": 0.9970409876543727,
           "brake_last_rate": 0.005633580246922065,
           "restart_first_rate": 0.005893410557291645,
@@ -2098,268 +2447,138 @@
           "previous_cycle": 1,
           "source_start": 347,
           "source_end": 394,
-          "output_start": 372,
-          "output_end": 419,
+          "output_start": 325,
+          "output_end": 372,
           "passed": true
         },
         {
           "previous_cycle": 2,
           "source_start": 737,
           "source_end": 752,
-          "output_start": 831,
-          "output_end": 846,
+          "output_start": 738,
+          "output_end": 753,
           "passed": true
         },
         {
           "previous_cycle": 3,
           "source_start": 1102,
           "source_end": 1143,
-          "output_start": 1250,
-          "output_end": 1291,
+          "output_start": 1115,
+          "output_end": 1156,
           "passed": true
         },
         {
           "previous_cycle": 4,
           "source_start": 1485,
           "source_end": 1508,
-          "output_start": 1671,
-          "output_end": 1694,
+          "output_start": 1505,
+          "output_end": 1528,
           "passed": true
         },
         {
           "previous_cycle": 5,
           "source_start": 1932,
           "source_end": 2092,
-          "output_start": 2179,
-          "output_end": 2339,
+          "output_start": 1973,
+          "output_end": 2133,
           "passed": true
         }
       ],
       "late_arm_continuous_through_insertion": true,
+      "at_most_one_preparation_waiter": true,
+      "no_left_adjustment_after_final_wait": true,
       "skipped_bounded_static_frames": [
-        163,
-        589
+        528,
+        685
       ],
       "all_nonstationary_source_motion_retained": true,
       "interpolated_frames": {
-        "left": 92,
+        "left": 0,
         "right": 110
       }
+    },
+    "rounds": [
+      {
+        "cycle": 1,
+        "final_left_source": 265,
+        "insertion_source": 297,
+        "insertion_output": 275,
+        "waiter": [
+          "right"
+        ],
+        "longest_both_near_still_frames": 0
+      },
+      {
+        "cycle": 2,
+        "final_left_source": 605,
+        "insertion_source": 653,
+        "insertion_output": 654,
+        "waiter": [
+          "right"
+        ],
+        "longest_both_near_still_frames": 0
+      },
+      {
+        "cycle": 3,
+        "final_left_source": 1006,
+        "insertion_source": 1045,
+        "insertion_output": 1058,
+        "waiter": [
+          "right"
+        ],
+        "longest_both_near_still_frames": 0
+      },
+      {
+        "cycle": 4,
+        "final_left_source": 1390,
+        "insertion_source": 1428,
+        "insertion_output": 1448,
+        "waiter": [
+          "right"
+        ],
+        "longest_both_near_still_frames": 0
+      },
+      {
+        "cycle": 5,
+        "final_left_source": 1840,
+        "insertion_source": 1850,
+        "insertion_output": 1891,
+        "waiter": [
+          "right"
+        ],
+        "longest_both_near_still_frames": 0
+      }
+    ],
+    "wrist_pixels": {
+      "left": {
+        "samples": 2134,
+        "maximum_mean_absolute_pixel_error": 2.931430121527778
+      },
+      "right": {
+        "samples": 2134,
+        "maximum_mean_absolute_pixel_error": 3.7681727430555556
+      }
+    },
+    "protected_main_pixels": {
+      "samples": 30,
+      "maximum_mean_absolute_pixel_error": 2.5693695545196533,
+      "passed": true
     }
   },
   {
     "episode": 24,
     "case": "screw-15",
-    "frames": 2450,
-    "validation": {
+    "frames": 2202,
+    "media": {
       "passed": true,
       "frames": {
-        "parallel.mp4": 2450,
-        "left_wrist.mp4": 2450,
-        "right_wrist.mp4": 2450,
-        "preview.webm": 2450
+        "parallel.mp4": 2202,
+        "left_wrist.mp4": 2202,
+        "right_wrist.mp4": 2202,
+        "preview.webm": 2202
       },
       "action_state_exact": true,
-      "camera_timestamps_match": true,
-      "wrist_pixels": {
-        "left": {
-          "samples": 2450,
-          "maximum_mean_absolute_pixel_error": 3.133489583333333
-        },
-        "right": {
-          "samples": 2450,
-          "maximum_mean_absolute_pixel_error": 3.552392578125
-        }
-      },
-      "protected_main_pixels": {
-        "samples": 30,
-        "maximum_mean_absolute_pixel_error": 2.5959787368774414,
-        "passed": true
-      }
-    },
-    "timeline": {
-      "passed": true,
-      "protected_intervals": [
-        {
-          "kind": "coupled",
-          "cycle": 1,
-          "frames": 68,
-          "passed": true
-        },
-        {
-          "kind": "coupled",
-          "cycle": 2,
-          "frames": 67,
-          "passed": true
-        },
-        {
-          "kind": "coupled",
-          "cycle": 3,
-          "frames": 50,
-          "passed": true
-        },
-        {
-          "kind": "coupled",
-          "cycle": 4,
-          "frames": 51,
-          "passed": true
-        },
-        {
-          "kind": "coupled",
-          "cycle": 5,
-          "frames": 98,
-          "passed": true
-        },
-        {
-          "kind": "final_storage",
-          "cycle": null,
-          "frames": 182,
-          "passed": true
-        }
-      ],
-      "smooth_ready_waits": [
-        {
-          "cycle": 1,
-          "arm": "left",
-          "hold_frames": 97,
-          "brake_first_rate": 0.9970409876543158,
-          "brake_last_rate": 0.005633580246922065,
-          "restart_first_rate": 0.0058934105573484885,
-          "restart_last_rate": 0.9825737946451341,
-          "passed": true
-        },
-        {
-          "cycle": 2,
-          "arm": "left",
-          "hold_frames": 89,
-          "brake_first_rate": 0.9970409876543727,
-          "brake_last_rate": 0.005633580246922065,
-          "restart_first_rate": 0.005893410557291645,
-          "restart_last_rate": 0.9825737946450772,
-          "passed": true
-        },
-        {
-          "cycle": 3,
-          "arm": "left",
-          "hold_frames": 134,
-          "brake_first_rate": 0.9970409876543727,
-          "brake_last_rate": 0.005633580246922065,
-          "restart_first_rate": 0.005893410557291645,
-          "restart_last_rate": 0.9825737946450772,
-          "passed": true
-        },
-        {
-          "cycle": 4,
-          "arm": "left",
-          "hold_frames": 147,
-          "brake_first_rate": 0.9970409876543727,
-          "brake_last_rate": 0.005633580246922065,
-          "restart_first_rate": 0.005893410557291645,
-          "restart_last_rate": 0.9825737946450772,
-          "passed": true
-        },
-        {
-          "cycle": 5,
-          "arm": "left",
-          "hold_frames": 86,
-          "brake_first_rate": 0.9970409876543727,
-          "brake_last_rate": 0.005633580246922065,
-          "restart_first_rate": 0.005893410557291645,
-          "restart_last_rate": 0.9825737946450772,
-          "passed": true
-        }
-      ],
-      "mandatory_right_retreats": [
-        {
-          "previous_cycle": 0,
-          "source_start": 11,
-          "source_end": 11,
-          "output_start": 0,
-          "output_end": 0,
-          "passed": true
-        },
-        {
-          "previous_cycle": 1,
-          "source_start": 395,
-          "source_end": 428,
-          "output_start": 444,
-          "output_end": 477,
-          "passed": true
-        },
-        {
-          "previous_cycle": 2,
-          "source_start": 781,
-          "source_end": 807,
-          "output_start": 865,
-          "output_end": 891,
-          "passed": true
-        },
-        {
-          "previous_cycle": 3,
-          "source_start": 1159,
-          "source_end": 1231,
-          "output_start": 1323,
-          "output_end": 1395,
-          "passed": true
-        },
-        {
-          "previous_cycle": 4,
-          "source_start": 1545,
-          "source_end": 1609,
-          "output_start": 1806,
-          "output_end": 1870,
-          "passed": true
-        },
-        {
-          "previous_cycle": 5,
-          "source_start": 1997,
-          "source_end": 2178,
-          "output_start": 2268,
-          "output_end": 2449,
-          "passed": true
-        }
-      ],
-      "late_arm_continuous_through_insertion": true,
-      "skipped_bounded_static_frames": [
-        331,
-        462
-      ],
-      "all_nonstationary_source_motion_retained": true,
-      "interpolated_frames": {
-        "left": 110,
-        "right": 0
-      }
-    }
-  },
-  {
-    "episode": 24,
-    "case": "screw-50",
-    "frames": 1780,
-    "validation": {
-      "passed": true,
-      "frames": {
-        "parallel.mp4": 1780,
-        "left_wrist.mp4": 1780,
-        "right_wrist.mp4": 1780,
-        "preview.webm": 1780
-      },
-      "action_state_exact": true,
-      "camera_timestamps_match": true,
-      "wrist_pixels": {
-        "left": {
-          "samples": 1780,
-          "maximum_mean_absolute_pixel_error": 3.1258875868055553
-        },
-        "right": {
-          "samples": 1780,
-          "maximum_mean_absolute_pixel_error": 3.5463151041666667
-        }
-      },
-      "protected_main_pixels": {
-        "samples": 30,
-        "maximum_mean_absolute_pixel_error": 2.601693868637085,
-        "passed": true
-      }
+      "camera_timestamps_match": true
     },
     "timeline": {
       "passed": true,
@@ -2415,84 +2634,340 @@
           "previous_cycle": 1,
           "source_start": 395,
           "source_end": 428,
-          "output_start": 302,
-          "output_end": 335,
+          "output_start": 404,
+          "output_end": 437,
           "passed": true
         },
         {
           "previous_cycle": 2,
           "source_start": 781,
           "source_end": 807,
-          "output_start": 588,
-          "output_end": 614,
+          "output_start": 771,
+          "output_end": 797,
           "passed": true
         },
         {
           "previous_cycle": 3,
           "source_start": 1159,
           "source_end": 1231,
-          "output_start": 891,
-          "output_end": 963,
+          "output_start": 1167,
+          "output_end": 1239,
           "passed": true
         },
         {
           "previous_cycle": 4,
           "source_start": 1545,
           "source_end": 1609,
-          "output_start": 1250,
-          "output_end": 1314,
+          "output_start": 1603,
+          "output_end": 1667,
           "passed": true
         },
         {
           "previous_cycle": 5,
           "source_start": 1997,
           "source_end": 2178,
-          "output_start": 1598,
-          "output_end": 1779,
+          "output_start": 2020,
+          "output_end": 2201,
           "passed": true
         }
       ],
       "late_arm_continuous_through_insertion": true,
+      "at_most_one_preparation_waiter": true,
+      "no_left_adjustment_after_final_wait": true,
       "skipped_bounded_static_frames": [
-        28,
-        462
+        522,
+        620
       ],
       "all_nonstationary_source_motion_retained": true,
       "interpolated_frames": {
-        "left": 82,
-        "right": 65
+        "left": 70,
+        "right": 0
       }
+    },
+    "rounds": [
+      {
+        "cycle": 1,
+        "final_left_source": 326,
+        "insertion_source": 328,
+        "insertion_output": 337,
+        "waiter": [
+          "left"
+        ],
+        "longest_both_near_still_frames": 0
+      },
+      {
+        "cycle": 2,
+        "final_left_source": 700,
+        "insertion_source": 715,
+        "insertion_output": 705,
+        "waiter": [
+          "left"
+        ],
+        "longest_both_near_still_frames": 0
+      },
+      {
+        "cycle": 3,
+        "final_left_source": 1091,
+        "insertion_source": 1110,
+        "insertion_output": 1118,
+        "waiter": [
+          "left"
+        ],
+        "longest_both_near_still_frames": 0
+      },
+      {
+        "cycle": 4,
+        "final_left_source": 1490,
+        "insertion_source": 1495,
+        "insertion_output": 1553,
+        "waiter": [
+          "left"
+        ],
+        "longest_both_near_still_frames": 0
+      },
+      {
+        "cycle": 5,
+        "final_left_source": 1869,
+        "insertion_source": 1900,
+        "insertion_output": 1923,
+        "waiter": [
+          "left"
+        ],
+        "longest_both_near_still_frames": 0
+      }
+    ],
+    "wrist_pixels": {
+      "left": {
+        "samples": 2202,
+        "maximum_mean_absolute_pixel_error": 3.1495345052083334
+      },
+      "right": {
+        "samples": 2202,
+        "maximum_mean_absolute_pixel_error": 3.549810112847222
+      }
+    },
+    "protected_main_pixels": {
+      "samples": 30,
+      "maximum_mean_absolute_pixel_error": 2.5925748348236084,
+      "passed": true
+    }
+  },
+  {
+    "episode": 24,
+    "case": "screw-50",
+    "frames": 1705,
+    "media": {
+      "passed": true,
+      "frames": {
+        "parallel.mp4": 1705,
+        "left_wrist.mp4": 1705,
+        "right_wrist.mp4": 1705,
+        "preview.webm": 1705
+      },
+      "action_state_exact": true,
+      "camera_timestamps_match": true
+    },
+    "timeline": {
+      "passed": true,
+      "protected_intervals": [
+        {
+          "kind": "coupled",
+          "cycle": 1,
+          "frames": 68,
+          "passed": true
+        },
+        {
+          "kind": "coupled",
+          "cycle": 2,
+          "frames": 67,
+          "passed": true
+        },
+        {
+          "kind": "coupled",
+          "cycle": 3,
+          "frames": 50,
+          "passed": true
+        },
+        {
+          "kind": "coupled",
+          "cycle": 4,
+          "frames": 51,
+          "passed": true
+        },
+        {
+          "kind": "coupled",
+          "cycle": 5,
+          "frames": 98,
+          "passed": true
+        },
+        {
+          "kind": "final_storage",
+          "cycle": null,
+          "frames": 182,
+          "passed": true
+        }
+      ],
+      "smooth_ready_waits": [
+        {
+          "cycle": 2,
+          "arm": "right",
+          "hold_frames": 20,
+          "brake_first_rate": 0.9970409876543727,
+          "brake_last_rate": 0.005633580246922065,
+          "restart_first_rate": 0.005893410557291645,
+          "restart_last_rate": 0.9825737946450772,
+          "passed": true
+        },
+        {
+          "cycle": 5,
+          "arm": "right",
+          "hold_frames": 20,
+          "brake_first_rate": 0.9970409876543727,
+          "brake_last_rate": 0.005633580246922065,
+          "restart_first_rate": 0.005893410557291645,
+          "restart_last_rate": 0.9825737946450772,
+          "passed": true
+        }
+      ],
+      "mandatory_right_retreats": [
+        {
+          "previous_cycle": 0,
+          "source_start": 11,
+          "source_end": 11,
+          "output_start": 0,
+          "output_end": 0,
+          "passed": true
+        },
+        {
+          "previous_cycle": 1,
+          "source_start": 395,
+          "source_end": 428,
+          "output_start": 291,
+          "output_end": 324,
+          "passed": true
+        },
+        {
+          "previous_cycle": 2,
+          "source_start": 781,
+          "source_end": 807,
+          "output_start": 573,
+          "output_end": 599,
+          "passed": true
+        },
+        {
+          "previous_cycle": 3,
+          "source_start": 1159,
+          "source_end": 1231,
+          "output_start": 843,
+          "output_end": 915,
+          "passed": true
+        },
+        {
+          "previous_cycle": 4,
+          "source_start": 1545,
+          "source_end": 1609,
+          "output_start": 1183,
+          "output_end": 1247,
+          "passed": true
+        },
+        {
+          "previous_cycle": 5,
+          "source_start": 1997,
+          "source_end": 2178,
+          "output_start": 1523,
+          "output_end": 1704,
+          "passed": true
+        }
+      ],
+      "late_arm_continuous_through_insertion": true,
+      "at_most_one_preparation_waiter": true,
+      "no_left_adjustment_after_final_wait": true,
+      "skipped_bounded_static_frames": [
+        522,
+        620
+      ],
+      "all_nonstationary_source_motion_retained": true,
+      "interpolated_frames": {
+        "left": 0,
+        "right": 643
+      }
+    },
+    "rounds": [
+      {
+        "cycle": 1,
+        "final_left_source": 326,
+        "insertion_source": 328,
+        "insertion_output": 224,
+        "waiter": [],
+        "longest_both_near_still_frames": 0
+      },
+      {
+        "cycle": 2,
+        "final_left_source": 700,
+        "insertion_source": 715,
+        "insertion_output": 507,
+        "waiter": [
+          "right"
+        ],
+        "longest_both_near_still_frames": 0
+      },
+      {
+        "cycle": 3,
+        "final_left_source": 1091,
+        "insertion_source": 1110,
+        "insertion_output": 794,
+        "waiter": [],
+        "longest_both_near_still_frames": 0
+      },
+      {
+        "cycle": 4,
+        "final_left_source": 1490,
+        "insertion_source": 1495,
+        "insertion_output": 1133,
+        "waiter": [],
+        "longest_both_near_still_frames": 0
+      },
+      {
+        "cycle": 5,
+        "final_left_source": 1869,
+        "insertion_source": 1900,
+        "insertion_output": 1426,
+        "waiter": [
+          "right"
+        ],
+        "longest_both_near_still_frames": 0
+      }
+    ],
+    "wrist_pixels": {
+      "left": {
+        "samples": 1705,
+        "maximum_mean_absolute_pixel_error": 3.1258875868055553
+      },
+      "right": {
+        "samples": 1705,
+        "maximum_mean_absolute_pixel_error": 3.4346332465277776
+      }
+    },
+    "protected_main_pixels": {
+      "samples": 30,
+      "maximum_mean_absolute_pixel_error": 2.599750518798828,
+      "passed": true
     }
   },
   {
     "episode": 24,
     "case": "screw-85",
-    "frames": 2501,
-    "validation": {
+    "frames": 2322,
+    "media": {
       "passed": true,
       "frames": {
-        "parallel.mp4": 2501,
-        "left_wrist.mp4": 2501,
-        "right_wrist.mp4": 2501,
-        "preview.webm": 2501
+        "parallel.mp4": 2322,
+        "left_wrist.mp4": 2322,
+        "right_wrist.mp4": 2322,
+        "preview.webm": 2322
       },
       "action_state_exact": true,
-      "camera_timestamps_match": true,
-      "wrist_pixels": {
-        "left": {
-          "samples": 2501,
-          "maximum_mean_absolute_pixel_error": 3.1258875868055553
-        },
-        "right": {
-          "samples": 2501,
-          "maximum_mean_absolute_pixel_error": 3.692268880208333
-        }
-      },
-      "protected_main_pixels": {
-        "samples": 30,
-        "maximum_mean_absolute_pixel_error": 2.6184983253479004,
-        "passed": true
-      }
+      "camera_timestamps_match": true
     },
     "timeline": {
       "passed": true,
@@ -2538,7 +3013,7 @@
         {
           "cycle": 1,
           "arm": "right",
-          "hold_frames": 151,
+          "hold_frames": 140,
           "brake_first_rate": 0.9970409876543158,
           "brake_last_rate": 0.005633580246922065,
           "restart_first_rate": 0.005893410557291645,
@@ -2548,7 +3023,7 @@
         {
           "cycle": 2,
           "arm": "right",
-          "hold_frames": 134,
+          "hold_frames": 138,
           "brake_first_rate": 0.9970409876543727,
           "brake_last_rate": 0.005633580246922065,
           "restart_first_rate": 0.005893410557291645,
@@ -2558,7 +3033,7 @@
         {
           "cycle": 3,
           "arm": "right",
-          "hold_frames": 141,
+          "hold_frames": 132,
           "brake_first_rate": 0.9970409876543727,
           "brake_last_rate": 0.005633580246922065,
           "restart_first_rate": 0.005893410557291645,
@@ -2568,7 +3043,7 @@
         {
           "cycle": 4,
           "arm": "right",
-          "hold_frames": 162,
+          "hold_frames": 158,
           "brake_first_rate": 0.9970409876543727,
           "brake_last_rate": 0.005633580246922065,
           "restart_first_rate": 0.005893410557291645,
@@ -2578,7 +3053,7 @@
         {
           "cycle": 5,
           "arm": "right",
-          "hold_frames": 147,
+          "hold_frames": 146,
           "brake_first_rate": 0.9970409876543727,
           "brake_last_rate": 0.005633580246922065,
           "restart_first_rate": 0.005893410557291645,
@@ -2599,53 +3074,122 @@
           "previous_cycle": 1,
           "source_start": 395,
           "source_end": 428,
-          "output_start": 420,
-          "output_end": 453,
+          "output_start": 389,
+          "output_end": 422,
           "passed": true
         },
         {
           "previous_cycle": 2,
           "source_start": 781,
           "source_end": 807,
-          "output_start": 833,
-          "output_end": 859,
+          "output_start": 774,
+          "output_end": 800,
           "passed": true
         },
         {
           "previous_cycle": 3,
           "source_start": 1159,
           "source_end": 1231,
-          "output_start": 1289,
-          "output_end": 1361,
+          "output_start": 1181,
+          "output_end": 1253,
           "passed": true
         },
         {
           "previous_cycle": 4,
           "source_start": 1545,
           "source_end": 1609,
-          "output_start": 1822,
-          "output_end": 1886,
+          "output_start": 1674,
+          "output_end": 1738,
           "passed": true
         },
         {
           "previous_cycle": 5,
           "source_start": 1997,
           "source_end": 2178,
-          "output_start": 2319,
-          "output_end": 2500,
+          "output_start": 2140,
+          "output_end": 2321,
           "passed": true
         }
       ],
       "late_arm_continuous_through_insertion": true,
+      "at_most_one_preparation_waiter": true,
+      "no_left_adjustment_after_final_wait": true,
       "skipped_bounded_static_frames": [
-        28,
-        462
+        522,
+        620
       ],
       "all_nonstationary_source_motion_retained": true,
       "interpolated_frames": {
-        "left": 93,
+        "left": 0,
         "right": 110
       }
+    },
+    "rounds": [
+      {
+        "cycle": 1,
+        "final_left_source": 326,
+        "insertion_source": 328,
+        "insertion_output": 322,
+        "waiter": [
+          "right"
+        ],
+        "longest_both_near_still_frames": 1
+      },
+      {
+        "cycle": 2,
+        "final_left_source": 700,
+        "insertion_source": 715,
+        "insertion_output": 708,
+        "waiter": [
+          "right"
+        ],
+        "longest_both_near_still_frames": 0
+      },
+      {
+        "cycle": 3,
+        "final_left_source": 1091,
+        "insertion_source": 1110,
+        "insertion_output": 1132,
+        "waiter": [
+          "right"
+        ],
+        "longest_both_near_still_frames": 0
+      },
+      {
+        "cycle": 4,
+        "final_left_source": 1490,
+        "insertion_source": 1495,
+        "insertion_output": 1624,
+        "waiter": [
+          "right"
+        ],
+        "longest_both_near_still_frames": 0
+      },
+      {
+        "cycle": 5,
+        "final_left_source": 1869,
+        "insertion_source": 1900,
+        "insertion_output": 2043,
+        "waiter": [
+          "right"
+        ],
+        "longest_both_near_still_frames": 0
+      }
+    ],
+    "wrist_pixels": {
+      "left": {
+        "samples": 2322,
+        "maximum_mean_absolute_pixel_error": 3.1258875868055553
+      },
+      "right": {
+        "samples": 2322,
+        "maximum_mean_absolute_pixel_error": 3.866437717013889
+      }
+    },
+    "protected_main_pixels": {
+      "samples": 30,
+      "maximum_mean_absolute_pixel_error": 2.588282346725464,
+      "passed": true
     }
   }
 ]

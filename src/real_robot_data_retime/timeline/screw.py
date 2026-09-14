@@ -3,8 +3,8 @@
 import numpy as np
 
 from .holds import compress_static_spans
-from .readiness import align_ready_suffix, minimum_alignment_duration
-from .smooth import lift_clock, sample_rows
+from .readiness import final_left_pose
+from .smooth import lift_clock, sample_rows, speed_ramp
 from .uniform import stage_delays
 
 
@@ -19,6 +19,8 @@ def ready_clock(
         action[start : coupled_start + 1],
         [(0, local_ready - brake_distance)],
         fps,
+        minimum_seconds=0.2,
+        guard_seconds=1 / fps,
     )
     peak = int(np.flatnonzero(kept == local_ready)[0])
     path, stop, ramp = lift_clock(
@@ -41,7 +43,12 @@ def ready_clock(
 
 def native_clock(state, action, start, end, fps):
     return start + compress_static_spans(
-        state[start : end + 1], action[start : end + 1], [(0, end - start + 1)], fps
+        state[start : end + 1],
+        action[start : end + 1],
+        [(0, end - start + 1)],
+        fps,
+        minimum_seconds=0.2,
+        guard_seconds=1 / fps,
     ).astype(float)
 
 
@@ -56,7 +63,6 @@ def screw_schedule(
     position,
     fps,
     *,
-    preparation_frames,
     brake_seconds=0.5,
     restart_seconds=0.3,
 ):
@@ -86,21 +92,13 @@ def screw_schedule(
         or (intervals[:, 0] <= starts).any()
         or intervals[-1, 1] >= stop
         or (ready <= starts[:, None]).any()
-        or (ready >= intervals[:, 0, None]).any()
+        or (ready[:, 0] > intervals[:, 0]).any()
+        or (ready[:, 1] >= intervals[:, 0]).any()
         or (retreat_ends < intervals[:, 1]).any()
         or retreat_ends[-1] >= stop
         or (retreat_ends[:-1] >= ready[1:, 1]).any()
     ):
         raise ValueError("invalid ordered source intervals")
-    preparation = np.asarray(preparation_frames)
-    if (
-        preparation.shape != (5, 2)
-        or not np.isfinite(preparation).all()
-        or np.any(preparation != np.floor(preparation))
-        or (preparation > ready).any()
-        or (preparation <= starts[:, None]).any()
-    ):
-        raise ValueError("invalid physical preparation frames")
     pairs, stages = [], []
     cursor, length = int(start), 0
     for cycle, ((begin, end), peaks) in enumerate(
@@ -109,47 +107,77 @@ def screw_schedule(
         right_start = int(start if cycle == 0 else retreat_ends[cycle - 1])
         retreat_duration = right_start - cursor
         sources = [cursor, right_start]
+        # Finish every left adjustment BEFORE its only possible wait. The
+        # remaining source tail must be stationary in both command and state.
+        final_left = int(peaks[0])
+        detected, _ = final_left_pose(state[:, :7], action[:, :7], cursor, begin)
+        if final_left < detected:
+            raise ValueError("left final pose still contains an adjustment")
+        left_native = native_clock(state[:, :7], action[:, :7], cursor, final_left, fps)
+        if final_left < begin:
+            left_native = np.r_[left_native, float(begin)]
         clocks = [
-            native_clock(
-                state[:, side * 7 : side * 7 + 7],
-                action[:, side * 7 : side * 7 + 7],
-                sources[side],
-                begin,
-                fps,
-            )
-            for side in range(2)
+            left_native,
+            native_clock(state[:, 7:], action[:, 7:], right_start, begin, fps),
         ]
-        preparation_durations = [
-            int(np.flatnonzero(clock >= peak)[0])
-            for clock, peak in zip(clocks, preparation[cycle])
-        ]
+        native_sources = [clock.tolist() for clock in clocks]
         nominal_durations = [
-            int(np.flatnonzero(clock >= peak)[0]) for clock, peak in zip(clocks, peaks)
+            len(clocks[0]) - 1,
+            int(np.flatnonzero(clocks[1] >= peaks[1])[0]),
         ]
         timing = stage_delays(*nominal_durations, position)
         delays = [timing["left_delay_frames"], timing["right_delay_frames"]]
         shift = max(0, retreat_duration - delays[1])
         delays = [d + shift for d in delays]
         finishes = [d + len(c) - 1 for d, c in zip(delays, clocks)]
-        preparation_arrivals = [d + n for d, n in zip(delays, preparation_durations)]
-        late = int(np.argmax(preparation_arrivals))
-        finish = max(
-            finishes[1],
-            preparation_arrivals[0]
-            + minimum_alignment_duration(clocks[0], preparation_durations[0]),
-        )
+        late = int(np.argmax(finishes))
+        finish = max(finishes)
+        preparation_arrivals = [
+            delays[0] + len(clocks[0]) - 1 - int(final_left < begin),
+            delays[1] + nominal_durations[1],
+        ]
         transitions = [
             {
-                "arm": ["left", "right"][side],
+                "arm": arm,
                 "mode": "continuous",
-                "ready_source_frame": int(peaks[side]),
+                "ready_source_frame": int(peaks[i]),
                 "hold_frames": 0,
             }
-            for side in range(2)
+            for i, arm in enumerate(["left", "right"])
         ]
-        # The active insertion arm never waits for the other arm's residual
-        # static/fine-alignment suffix. A real wait ends at measured readiness.
-        if preparation_arrivals[1] < preparation_arrivals[0]:
+        early = 1 - late
+        if early == 0 and finishes[0] < finish:
+            # Left already reached its final insertion pose. No restart motion
+            # or residual alignment is permitted between its wait and insertion.
+            native = clocks[0][:-1]
+            brake = round(fps * brake_seconds)
+            distance = round(brake / 2)
+            extra = brake - distance
+            hold = finish - finishes[0] - extra
+            if final_left < begin and hold >= 1 and len(native) > distance:
+                onset = len(native) - 1 - distance
+                ramp = onset + speed_ramp(brake, distance, False)
+                before = np.r_[native[:onset], sample_rows(native, ramp)]
+                arrival = delays[0] + len(before) - 1
+                clocks[0] = np.r_[
+                    before, np.repeat(final_left, finish - arrival - 1), float(begin)
+                ]
+                transitions[0].update(
+                    mode="final_pose_wait",
+                    ready_source_frame=final_left,
+                    hold_frames=finish - arrival - 1,
+                    brake_start_output_frame=delays[0] + onset,
+                    arrival_output_frame=arrival,
+                    restart_start_output_frame=finish,
+                    restart_end_output_frame=finish,
+                )
+            else:
+                clocks[0] = sample_rows(
+                    clocks[0],
+                    np.linspace(0, len(clocks[0]) - 1, finish - delays[0] + 1),
+                )
+                transitions[0].update(mode="continuous", ready_source_frame=final_left)
+        elif early == 1 and finishes[1] < finish:
             before, after, ramp = ready_clock(
                 state[:, 7:],
                 action[:, 7:],
@@ -160,16 +188,11 @@ def screw_schedule(
                 brake_seconds,
                 restart_seconds,
             )
-            arrival = delays[1] + len(before) - 1
-            hold = preparation_arrivals[0] - arrival
+            hold = finish - delays[1] - (len(before) + len(after) - 1)
             if hold >= round(fps * restart_seconds):
-                restart = preparation_arrivals[0]
-                finish = max(restart + len(after), finish)
-                full = np.r_[before, np.repeat(peaks[1], hold), after]
-                if delays[1] + len(full) - 1 < finish:
-                    at = len(before) - 1 + hold + round(fps * restart_seconds)
-                    full = align_ready_suffix(full, at, finish - delays[1] + 1)
-                clocks[1] = full
+                arrival = delays[1] + len(before) - 1
+                restart = arrival + hold
+                clocks[1] = np.r_[before, np.repeat(peaks[1], hold), after]
                 transitions[1].update(
                     ramp,
                     mode="ready_wait",
@@ -179,53 +202,11 @@ def screw_schedule(
                     restart_start_output_frame=restart,
                     restart_end_output_frame=restart + round(fps * restart_seconds),
                 )
-        if transitions[1]["mode"] == "continuous" and finishes[1] != finish:
-            alignment_source = clocks[1][preparation_durations[1] :].tolist()
-            clocks[1] = align_ready_suffix(
-                clocks[1], preparation_durations[1], finish - delays[1] + 1
-            )
-            transitions[1].update(
-                mode="ready_alignment",
-                alignment_start_output_frame=preparation_arrivals[1],
-                alignment_source_clock=alignment_source,
-            )
-        left_stop = False
-        if preparation_arrivals[0] < preparation_arrivals[1]:
-            before, after, ramp = ready_clock(
-                state[:, :7],
-                action[:, :7],
-                sources[0],
-                begin,
-                int(peaks[0]),
-                fps,
-                brake_seconds,
-                restart_seconds,
-            )
-            arrival = delays[0] + len(before) - 1
-            restart = finish - len(after)
-            hold = restart - arrival
-            if hold >= round(fps * restart_seconds):
-                clocks[0] = np.r_[before, np.repeat(peaks[0], hold), after]
-                transitions[0].update(
-                    ramp,
-                    mode="ready_wait",
-                    hold_frames=hold,
-                    brake_start_output_frame=delays[0] + ramp["brake_start_index"],
-                    arrival_output_frame=arrival,
-                    restart_start_output_frame=restart,
-                    restart_end_output_frame=restart + round(fps * restart_seconds),
+            else:
+                clocks[1] = sample_rows(
+                    clocks[1],
+                    np.linspace(0, len(clocks[1]) - 1, finish - delays[1] + 1),
                 )
-                left_stop = True
-        if not left_stop and finishes[0] != finish:
-            alignment_source = clocks[0][preparation_durations[0] :].tolist()
-            clocks[0] = align_ready_suffix(
-                clocks[0], preparation_durations[0], finish - delays[0] + 1
-            )
-            transitions[0].update(
-                mode="ready_alignment",
-                alignment_start_output_frame=preparation_arrivals[0],
-                alignment_source_clock=alignment_source,
-            )
         t = np.arange(finish + 1)
         pair = np.column_stack(
             [c[np.clip(t - d, 0, len(c) - 1)] for c, d in zip(clocks, delays)]
@@ -234,7 +215,7 @@ def screw_schedule(
         drop = int(bool(pairs))
         stage_start = length - drop
         for side, tr in enumerate(transitions):
-            if tr["mode"] != "ready_wait":
+            if tr["mode"] not in ("ready_wait", "final_pose_wait"):
                 tr["arrival_output_frame"] = int(
                     np.flatnonzero(pair[:, side] >= peaks[side])[0]
                 )
@@ -252,14 +233,13 @@ def screw_schedule(
                 "output_start": stage_start,
                 "output_end": length - 1,
                 "uniform": timing,
+                "native_source_clocks": native_sources,
                 "pickup_start_output_frames": [stage_start + d for d in delays],
                 "left_ready_source_frame": int(peaks[0]),
                 "right_ready_source_frame": int(peaks[1]),
                 "transitions": transitions,
-                "physical_preparation_source_frames": [
-                    int(x) for x in preparation[cycle]
-                ],
-                "physical_preparation_arrival_frames": [
+                "final_ready_source_frames": [int(x) for x in peaks],
+                "native_ready_arrival_frames": [
                     stage_start + x for x in preparation_arrivals
                 ],
                 "late_preparation_arm": ["left", "right"][late],
@@ -323,7 +303,7 @@ def screw_schedule(
             "position": float(position),
             "fps": float(fps),
             "output_frames": len(pair),
-            "timing_method": "continuous_late_arm_with_mandatory_right_retreat",
+            "timing_method": "final_left_pose_single_wait_with_mandatory_right_retreat",
         },
     )
 
@@ -424,6 +404,10 @@ def validate_screw_schedule(left, right, stages, state, action, start, stop):
                             "passed": True,
                         }
                     )
+                elif tr["mode"] == "final_pose_wait":
+                    arrival = tr["arrival_output_frame"]
+                    if not (np.diff(clock[onset : arrival + 1]) > 0).all():
+                        raise ValueError("left preparation stopped before final pose")
                 elif not (np.diff(clock[onset : b + 1]) > 0).all():
                     raise ValueError("late arm stopped before insertion")
     for stage in stages:
@@ -439,61 +423,71 @@ def validate_screw_schedule(left, right, stages, state, action, start, stop):
     for stage in stages:
         if stage["kind"] != "independent":
             continue
-        right_transition = stage["transitions"][1]
-        if right_transition["hold_frames"] and (
-            right_transition["restart_start_output_frame"]
-            > stage["physical_preparation_arrival_frames"][0]
-        ):
-            raise ValueError(
-                "right arm waited after left physical preparation completed"
+        if sum(tr["hold_frames"] > 0 for tr in stage["transitions"]) > 1:
+            raise ValueError("both arms were scheduled to wait in one preparation")
+        final_left = stage["final_ready_source_frames"][0]
+        tr = stage["transitions"][0]
+        if tr["mode"] == "final_pose_wait":
+            a, b = tr["arrival_output_frame"], stage["output_end"]
+            if not np.all(left[a:b] == final_left):
+                raise ValueError("left moved again after final-pose waiting")
+        if tr["mode"] == "final_pose_wait":
+            onset = tr["brake_start_output_frame"]
+            arrival = tr["arrival_output_frame"]
+            native = np.asarray(stage["native_source_clocks"][0])
+            progress = np.interp(
+                left[onset : arrival + 1], native, np.arange(len(native))
             )
-    alignment_intervals = [[], []]
-    for stage in stages:
-        if stage["kind"] == "independent":
-            for side, tr in enumerate(stage["transitions"]):
-                if tr["mode"] == "ready_alignment":
-                    clock = (left, right)[side]
-                    begin = tr["alignment_start_output_frame"]
-                    end = stage["output_end"]
-                    if clock[begin] < stage["physical_preparation_source_frames"][side]:
-                        raise ValueError(
-                            "fine alignment modified motion before physical readiness"
-                        )
-                    source = np.asarray(tr["alignment_source_clock"])
-                    mapped = clock[begin : end + 1]
-                    if (mapped[0], mapped[-1]) != (source[0], source[-1]):
-                        raise ValueError("fine alignment lost its source boundaries")
-                    native_progress = np.interp(mapped, source, np.arange(len(source)))
-                    if np.any(np.diff(native_progress) > 3 + 1e-8):
-                        raise ValueError(
-                            "fine alignment exceeds threefold native speed"
-                        )
-                    steps = np.diff(mapped)
-                    if np.any(steps <= 0):
-                        raise ValueError("fine alignment must remain positive")
-                    alignment_intervals[side].append(
-                        (tr["alignment_start_output_frame"], stage["output_end"])
-                    )
-    tolerance = np.array([0.3] * 6 + [0.5])
-    skips = [0, 0]
-    for side, clock in enumerate((left, right)):
-        for k in np.flatnonzero(np.diff(clock) > 1 + 1e-8):
-            if any(a <= k < b for a, b in alignment_intervals[side]):
-                continue
-            a, b = int(np.floor(clock[k])), int(np.ceil(clock[k + 1]))
+            speed = np.diff(progress)
+            if len(speed) < 2 or np.any(np.diff(speed) > 1e-8) or speed[-1] >= speed[0]:
+                raise ValueError("left final arrival did not decelerate smoothly")
             for values in (state, action):
                 if np.any(
-                    np.ptp(values[a : b + 1, side * 7 : side * 7 + 7], axis=0)
-                    > tolerance + 1e-6
+                    np.abs(
+                        values[final_left : stage["source_end"] + 1, :7]
+                        - values[stage["source_end"], :7]
+                    )
+                    > np.array([0.05] * 6 + [0.1]) + 1e-6
                 ):
-                    raise ValueError("nonstationary source motion was skipped")
-            skips[side] += b - a - 1
+                    raise ValueError("left final wait precedes a real adjustment")
+    tolerance = np.array([0.3] * 6 + [0.5])
+    skips = [0, 0]
+    for stage in stages:
+        if stage["kind"] != "independent":
+            continue
+        for side, source in enumerate(stage["native_source_clocks"]):
+            source = np.asarray(source)
+            if (
+                source.ndim != 1
+                or not np.isfinite(source).all()
+                or not (np.diff(source) > 0).all()
+            ):
+                raise ValueError("invalid native source clock")
+            clock = (left, right)[side]
+            onset = stage["pickup_start_output_frames"][side]
+            mapped = clock[onset : stage["output_end"] + 1]
+            if (mapped[0], mapped[-1]) != (source[0], source[-1]):
+                raise ValueError("preparation lost its source boundaries")
+            progress = np.interp(mapped, source, np.arange(len(source)))
+            if np.any(np.diff(progress) > 1 + 1e-7):
+                raise ValueError("nonstationary source motion was skipped")
+            for k in np.flatnonzero(np.diff(source) > 1):
+                a, b = int(source[k]), int(source[k + 1])
+                for values in (state, action):
+                    if np.any(
+                        np.ptp(values[a : b + 1, side * 7 : side * 7 + 7], axis=0)
+                        > tolerance + 1e-6
+                    ):
+                        raise ValueError("nonstationary source motion was skipped")
+                skips[side] += b - a - 1
     return {
         "passed": True,
         "protected_intervals": protected,
         "smooth_ready_waits": smooth,
         "mandatory_right_retreats": retreats,
         "late_arm_continuous_through_insertion": True,
+        "at_most_one_preparation_waiter": True,
+        "no_left_adjustment_after_final_wait": True,
         "skipped_bounded_static_frames": skips,
         "all_nonstationary_source_motion_retained": True,
         "interpolated_frames": {
