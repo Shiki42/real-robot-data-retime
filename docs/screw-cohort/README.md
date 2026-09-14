@@ -3,8 +3,8 @@
 数据集 `Shiki42/piperx-screw-0910-25ep-raw`，revision
 `824b6382ef4858213e6ea42ea61104110d911448`。
 本轮重做 episode 0、1、2、12、24，每条 u=0.15、0.50、0.85，共 15 条。
-新版工作目录 `/home/coder/share/screw-retiming-20260912/final-ready`（coder a），
-预览 `http://127.0.0.1:38779/final-ready/`。旧 `cohort/` 保留作比较。
+新版工作目录 `/home/coder/share/screw-retiming-20260912/auto-repair`（coder a），
+预览 `http://127.0.0.1:38779/auto-repair/`。旧 `cohort/` 保留作比较。
 
 ## 调整完成与同步边界
 
@@ -49,21 +49,21 @@ PYTHONPATH=src python scripts/analyze_screw_readiness.py \
  --config docs/screw-cohort/ep002.json
 PYTHONPATH=src python -m real_robot_data_retime.screw \
  --source /home/coder/share/screw-retiming-20260912/raw \
- --work /home/coder/share/screw-retiming-20260912/final-ready/ep002 \
+ --work /home/coder/share/screw-retiming-20260912/auto-repair/ep002 \
  --config docs/screw-cohort/ep002.json --prepare
-python scripts/build_screw_cohort_preview.py /home/coder/share/screw-retiming-20260912/final-ready
+python scripts/build_screw_cohort_preview.py /home/coder/share/screw-retiming-20260912/auto-repair
 ```
 
 其余配置为 ep000.json、ep012.json、ep024.json 和 ../screw-pilot/config.json。
 `verify_screw_cohort.py` 重算源时间并逐帧与生成映射核对，同时检查 action/state 与四条视频时间戳；
-汇总见 validation.json。49 项相关测试覆盖最后调整判定、每轮仅一臂等待、等待后无左臂调整、
+汇总见 validation.json。55 项相关测试覆盖最后调整判定、每轮仅一臂等待、等待后无左臂调整、
 右臂强制撤回及不合法改动负例，并使用原始 episode 1、2 的动作数据做回归。
 
 主视角插入与最终收纳每条抽查 30 帧；腕视角逐帧检查。视觉检查仍是抽样，
 背景亮度接缝和前景边缘残影等合成限制未因此消失。没有把这 5 条示范的结果泛化为全部 25 条。
 
 
-## ep002 第 1540 帧的盒子覆盖修复
+## 历史人工回归：ep002 第 1540 帧（810cfec）
 
 中间时序输出 1540 对应左源帧 1857、右源帧 1872。源 1857 的右臂掩码包含背景，
 且左夹爪被右臂真实遮挡。移除右臂时，旧合成器把不可见的左夹爪区域当成背景填补，
@@ -78,3 +78,27 @@ python scripts/build_screw_cohort_preview.py /home/coder/share/screw-retiming-20
 前景修复按左右臂分别保存，不修改原始同步帧或另一臂的图像。分数源帧也使用修复后的
 图像计算光流。三种时序的映射和 trajectories.parquet 已与修复前逐项核对，完全不变。
 收据见 box-occlusion-fix.json。预览视频使用文件版本号，刷新后不会继续命中旧视频缓存。
+
+
+## 默认自动修复
+
+渲染现在默认执行自动修复，不需要逐 episode 指定修复区间或参考帧。
+现有任务分段、相机划区和初始 SAM 分割提示仍沿用原配置；自动化针对生成掩码后的污染与遮挡处理，
+不宣称自动识别所有任务语义。ep002 已移除专用 foreground_references，并回退了上轮为盒子问题
+新增的分割提示；回归使用人工修复前的旧掩码。
+
+1. 复用 temporal_plate 的背景证据，至少三次未遮挡观察、局部纹理及颜色一致性同时满足时，
+   自动清除误入掩码的背景连通区域；只有白色相近不构成删除白色机械臂的理由。
+2. 结合实际输出的双臂源时间，只检查时序拆开后可能露出的遮挡边界，原始同步整帧不修补。
+3. 在同一独立阶段前后 30 帧内自动筛选更完整、与另一臂分离的前景。前四关节差异不超过
+   0.05 度、腕部不超过 3 度、开度差异不超过 0.1 mm；中间有开合动作也拒绝该参考，防止换了携带物。
+4. 最多检验五个候选，复用已有特征配准与前景补全。登记成功、候选拒绝原因及无法确认的疑似遮挡。
+   仅捕获明确的配准质量异常，程序错误直接抛出。
+
+每个阶段产生 automatic_repair_N.json；report.json 的 render 字段包含背景清理和自动修复记录。
+预览显示需复核段数并提供逐段跳转。“需复核”代表疑似遮挡未找到可靠参考，不是已确认错误，
+也不能把时间同步检查通过解读为画面零缺陷。纹理不足、没有清晰参考、姿态变化过大等情况不会强行补全。
+算法仍是带验证条件的图像修复近似，不能保证所有分割污染都能被发现。
+
+自动回归中，算法自行将左源帧 1857 配到源帧 1866（可见特征最大重投影误差约 0.92 像素），
+恢复了 ep002 中间时序输出 1540 的左夹爪；算法中没有这些帧号或 episode 特例。

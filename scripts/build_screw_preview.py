@@ -24,6 +24,33 @@ def build(root):
         case["media_version"] = str((folder / "preview.webm").stat().st_mtime_ns)
         case["stages"] = report["plan"]["stages"]
         case["fps"] = report["plan"]["fps"]
+        case["review_locations"] = []
+        for stage in case["stages"]:
+            if stage["kind"] != "independent":
+                continue
+            repair = report["render"][stage["cycle"] - 1]["automatic_repair"]
+            a, b = stage["output_start"], stage["output_end"] + 1
+            clocks = [np.asarray(case[key][a:b]) for key in ("left", "right")]
+            different = (clocks[0] != clocks[1]) | (clocks[0] != np.floor(clocks[0]))
+            for side in range(2):
+                sources = [
+                    stage["source_start"] + item["source_frame"]
+                    for item in repair["unresolved"]
+                    if item["side"] == side
+                ]
+                flagged = different & (
+                    np.isin(np.floor(clocks[side]), sources)
+                    | np.isin(np.ceil(clocks[side]), sources)
+                )
+                starts = np.flatnonzero(np.diff(np.r_[False, flagged].astype(int)) == 1)
+                for offset in starts:
+                    case["review_locations"].append(
+                        {
+                            "frame": a + int(offset),
+                            "cycle": stage["cycle"],
+                            "arm": ["左臂", "右臂"][side],
+                        }
+                    )
         probe = json.loads(
             subprocess.check_output(
                 [

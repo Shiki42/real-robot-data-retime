@@ -4,7 +4,7 @@
 配置 `config.json` 记录 episode 1 的原始同步区间、最终左臂就位点、右臂等待点、
 固定撤回后缀及分割提示。数据 revision 保存在配置内。
 
-新版产物：`/home/coder/share/screw-retiming-20260912/final-ready/ep001`（coder a）。
+新版产物：`/home/coder/share/screw-retiming-20260912/auto-repair/ep001`（coder a）。
 每条包含主视角 MP4/WebM、左右腕 MP4、trajectories.parquet、source_mapping.npz 和 report.json。
 旧版 `flow-v3/`、`cohort/ep001/` 保留作比较；新的时长与帧号已经改变。
 

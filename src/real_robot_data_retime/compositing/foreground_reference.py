@@ -4,12 +4,16 @@ import cv2
 import numpy as np
 
 
+class ForegroundRegistrationError(ValueError):
+    """An observed reference failed explicit registration quality checks."""
+
+
 def register_foreground(reference, target, reference_mask, target_mask):
     gray = [cv2.cvtColor(im, cv2.COLOR_BGR2GRAY) for im in (target, reference)]
     mask = cv2.erode(target_mask.astype(np.uint8), np.ones((7, 7), np.uint8))
     points = cv2.goodFeaturesToTrack(gray[0], 300, 0.01, 4, mask=mask)
     if points is None or len(points) < 8:
-        raise ValueError(
+        raise ForegroundRegistrationError(
             "insufficient visible arm features for foreground registration"
         )
     tracked, valid, _ = cv2.calcOpticalFlowPyrLK(gray[0], gray[1], points, None)
@@ -26,12 +30,14 @@ def register_foreground(reference, target, reference_mask, target_mask):
     ids = np.flatnonzero(keep)
     ids = ids[reference_mask[xy[ids, 1], xy[ids, 0]]]
     if len(ids) < 8:
-        raise ValueError("insufficient matching visible foreground features")
+        raise ForegroundRegistrationError(
+            "insufficient matching visible foreground features"
+        )
     transform, inliers = cv2.estimateAffinePartial2D(
         b[ids], a[ids], method=cv2.RANSAC, ransacReprojThreshold=1.0
     )
     if transform is None or inliers.sum() < 8:
-        raise ValueError("foreground registration failed")
+        raise ForegroundRegistrationError("foreground registration failed")
     ids = ids[inliers[:, 0].astype(bool)]
     error = np.linalg.norm(
         b[ids] @ transform[:, :2].T + transform[:, 2] - a[ids], axis=1
@@ -47,7 +53,7 @@ def register_foreground(reference, target, reference_mask, target_mask):
         or abs(angle) > 5
         or displacement.max() > 12
     ):
-        raise ValueError(
+        raise ForegroundRegistrationError(
             f"foreground registration exceeds bounds: scale={scale}, angle={angle}, translation={transform[:, 2]}, error={error.max()}"
         )
     image = cv2.warpAffine(reference, transform, (w, h), flags=cv2.INTER_LINEAR)

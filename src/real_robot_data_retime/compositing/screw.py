@@ -10,6 +10,7 @@ from ..background.clean_plate import (
     temporal_plate,
 )
 from ..interaction.video import components
+from .automatic_repair import clean_background_masks, repair_occlusions
 from .foreground_reference import register_foreground
 from .interpolation import FlowFrames
 
@@ -30,7 +31,6 @@ class ScrewStageCompositor:
             self.left_scene[y : y + bh, x : x + bw] = True
         # Preserve disconnected gripper pieces visible beyond an occluder.
         # Entry-edge filtering would remove those real foreground fragments.
-        self.observed_packed = np.packbits(robots, axis=-1)
         self.foreground_images = {}
         self.foreground_pairs = {}
         self.foreground_references = []
@@ -44,6 +44,12 @@ class ScrewStageCompositor:
             self.frames, excluded, moving_scene
         )
         self.plate, self.coverage = temporal_plate(self.frames, excluded)
+        robots, self.mask_cleanup = clean_background_masks(
+            self.frames, robots, self.plate, self.coverage
+        )
+        self.observed_packed = np.packbits(robots, axis=-1)
+        self.layers = np.array([[dilate(mask, 3) for mask in row] for row in robots])
+        self.automatic_repair = None
         # SAM's whole-arm mask may omit a protruding held screw. Keep observed
         # dark changed components connected to the arm, never synthesize pixels.
         for t, frame in enumerate(self.frames):
@@ -66,6 +72,10 @@ class ScrewStageCompositor:
         self.missing_pixels = 0
         self.overlap_pixels = 0
         self.paired_frames = 0
+
+    def repair_automatically(self, state, source_pairs):
+        self.automatic_repair = repair_occlusions(self, state, source_pairs)
+        return self.automatic_repair
 
     def restore_foreground(
         self, side, start, stop, reference, state, *, register=False
@@ -91,14 +101,17 @@ class ScrewStageCompositor:
         visible = observed[reference, side] & ~dilate(observed[reference, 1 - side], 1)
         repaired = []
         for t in range(start, stop):
+            observed = np.unpackbits(
+                self.observed_packed[t], axis=-1, count=self.frames.shape[2]
+            ).astype(bool)
             donor, support = self.frames[reference], visible
             registration = None
             if register:
-                target_visible = observed[t, side] & ~self.layers[t, 1 - side]
+                target_visible = observed[side] & ~self.layers[t, 1 - side]
                 donor, support, registration = register_foreground(
                     donor, self.frames[t], visible, target_visible
                 )
-            region = support & self.layers[t, 1 - side] & ~observed[t, side]
+            region = support & self.layers[t, 1 - side] & ~observed[side]
             if not region.any():
                 continue
             key = (side, t)
@@ -202,6 +215,8 @@ class ScrewStageCompositor:
         return {
             "paired_source_frames": self.paired_frames,
             "foreground_references": self.foreground_references,
+            "mask_cleanup": self.mask_cleanup,
+            "automatic_repair": self.automatic_repair,
             "arm_overlap_pixel_frames": self.overlap_pixels,
             "unresolved_scene_patch_pixels": self.missing_pixels,
             "real_plate_coverage_fraction": float((self.coverage > 0).mean()),

@@ -237,6 +237,22 @@ def render(source, work, frames, config, values):
     if not analysis["complete"] or analysis["inputs"] != identity:
         raise ValueError("segmentation source/config identity differs; prepare again")
     (work / "cases.json").unlink(missing_ok=True)
+    schedules = [
+        screw_schedule(
+            state,
+            action,
+            trim["start"],
+            trim["stop"],
+            config["coupled_intervals"],
+            config["ready_frames"],
+            config["right_retreat_ends"],
+            position,
+            info["fps"],
+            brake_seconds=config["brake_seconds"],
+            restart_seconds=config["restart_seconds"],
+        )
+        for position in config["positions"]
+    ]
     compositors = []
     cursor = trim["start"]
     for cycle, (begin, end) in enumerate(config["coupled_intervals"]):
@@ -254,38 +270,32 @@ def render(source, work, frames, config, values):
                 config["left_scene_boxes"],
             )
         )
-        for reference in config.get("foreground_references", []):
-            if reference["cycle"] == cycle:
-                side = reference["side"]
-                compositors[-1].restore_foreground(
-                    side,
-                    reference["source_start"] - cursor,
-                    reference["source_stop"] - cursor,
-                    reference["reference_frame"] - cursor,
-                    state[cursor : begin + 1, side * 7 : side * 7 + 7],
-                    register=reference.get("register", False),
-                )
+        pairs = []
+        for left, right, plan in schedules:
+            stage = plan["stages"][2 * cycle]
+            lo, hi = stage["output_start"], stage["output_end"] + 1
+            pairs.append(np.column_stack([left[lo:hi] - cursor, right[lo:hi] - cursor]))
+        repair = compositors[-1].repair_automatically(
+            state[cursor : begin + 1], np.concatenate(pairs)
+        )
+        write_json(
+            work / f"automatic_repair_{cycle}.json",
+            {
+                "source_start": cursor,
+                "input_masks_sha256": sha256(work / f"masks_{cycle}.npz"),
+                "mask_cleanup": compositors[-1].mask_cleanup,
+                **repair,
+            },
+        )
         print("compositor ready", cycle + 1, flush=True)
         cursor = end
     cases = []
-    for position in config["positions"]:
+    for position, schedule in zip(config["positions"], schedules):
         name = f"screw-{round(position * 100):02d}"
         folder = work / name
         folder.mkdir(exist_ok=True)
         (folder / "report.json").unlink(missing_ok=True)
-        left, right, plan = screw_schedule(
-            state,
-            action,
-            trim["start"],
-            trim["stop"],
-            config["coupled_intervals"],
-            config["ready_frames"],
-            config["right_retreat_ends"],
-            position,
-            info["fps"],
-            brake_seconds=config["brake_seconds"],
-            restart_seconds=config["restart_seconds"],
-        )
+        left, right, plan = schedule
         for comp in compositors:
             comp.overlap_pixels = comp.paired_frames = 0
             comp.interpolated_frames = [0, 0]

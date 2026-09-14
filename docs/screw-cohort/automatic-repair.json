@@ -1,0 +1,244 @@
+{
+  "default_enabled": true,
+  "uses_manual_repair_frame_annotations": false,
+  "episodes": [
+    {
+      "episode": 0,
+      "motion_unchanged": true,
+      "stages": [
+        {
+          "cycle": 1,
+          "input_masks_sha256": "fc67b954de85fe5723f84ebadad28cc6a8b9b3f9f7a3ebb8b5440b0a48ec9973",
+          "background_pixel_frames_removed": 32826,
+          "repaired_source_arm_frames": 0,
+          "unresolved_source_arm_frames": 7,
+          "rejected_candidates": 0
+        },
+        {
+          "cycle": 2,
+          "input_masks_sha256": "f3b495bde1c0fe360ec87207b1019e73ecff64376434fb8dceb62ed2de2007f3",
+          "background_pixel_frames_removed": 197960,
+          "repaired_source_arm_frames": 3,
+          "unresolved_source_arm_frames": 5,
+          "rejected_candidates": 0
+        },
+        {
+          "cycle": 3,
+          "input_masks_sha256": "d5f41e12f14b8abdcda3cae5c90efc4553d79a0915b2ef8d5a4888b1acfab082",
+          "background_pixel_frames_removed": 213225,
+          "repaired_source_arm_frames": 0,
+          "unresolved_source_arm_frames": 7,
+          "rejected_candidates": 0
+        },
+        {
+          "cycle": 4,
+          "input_masks_sha256": "52dae3755f0e6dca984deef689fa1f57d3357459060fb0517eea1eda236495fe",
+          "background_pixel_frames_removed": 550920,
+          "repaired_source_arm_frames": 0,
+          "unresolved_source_arm_frames": 132,
+          "rejected_candidates": 0
+        },
+        {
+          "cycle": 5,
+          "input_masks_sha256": "adca85b141f427bbed6d219898f406ab8906764b1c898eaa6a32664a1e30631f",
+          "background_pixel_frames_removed": 1422397,
+          "repaired_source_arm_frames": 4,
+          "unresolved_source_arm_frames": 50,
+          "rejected_candidates": 0
+        }
+      ]
+    },
+    {
+      "episode": 1,
+      "motion_unchanged": true,
+      "stages": [
+        {
+          "cycle": 1,
+          "input_masks_sha256": "2972811d70ee6c4a36217fd1fbc57fffca4ae17bcf953cb09b98e22ccca1dca0",
+          "background_pixel_frames_removed": 373048,
+          "repaired_source_arm_frames": 0,
+          "unresolved_source_arm_frames": 0,
+          "rejected_candidates": 0
+        },
+        {
+          "cycle": 2,
+          "input_masks_sha256": "83e12cc14aa3aa31487810e98e9b7dd597d3b4ce41073603fb727442c124694a",
+          "background_pixel_frames_removed": 137712,
+          "repaired_source_arm_frames": 0,
+          "unresolved_source_arm_frames": 14,
+          "rejected_candidates": 0
+        },
+        {
+          "cycle": 3,
+          "input_masks_sha256": "a4f8382977b8c29ab7c8cfb497f8f3341f47159f0cc214fee952882e8463a93d",
+          "background_pixel_frames_removed": 210795,
+          "repaired_source_arm_frames": 4,
+          "unresolved_source_arm_frames": 28,
+          "rejected_candidates": 0
+        },
+        {
+          "cycle": 4,
+          "input_masks_sha256": "63ed4bdd64f2f1fb2cffdb4a181d665f5e94ed4226c12de3f3bd5870d78258af",
+          "background_pixel_frames_removed": 196208,
+          "repaired_source_arm_frames": 0,
+          "unresolved_source_arm_frames": 1,
+          "rejected_candidates": 0
+        },
+        {
+          "cycle": 5,
+          "input_masks_sha256": "aa5616306549d95c0b7125c5763cfba2e109f73e285637dbf1eeedfcb793f96a",
+          "background_pixel_frames_removed": 153279,
+          "repaired_source_arm_frames": 0,
+          "unresolved_source_arm_frames": 21,
+          "rejected_candidates": 0
+        }
+      ]
+    },
+    {
+      "episode": 2,
+      "motion_unchanged": true,
+      "stages": [
+        {
+          "cycle": 1,
+          "input_masks_sha256": "4c56be2737993a9f1ada5558d605f593e9ce3848a5f905de068ae7193e9336c2",
+          "background_pixel_frames_removed": 95398,
+          "repaired_source_arm_frames": 0,
+          "unresolved_source_arm_frames": 0,
+          "rejected_candidates": 0
+        },
+        {
+          "cycle": 2,
+          "input_masks_sha256": "156fbc11725d63eb3b4a5a961a206bfa910bf18ec709e7db5ab410513cdd0c63",
+          "background_pixel_frames_removed": 120015,
+          "repaired_source_arm_frames": 2,
+          "unresolved_source_arm_frames": 60,
+          "rejected_candidates": 0
+        },
+        {
+          "cycle": 3,
+          "input_masks_sha256": "4cc095a14579798507718e8738476f45a8fc579795bb2243ebd57b628eff1508",
+          "background_pixel_frames_removed": 968996,
+          "repaired_source_arm_frames": 0,
+          "unresolved_source_arm_frames": 4,
+          "rejected_candidates": 0
+        },
+        {
+          "cycle": 4,
+          "input_masks_sha256": "363165140147ee05c74015fa805507d7fe83c623633fb574e4cfe4d65d76d2d7",
+          "background_pixel_frames_removed": 948550,
+          "repaired_source_arm_frames": 0,
+          "unresolved_source_arm_frames": 7,
+          "rejected_candidates": 0
+        },
+        {
+          "cycle": 5,
+          "input_masks_sha256": "f6060af6088db5a69ab11353f0370ea3b235d762fdbcd3e046c65928d91dc7d4",
+          "background_pixel_frames_removed": 2011548,
+          "repaired_source_arm_frames": 15,
+          "unresolved_source_arm_frames": 97,
+          "rejected_candidates": 0
+        }
+      ]
+    },
+    {
+      "episode": 12,
+      "motion_unchanged": true,
+      "stages": [
+        {
+          "cycle": 1,
+          "input_masks_sha256": "55a7ec207dfd198da2c7282c21887c58c33a7da538127cfec19379c5af64a0d3",
+          "background_pixel_frames_removed": 138003,
+          "repaired_source_arm_frames": 0,
+          "unresolved_source_arm_frames": 0,
+          "rejected_candidates": 0
+        },
+        {
+          "cycle": 2,
+          "input_masks_sha256": "2b48bf3a336d94546b9e6da0fe4334162ce44af4b48fc1e2bc1541ed9b7d3544",
+          "background_pixel_frames_removed": 144116,
+          "repaired_source_arm_frames": 0,
+          "unresolved_source_arm_frames": 13,
+          "rejected_candidates": 0
+        },
+        {
+          "cycle": 3,
+          "input_masks_sha256": "60cbba1dbd98c874a750381fb76de65779ea1cdef3ed99ad5efb67f01b99c5b1",
+          "background_pixel_frames_removed": 477530,
+          "repaired_source_arm_frames": 0,
+          "unresolved_source_arm_frames": 0,
+          "rejected_candidates": 0
+        },
+        {
+          "cycle": 4,
+          "input_masks_sha256": "d889adb107b5d11df5d53d102e1e36251113506be247987770fc00ed57142c5f",
+          "background_pixel_frames_removed": 518073,
+          "repaired_source_arm_frames": 0,
+          "unresolved_source_arm_frames": 61,
+          "rejected_candidates": 0
+        },
+        {
+          "cycle": 5,
+          "input_masks_sha256": "77c4489a592aca162215dd5f29b7c17fa5a4243c98a2b2c81ebcf3d186871525",
+          "background_pixel_frames_removed": 178261,
+          "repaired_source_arm_frames": 0,
+          "unresolved_source_arm_frames": 90,
+          "rejected_candidates": 0
+        }
+      ]
+    },
+    {
+      "episode": 24,
+      "motion_unchanged": true,
+      "stages": [
+        {
+          "cycle": 1,
+          "input_masks_sha256": "9572fb1d3bf00ab87841de4b515c75506fb3d44265092a23e999ecce5c0f2321",
+          "background_pixel_frames_removed": 149494,
+          "repaired_source_arm_frames": 0,
+          "unresolved_source_arm_frames": 0,
+          "rejected_candidates": 0
+        },
+        {
+          "cycle": 2,
+          "input_masks_sha256": "6bfb6b2150b753a41f5c0e434c0d5a2fa1d1d60f53e79fc18722c46ea1308453",
+          "background_pixel_frames_removed": 2551762,
+          "repaired_source_arm_frames": 0,
+          "unresolved_source_arm_frames": 5,
+          "rejected_candidates": 0
+        },
+        {
+          "cycle": 3,
+          "input_masks_sha256": "5cce11a22475d722f0cbfd93afae2a1c92224a03aa877ba99554b86776c43583",
+          "background_pixel_frames_removed": 436122,
+          "repaired_source_arm_frames": 0,
+          "unresolved_source_arm_frames": 1,
+          "rejected_candidates": 0
+        },
+        {
+          "cycle": 4,
+          "input_masks_sha256": "dc990e1effef532e8ea43d471df6344b02601c4ab244fdff42fcd87ff3bda6a0",
+          "background_pixel_frames_removed": 555248,
+          "repaired_source_arm_frames": 0,
+          "unresolved_source_arm_frames": 104,
+          "rejected_candidates": 0
+        },
+        {
+          "cycle": 5,
+          "input_masks_sha256": "6b503dad81bb15924ab7dddb7b76ac618da4a792d2b9045f72d94ad685cc19ac",
+          "background_pixel_frames_removed": 455787,
+          "repaired_source_arm_frames": 0,
+          "unresolved_source_arm_frames": 85,
+          "rejected_candidates": 0
+        }
+      ]
+    }
+  ],
+  "regression": {
+    "episode": 2,
+    "original_output_frame": 1540,
+    "target_source_frame": 1857,
+    "automatically_selected_reference_source_frame": 1866,
+    "input_is_pre_manual_fix_masks": true,
+    "input_masks_sha256": "f6060af6088db5a69ab11353f0370ea3b235d762fdbcd3e046c65928d91dc7d4"
+  }
+}

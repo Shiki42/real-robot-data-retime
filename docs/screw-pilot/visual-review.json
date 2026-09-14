@@ -1,14 +1,16 @@
 {
-  "artifact_directory": "/home/coder/share/screw-retiming-20260912/final-ready/ep001",
+  "artifact_directory": "/home/coder/share/screw-retiming-20260912/auto-repair/ep001",
   "episode": 1,
   "timings": [
     0.15,
     0.5,
     0.85
   ],
-  "visual_sampling": "five insertion-entry-minus12 frames per timing",
+  "visual_sampling": "five insertion-entry-minus12 frames for episode1 in all three timings",
   "cohort_review": "../screw-cohort/visual-review.json",
   "limitations": [
-    "not an exhaustive pixel-level audit"
-  ]
+    "visual sampling is not exhaustive",
+    "unverified suspected occlusions remain flagged in the preview"
+  ],
+  "automatic_repair": true
 }

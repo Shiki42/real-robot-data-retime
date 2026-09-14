@@ -176,7 +176,7 @@
     },
     "protected_main_pixels": {
       "samples": 30,
-      "maximum_mean_absolute_pixel_error": 2.639200210571289,
+      "maximum_mean_absolute_pixel_error": 2.632120132446289,
       "passed": true
     }
   },
@@ -378,7 +378,7 @@
     },
     "protected_main_pixels": {
       "samples": 30,
-      "maximum_mean_absolute_pixel_error": 2.6070735454559326,
+      "maximum_mean_absolute_pixel_error": 2.602343797683716,
       "passed": true
     }
   },

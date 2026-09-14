@@ -1,5 +1,5 @@
 {
-  "artifact_directory": "/home/coder/share/screw-retiming-20260912/final-ready",
+  "artifact_directory": "/home/coder/share/screw-retiming-20260912/auto-repair",
   "episodes": [
     0,
     1,
@@ -12,11 +12,11 @@
     0.5,
     0.85
   ],
-  "visual_sampling": "all five rounds at insertion minus 12 output frames in each of 15 rendered videos; browser playback of ep002 middle from round3 to final storage",
+  "visual_sampling": "five insertion-entry-minus12 frames per episode/timing; ep002 output1540 regression",
   "boundary_review": "ep002 source grids around all five original insertion entries, fourth round first approach protected from1740",
   "limitations": [
-    "sampling is not exhaustive pixel-level segmentation validation",
-    "existing background brightness seams and foreground edge residues remain"
+    "visual sampling is not exhaustive",
+    "unverified suspected occlusions remain flagged in the preview"
   ],
   "checks": [
     "final left waiting uses one settled source pose until synchronized entry",
@@ -24,5 +24,6 @@
     "measured and commanded motion inspected in addition to source-time progression"
   ],
   "maximum_both_near_still_frames": 3,
-  "near_still_definition": "maximum absolute per-frame change across all fourteen measured and commanded values below0.01; only after both pickup onsets and before synchronized entry"
+  "near_still_definition": "maximum absolute per-frame change across all fourteen measured and commanded values below0.01; only after both pickup onsets and before synchronized entry",
+  "automatic_repair": true
 }
